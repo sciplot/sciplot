@@ -2,7 +2,13 @@
 *.d
 
 # Build dir
-build/*
+build/
+
+# Eclipse related files
+/.cproject
+/.project
+/.pydevproject
+.settings/
 
 # Compiled Object files
 *.slo

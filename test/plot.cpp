@@ -27,7 +27,7 @@
 #include "catch.hpp"
 
 // plot includes
-#include <plot.hpp>
+#include <plot/plot.hpp>
 using namespace gnuplot;
 
 TEST_CASE("plotting tests", "[plot]")
@@ -36,8 +36,28 @@ TEST_CASE("plotting tests", "[plot]")
 
     std::vector<double> x = {1,2,3,4,5,6};
     std::vector<double> y = {1,2,2,3,3,4};
-    plt.draw(x, y);
-    plt.draw(y, x, "with lines");
+
+    plt.xlabel("Temperature [K]");
+    plt.ylabel("Amount [mol]");
+    plt.xrange(0, 3);
+//    plt.draw(x, y);
+//    plt.draw(x, y, "with points");
+//    plt.draw(x, y, "with lines ls 2 lw 6");
+//    plt.draw(y, x, "with lines ls 8 lw 6");
+//    plt.draw(y, x, "with lines ls 11 lw 6");
+    for(auto i = 1; i <= 7; ++i)
+        plt.draw(str(i) + " * sin(x)").title("line " + str(i)).linestyle(i).dashtype(i).linewidth(2).with(style::lines);
+//    plt.draw("1 with lines ls 1 lw 6");
+//    plt.draw("2 with lines ls 2 lw 6");
+//    plt.draw("3 with lines ls 3 lw 6");
+//    plt.draw("4 with lines ls 4 lw 6");
+//    plt.draw("8 with lines ls 8 lw 6");
+//    plt.draw("9 with lines ls 9 lw 6");
+//    plt.draw("10 with lines ls 10 lw 6");
+//    plt.draw("12 with lines ls 11 lw 6");
+//    plt.draw("12 with lines ls 12 lw 6");
+//    plt.draw(y, x, "with lines ls 9 lw 6");
+//    plt.draw(y, x, "with points");
     plt.show();
-    plt.saveSVG("xy.svg");
+    plt.save("xy.svg");
 }

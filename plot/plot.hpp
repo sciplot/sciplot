@@ -27,9 +27,13 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
+
+// plot includes
+#include "palletes.hpp"
 
 // Ensure appropriate popen or pclose calls when compiling with MSVC
 #ifdef _MSC_VER
@@ -39,20 +43,75 @@
 
 namespace gnuplot {
 
-enum class with
+/// All gnuplot style options for plotting data
+enum class style
 {
-    lines, points, linepoints
+    lines,
+    points,
+    linespoints,
+    impulses,
+    dots,
+    steps,
+    fsteps,
+    histeps,
+    errorbars,
+    labels,
+    xerrorbars,
+    yerrorbars,
+    xyerrorbars,
+    errorlines,
+    xerrorlines,
+    yerrorlines,
+    xyerrorlines,
+    boxes,
+    histograms,
+    filledcurves,
+    boxerrorbars,
+    boxxyerrorbars,
+    financebars,
+    candlesticks,
+    vectors,
+    image,
+    rgbimage,
+    pm3d,
 };
+
 
 namespace internal {
 
 /// Return a string for a given enum value of type `with`
-inline auto str(with with) -> std::string
+inline auto str(style value) -> std::string
 {
-    switch(with) {
-        case with::points: return "points";
-        case with::linepoints: return "linepoints";
-        default: return "lines";
+    switch(value) {
+    case style::lines: return "lines";
+    case style::points: return "points";
+    case style::linespoints: return "linespoints";
+    case style::impulses: return "impulses";
+    case style::dots: return "dots";
+    case style::steps: return "steps";
+    case style::fsteps: return "fsteps";
+    case style::histeps: return "histeps";
+    case style::errorbars: return "errorbars";
+    case style::labels: return "labels";
+    case style::xerrorbars: return "xerrorbars";
+    case style::yerrorbars: return "yerrorbars";
+    case style::xyerrorbars: return "xyerrorbars";
+    case style::errorlines: return "errorlines";
+    case style::xerrorlines: return "xerrorlines";
+    case style::yerrorlines: return "yerrorlines";
+    case style::xyerrorlines: return "xyerrorlines";
+    case style::boxes: return "boxes";
+    case style::histograms: return "histograms";
+    case style::filledcurves: return "filledcurves";
+    case style::boxerrorbars: return "boxerrorbars";
+    case style::boxxyerrorbars: return "boxxyerrorbars";
+    case style::financebars: return "financebars";
+    case style::candlesticks: return "candlesticks";
+    case style::vectors: return "vectors";
+    case style::image: return "image";
+    case style::rgbimage: return "rgbimage";
+    case style::pm3d: return "pm3d";
+    default: return "lines";
     }
 }
 
@@ -62,21 +121,65 @@ inline auto str(int i) -> std::string
     return std::to_string(i);
 }
 
-// plot(x, y, "with lines title notitle ls 1 lw 1, "filename, u("1", 2));
-/// The arguments for each plot call.
-struct plotargs
+/// The class where options for the draw function is specified.
+class drawing
 {
-    /// The titles of each curve displayed in the key (legend) of the plot
-    std::string title;
+public:
+    /// Construct a drawing instance.
+    /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
+    drawing(std::string what) : m_data(new Data(what)) {}
 
-    /// The type of plot
-    std::string with;
+    /// Set the title of the drawing.
+    auto title(std::string value) -> drawing& { m_data->title = value == "columnheader" ? value : "'" + value + "'"; return *this; }
 
-    /// The number of the line style
-    int linestyle;
+    /// Set the format of the drawing (lines, points, linespoints).
+    auto with(style value) -> drawing& { m_data->with = str(value); return *this; }
 
-    /// The width of the line
-    int linewidth; // todo maybe use enum class like linewidth::one, linewidth::two
+    /// Set the line style of the drawing.
+    auto linestyle(std::size_t value) -> drawing& { m_data->linestyle = str(value); return *this; }
+
+    /// Set the line type of the drawing.
+    auto linetype(std::size_t value) -> drawing& { m_data->linetype = str(value); return *this; }
+
+    /// Set the line width of the drawing.
+    auto linewidth(std::size_t value) -> drawing& { m_data->linewidth = str(value); return *this; }
+
+    /// Set the line color of the drawing.
+    auto linecolor(std::string value) -> drawing& { m_data->linecolor = value; return *this; }
+
+    /// Set the dash type of the drawing.
+    auto dashtype(std::size_t value) -> drawing& { m_data->dashtype = str(value); return *this; }
+
+    /// Return the command string to be used in gnuplot plot command.
+    auto command() const -> std::string
+    {
+        std::string cmd = m_data->what;
+        if(m_data->title.size()) cmd = cmd + " title " + m_data->title;
+        if(m_data->with.size()) cmd = cmd + " with " + m_data->with;
+        if(m_data->linestyle.size()) cmd = cmd + " linestyle " + m_data->linestyle;
+        if(m_data->linetype.size()) cmd = cmd + " linetype " + m_data->linetype;
+        if(m_data->linewidth.size()) cmd = cmd + " linewidth " + m_data->linewidth;
+        if(m_data->linecolor.size()) cmd = cmd + " linecolor " + m_data->linecolor;
+        if(m_data->dashtype.size()) cmd = cmd + " dashtype " + m_data->dashtype;
+
+        return cmd;
+    }
+
+private:
+    struct Data
+    {
+        Data(std::string what) : what(what) {}
+        std::string what;
+        std::string title;
+        std::string with = "lines";
+        std::string linestyle;
+        std::string linetype;
+        std::string linewidth = "2";
+        std::string linecolor;
+        std::string dashtype;
+    };
+
+    std::shared_ptr<Data> m_data;
 };
 
 } // namespace internal
@@ -107,14 +210,46 @@ public:
     }
 
     inline auto xlabel(std::string label) -> void { m_xlabel = label; }
-    inline auto ylabel(std::string label) -> void { m_ylabel = label; }
-
     inline auto xlabel() const -> std::string { return m_xlabel; }
+
+    inline auto ylabel(std::string label) -> void { m_ylabel = label; }
     inline auto ylabel() const -> std::string { return m_ylabel; }
 
+    inline auto xrange(double min, double max) -> void { m_xrange = { min, max }; }
+    inline auto xrange() const -> std::pair<double, double> { return m_xrange; }
+
+    inline auto yrange(double min, double max) -> void { m_yrange = { min, max }; }
+    inline auto yrange() const -> std::pair<double, double> { return m_yrange; }
+
+    inline auto border(std::string options) -> void { m_border = options; }
+    inline auto border() const -> std::string { return m_border; }
+
+    inline auto grid(std::string options) -> void { m_grid = options; }
+    inline auto grid() const -> std::string { return m_grid; }
+
+    inline auto tics(std::string options) -> void { m_tics = options; }
+    inline auto tics() const -> std::string { return m_tics; }
+
+    inline auto key(std::string options) -> void { m_key = options; }
+    inline auto key() const -> std::string { return m_key; }
+
+    inline auto pallete(std::string name) -> void { m_pallete = name; }
+    inline auto pallete() const -> std::string { return m_pallete; }
+
+    inline auto samples(std::size_t value) -> void { m_samples = value; }
+    inline auto samples() const -> std::size_t { return m_samples; }
+
+    auto draw(std::string what) -> drawing&
+    {
+        // Save the draw arguments for this x,y data
+        m_drawings.emplace_back(what);
+
+        // Return the just created drawing object in case the user wants to customize it
+        return m_drawings.back();
+    }
 
     template<typename X, typename Y>
-    auto draw(const X& x, const Y& y, std::string options = "") -> void
+    auto draw(const X& x, const Y& y) -> drawing&
     {
         // The minimum size of the arrays x and y (they should actually have equal lengths)
         const auto size = std::min(x.size(), y.size());
@@ -122,10 +257,7 @@ public:
         // The string with the every command (e.g., every ::5::15 for rows from 5 to 15)
         const std::string every = std::string("every") + "::" + str(m_numdatarows) + "::" + str(m_numdatarows + size - 1);
 
-        // Save the draw arguments for this x,y data
-        m_plotargs.push_back("'" + m_filename + "'" + " using 1:2 " + every + " " + options);
-
-        // Save the x,y data to the open file
+        // Save the x,y values to the data file
         for(auto i = 0; i < size; ++i)
             m_filedata << x[i] << " " << y[i] << '\n';
 
@@ -134,22 +266,13 @@ public:
 
         // Update the number of rows in the data file
         m_numdatarows += size;
+
+        // Save the plot command to draw the x,y data now saved in the data file
+        m_drawings.emplace_back("'" + m_filename + "'" + " using 1:2 " + every);
+
+        // Return the just created drawing object in case the user wants to customize it
+        return m_drawings.back();
     }
-
-    // template<typename X, typename Y>
-    // auto draw(const X& x, const Y& y, std::string title, with plotwith = with::lines, int linestyle = -1, int linewidth = -1) -> void
-    // {
-    //     // Save the draw arguments for this x,y data
-    //     m_plotargs.push_back({ title, str(plotwith), linestyle, linewidth });
-
-    //     // Save the x,y data to the open file
-    //     const auto size = std::min(x.size(), y.size());
-    //     for(auto i = 0; i < size; ++i)
-    //         m_filedata << x[i] << " " << y[i] << '\n';
-
-    //     // Add a new row index to mark the end of a new range of rows
-    //     m_ranges.push_back(m_ranges.back() + size);
-    // }
 
     auto show() -> void
     {
@@ -157,31 +280,75 @@ public:
 
         std::ofstream script(scriptname);
 
+        // Ensure a ls option is provided in options
+//        if(options.find("ls") == std::string::npos)
+//            options = " ls " + str(m_drawings.size() + 1) + " " + options;
+
+        script << palletes.at(m_pallete) << std::endl;
+
+        script << "# Set the terminal" << std::endl;
+        script << "set terminal qt size " << m_size.first << "," << m_size.second << " enhanced font 'Georgia,10' persist" << std::endl;
+
+        script << "# Configuration of the plot details" << std::endl;
+        if(m_xrange.first != m_xrange.second) script << "set xrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
+        if(m_yrange.first != m_yrange.second) script << "set yrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
+//        script << "set xlabel '" << m_xlabel << "'" << std::endl;
+        script << "set xlabel '" << m_xlabel << "' tc rgb '#404040'" << std::endl;
+        script << "set ylabel '" << m_ylabel << "' tc rgb '#404040'" << std::endl;
+        script << "set border " << m_border << std::endl;
+        script << "set grid " << m_grid << std::endl;
+        script << "set tics " << m_tics << std::endl;
+        script << "set key " << m_key << " opaque tc rgb '#404040' box lc rgb '#d6d7d9'" << std::endl;
+        script << "set samples " << m_samples << std::endl;
+
+        script << "# Set the plots" << std::endl;
         script << "plot ";
 
-        const auto n = m_plotargs.size();
+        const auto n = m_drawings.size();
         for(auto i = 0; i < n; ++i)
-            script << m_plotargs[i] << (i < n - 1 ? ", " : "");
+            script << m_drawings[i].command() << (i < n - 1 ? ", " : "");
 
         script.flush();
 
-        std::string command = ("gnuplot -persistent " + scriptname);
+        std::string command = ("gnuplot " + scriptname);
         pipe = popen(command.c_str(), "w");
+
+        // Remove the no longer needed show{#}.plt file
+//        std::remove(scriptname.c_str());
     }
 
-    auto saveSVG(std::string filename) -> void
+    auto save(std::string filename) -> void
     {
+        std::string extension = filename.substr(filename.rfind(".") + 1);
+
         std::string scriptname = filename + ".plt";
 
         std::ofstream script(scriptname);
 
-        script << "set terminal svg size " << m_size.first << "," << m_size.second << std::endl;
+        script << palletes.at(m_pallete) << std::endl;
+
+        script << "set terminal " << extension << " size " << m_size.first << "," << m_size.second << " enhanced rounded font 'Georgia,12'" << std::endl;
+
+        script << "# Set the output" << std::endl;
         script << "set output '" << filename << "'" << std::endl;
+
+        script << "# Configuration of the plot details" << std::endl;
+        if(m_xrange.first != m_xrange.second) script << "set xrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
+        if(m_yrange.first != m_yrange.second) script << "set yrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
+//        script << "set xlabel '" << m_xlabel << "'" << std::endl;
+        script << "set xlabel '" << m_xlabel << "' tc rgb '#404040'" << std::endl;
+        script << "set ylabel '" << m_ylabel << "' tc rgb '#404040'" << std::endl;
+        script << "set border " << m_border << std::endl;
+        script << "set grid " << m_grid << std::endl;
+        script << "set tics " << m_tics << std::endl;
+        script << "set key " << m_key << " opaque tc rgb '#404040' box lc rgb '#d6d7d9'" << std::endl;
+        script << "set samples " << m_samples << std::endl;
+
         script << "plot ";
 
-        const auto n = m_plotargs.size();
+        const auto n = m_drawings.size();
         for(auto i = 0; i < n; ++i)
-            script << m_plotargs[i] << (i < n - 1 ? ", " : "");
+            script << m_drawings[i].command() << (i < n - 1 ? ", " : "");
 
         script.flush();
 
@@ -191,20 +358,38 @@ public:
     }
 
 private:
-
-    auto execute() -> void
-    {
-    }
-
-private:
     /// The size of the plot
     std::pair<int, int> m_size = {400, 300};
+
+    /// The x range of the plot
+    std::pair<double, double> m_xrange = {0, 0};
+
+    /// The y range of the plot
+    std::pair<double, double> m_yrange = {0, 0};
 
     /// The file output stream where the plot data is saved
     std::ofstream m_filedata;
 
     /// The name of the file to which the plot data is saved
     std::string m_filename;
+
+    /// The name of the gnuplot pallete to be used
+    std::string m_pallete = "dark2";
+
+    /// The border style of the plot
+    std::string m_border = "3 front lc rgb '#404040' lt 1 lw 1";
+
+    /// The grid style of the plot
+    std::string m_grid = "lc rgb '#d6d7d9' lt 1 dt 2 lw 1";
+
+    /// The border style of the plot
+    std::string m_tics = "nomirror front out scale 0.25";
+
+    /// The boolean flag name of the gnuplot pallete to be used
+    std::string m_key = "default";
+
+    /// The number of sample points for functions
+    std::size_t m_samples = 250;
 
     /// The current number of rows in the data file
     std::size_t m_numdatarows = 0;
@@ -215,8 +400,8 @@ private:
     /// The label of the y-axis
     std::string m_ylabel;
 
-    /// The arguments in each plot call
-    std::vector<std::string> m_plotargs;
+    /// The drawing options for each draw call
+    std::vector<drawing> m_drawings;
 
     /// The pointer to the pipe connecting to Gnuplot
     FILE* pipe = nullptr;

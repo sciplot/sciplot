@@ -61,7 +61,7 @@ print >>palletes_hpp, \
 #include <map>
 #include <string>
 
-namespace plot {
+namespace gnuplot {
 
 /// Color palettes for gnuplot taken from https://github.com/Gnuplotting/gnuplot-palettes"""
 
@@ -71,11 +71,11 @@ print >>palletes_hpp, 'const std::map<std::string, std::string> palletes = {'
 for (key, value) in palletes:
     key = repr(key).replace("'", '"')
     value = repr(value).replace('"', '')
-    value = 'R"({0})"'.format(value)
+    value = '"{0}"'.format(value)
     print >>palletes_hpp, "    {{ {0}, {1} }},".format(key, value)
 
 print >>palletes_hpp, '};'
 
-# Print the closing brace of namespace plot
+# Print the closing brace of namespace gnuplot
 print >>palletes_hpp
-print >>palletes_hpp, '} // namespace plot'
+print >>palletes_hpp, '} // namespace gnuplot'
