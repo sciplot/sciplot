@@ -24,12 +24,20 @@
 // SOFTWARE.
 
 // C++ includes
+#include <cstdio>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 
-namespace plot {
+// Ensure appropriate popen or pclose calls when compiling with MSVC
+#ifdef _MSC_VER
+#define popen _popen
+#define pclose _pclose
+#endif
+
+namespace gnuplot {
 
 enum class with
 {
@@ -38,7 +46,8 @@ enum class with
 
 namespace internal {
 
-inline auto toString(with with) -> std::string
+/// Return a string for a given enum value of type `with`
+inline auto str(with with) -> std::string
 {
     switch(with) {
         case with::points: return "points";
@@ -47,6 +56,13 @@ inline auto toString(with with) -> std::string
     }
 }
 
+/// Return a string for a given index
+inline auto str(int i) -> std::string
+{
+    return std::to_string(i);
+}
+
+// plot(x, y, "with lines title notitle ls 1 lw 1, "filename, u("1", 2));
 /// The arguments for each plot call.
 struct plotargs
 {
@@ -63,17 +79,6 @@ struct plotargs
     int linewidth; // todo maybe use enum class like linewidth::one, linewidth::two
 };
 
-inline auto plotCommandString(std::string filename, plotargs args) -> std::string
-{
-    std::stringstream cmd;
-    if(args.linestyle < 0) args.linestyle = 1;
-    cmd << "'" << filename << "' using 1:2 ";
-    cmd << "title " << args.title << " ";
-    cmd << "with " << args.with << " ";
-    cmd << "linestyle " << args.linestyle << " ";
-    return cmd.str();
-}
-
 } // namespace internal
 
 using namespace internal;
@@ -83,7 +88,22 @@ class plot
 public:
     /// Construct a default plot object
     plot()
+    : m_filename("plot" + str(m_counter) + ".dat")
     {
+        // Increment the counter
+        ++m_counter;
+
+        m_filedata.open(m_filename);
+    }
+
+    /// Destroy this plot object
+    ~plot()
+    {
+        if(pipe != nullptr)
+        {
+            pclose(pipe);
+            pipe = nullptr;
+        }
     }
 
     inline auto xlabel(std::string label) -> void { m_xlabel = label; }
@@ -92,53 +112,102 @@ public:
     inline auto xlabel() const -> std::string { return m_xlabel; }
     inline auto ylabel() const -> std::string { return m_ylabel; }
 
+
     template<typename X, typename Y>
-    auto plot(const X& x, const Y& y, std::string title, with plotwith = with::lines, int linestyle = -1) -> void
+    auto draw(const X& x, const Y& y, std::string options = "") -> void
     {
-        m_args.push_back({ title, plotwith, linestyle });
-        m_filenames.push_back(title + ".plot" + std::to_string(m_counter) + ".dat");
-        std::ostream out(m_filenames.back());
+        // The minimum size of the arrays x and y (they should actually have equal lengths)
         const auto size = std::min(x.size(), y.size());
-        out << "x" << " " << "y" << '\n';
+
+        // The string with the every command (e.g., every ::5::15 for rows from 5 to 15)
+        const std::string every = std::string("every") + "::" + str(m_numdatarows) + "::" + str(m_numdatarows + size - 1);
+
+        // Save the draw arguments for this x,y data
+        m_plotargs.push_back("'" + m_filename + "'" + " using 1:2 " + every + " " + options);
+
+        // Save the x,y data to the open file
         for(auto i = 0; i < size; ++i)
-            out << x[i] << " " << y[i] << '\n';
-        out.flush();
-        out.close();
+            m_filedata << x[i] << " " << y[i] << '\n';
+
+        // Flush the file data to ensure its correct state when gnuplot is called
+        m_filedata.flush();
+
+        // Update the number of rows in the data file
+        m_numdatarows += size;
     }
+
+    // template<typename X, typename Y>
+    // auto draw(const X& x, const Y& y, std::string title, with plotwith = with::lines, int linestyle = -1, int linewidth = -1) -> void
+    // {
+    //     // Save the draw arguments for this x,y data
+    //     m_plotargs.push_back({ title, str(plotwith), linestyle, linewidth });
+
+    //     // Save the x,y data to the open file
+    //     const auto size = std::min(x.size(), y.size());
+    //     for(auto i = 0; i < size; ++i)
+    //         m_filedata << x[i] << " " << y[i] << '\n';
+
+    //     // Add a new row index to mark the end of a new range of rows
+    //     m_ranges.push_back(m_ranges.back() + size);
+    // }
 
     auto show() -> void
     {
+        std::string scriptname = "show" + str(m_counter) + ".plt";
 
-    }
+        std::ofstream script(scriptname);
 
-    auto savePNG(std::string filename) -> void
-    {
-        std::ostream script(filename + ".plt");
-
-        script << "set terminal png size " << m_size.first << "," << m_size.second << std::endl;
-        script << "set output '" << filename << "'";
         script << "plot ";
 
-        const auto n = m_filenames.size();
+        const auto n = m_plotargs.size();
         for(auto i = 0; i < n; ++i)
-            script << plotCommandString(m_filenames[i], m_args[i]) << (i < n - 1 ? ", " : "");
+            script << m_plotargs[i] << (i < n - 1 ? ", " : "");
 
-        execute(filename + '.plt');
+        script.flush();
+
+        std::string command = ("gnuplot -persistent " + scriptname);
+        pipe = popen(command.c_str(), "w");
+    }
+
+    auto saveSVG(std::string filename) -> void
+    {
+        std::string scriptname = filename + ".plt";
+
+        std::ofstream script(scriptname);
+
+        script << "set terminal svg size " << m_size.first << "," << m_size.second << std::endl;
+        script << "set output '" << filename << "'" << std::endl;
+        script << "plot ";
+
+        const auto n = m_plotargs.size();
+        for(auto i = 0; i < n; ++i)
+            script << m_plotargs[i] << (i < n - 1 ? ", " : "");
+
+        script.flush();
+
+        // std::string command = ("gnuplot " + scriptname + " >> gnuplot.log 2>&1");
+        std::string command = ("gnuplot " + scriptname);
+        pipe = popen(command.c_str(), "w");
     }
 
 private:
 
     auto execute() -> void
     {
-        std::stringstream 
     }
 
 private:
     /// The size of the plot
     std::pair<int, int> m_size = {400, 300};
 
-    /// The names of the files to which the plot data have been temporarily saved
-    std::vector<std::string> m_filenames;
+    /// The file output stream where the plot data is saved
+    std::ofstream m_filedata;
+
+    /// The name of the file to which the plot data is saved
+    std::string m_filename;
+
+    /// The current number of rows in the data file
+    std::size_t m_numdatarows = 0;
 
     /// The label of the x-axis
     std::string m_xlabel;
@@ -147,7 +216,10 @@ private:
     std::string m_ylabel;
 
     /// The arguments in each plot call
-    std::vector<plotargs> m_args;
+    std::vector<std::string> m_plotargs;
+
+    /// The pointer to the pipe connecting to Gnuplot
+    FILE* pipe = nullptr;
 
     /// The counter of how many plot objects
     static int m_counter;
@@ -156,4 +228,4 @@ private:
 // Initialize the counter of plot objects
 int plot::m_counter = 0;
 
-} // namespace plot
+} // namespace gnuplot
