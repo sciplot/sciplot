@@ -79,6 +79,17 @@ enum class style
 
 namespace internal {
 
+const auto GOLDEN_RATIO = 1.618034;
+
+const auto DEFAULT_PALLETE = "dark2";
+const auto DEFAULT_TEXTCOLOR = "'#404040'";
+const auto DEFAULT_GRIDCOLOR = "'#d6d7d9'";
+const auto DEFAULT_FONTNAME = "Georgia";
+const auto DEFAULT_FONTSIZE = 12;
+const auto DEFAULT_LINEWIDTH = 2;
+const auto DEFAULT_HEIGHT = 300;
+const auto DEFAULT_WIDTH = GOLDEN_RATIO * DEFAULT_HEIGHT;
+
 /// Return a string for a given enum value of type `with`
 inline auto str(style value) -> std::string
 {
@@ -116,9 +127,22 @@ inline auto str(style value) -> std::string
 }
 
 /// Return a string for a given index
-inline auto str(int i) -> std::string
+template<typename T>
+auto str(const T& i) -> std::string
 {
     return std::to_string(i);
+}
+
+/// Return a string for a given char array
+inline auto str(const char* word) -> std::string
+{
+    return word;
+}
+
+/// Return an empty string
+inline auto str() -> std::string
+{
+    return {};
 }
 
 /// The class where options for the draw function is specified.
@@ -135,20 +159,38 @@ public:
     /// Set the format of the drawing (lines, points, linespoints).
     auto with(style value) -> drawing& { m_data->with = str(value); return *this; }
 
+    /// Return the format of the drawing (lines, points, linespoints).
+    auto with() const -> std::string { return m_data->with; }
+
     /// Set the line style of the drawing.
     auto linestyle(std::size_t value) -> drawing& { m_data->linestyle = str(value); return *this; }
+
+    /// Return the line style of the drawing.
+    auto linestyle() const -> std::string { return m_data->linestyle; }
 
     /// Set the line type of the drawing.
     auto linetype(std::size_t value) -> drawing& { m_data->linetype = str(value); return *this; }
 
+    /// Return the line type of the drawing.
+    auto linetype() const -> std::string { return m_data->linetype; }
+
     /// Set the line width of the drawing.
     auto linewidth(std::size_t value) -> drawing& { m_data->linewidth = str(value); return *this; }
+
+    /// Return the line width of the drawing.
+    auto linewidth() const -> std::string { return m_data->linewidth; }
 
     /// Set the line color of the drawing.
     auto linecolor(std::string value) -> drawing& { m_data->linecolor = value; return *this; }
 
+    /// Return the line color of the drawing.
+    auto linecolor() const -> std::string { return m_data->linecolor; }
+
     /// Set the dash type of the drawing.
     auto dashtype(std::size_t value) -> drawing& { m_data->dashtype = str(value); return *this; }
+
+    /// Return the dash type of the drawing.
+    auto dashtype() const -> std::string { return m_data->dashtype; }
 
     /// Return the command string to be used in gnuplot plot command.
     auto command() const -> std::string
@@ -174,9 +216,88 @@ private:
         std::string with = "lines";
         std::string linestyle;
         std::string linetype;
-        std::string linewidth = "2";
+        std::string linewidth = str(DEFAULT_LINEWIDTH);
         std::string linecolor;
         std::string dashtype;
+    };
+
+    std::shared_ptr<Data> m_data;
+};
+
+/// Return the correct gnuplot string command for given rgb color (e.g., "#FF00FF")
+auto rgb(std::string color) -> std::string { return "rgb '" + color + "'"; }
+
+/// Return the correct gnuplot string command for given rgb color as hex number (e.g., 0xFF00FF)
+auto rgb(int hexcolor) -> std::string { return "rgb " + str(hexcolor); }
+
+/// The options for an axis label (e.g., xlabel, ylabel, etc.)
+class axislabel
+{
+public:
+    /// Construct a default axislabel instance.
+    axislabel() : m_data(new Data(""))
+    {}
+
+    /// Construct a axislabel instance with given label title.
+    axislabel(std::string title) : m_data(new Data("'" + title + "'"))
+    {}
+
+    /// Set the offset of the label.
+    /// @param xval The offset along the x direction
+    /// @param yval The offset along the y direction
+    auto offset(int xval, int yval) -> axislabel& { m_data->offset = str(xval) + "," + str(yval); return *this; }
+
+    /// Set the font name for the label.
+    /// @param name The name of the font (e.g., Helvetica, Georgia, Times)
+    auto fontname(std::string name) -> axislabel& { m_data->fontname = name; return *this; }
+
+    /// Set the font size of the label.
+    /// @param size The point size of the font (e.g., 10, 12, 16)
+    auto fontsize(std::size_t size) -> axislabel& { m_data->fontsize = str(size); }
+
+    /// Set the color of the label.
+    /// @param color The color of the label (e.g., "blue", "rgb '#404040'")
+    auto textcolor(std::string color) -> axislabel& { m_data->textcolor = color; return *this; }
+
+    /// Set the enhanced mode of the label.
+    /// @param value If true, then `enhanced` gnuplot option is used, otherwise, `noenhanced`
+    auto enhanced(bool value) -> axislabel& { m_data->enhanced = value ? "enhanced" : "noenhanced"; return *this; }
+
+    /// Set the rotation of the label.
+    /// @param degrees The degrees used to rotate the label.
+    auto rotate(double degrees) -> axislabel& { m_data->rotate = "rotate by " + str(degrees); return *this; }
+
+    /// Set the label to rotate parallel to the axis.
+    auto rotateparallel() -> axislabel& { m_data->rotate = "rotate parallel"; return *this; }
+
+    /// Return the command string to be used in gnuplot label command.
+    auto command() const -> std::string
+    {
+        std::string font = "'" + m_data->fontname;
+        if(m_data->fontsize.size()) font = font + "," + m_data->fontsize;
+        font = font +  "'";
+
+        std::string cmd = m_data->title;
+        if(m_data->offset.size()) cmd = cmd + " offset " + m_data->offset;
+        if(m_data->fontname.size() || m_data->fontsize.size()) cmd = cmd + " font '" + m_data->fontname + "," + m_data->fontsize + "'";
+        if(m_data->textcolor.size()) cmd = cmd + " textcolor " + m_data->textcolor;
+        if(m_data->enhanced.size()) cmd = cmd + m_data->enhanced;
+        if(m_data->rotate.size()) cmd = cmd + m_data->rotate;
+
+        return cmd;
+    }
+
+private:
+    struct Data
+    {
+        Data(std::string title) : title(title) {}
+        std::string title;
+        std::string offset;
+        std::string fontname = DEFAULT_FONTNAME;
+        std::string fontsize = str(DEFAULT_FONTSIZE);
+        std::string textcolor = DEFAULT_TEXTCOLOR;
+        std::string enhanced;
+        std::string rotate;
     };
 
     std::shared_ptr<Data> m_data;
@@ -209,11 +330,11 @@ public:
         }
     }
 
-    inline auto xlabel(std::string label) -> void { m_xlabel = label; }
-    inline auto xlabel() const -> std::string { return m_xlabel; }
+    inline auto xlabel(std::string title) -> axislabel& { m_xlabel = axislabel(title); return m_xlabel; }
+    inline auto xlabel() const -> axislabel { return m_xlabel; }
 
-    inline auto ylabel(std::string label) -> void { m_ylabel = label; }
-    inline auto ylabel() const -> std::string { return m_ylabel; }
+    inline auto ylabel(std::string label) -> axislabel& { m_ylabel = axislabel(label); return m_ylabel; }
+    inline auto ylabel() const -> axislabel { return m_ylabel; }
 
     inline auto xrange(double min, double max) -> void { m_xrange = { min, max }; }
     inline auto xrange() const -> std::pair<double, double> { return m_xrange; }
@@ -292,21 +413,30 @@ public:
         script << "# Configuration of the plot details" << std::endl;
         if(m_xrange.first != m_xrange.second) script << "set xrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
         if(m_yrange.first != m_yrange.second) script << "set yrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
-//        script << "set xlabel '" << m_xlabel << "'" << std::endl;
-        script << "set xlabel '" << m_xlabel << "' tc rgb '#404040'" << std::endl;
-        script << "set ylabel '" << m_ylabel << "' tc rgb '#404040'" << std::endl;
+        script << "set xlabel " << m_xlabel.command() << std::endl;
+        script << "set ylabel " << m_ylabel.command() << std::endl;
         script << "set border " << m_border << std::endl;
         script << "set grid " << m_grid << std::endl;
         script << "set tics " << m_tics << std::endl;
-        script << "set key " << m_key << " opaque tc rgb '#404040' box lc rgb '#d6d7d9'" << std::endl;
+        script << "set key " << m_key << std::endl;
         script << "set samples " << m_samples << std::endl;
 
         script << "# Set the plots" << std::endl;
         script << "plot ";
 
+        // The number of things to draw in the plot
         const auto n = m_drawings.size();
+
+        // Add the strings to plot each drawing
         for(auto i = 0; i < n; ++i)
+        {
+            // Ensure linestyle is explicitly set to avoid use of default gnuplot colors
+            if(m_drawings[i].linestyle().empty())
+                m_drawings[i].linestyle(i + 1);
+
+            // Add the plot command for the current drawing
             script << m_drawings[i].command() << (i < n - 1 ? ", " : "");
+        }
 
         script.flush();
 
@@ -335,13 +465,12 @@ public:
         script << "# Configuration of the plot details" << std::endl;
         if(m_xrange.first != m_xrange.second) script << "set xrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
         if(m_yrange.first != m_yrange.second) script << "set yrange [" << m_xrange.first << ":" << m_xrange.second << "]" << std::endl;
-//        script << "set xlabel '" << m_xlabel << "'" << std::endl;
-        script << "set xlabel '" << m_xlabel << "' tc rgb '#404040'" << std::endl;
-        script << "set ylabel '" << m_ylabel << "' tc rgb '#404040'" << std::endl;
+        script << "set xlabel " << m_xlabel.command() << std::endl;
+        script << "set ylabel " << m_ylabel.command() << std::endl;
         script << "set border " << m_border << std::endl;
         script << "set grid " << m_grid << std::endl;
         script << "set tics " << m_tics << std::endl;
-        script << "set key " << m_key << " opaque tc rgb '#404040' box lc rgb '#d6d7d9'" << std::endl;
+        script << "set key " << m_key << std::endl;
         script << "set samples " << m_samples << std::endl;
 
         script << "plot ";
@@ -359,7 +488,7 @@ public:
 
 private:
     /// The size of the plot
-    std::pair<int, int> m_size = {400, 300};
+    std::pair<int, int> m_size = { DEFAULT_WIDTH, DEFAULT_HEIGHT };
 
     /// The x range of the plot
     std::pair<double, double> m_xrange = {0, 0};
@@ -374,19 +503,19 @@ private:
     std::string m_filename;
 
     /// The name of the gnuplot pallete to be used
-    std::string m_pallete = "dark2";
+    std::string m_pallete = DEFAULT_PALLETE;
 
     /// The border style of the plot
-    std::string m_border = "3 front lc rgb '#404040' lt 1 lw 1";
+    std::string m_border = str() + "3 front lc rgb " + DEFAULT_TEXTCOLOR + " lt 1 lw 1";
 
     /// The grid style of the plot
-    std::string m_grid = "lc rgb '#d6d7d9' lt 1 dt 2 lw 1";
+    std::string m_grid = str() + "lc rgb " + DEFAULT_GRIDCOLOR + " lt 1 dt 2 lw 1";
 
     /// The border style of the plot
     std::string m_tics = "nomirror front out scale 0.25";
 
     /// The boolean flag name of the gnuplot pallete to be used
-    std::string m_key = "default";
+    std::string m_key = str() + "opaque tc rgb " + DEFAULT_TEXTCOLOR + " box lc rgb " + DEFAULT_GRIDCOLOR;
 
     /// The number of sample points for functions
     std::size_t m_samples = 250;
@@ -395,10 +524,10 @@ private:
     std::size_t m_numdatarows = 0;
 
     /// The label of the x-axis
-    std::string m_xlabel;
+    axislabel m_xlabel;
 
     /// The label of the y-axis
-    std::string m_ylabel;
+    axislabel m_ylabel;
 
     /// The drawing options for each draw call
     std::vector<drawing> m_drawings;
