@@ -1,5 +1,5 @@
-// A modern C++ interface for plotting using gnuplot
-// https://github.com/allanleal/plot
+// Capim - a modern C++ plotting library powered by gnuplot
+// https://github.com/allanleal/capim
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
