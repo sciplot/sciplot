@@ -23,44 +23,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Catch includes
-#include "catch.hpp"
+#pragma once
 
-// Capim includes
-#include <Capim/Plot.hpp>
-using namespace Capim;
+// C++ includes
+#include <string>
 
-TEST_CASE("plotting tests", "[plot]")
+namespace Capim {
+namespace internal {
+
+/// The base class for other specs classes (e.g., linespecs, plotspecs, borderspecs, etc.)
+class specs
 {
-    SECTION("########## AUXILIARY FUNCTIONS ##########")
-    {
-        REQUIRE(titlestr("Something") == "'Something'");
-        REQUIRE(titlestr("columnheader") == "columnheader");
+public:
+    /// Pure virtual destructor (this class is an abstract base class).
+    virtual ~specs() {};
 
-        REQUIRE(fontstr("Arial", "12") == "'Arial,12'");
-        REQUIRE(fontstr("Arial", "") == "'Arial'");
-        REQUIRE(fontstr("", "12") == "',12'");
-        REQUIRE(fontstr("", "") == "");
+    /// Return a string representation of this object of some class that derives from specs.
+    virtual auto repr() const -> std::string = 0;
 
-        REQUIRE(optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(optionvaluestr("ls", "") == "");
-    }
+    /// Return a string representation of this object of some class that derives from specs.
+    operator std::string() const { return repr(); }
+};
 
-    Plot plt;
-
-    std::vector<double> x = {1,2,3,4,5,6};
-    std::vector<double> y = {1,2,2,3,3,4};
-
-    plt.xlabel("Temperature [K]");
-    plt.ylabel("Amount [mol]");
-
-//    plt.draw(x, y).linewidth(2).with(style::linespoints);
-//    plt.draw(y, x).linewidth(2).with(style::linespoints);
-
-    plt.xrange(0, 3);
-    for(auto i = 1; i <= 7; ++i)
-        plt.plot(str(i) + " * sin(x)").title("line " + str(i)).dashtype(i);
-
-    plt.show();
-    plt.save("xy.svg");
+/// Output the state of a specs object to a ostream object.
+auto operator<<(std::ostream& stream, const specs& obj) -> std::ostream&
+{
+    return stream << obj.repr();
 }
+
+} // namespace internal
+} // namespace Capim

@@ -32,8 +32,8 @@ palletes_hpp = open(join(plotdir, 'palletes.hpp'), 'w')
 
 # Print the header part of the palletes.hpp file
 print >>palletes_hpp, \
-"""// A modern C++ interface for plotting using gnuplot
-// https://github.com/allanleal/plot
+"""// Capim - a modern C++ plotting library powered by gnuplot
+// https://github.com/allanleal/capim
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -57,11 +57,13 @@ print >>palletes_hpp, \
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
 // C++ includes
 #include <map>
 #include <string>
 
-namespace gnuplot {
+namespace Capim {
 
 /// Color palettes for gnuplot taken from https://github.com/Gnuplotting/gnuplot-palettes"""
 
@@ -76,6 +78,6 @@ for (key, value) in palletes:
 
 print >>palletes_hpp, '};'
 
-# Print the closing brace of namespace gnuplot
+# Print the closing brace of namespace Capim
 print >>palletes_hpp
-print >>palletes_hpp, '} // namespace gnuplot'
+print >>palletes_hpp, '} // namespace Capim'

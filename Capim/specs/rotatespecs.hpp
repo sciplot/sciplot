@@ -23,44 +23,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Catch includes
-#include "catch.hpp"
+#pragma once
 
 // Capim includes
-#include <Capim/Plot.hpp>
-using namespace Capim;
+#include <Capim/specs/specs.hpp>
+#include <Capim/util.hpp>
 
-TEST_CASE("plotting tests", "[plot]")
-{
-    SECTION("########## AUXILIARY FUNCTIONS ##########")
-    {
-        REQUIRE(titlestr("Something") == "'Something'");
-        REQUIRE(titlestr("columnheader") == "columnheader");
+namespace Capim {
+namespace internal {
 
-        REQUIRE(fontstr("Arial", "12") == "'Arial,12'");
-        REQUIRE(fontstr("Arial", "") == "'Arial'");
-        REQUIRE(fontstr("", "12") == "',12'");
-        REQUIRE(fontstr("", "") == "");
 
-        REQUIRE(optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(optionvaluestr("ls", "") == "");
-    }
-
-    Plot plt;
-
-    std::vector<double> x = {1,2,3,4,5,6};
-    std::vector<double> y = {1,2,2,3,3,4};
-
-    plt.xlabel("Temperature [K]");
-    plt.ylabel("Amount [mol]");
-
-//    plt.draw(x, y).linewidth(2).with(style::linespoints);
-//    plt.draw(y, x).linewidth(2).with(style::linespoints);
-
-    plt.xrange(0, 3);
-    for(auto i = 1; i <= 7; ++i)
-        plt.plot(str(i) + " * sin(x)").title("line " + str(i)).dashtype(i);
-
-    plt.show();
-    plt.save("xy.svg");
-}
+} // namespace internal
+} // namespace Capim

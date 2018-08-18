@@ -1,5 +1,5 @@
-// A modern C++ interface for plotting using gnuplot
-// https://github.com/allanleal/plot
+// Capim - a modern C++ plotting library powered by gnuplot
+// https://github.com/allanleal/capim
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -23,11 +23,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
 // C++ includes
 #include <map>
 #include <string>
 
-namespace gnuplot {
+namespace Capim {
 
 /// Color palettes for gnuplot taken from https://github.com/Gnuplotting/gnuplot-palettes
 const std::map<std::string, std::string> palletes = {
@@ -80,4 +82,4 @@ const std::map<std::string, std::string> palletes = {
     { "ylrd", "# line styles\nset style line 1 lt 1 lc rgb '#ffee00' # yellow \nset style line 2 lt 1 lc rgb '#ff7000' #\nset style line 3 lt 1 lc rgb '#ee0000' #\nset style line 4 lt 1 lc rgb '#7f0000' # red\n\n# palette\nset palette defined ( \\\n    0 '#ffee00', \\\n    1 '#ff7000', \\\n    2 '#ee0000', \\\n    3 '#7f0000')\n" },
 };
 
-} // namespace gnuplot
+} // namespace Capim
