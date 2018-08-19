@@ -59,7 +59,8 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)
-        plt.plot(str(i) + " * sin(x)").title("line " + str(i)).dashtype(i);
+//        plt.plot(str(i) + " * sin(x)").title("line " + str(i)).dashtype(i);
+        plt.plot(str(i) + " * sin(x)");
 
     plt.show();
     plt.save("xy.svg");

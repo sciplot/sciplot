@@ -41,19 +41,17 @@ public:
     /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
     plotspecs(std::string what) : m_what(what)
     {
-        // Set default values (not exactly the same as official gnuplot for aesthetics reasons)
         with(DEFAULT_STYLE);
-        linewidth(DEFAULT_LINEWIDTH);
     }
 
     /// Destroy this plotspecs instance.
     virtual ~plotspecs() {}
 
     /// Set the title of the plot.
-    auto title(std::string value) -> plotspecs& { m_title = titlestr(value); return *this; }
+    auto title(std::string value) -> void { m_title = titlestr(value); }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(style value) -> plotspecs& { m_with = stylestr(value); return *this; }
+    auto with(style value) -> void { m_with = stylestr(value); }
 
     /// Convert this plotspecs object into a gnuplot formatted string.
     virtual auto repr() const -> std::string

@@ -32,6 +32,21 @@
 namespace Capim {
 namespace internal {
 
+/// The class used to specify options for font.
+class fontspecs : public specs
+{
+public:
+    /// Construct a default fontspecs instance.
+    fontspecs();
 
+    /// Set the name of the font (e.g., Helvetica, Georgia, Times).
+    auto fontname(std::string name) -> axislabelspecs& { m_fontname = name; return *this; }
+
+    /// Set the point size of the font (e.g., 10, 12, 16).
+    auto fontsize(std::size_t size) -> axislabelspecs& { m_fontsize = str(size); return *this; }
+
+
+private:
+};
 } // namespace internal
 } // namespace Capim

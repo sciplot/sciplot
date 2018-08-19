@@ -26,6 +26,7 @@
 #pragma once
 
 // Capim includes
+#include <Capim/default.hpp>
 #include <Capim/specs/specs.hpp>
 #include <Capim/util.hpp>
 
@@ -37,25 +38,28 @@ class linespecs : public specs
 {
 public:
     /// Construct a default linespecs instance.
-    linespecs() {}
+    linespecs()
+    {
+        this->linewidth(DEFAULT_LINEWIDTH);
+    }
 
     /// Destroy this linespecs instance.
     virtual ~linespecs() {}
 
     /// Set the line style of the plot.
-    auto linestyle(std::size_t value) -> linespecs& { m_linestyle = str(value); return *this; }
+    auto linestyle(std::size_t value) -> void { m_linestyle = str(value); }
 
     /// Set the line type of the plot.
-    auto linetype(std::size_t value) -> linespecs& { m_linetype = str(value); return *this; }
+    auto linetype(std::size_t value) -> void { m_linetype = str(value); }
 
     /// Set the line width of the plot.
-    auto linewidth(std::size_t value) -> linespecs& { m_linewidth = str(value); return *this; }
+    auto linewidth(std::size_t value) -> void { m_linewidth = str(value); }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> linespecs& { m_linecolor = value; return *this; }
+    auto linecolor(std::string value) -> void { m_linecolor = value; }
 
     /// Set the dash type of the plot.
-    auto dashtype(std::size_t value) -> linespecs& { m_dashtype = str(value); return *this; }
+    auto dashtype(std::size_t value) -> void { m_dashtype = str(value); }
 
     /// Convert this plotspecs object into a gnuplot formatted string.
     virtual auto repr() const -> std::string

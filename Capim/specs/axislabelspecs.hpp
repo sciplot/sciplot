@@ -34,16 +34,11 @@ namespace Capim {
 namespace internal {
 
 /// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class axislabelspecs : public specs
+class axislabelspecs
 {
 public:
     /// Construct a default axislabelspecs instance.
-    axislabelspecs() : axislabelspecs("")
-    {
-    }
-
-    /// Construct a axislabelspecs instance with given label title.
-    axislabelspecs(std::string title) : m_title("'" + title + "'")
+    axislabelspecs()
     {
         // Set default values (not exactly the same as official gnuplot for aesthetics reasons)
         fontname(DEFAULT_FONTNAME);
@@ -51,43 +46,47 @@ public:
         textcolor(DEFAULT_TEXTCOLOR);
     }
 
+    /// Set the word of the label.
+    /// @param word The word of the label (e.g., "Temperature [K]")
+    auto label(std::string word) -> void { m_label = "'" + word + "'"; }
+
     /// Set the offset of the label.
     /// @param xval The offset along the x direction
     /// @param yval The offset along the y direction
-    auto offset(int xval, int yval) -> axislabelspecs& { m_offset = str(xval) + "," + str(yval); return *this; }
+    auto offset(int xval, int yval) -> void { m_offset = str(xval) + "," + str(yval); }
 
     /// Set the font name for the label.
     /// @param name The name of the font (e.g., Helvetica, Georgia, Times)
-    auto fontname(std::string name) -> axislabelspecs& { m_fontname = name; return *this; }
+    auto fontname(std::string name) -> void { m_fontname = name; }
 
     /// Set the font size of the label.
     /// @param size The point size of the font (e.g., 10, 12, 16)
-    auto fontsize(std::size_t size) -> axislabelspecs& { m_fontsize = str(size); return *this; }
+    auto fontsize(std::size_t size) -> void { m_fontsize = str(size); }
 
     /// Set the color of the label.
     /// @param color The color of the label (e.g., "blue", "rgb '#404040'")
-    auto textcolor(std::string color) -> axislabelspecs& { m_textcolor = color; return *this; }
+    auto textcolor(std::string color) -> void { m_textcolor = color; }
 
     /// Set the enhanced mode of the label.
     /// @param value If true, then `enhanced` gnuplot option is used, otherwise, `noenhanced`
-    auto enhanced(bool value) -> axislabelspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return *this; }
+    auto enhanced(bool value) -> void { m_enhanced = value ? "enhanced" : "noenhanced"; }
 
     /// Set the rotation of the label.
     /// @param angle The angle used to rotate the label.
     /// @param units The units of the angle ("" is radians, "pi" as multiple of pi number, "deg" in degrees).
-    auto rotateby(double angle, std::string units = "") -> axislabelspecs& { m_rotate = "rotate by " + str(angle) + units; return *this; }
+    auto rotateby(double angle, std::string units = "") -> void { m_rotate = "rotate by " + str(angle) + units; }
 
     /// Set the label to rotate parallel to the axis.
-    auto rotateparallel() -> axislabelspecs& { m_rotate = "rotate parallel"; return *this; }
+    auto rotateparallel() -> void { m_rotate = "rotate parallel"; }
 
     /// Set the label to a no rotate state.
-    auto norotate() -> axislabelspecs& { m_rotate = "norotate"; return *this; }
+    auto norotate() -> void { m_rotate = "norotate"; }
 
     /// Convert this axislabelspecs object into a gnuplot formatted string.
     virtual auto repr() const -> std::string
     {
         std::stringstream ss;
-        ss << m_title << " ";
+        ss << m_label << " ";
         ss << optionvaluestr("offset", m_offset);
         ss << optionvaluestr("font", fontstr(m_fontname, m_fontsize));
         ss << optionvaluestr("textcolor", m_textcolor);
@@ -97,7 +96,7 @@ public:
     }
 
 private:
-    std::string m_title;
+    std::string m_label;
     std::string m_offset;
     std::string m_fontname;
     std::string m_fontsize;

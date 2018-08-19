@@ -91,9 +91,9 @@ public:
 
     auto size(std::size_t width, std::size_t height) -> void { m_size = str(width) + "," + str(height); }
 
-    auto xlabel(std::string title) -> axislabelspecs& { m_xlabel = axislabelspecs(title); return m_xlabel; }
+    auto xlabel(std::string label) -> axislabelspecs& { m_xlabel.label(label); return m_xlabel; }
 
-    auto ylabel(std::string label) -> axislabelspecs& { m_ylabel = axislabelspecs(label); return m_ylabel; }
+    auto ylabel(std::string label) -> axislabelspecs& { m_ylabel.label(label); return m_ylabel; }
 
     auto xrange(double min, double max) -> void { m_xrange = "[" + str(min) + ":" + str(max) + "]"; }
 
@@ -160,8 +160,8 @@ public:
         script << "#==============================================================================" << std::endl;
         script << commandvaluestr("set xrange", m_xrange);
         script << commandvaluestr("set yrange", m_yrange);
-        script << commandvaluestr("set xlabel", m_xlabel);
-        script << commandvaluestr("set ylabel", m_ylabel);
+        script << commandvaluestr("set xlabel", m_xlabel.repr());
+        script << commandvaluestr("set ylabel", m_ylabel.repr());
         script << commandvaluestr("set border", m_border);
         script << commandvaluestr("set grid", m_grid);
         script << commandvaluestr("set tics", m_tics);
@@ -223,8 +223,8 @@ public:
         script << "#==============================================================================" << std::endl;
         script << commandvaluestr("set xrange", m_xrange);
         script << commandvaluestr("set yrange", m_yrange);
-        script << commandvaluestr("set xlabel", m_xlabel);
-        script << commandvaluestr("set ylabel", m_ylabel);
+        script << commandvaluestr("set xlabel", m_xlabel.repr());
+        script << commandvaluestr("set ylabel", m_ylabel.repr());
         script << commandvaluestr("set border", m_border);
         script << commandvaluestr("set grid", m_grid);
         script << commandvaluestr("set tics", m_tics);
