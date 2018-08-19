@@ -68,20 +68,6 @@ inline auto titlestr(std::string word) -> std::string
     return word == "columnheader" ? word : "'" + word + "'";
 }
 
-/// Return the formatted string for a font specification (e.g., "font 'Arial,12'").
-inline auto fontstr(std::string name, std::string size) -> std::string
-{
-    std::string font;
-    if(name.size() || size.size())
-    {
-        font = "'";
-        font = font + (name.size() ? name : "");
-        font = font + (size.size() ? "," + size : "");
-        font = font + "'";
-    }
-    return font;
-}
-
 /// Return the formatted string for a `option` with a leading space (e.g., "enhanced ")
 /// Note that if option is empty, then an empty string is returned.
 inline auto optionstr(std::string option) -> std::string
@@ -169,6 +155,19 @@ auto gnuplotdataset(std::ostream& out, std::size_t index, const Args&... args) -
 
     return out;
 }
+
+/// The struct where static angle methods are defined.
+struct angle
+{
+    /// Return the angle in degree units.
+    static auto deg(long val) -> std::string { return str(val) + "deg"; }
+
+    /// Return the angle in radian units.
+    static auto rad(double val) -> std::string { return str(val); }
+
+    /// Return the angle in radian units as a multiple of number pi.
+    static auto pi(double val) -> std::string { return str(val) + "pi"; }
+};
 
 } // namespace internal
 } // namespace Capim

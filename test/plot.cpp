@@ -37,11 +37,6 @@ TEST_CASE("plotting tests", "[plot]")
         REQUIRE(titlestr("Something") == "'Something'");
         REQUIRE(titlestr("columnheader") == "columnheader");
 
-        REQUIRE(fontstr("Arial", "12") == "'Arial,12'");
-        REQUIRE(fontstr("Arial", "") == "'Arial'");
-        REQUIRE(fontstr("", "12") == "',12'");
-        REQUIRE(fontstr("", "") == "");
-
         REQUIRE(optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
         REQUIRE(optionvaluestr("ls", "") == "");
     }
@@ -54,13 +49,9 @@ TEST_CASE("plotting tests", "[plot]")
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
 
-//    plt.draw(x, y).linewidth(2).with(style::linespoints);
-//    plt.draw(y, x).linewidth(2).with(style::linespoints);
-
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)
-//        plt.plot(str(i) + " * sin(x)").title("line " + str(i)).dashtype(i);
-        plt.plot(str(i) + " * sin(x)");
+        plt.plot(str(i) + " * sin(x)").title("line " + str(i)).dashtype(i);
 
     plt.show();
     plt.save("xy.svg");

@@ -160,8 +160,8 @@ public:
         script << "#==============================================================================" << std::endl;
         script << commandvaluestr("set xrange", m_xrange);
         script << commandvaluestr("set yrange", m_yrange);
-        script << commandvaluestr("set xlabel", m_xlabel.repr());
-        script << commandvaluestr("set ylabel", m_ylabel.repr());
+        script << commandvaluestr("set xlabel", m_xlabel);
+        script << commandvaluestr("set ylabel", m_ylabel);
         script << commandvaluestr("set border", m_border);
         script << commandvaluestr("set grid", m_grid);
         script << commandvaluestr("set tics", m_tics);
@@ -223,8 +223,8 @@ public:
         script << "#==============================================================================" << std::endl;
         script << commandvaluestr("set xrange", m_xrange);
         script << commandvaluestr("set yrange", m_yrange);
-        script << commandvaluestr("set xlabel", m_xlabel.repr());
-        script << commandvaluestr("set ylabel", m_ylabel.repr());
+        script << commandvaluestr("set xlabel", m_xlabel);
+        script << commandvaluestr("set ylabel", m_ylabel);
         script << commandvaluestr("set border", m_border);
         script << commandvaluestr("set grid", m_grid);
         script << commandvaluestr("set tics", m_tics);

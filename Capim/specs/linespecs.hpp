@@ -34,32 +34,30 @@ namespace Capim {
 namespace internal {
 
 /// The specifications for a line plot.
-class linespecs : public specs
+template<typename derivedspecs>
+class linespecs : public specs<derivedspecs>
 {
 public:
     /// Construct a default linespecs instance.
     linespecs()
     {
-        this->linewidth(DEFAULT_LINEWIDTH);
+        linewidth(DEFAULT_LINEWIDTH);
     }
 
-    /// Destroy this linespecs instance.
-    virtual ~linespecs() {}
-
     /// Set the line style of the plot.
-    auto linestyle(std::size_t value) -> void { m_linestyle = str(value); }
+    auto linestyle(std::size_t value) -> derivedspecs& { m_linestyle = str(value); return this->derived(); }
 
     /// Set the line type of the plot.
-    auto linetype(std::size_t value) -> void { m_linetype = str(value); }
+    auto linetype(std::size_t value) -> derivedspecs& { m_linetype = str(value); return this->derived(); }
 
     /// Set the line width of the plot.
-    auto linewidth(std::size_t value) -> void { m_linewidth = str(value); }
+    auto linewidth(std::size_t value) -> derivedspecs& { m_linewidth = str(value); return this->derived(); }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> void { m_linecolor = value; }
+    auto linecolor(std::string value) -> derivedspecs& { m_linecolor = value; return this->derived(); }
 
     /// Set the dash type of the plot.
-    auto dashtype(std::size_t value) -> void { m_dashtype = str(value); }
+    auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = str(value); return this->derived(); }
 
     /// Convert this plotspecs object into a gnuplot formatted string.
     virtual auto repr() const -> std::string

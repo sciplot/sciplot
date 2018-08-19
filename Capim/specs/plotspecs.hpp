@@ -34,7 +34,7 @@ namespace Capim {
 namespace internal {
 
 /// The class where options for the plot function are specified.
-class plotspecs : public linespecs
+class plotspecs : public linespecs<plotspecs>
 {
 public:
     /// Construct a plotspecs instance.
@@ -44,14 +44,11 @@ public:
         with(DEFAULT_STYLE);
     }
 
-    /// Destroy this plotspecs instance.
-    virtual ~plotspecs() {}
-
     /// Set the title of the plot.
-    auto title(std::string value) -> void { m_title = titlestr(value); }
+    auto title(std::string value) -> plotspecs& { m_title = titlestr(value); return *this; }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(style value) -> void { m_with = stylestr(value); }
+    auto with(style value) -> plotspecs& { m_with = stylestr(value); return *this; }
 
     /// Convert this plotspecs object into a gnuplot formatted string.
     virtual auto repr() const -> std::string
@@ -60,7 +57,7 @@ public:
         ss << m_what << " ";
         ss << optionvaluestr("title", m_title);
         ss << optionvaluestr("with", m_with);
-        ss << linespecs::repr();
+        ss << linespecs<plotspecs>::repr();
         return ss.str();
     }
 

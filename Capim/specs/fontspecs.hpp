@@ -26,6 +26,7 @@
 #pragma once
 
 // Capim includes
+#include <Capim/default.hpp>
 #include <Capim/specs/specs.hpp>
 #include <Capim/util.hpp>
 
@@ -33,20 +34,38 @@ namespace Capim {
 namespace internal {
 
 /// The class used to specify options for font.
-class fontspecs : public specs
+template<typename derivedspecs>
+class fontspecs : public specs<derivedspecs>
 {
 public:
     /// Construct a default fontspecs instance.
-    fontspecs();
+    fontspecs()
+    {
+        fontname(DEFAULT_FONTNAME);
+        fontsize(DEFAULT_FONTSIZE);
+    }
 
     /// Set the name of the font (e.g., Helvetica, Georgia, Times).
-    auto fontname(std::string name) -> axislabelspecs& { m_fontname = name; return *this; }
+    auto fontname(std::string name) -> derivedspecs& { m_fontname = name; return this->derived(); }
 
     /// Set the point size of the font (e.g., 10, 12, 16).
-    auto fontsize(std::size_t size) -> axislabelspecs& { m_fontsize = str(size); return *this; }
+    auto fontsize(std::size_t size) -> derivedspecs& { m_fontsize = size; return this->derived(); }
 
+    /// Convert this fontspecs object into a gnuplot formatted string.
+    virtual auto repr() const -> std::string
+    {
+        std::stringstream ss;
+        ss << "font '" << m_fontname << "," << m_fontsize << "'";
+        return ss.str();
+    }
 
 private:
+    /// The name of the font.
+    std::string m_fontname;
+
+    /// The point size of the font.
+    std::size_t m_fontsize;
 };
+
 } // namespace internal
 } // namespace Capim
