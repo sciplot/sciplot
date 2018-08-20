@@ -36,6 +36,7 @@
 // Capim includes
 #include <Capim/palletes.hpp>
 #include <Capim/specs/axislabelspecs.hpp>
+#include <Capim/specs/borderspecs.hpp>
 #include <Capim/specs/linespecs.hpp>
 #include <Capim/specs/plotspecs.hpp>
 
@@ -66,7 +67,7 @@ public:
         pallete(DEFAULT_PALLETE);
 
         /// The default border style of the plot
-        border("3 front lc rgb " + str(DEFAULT_TEXTCOLOR) + " lt 1 lw 1");
+//        border("3 front lc rgb " + str(DEFAULT_TEXTCOLOR) + " lt 1 lw 1");
 
         /// The default grid style of the plot
         grid(str("lc rgb ") + DEFAULT_GRIDCOLOR + " lt 1 dt 2 lw 1");
@@ -99,7 +100,7 @@ public:
 
     auto yrange(double min, double max) -> void { m_yrange = "[" + str(min) + ":" + str(max) + "]"; }
 
-    auto border(std::string options) -> void { m_border = options; }
+    auto border() -> borderspecs& { return m_border; }
 
     auto grid(std::string options) -> void { m_grid = options; }
 
@@ -277,7 +278,7 @@ private:
     std::string m_pallete;
 
     /// The border style of the plot
-    std::string m_border;
+    borderspecs m_border;
 
     /// The grid style of the plot
     std::string m_grid;

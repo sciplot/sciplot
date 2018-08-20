@@ -25,14 +25,68 @@
 
 #pragma once
 
+// C++ includes
+#include <bitset>
+
 // Capim includes
-#include <Capim/specs/specs.hpp>
+#include <Capim/default.hpp>
+#include <Capim/specs/linespecs.hpp>
 #include <Capim/util.hpp>
 
 namespace Capim {
 namespace internal {
 
-// TODO Missing implementation
+/// The class used to specify options for plot border.
+class borderspecs : public linespecs<borderspecs>
+{
+public:
+    /// Construct a default border instance.
+    borderspecs()
+    {
+        left();
+        bottom();
+        linecolor(DEFAULT_TEXTCOLOR);
+        linetype(1);
+        linewidth(1);
+    }
+
+    /// Remove all borders from the plot.
+    auto clear() -> borderspecs& { m_encoding.reset(); return *this; }
+
+    /// Set all border to inactive. This is equivalent to method clear.
+    auto none() -> borderspecs& { return clear(); }
+
+    /// Set the left border active.
+    auto left() -> borderspecs& { m_encoding.set(1); return *this; }
+
+    /// Set the right border active.
+    auto right() -> borderspecs& { m_encoding.set(3); return *this; }
+
+    /// Set the bottom border active.
+    auto bottom() -> borderspecs& { m_encoding.set(0); return *this; }
+
+    /// Set the top border active.
+    auto top() -> borderspecs& { m_encoding.set(2); return *this; }
+
+    /// Convert this border object into a gnuplot formatted string.
+    virtual auto repr() const -> std::string
+    {
+        std::stringstream ss;
+        ss << m_encoding.to_ulong() << " ";
+        ss << linespecs<borderspecs>::repr();
+        return ss.str();
+    }
+
+private:
+    /// The bits encoding the active and inactive borders.
+    std::bitset<4> m_encoding;
+
+    /// The name of the font.
+    std::string m_fontname;
+
+    /// The point size of the font.
+    std::size_t m_fontsize;
+};
 
 } // namespace internal
 } // namespace Capim
