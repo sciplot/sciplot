@@ -37,6 +37,7 @@
 #include <Capim/palletes.hpp>
 #include <Capim/specs/axislabelspecs.hpp>
 #include <Capim/specs/borderspecs.hpp>
+#include <Capim/specs/gridspecs.hpp>
 #include <Capim/specs/linespecs.hpp>
 #include <Capim/specs/plotspecs.hpp>
 
@@ -65,9 +66,6 @@ public:
         // Set default values (not exactly the same as official gnuplot for aesthetics reasons)
         size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         pallete(DEFAULT_PALLETE);
-
-        /// The default border style of the plot
-//        border("3 front lc rgb " + str(DEFAULT_TEXTCOLOR) + " lt 1 lw 1");
 
         /// The default grid style of the plot
         grid(str("lc rgb ") + DEFAULT_GRIDCOLOR + " lt 1 dt 2 lw 1");
@@ -102,7 +100,11 @@ public:
 
     auto border() -> borderspecs& { return m_border; }
 
-    auto grid(std::string options) -> void { m_grid = options; }
+    auto gridmajor(std::string tics) -> gridspecs& { m_gridspecs_major.emplace_back(tics); return m_gridspecs_major.back(); }
+
+    auto gridminor(std::string tics) -> gridspecs& { m_gridspecs_minor.emplace_back(tics); return m_gridspecs_minor.back(); }
+
+    auto grid(std::string tics) -> gridspecs& { return gridmajor(tics); }
 
     auto tics(std::string options) -> void { m_tics = options; }
 
@@ -164,10 +166,18 @@ public:
         script << commandvaluestr("set xlabel", m_xlabel);
         script << commandvaluestr("set ylabel", m_ylabel);
         script << commandvaluestr("set border", m_border);
-        script << commandvaluestr("set grid", m_grid);
+        for(auto specs : m_gridspecs_major)
+            script << commandvaluestr("set grid", specs);
+        for(auto specs : m_gridspecs_minor)
+            script << commandvaluestr("set grid", specs);
         script << commandvaluestr("set tics", m_tics);
         script << commandvaluestr("set key", m_key);
         script << commandvaluestr("set samples", m_samples);
+
+        script << "#==============================================================================" << std::endl;
+        script << "# CUSTOM EXPLICIT GNUPLOT COMMANDS" << std::endl;
+        script << "#==============================================================================" << std::endl;
+        script << m_gnuplot.str();
 
         script << "#==============================================================================" << std::endl;
         script << "# PLOT COMMANDS" << std::endl;
@@ -227,10 +237,18 @@ public:
         script << commandvaluestr("set xlabel", m_xlabel);
         script << commandvaluestr("set ylabel", m_ylabel);
         script << commandvaluestr("set border", m_border);
-        script << commandvaluestr("set grid", m_grid);
+        for(auto specs : m_gridspecs_major)
+            script << commandvaluestr("set grid", specs);
+        for(auto specs : m_gridspecs_minor)
+            script << commandvaluestr("set grid", specs);
         script << commandvaluestr("set tics", m_tics);
         script << commandvaluestr("set key", m_key);
         script << commandvaluestr("set samples", m_samples);
+
+        script << "#==============================================================================" << std::endl;
+        script << "# CUSTOM EXPLICIT GNUPLOT COMMANDS" << std::endl;
+        script << "#==============================================================================" << std::endl;
+        script << m_gnuplot.str();
 
         script << "#==============================================================================" << std::endl;
         script << "# PLOT COMMANDS" << std::endl;
@@ -253,6 +271,12 @@ public:
         // std::string command = ("gnuplot " + scriptname + " >> gnuplot.log 2>&1");
         std::string command = ("gnuplot " + scriptname);
         pipe = popen(command.c_str(), "w");
+    }
+
+    /// Use this method to provide gnuplot commands to be executed before the plotting calls.
+    auto gnuplot(std::string command) -> void
+    {
+        m_gnuplot << command;
     }
 
 private:
@@ -280,8 +304,11 @@ private:
     /// The border style of the plot
     borderspecs m_border;
 
-    /// The grid style of the plot
-    std::string m_grid;
+    /// The vector of grid specs for the major grid lines in the plot (for xtics, ytics, etc).
+    std::vector<gridspecs> m_gridspecs_major;
+
+    /// The vector of grid specs for the minor grid lines in the plot (for mxtics, mytics, etc).
+    std::vector<gridspecs> m_gridspecs_minor;
 
     /// The border style of the plot
     std::string m_tics;
@@ -300,6 +327,9 @@ private:
 
     /// The drawing options for each draw call
     std::vector<plotspecs> m_drawings;
+
+    /// The string stream containing gnuplot custom commands
+    std::stringstream m_gnuplot;
 
     /// The pointer to the pipe connecting to Gnuplot
     FILE* pipe = nullptr;

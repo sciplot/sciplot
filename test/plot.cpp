@@ -48,7 +48,9 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
-    plt.border().clear().left().top();
+    plt.gnuplot("unset grid");
+
+//    plt.border().clear().left().top().behind();
 
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)
