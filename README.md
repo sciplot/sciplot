@@ -1,2 +1,1 @@
-# plot
-A modern C++ interface for plotting using gnuplot
+# Capim - a modern C++ plotting library powered by gnuplot
