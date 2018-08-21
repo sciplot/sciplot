@@ -39,10 +39,10 @@ class linespecs : public specs<derivedspecs>
 {
 public:
     /// Construct a default linespecs instance.
-    linespecs()
-    {
-        linewidth(DEFAULT_LINEWIDTH);
-    }
+    linespecs();
+
+    /// Convert this linespecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
     /// Set the line style of the plot.
     auto linestyle(std::size_t value) -> derivedspecs& { m_linestyle = str(value); return this->derived(); }
@@ -58,18 +58,6 @@ public:
 
     /// Set the dash type of the plot.
     auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = str(value); return this->derived(); }
-
-    /// Convert this plotspecs object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << optionvaluestr("linestyle", m_linestyle);
-        ss << optionvaluestr("linetype", m_linetype);
-        ss << optionvaluestr("linewidth", m_linewidth);
-        ss << optionvaluestr("linecolor", m_linecolor);
-        ss << optionvaluestr("dashtype", m_dashtype);
-        return ss.str();
-    }
 
 private:
     /// The line style of the plot (e.g., "ls 2").
@@ -87,6 +75,24 @@ private:
     /// The dash type of the plot (e.g., "dt 2").
     std::string m_dashtype;
 };
+
+template<typename derivedspecs>
+linespecs<derivedspecs>::linespecs()
+{
+    linewidth(DEFAULT_LINEWIDTH);
+}
+
+template<typename derivedspecs>
+auto linespecs<derivedspecs>::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << optionvaluestr("linestyle", m_linestyle);
+    ss << optionvaluestr("linetype", m_linetype);
+    ss << optionvaluestr("linewidth", m_linewidth);
+    ss << optionvaluestr("linecolor", m_linecolor);
+    ss << optionvaluestr("dashtype", m_dashtype);
+    return ss.str();
+}
 
 } // namespace internal
 } // namespace Capim

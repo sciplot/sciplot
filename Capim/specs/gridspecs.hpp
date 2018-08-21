@@ -27,54 +27,84 @@
 
 // Capim includes
 #include <Capim/default.hpp>
-#include <Capim/specs/linespecs.hpp>
+#include <Capim/specs/gridspecsbase.hpp>
 #include <Capim/util.hpp>
 
 namespace Capim {
 namespace internal {
 
 /// The class used to specify options for grid.
-class gridspecs : public linespecs<gridspecs>
+class gridspecs : public gridspecsbase
 {
 public:
     /// Construct a default gridspecs instance.
-    gridspecs(std::string tics, bool majorgrid) : m_tics(tics), m_majorgrid(majorgrid)
-    {
-        back();
-    }
-
-    /// Set the grid to be plot on the back of other plotting elements.
-    auto back() -> gridspecs& { m_depth = "back"; return *this; }
-
-    /// Set the grid to be plot on the front of other plotting elements.
-    auto front() -> gridspecs& { m_depth = "back"; return *this; }
-
-    /// Set the grid to be plot on the back of other plotting elements in 2d plots.
-    /// In 3d plots, this option splits the grid and the graph box into two layers,
-    /// with one behind, and the other in front of the plotted elements.
-    auto layerdefault() -> gridspecs& { m_depth = "layerdefault"; return *this; }
+    gridspecs();
 
     /// Convert this gridspecs object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << optionstr(m_tics);
-        ss << optionstr(m_depth);
-        if(m_majorgrid) ss << linespecs<gridspecs>::repr();
-        else ss << ", " + linespecs<gridspecs>::repr();
-        return ss.str();
-    }
+    auto repr() const -> std::string;
+
+    /// Return a grid specification object for configuring grid lines along major xtics.
+    auto xtics() -> gridspecsbase& { return _gridmajor("xtics"); }
+
+    /// Return a grid specification object for configuring grid lines along major ytics.
+    auto ytics() -> gridspecsbase& { return _gridmajor("ytics"); }
+
+    /// Return a grid specification object for configuring grid lines along major ztics.
+    auto ztics() -> gridspecsbase& { return _gridmajor("ztics"); }
+
+    /// Return a grid specification object for configuring grid lines along major rtics.
+    auto rtics() -> gridspecsbase& { return _gridmajor("rtics"); }
+
+    /// Return a grid specification object for configuring grid lines along major x2tics.
+    auto x2tics() -> gridspecsbase& { return _gridmajor("x2tics"); }
+
+    /// Return a grid specification object for configuring grid lines along major y2tics.
+    auto y2tics() -> gridspecsbase& { return _gridmajor("y2tics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor xtics.
+    auto mxtics() -> gridspecsbase& { return _gridminor("mxtics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor ytics.
+    auto mytics() -> gridspecsbase& { return _gridminor("mytics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor ztics.
+    auto mztics() -> gridspecsbase& { return _gridminor("mztics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor rtics.
+    auto mrtics() -> gridspecsbase& { return _gridminor("mrtics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor x2tics.
+    auto mx2tics() -> gridspecsbase& { return _gridminor("mx2tics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor y2tics.
+    auto my2tics() -> gridspecsbase& { return _gridminor("my2tics"); }
 
 private:
-    /// The names of the tics for which the grid is affected.
-    std::string m_tics;
+    /// Auxiliary private method that adds a new specs object for grid lines along a major tics.
+    auto _gridmajor(std::string tics) -> gridspecsbase& { m_gridticsspecs.emplace_back(tics, true); return m_gridticsspecs.back(); }
 
-    /// The names of the tics for which the grid is affected.
-    bool m_majorgrid;
+    /// Auxiliary private method that adds a new specs object for grid lines along a minor tics.
+    auto _gridminor(std::string tics) -> gridspecsbase& { m_gridticsspecs.emplace_back(tics, false); return m_gridticsspecs.back(); }
 
-    /// The placement depth for the grid.
-    std::string m_depth;
+private:
+    /// The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
+    std::vector<gridspecsbase> m_gridticsspecs;
 };
+
+gridspecs::gridspecs() : gridspecsbase()
+{
+    enable();
+    back();
+}
+
+auto gridspecs::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << gridspecsbase::repr();
+    for(auto specs : m_gridticsspecs)
+        ss << '\n' << specs.repr();
+    return ss.str();
+}
 
 } // namespace internal
 } // namespace Capim

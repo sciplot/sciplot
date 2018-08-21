@@ -39,27 +39,16 @@ class plotspecs : public linespecs<plotspecs>
 public:
     /// Construct a plotspecs instance.
     /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
-    plotspecs(std::string what) : m_what(what)
-    {
-        with(DEFAULT_STYLE);
-    }
+    plotspecs(std::string what);
+
+    /// Convert this plotspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
     /// Set the title of the plot.
     auto title(std::string value) -> plotspecs& { m_title = titlestr(value); return *this; }
 
     /// Set the format of the plot (lines, points, linespoints).
     auto with(style value) -> plotspecs& { m_with = stylestr(value); return *this; }
-
-    /// Convert this plotspecs object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << m_what << " ";
-        ss << optionvaluestr("title", m_title);
-        ss << optionvaluestr("with", m_with);
-        ss << linespecs<plotspecs>::repr();
-        return ss.str();
-    }
 
 private:
     /// The what to be plotted as a gnuplot formatted string (e.g., "sin(x)").
@@ -86,6 +75,21 @@ private:
     /// The dash type of the plot as a gnuplot formatted string (e.g., "dt 2").
     std::string m_dashtype;
 };
+
+plotspecs::plotspecs(std::string what) : m_what(what)
+{
+    with(DEFAULT_STYLE);
+}
+
+auto plotspecs::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << m_what << " ";
+    ss << optionvaluestr("title", m_title);
+    ss << optionvaluestr("with", m_with);
+    ss << linespecs<plotspecs>::repr();
+    return ss.str();
+}
 
 } // namespace internal
 } // namespace Capim

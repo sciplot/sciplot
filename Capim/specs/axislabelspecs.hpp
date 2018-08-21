@@ -38,13 +38,10 @@ class axislabelspecs : public fontspecs<axislabelspecs>
 {
 public:
     /// Construct a default axislabelspecs instance.
-    axislabelspecs()
-    {
-        // Set default values (not exactly the same as official gnuplot for aesthetics reasons)
-        fontname(DEFAULT_FONTNAME);
-        fontsize(DEFAULT_FONTSIZE);
-        textcolor(DEFAULT_TEXTCOLOR);
-    }
+    axislabelspecs();
+
+    /// Convert this axislabelspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
     /// Set the word of the label.
     /// @param word The word of the label (e.g., "Temperature [K]")
@@ -69,19 +66,6 @@ public:
     /// Set the axis label parallel to its corresponding axis.
     auto axisparallel() -> axislabelspecs& { m_rotate = "parallel"; return *this; }
 
-    /// Convert this axislabelspecs object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << m_label << " ";
-        ss << optionvaluestr("offset", m_offset);
-        ss << fontspecs<axislabelspecs>::repr();
-        ss << optionvaluestr("textcolor", m_textcolor);
-        ss << optionstr(m_enhanced);
-        ss << optionvaluestr("rotate", m_rotate);
-        return ss.str();
-    }
-
 private:
     std::string m_label;
     std::string m_offset;
@@ -89,6 +73,25 @@ private:
     std::string m_enhanced;
     std::string m_rotate;
 };
+
+axislabelspecs::axislabelspecs()
+{
+    fontname(DEFAULT_FONTNAME);
+    fontsize(DEFAULT_FONTSIZE);
+    textcolor(DEFAULT_TEXTCOLOR);
+}
+
+auto axislabelspecs::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << m_label << " ";
+    ss << optionvaluestr("offset", m_offset);
+    ss << fontspecs<axislabelspecs>::repr();
+    ss << optionvaluestr("textcolor", m_textcolor);
+    ss << optionstr(m_enhanced);
+    ss << optionvaluestr("rotate", m_rotate);
+    return ss.str();
+}
 
 } // namespace internal
 } // namespace Capim

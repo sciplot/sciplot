@@ -41,15 +41,10 @@ class borderspecs : public linespecs<borderspecs>
 {
 public:
     /// Construct a default border instance.
-    borderspecs()
-    {
-        left();
-        bottom();
-        linecolor(DEFAULT_TEXTCOLOR);
-        linetype(1);
-        linewidth(1);
-        front();
-    }
+    borderspecs();
+
+    /// Convert this borderspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
     /// Remove all border edges from a 2d or 3d plot.
     auto clear() -> borderspecs& { m_encoding.reset(); return *this; }
@@ -119,16 +114,6 @@ public:
     /// In 3d plots, the behind method is applicable when in hidden mode.
     auto behind() -> borderspecs& { m_depth = "behind"; return *this; }
 
-    /// Convert this border object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << m_encoding.to_ulong() << " ";
-        ss << m_depth << " ";
-        ss << linespecs<borderspecs>::repr();
-        return ss.str();
-    }
-
 private:
     /// The bits encoding the active and inactive borders.
     std::bitset<13> m_encoding;
@@ -136,6 +121,25 @@ private:
     /// The placement depth of the borders.
     std::string m_depth;
 };
+
+borderspecs::borderspecs()
+{
+    left();
+    bottom();
+    linecolor(DEFAULT_TEXTCOLOR);
+    linetype(1);
+    linewidth(1);
+    front();
+}
+
+auto borderspecs::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << m_encoding.to_ulong() << " ";
+    ss << m_depth << " ";
+    ss << linespecs<borderspecs>::repr();
+    return ss.str();
+}
 
 } // namespace internal
 } // namespace Capim

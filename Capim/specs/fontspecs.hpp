@@ -39,25 +39,16 @@ class fontspecs : public specs<derivedspecs>
 {
 public:
     /// Construct a default fontspecs instance.
-    fontspecs()
-    {
-        fontname(DEFAULT_FONTNAME);
-        fontsize(DEFAULT_FONTSIZE);
-    }
+    fontspecs();
+
+    /// Convert this fontspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
     /// Set the name of the font (e.g., Helvetica, Georgia, Times).
     auto fontname(std::string name) -> derivedspecs& { m_fontname = name; return this->derived(); }
 
     /// Set the point size of the font (e.g., 10, 12, 16).
     auto fontsize(std::size_t size) -> derivedspecs& { m_fontsize = size; return this->derived(); }
-
-    /// Convert this fontspecs object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << "font '" << m_fontname << "," << m_fontsize << "'";
-        return ss.str();
-    }
 
 private:
     /// The name of the font.
@@ -66,6 +57,21 @@ private:
     /// The point size of the font.
     std::size_t m_fontsize;
 };
+
+template<typename derivedspecs>
+fontspecs<derivedspecs>::fontspecs()
+{
+    fontname(DEFAULT_FONTNAME);
+    fontsize(DEFAULT_FONTSIZE);
+}
+
+template<typename derivedspecs>
+auto fontspecs<derivedspecs>::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << "font '" << m_fontname << "," << m_fontsize << "'";
+    return ss.str();
+}
 
 } // namespace internal
 } // namespace Capim

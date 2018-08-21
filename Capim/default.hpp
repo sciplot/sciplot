@@ -33,7 +33,6 @@ namespace internal {
 
 const auto DEFAULT_PALLETE = "dark2";
 const auto DEFAULT_TEXTCOLOR = "'#404040'";
-const auto DEFAULT_GRIDCOLOR = "'#d6d7d9'";
 const auto DEFAULT_FONTNAME = "Georgia";
 const auto DEFAULT_FONTSIZE = 12;
 const auto DEFAULT_STYLE = style::lines;
@@ -41,6 +40,12 @@ const auto DEFAULT_LINEWIDTH = 2;
 const auto DEFAULT_ASPECT_RATIO = 1.618034; // golden ratio
 const auto DEFAULT_HEIGHT = 300;
 const auto DEFAULT_WIDTH = DEFAULT_HEIGHT * DEFAULT_ASPECT_RATIO;
+const auto DEFAULT_GRID_LINECOLOR = "'#d6d7d9'";
+const auto DEFAULT_GRID_LINEWIDTH = 1;
+const auto DEFAULT_GRID_LINETYPE = 1;
+const auto DEFAULT_GRID_DASHTYPE = 2;
+const auto DEFAULT_KEY_LINECOLOR = DEFAULT_GRID_LINECOLOR;
+const auto DEFAULT_KEY_LINEWIDTH = DEFAULT_LINEWIDTH;
 
 } // namespace internal
 } // namespace Capim
