@@ -48,7 +48,8 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
-    plt.gnuplot("unset grid");
+    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
+//    plt.gnuplot("unset grid");
 
 //    plt.border().clear().left().top().behind();
 

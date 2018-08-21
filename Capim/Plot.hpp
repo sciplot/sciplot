@@ -68,7 +68,7 @@ public:
         pallete(DEFAULT_PALLETE);
 
         /// The default grid style of the plot
-        grid(str("lc rgb ") + DEFAULT_GRIDCOLOR + " lt 1 dt 2 lw 1");
+//        grid(str("lc rgb ") + DEFAULT_GRIDCOLOR + " lt 1 dt 2 lw 1");
 
         /// The border style of the plot
         tics("nomirror front out scale 0.25");
@@ -100,11 +100,47 @@ public:
 
     auto border() -> borderspecs& { return m_border; }
 
-    auto gridmajor(std::string tics) -> gridspecs& { m_gridspecs_major.emplace_back(tics); return m_gridspecs_major.back(); }
+    auto gridmajor(std::string tics) -> gridspecs& { m_gridspecs_major.emplace_back(tics, true); return m_gridspecs_major.back(); }
 
-    auto gridminor(std::string tics) -> gridspecs& { m_gridspecs_minor.emplace_back(tics); return m_gridspecs_minor.back(); }
+    auto gridminor(std::string tics) -> gridspecs& { m_gridspecs_minor.emplace_back(tics, false); return m_gridspecs_minor.back(); }
 
     auto grid(std::string tics) -> gridspecs& { return gridmajor(tics); }
+
+    /// Return a grid specification object for configuring grid lines along major xtics.
+    auto xticsgrid() -> gridspecs& { return gridmajor("xtics"); }
+
+    /// Return a grid specification object for configuring grid lines along major ytics.
+    auto yticsgrid() -> gridspecs& { return gridmajor("ytics"); }
+
+    /// Return a grid specification object for configuring grid lines along major ztics.
+    auto zticsgrid() -> gridspecs& { return gridmajor("ztics"); }
+
+    /// Return a grid specification object for configuring grid lines along major rtics.
+    auto rticsgrid() -> gridspecs& { return gridmajor("rtics"); }
+
+    /// Return a grid specification object for configuring grid lines along major x2tics.
+    auto x2ticsgrid() -> gridspecs& { return gridmajor("x2tics"); }
+
+    /// Return a grid specification object for configuring grid lines along major y2tics.
+    auto y2ticsgrid() -> gridspecs& { return gridmajor("y2tics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor xtics.
+    auto minorxticsgrid() -> gridspecs& { return gridminor("mxtics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor ytics.
+    auto minoryticsgrid() -> gridspecs& { return gridminor("mytics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor ztics.
+    auto minorzticsgrid() -> gridspecs& { return gridminor("mztics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor rtics.
+    auto minorrticsgrid() -> gridspecs& { return gridminor("mrtics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor x2tics.
+    auto minorx2ticsgrid() -> gridspecs& { return gridminor("mx2tics"); }
+
+    /// Return a grid specification object for configuring grid lines along minor y2tics.
+    auto minory2ticsgrid() -> gridspecs& { return gridminor("my2tics"); }
 
     auto tics(std::string options) -> void { m_tics = options; }
 
