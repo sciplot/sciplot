@@ -48,8 +48,8 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
-    plt.grid().xtics().disable();
-    plt.grid().mxtics().linecolor("'red'");
+    plt.grid().show(false);
+    plt.grid().mxtics().linecolor("gray");
     plt.gnuplot("set mxtics 4");
 //    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
 

@@ -28,58 +28,54 @@
 // Capim includes
 #include <Capim/default.hpp>
 #include <Capim/specs/fontspecs.hpp>
-#include <Capim/specs/textspecs.hpp>
 #include <Capim/util.hpp>
 
 namespace Capim {
 namespace internal {
 
-/// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class axislabelspecs : public textspecs<axislabelspecs>
+/// The class used to specify options for font.
+template<typename derivedspecs>
+class textspecs : public fontspecs<derivedspecs>
 {
 public:
-    /// Construct a default axislabelspecs instance.
-    axislabelspecs(std::string axis);
+    /// Construct a default textspecs instance.
+    textspecs();
 
-    /// Convert this axislabelspecs object into a gnuplot formatted string.
+    /// Convert this textspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the offset of the label.
-    /// @param xval The offset along the x direction
-    /// @param yval The offset along the y direction
-    auto offset(int xval, int yval) -> axislabelspecs& { m_offset = str(xval) + "," + str(yval); return *this; }
+    /// Set the text value.
+    auto text(std::string text) -> derivedspecs& { m_text = "'" + text + "'"; return this->derived(); }
 
-    /// Set the rotation angle of the label in degrees.
-    auto rotate(double angle) -> axislabelspecs& { m_rotate = "by " + str(angle); return *this; }
+    /// Set the enhanced mode of the text.
+    auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return this->derived(); }
 
-    /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs& { m_rotate = "parallel"; return *this; }
+    /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
+    auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return this->derived(); }
 
 private:
-    /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
-    std::string m_axis;
+    /// The title word.
+    std::string m_text;
 
-    /// The offset used to move the label around.
-    std::string m_offset;
+    /// The color of the title text.
+    std::string m_color;
 
-    /// The rotation command to rotate the label around.
-    std::string m_rotate;
+    /// The enhanced mode of the text (enhanced or noenhanced)
+    std::string m_enhanced;
 };
 
-axislabelspecs::axislabelspecs(std::string axis)
-: m_axis(axis)
+template<typename derivedspecs>
+textspecs<derivedspecs>::textspecs()
 {
+    enhanced(true);
+    textcolor(DEFAULT_TEXTCOLOR);
 }
 
-auto axislabelspecs::repr() const -> std::string
+template<typename derivedspecs>
+auto textspecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << "set " + m_axis + "label ";
-    ss << textspecs<axislabelspecs>::repr();
-    ss << fontspecs<axislabelspecs>::repr();
-    ss << optionvaluestr("offset", m_offset);
-    ss << optionvaluestr("rotate", m_rotate);
-    return ss.str();
+    ss << m_text << " textcolor " << m_color << " " << m_enhanced << " ";
 }
 
 } // namespace internal

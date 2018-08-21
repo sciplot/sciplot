@@ -54,7 +54,7 @@ public:
     auto linewidth(std::size_t value) -> derivedspecs& { m_linewidth = str(value); return this->derived(); }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> derivedspecs& { m_linecolor = value; return this->derived(); }
+    auto linecolor(std::string value) -> derivedspecs& { m_linecolor = "'" + value + "'"; return this->derived(); }
 
     /// Set the dash type of the plot.
     auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = str(value); return this->derived(); }

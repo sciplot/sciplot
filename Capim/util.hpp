@@ -26,12 +26,9 @@
 #pragma once
 
 // C++ includes
-#include <cstdio>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
 
 // Ensure appropriate popen or pclose calls when compiling with MSVC
 #ifdef _MSC_VER

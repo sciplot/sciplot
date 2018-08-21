@@ -43,11 +43,8 @@ public:
     /// Convert this gridticsspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Enable the grid lines along the specified axis tics.
-    auto enable() -> gridspecsbase& { m_active = true; return *this; }
-
-    /// Disable the grid lines along the specified axis tics.
-    auto disable() -> gridspecsbase& { m_active = false; return *this; }
+    /// Set the active state of the grid lines along the specified axis tics.
+    auto show(bool value = true) -> gridspecsbase& { m_show = value; return *this; }
 
     /// Set the grid lines to be plot on the back of other plotting elements.
     auto back() -> gridspecsbase& { m_depth = "back"; return *this; }
@@ -65,8 +62,8 @@ private:
     /// The boolean flag that indicates if the grid lines are along major tics, if true, or minor tics otherwise.
     bool m_majortics;
 
-    /// The boolean flag that indicates if the grid lines for the chosen tics are active.
-    bool m_active;
+    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
+    bool m_show;
 
     /// The placement depth for the grid.
     std::string m_depth;
@@ -75,7 +72,7 @@ private:
 gridspecsbase::gridspecsbase(std::string tics, bool majortics)
 : m_tics(tics), m_majortics(majortics)
 {
-    enable();
+    show();
     back();
     linecolor(DEFAULT_GRID_LINECOLOR);
     linewidth(DEFAULT_GRID_LINEWIDTH);
@@ -85,10 +82,10 @@ gridspecsbase::gridspecsbase(std::string tics, bool majortics)
 
 auto gridspecsbase::repr() const -> std::string
 {
-    if(m_tics.empty() && !m_active)
+    if(m_tics.empty() && !m_show)
         return "unset grid";
 
-    if(m_tics.size() && !m_active)
+    if(m_tics.size() && !m_show)
         return "set grid no" + m_tics;
 
     std::stringstream ss;

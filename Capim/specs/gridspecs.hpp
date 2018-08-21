@@ -38,7 +38,7 @@ class gridspecs : public gridspecsbase
 {
 public:
     /// Construct a default gridspecs instance.
-    gridspecs();
+    gridspecs(bool active = true);
 
     /// Convert this gridspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -91,9 +91,8 @@ private:
     std::vector<gridspecsbase> m_gridticsspecs;
 };
 
-gridspecs::gridspecs() : gridspecsbase()
+gridspecs::gridspecs(bool active) : gridspecsbase("", true)
 {
-    enable();
     back();
 }
 
