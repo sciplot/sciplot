@@ -251,7 +251,7 @@ auto Plot::show() -> void
     script << commandvaluestr("set border", m_border);
     script << m_gridspecs << std::endl;
     script << commandvaluestr("set tics", m_tics);
-    script << m_key;
+    script << m_key << std::endl;
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;
@@ -319,7 +319,7 @@ auto Plot::save(std::string filename) -> void
     script << commandvaluestr("set border", m_border);
     script << m_gridspecs << std::endl;
     script << commandvaluestr("set tics", m_tics);
-    script << m_key;
+    script << m_key << std::endl;
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;

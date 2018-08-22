@@ -121,6 +121,7 @@ keyspecs::keyspecs()
     box().linetype(DEFAULT_KEY_LINETYPE);
     box().linewidth(DEFAULT_KEY_LINEWIDTH);
     box().linecolor(DEFAULT_KEY_LINECOLOR);
+    title("").fontsize(DEFAULT_KEY_FONTSIZE);
 }
 
 auto keyspecs::repr() const -> std::string

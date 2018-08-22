@@ -48,9 +48,9 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
-    plt.grid().show(false);
-    plt.grid().mxtics().linecolor("gray");
     plt.gnuplot("set mxtics 4");
+//    plt.key().box().show(false);
+    plt.key().title("Legend").textcolor("blue");
 //    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
 
 //    plt.gnuplot("unset grid");
