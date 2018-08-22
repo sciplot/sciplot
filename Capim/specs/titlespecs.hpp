@@ -27,45 +27,57 @@
 
 // Capim includes
 #include <Capim/default.hpp>
-#include <Capim/specs/fontspecs.hpp>
-#include <Capim/specs/titlespecs.hpp>
+#include <Capim/specs/textspecs.hpp>
 #include <Capim/util.hpp>
 
 namespace Capim {
 namespace internal {
 
-/// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class axislabelspecs : public titlespecs<axislabelspecs>
+/// The class used to specify options for titles.
+template<typename derivedspecs>
+class titlespecs : public textspecs<derivedspecs>
 {
 public:
-    /// Construct a default axislabelspecs instance.
-    axislabelspecs(std::string axis);
+    /// Construct a default titlespecs instance.
+    titlespecs();
 
-    /// Convert this axislabelspecs object into a gnuplot formatted string.
+    /// Convert this titlespecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs& { m_rotate = "parallel"; return *this; }
+    /// Set the text of the title.
+    auto text(std::string title) -> derivedspecs& { m_title = "'" + title + "'"; return this->derived(); }
+
+    /// Set the offset of the title element.
+    /// @param xval The offset along the x direction
+    /// @param yval The offset along the y direction
+    auto offset(int xval, int yval) -> derivedspecs& { m_offset = "offset " + str(xval) + "," + str(yval); return this->derived(); }
+
+    /// Set the rotation angle of the title element in degrees.
+    auto rotate(double angle) -> derivedspecs& { m_rotate = "by " + str(angle); return this->derived(); }
 
 private:
-    /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
-    std::string m_axis;
+    /// The title word.
+    std::string m_title;
+
+    /// The offset used to move the label around.
+    std::string m_offset;
 
     /// The rotation command to rotate the label around.
     std::string m_rotate;
 };
 
-axislabelspecs::axislabelspecs(std::string axis)
-: m_axis(axis)
+template<typename derivedspecs>
+titlespecs<derivedspecs>::titlespecs()
 {
+    text("");
 }
 
-auto axislabelspecs::repr() const -> std::string
+template<typename derivedspecs>
+auto titlespecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << "set " + m_axis + "label ";
-    ss << titlespecs<axislabelspecs>::repr();
-    ss << optionvaluestr("rotate", m_rotate);
+    ss << m_title << " " << textspecs<derivedspecs>::repr() << " ";
+    ss << optionstr(m_rotate) << optionstr(m_offset);
     return ss.str();
 }
 

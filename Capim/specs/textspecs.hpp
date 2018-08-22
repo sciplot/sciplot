@@ -33,7 +33,7 @@
 namespace Capim {
 namespace internal {
 
-/// The class used to specify options for font.
+/// The class used to specify options for text elements.
 template<typename derivedspecs>
 class textspecs : public fontspecs<derivedspecs>
 {
@@ -44,9 +44,6 @@ public:
     /// Convert this textspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the text value.
-    auto text(std::string text) -> derivedspecs& { m_text = "'" + text + "'"; return this->derived(); }
-
     /// Set the enhanced mode of the text.
     auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return this->derived(); }
 
@@ -54,9 +51,6 @@ public:
     auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return this->derived(); }
 
 private:
-    /// The title word.
-    std::string m_text;
-
     /// The color of the title text.
     std::string m_color;
 
@@ -75,7 +69,9 @@ template<typename derivedspecs>
 auto textspecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << m_text << " textcolor " << m_color << " " << m_enhanced << " ";
+    ss << m_enhanced << " textcolor " << m_color << " ";
+    ss << fontspecs<derivedspecs>::repr();
+    return ss.str();
 }
 
 } // namespace internal

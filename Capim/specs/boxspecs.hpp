@@ -27,46 +27,43 @@
 
 // Capim includes
 #include <Capim/default.hpp>
-#include <Capim/specs/fontspecs.hpp>
-#include <Capim/specs/titlespecs.hpp>
+#include <Capim/specs/linespecs.hpp>
 #include <Capim/util.hpp>
 
 namespace Capim {
 namespace internal {
 
-/// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class axislabelspecs : public titlespecs<axislabelspecs>
+/// The class used to specify options for plotting elements with lines.
+template<typename derivedspecs>
+class boxspecs : public linespecs<derivedspecs>
 {
 public:
-    /// Construct a default axislabelspecs instance.
-    axislabelspecs(std::string axis);
+    /// Construct a default boxspecs instance.
+    boxspecs();
 
-    /// Convert this axislabelspecs object into a gnuplot formatted string.
+    /// Convert this boxspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs& { m_rotate = "parallel"; return *this; }
+    /// Set the active state of the box.
+    auto show(bool value = true) -> derivedspecs& { m_show = value; return this->derived(); }
 
 private:
-    /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
-    std::string m_axis;
-
-    /// The rotation command to rotate the label around.
-    std::string m_rotate;
+    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
+    bool m_show;
 };
 
-axislabelspecs::axislabelspecs(std::string axis)
-: m_axis(axis)
+template<typename derivedspecs>
+boxspecs<derivedspecs>::boxspecs()
 {
+    show();
 }
 
-auto axislabelspecs::repr() const -> std::string
+template<typename derivedspecs>
+auto boxspecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << "set " + m_axis + "label ";
-    ss << titlespecs<axislabelspecs>::repr();
-    ss << optionvaluestr("rotate", m_rotate);
-    return ss.str();
+    ss << "box " << linespecs<derivedspecs>::repr() << " ";
+    return m_show ? ss.str() : "nobox";
 }
 
 } // namespace internal

@@ -30,6 +30,7 @@
 #include <Capim/specs/axislabelspecs.hpp>
 #include <Capim/specs/borderspecs.hpp>
 #include <Capim/specs/gridspecs.hpp>
+#include <Capim/specs/keyspecs.hpp>
 #include <Capim/specs/linespecs.hpp>
 #include <Capim/specs/plotspecs.hpp>
 #include <Capim/util.hpp>
@@ -77,7 +78,7 @@ public:
     auto tics(std::string options) -> void { m_tics = options; }
 
     /// Set the key of the plot and return a reference to the corresponding specs object.
-    auto key(std::string options) -> void { m_key = options; }
+    auto key() -> keyspecs& { return m_key; }
 
     /// Set the number of sample points for analytical plots.
     auto samples(std::size_t value) -> void { m_samples = str(value); }
@@ -100,7 +101,7 @@ public:
     auto save(std::string filename) -> void;
 
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
-    auto gnuplot(std::string command) -> void { m_gnuplot << command; }
+    auto gnuplot(std::string command) -> void { m_gnuplot << command << std::endl; }
 
 private:
     /// The size of the plot as a gnuplot formatted string (e.g., "size 400,300")
@@ -133,8 +134,8 @@ private:
     /// The border style of the plot
     std::string m_tics;
 
-    /// The boolean flag name of the gnuplot pallete to be used
-    std::string m_key;
+    /// The key specs of the plot
+    keyspecs m_key;
 
     /// The number of sample points for functions
     std::string m_samples;
@@ -183,7 +184,7 @@ Plot::Plot()
     tics("nomirror front out scale 0.25");
 
     /// The boolean flag name of the gnuplot pallete to be used
-    key(str("opaque tc rgb '") + DEFAULT_TEXTCOLOR + "' box lc rgb '" + DEFAULT_KEY_LINECOLOR + "'");
+//    key(str("opaque tc rgb '") + DEFAULT_TEXTCOLOR + "' box lc rgb '" + DEFAULT_KEY_LINECOLOR + "'");
 
 }
 
@@ -245,12 +246,12 @@ auto Plot::show() -> void
     script << "#==============================================================================" << std::endl;
     script << commandvaluestr("set xrange", m_xrange);
     script << commandvaluestr("set yrange", m_yrange);
-//    script << m_xlabel << std::endl;
-//    script << m_ylabel << std::endl;
+    script << m_xlabel << std::endl;
+    script << m_ylabel << std::endl;
     script << commandvaluestr("set border", m_border);
     script << m_gridspecs << std::endl;
     script << commandvaluestr("set tics", m_tics);
-    script << commandvaluestr("set key", m_key);
+    script << m_key;
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;
@@ -313,12 +314,12 @@ auto Plot::save(std::string filename) -> void
     script << "#==============================================================================" << std::endl;
     script << commandvaluestr("set xrange", m_xrange);
     script << commandvaluestr("set yrange", m_yrange);
-//    script << m_xlabel << std::endl;
-//    script << m_ylabel << std::endl;
+    script << m_xlabel << std::endl;
+    script << m_ylabel << std::endl;
     script << commandvaluestr("set border", m_border);
     script << m_gridspecs << std::endl;
     script << commandvaluestr("set tics", m_tics);
-    script << commandvaluestr("set key", m_key);
+    script << m_key;
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;

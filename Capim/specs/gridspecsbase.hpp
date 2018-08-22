@@ -37,10 +37,10 @@ namespace internal {
 class gridspecsbase : public linespecs<gridspecsbase>
 {
 public:
-    /// Construct a default gridticsspecs instance.
+    /// Construct a default gridspecsbase instance.
     gridspecsbase(std::string tics = "", bool majortics = true);
 
-    /// Convert this gridticsspecs object into a gnuplot formatted string.
+    /// Convert this gridspecsbase object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the active state of the grid lines along the specified axis tics.
