@@ -45,15 +45,15 @@ public:
     auto repr() const -> std::string;
 
     /// Set the text of the title.
-    auto text(std::string title) -> derivedspecs& { m_title = "'" + title + "'"; return this->derived(); }
+    auto text(std::string title) -> derivedspecs& { m_title = "'" + title + "'"; return static_cast<derivedspecs&>(*this); }
 
     /// Set the offset of the title element.
     /// @param xval The offset along the x direction
     /// @param yval The offset along the y direction
-    auto offset(int xval, int yval) -> derivedspecs& { m_offset = "offset " + str(xval) + "," + str(yval); return this->derived(); }
+    auto offset(int xval, int yval) -> derivedspecs& { m_offset = "offset " + str(xval) + "," + str(yval); return static_cast<derivedspecs&>(*this); }
 
     /// Set the rotation angle of the title element in degrees.
-    auto rotate(double angle) -> derivedspecs& { m_rotate = "by " + str(angle); return this->derived(); }
+    auto rotate(double angle) -> derivedspecs& { m_rotate = "by " + str(angle); return static_cast<derivedspecs&>(*this); }
 
 private:
     /// The title word.

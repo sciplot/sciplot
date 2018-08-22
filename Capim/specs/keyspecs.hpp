@@ -26,9 +26,9 @@
 #pragma once
 
 // Capim includes
-#include <Capim/specs/boxspecs.hpp>
 #include <Capim/specs/fontspecs.hpp>
 #include <Capim/specs/linespecs.hpp>
+#include <Capim/specs/showspecs.hpp>
 #include <Capim/specs/textspecs.hpp>
 #include <Capim/specs/titlespecs.hpp>
 #include <Capim/util.hpp>
@@ -36,14 +36,23 @@
 namespace Capim {
 namespace internal {
 
-class keytitle : public titlespecs<keytitle>
+/// The class used to setup the specs of the key title.
+class keytitlespecs : public titlespecs<keytitlespecs>
 {};
 
-class keybox : public boxspecs<keybox>
-{};
+/// The class used to setup the specs of the key box lines.
+class keyboxspecs : public linespecs<keyboxspecs>, public showspecs<keyboxspecs>
+{
+    auto repr() const -> std::string
+    {
+        std::stringstream ss;
+        ss << showspecs<keyboxspecs>::repr() << "box " << linespecs<keyboxspecs>::repr();
+        return ss.str();
+    }
+};
 
 /// The class used to specify options for key (legend).
-class keyspecs : public textspecs<keyspecs>
+class keyspecs : public textspecs<keyspecs>, public showspecs<keyspecs>
 {
 public:
     /// Construct a default keyspecs instance.
@@ -52,14 +61,14 @@ public:
     /// Convert this gridticsspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set `true` to display the key, `false` to hide it.
-    auto show(bool value = true) -> keyspecs& { m_active = value ? "on" : "off"; return *this; }
-
     /// Set the key to be displayed inside the graph's border.
     auto inside() -> keyspecs& { m_placement = "inside"; return *this; }
 
     /// Set the key to be displayed outside the graph's border.
     auto outside() -> keyspecs& { m_placement = "outside"; return *this; }
+
+    /// Set the key fram to be opaque or not, so that no plot element obstructs it.
+    auto opaque(bool value = true) -> keyspecs& { m_opaque = value ? "opaque" : "noopaque"; return *this; }
 
     /// Set the titles to be displayed one on top of each other (along the vertical).
     auto vertical() -> keyspecs& { m_alignment = "vertical"; return *this; }
@@ -74,47 +83,57 @@ public:
     auto rightjustified() -> keyspecs& { m_justification = "Right"; return *this; }
 
     /// Enable or disable the box surrounding the key and return a specs object for its further setup.
-    auto box() -> keybox& { return m_box; }
+    auto box() -> keyboxspecs& { return m_box; }
 
     /// Set the title of the key and return a specs object for its further setup.
-    auto title(std::string text) -> keytitle& { m_title.text(text); return m_title; }
+    auto title(std::string text) -> keytitlespecs& { m_title.text(text); return m_title; }
 
 private:
-    /// The string determining if the key is displayed or not (on or off).
-    std::string m_active;
-
     /// The place where the key is displayed (inside or outside the graph).
     std::string m_placement;
 
     /// The alignment of the titles (either along the horizontal or vertical).
     std::string m_alignment;
 
+    /// The alignment of the titles (either along the horizontal or vertical).
+    std::string m_opaque;
+
     /// The justification mode of the titles in the key (Left or Right gnuplot options).
     std::string m_justification;
 
     /// The specs of the surrounding box of the key.
-    bool m_boxed;
-
-    /// The specs of the surrounding box of the key.
-    keybox m_box;
+    keyboxspecs m_box;
 
     /// The title of the label.
-    keytitle m_title;
+    keytitlespecs m_title;
 };
 
 keyspecs::keyspecs()
 {
-//    righttop();
     inside();
-    leftjustified();
-    box().linecolor(DEFAULT_GRID_LINECOLOR);
-    box().linetype(DEFAULT_GRID_LINETYPE);
-    box().linewidth(DEFAULT_LINEWIDTH);
+    vertical();
+    opaque();
+    rightjustified();
+    fontname(DEFAULT_KEY_FONTNAME);
+    fontsize(DEFAULT_KEY_FONTSIZE);
+    box().show();
+    box().linecolor(DEFAULT_KEY_LINECOLOR);
+    box().linetype(DEFAULT_KEY_LINETYPE);
+    box().linewidth(DEFAULT_KEY_LINEWIDTH);
+    box().linecolor(DEFAULT_KEY_LINECOLOR);
 }
 
 auto keyspecs::repr() const -> std::string
 {
+    if(showspecs<keyspecs>::repr() == "no")
+        return "unset key";
+
     std::stringstream ss;
+    ss << "set key " << m_placement << " " << m_alignment << " " << m_justification << " ";
+    ss << textspecs<keyspecs>::repr() << " ";
+    ss << m_opaque << " ";
+    ss << m_box << " ";
+    ss << "title " << m_title << " ";
     return ss.str();
 }
 

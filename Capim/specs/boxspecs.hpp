@@ -45,7 +45,7 @@ public:
     auto repr() const -> std::string;
 
     /// Set the active state of the box.
-    auto show(bool value = true) -> derivedspecs& { m_show = value; return this->derived(); }
+    auto show(bool value = true) -> derivedspecs& { m_show = value; return static_cast<derivedspecs&>(*this); }
 
 private:
     /// The boolean flag that indicates if the grid lines for the chosen tics are shown.

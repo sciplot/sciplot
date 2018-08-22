@@ -26,30 +26,41 @@
 #pragma once
 
 // Capim includes
-#include <Capim/enums.hpp>
+#include <Capim/specs/specs.hpp>
 
 namespace Capim {
 namespace internal {
 
-const auto DEFAULT_PALLETE = "dark2";
-const auto DEFAULT_TEXTCOLOR = "#404040";
-const auto DEFAULT_FONTNAME = "Georgia";
-const auto DEFAULT_FONTSIZE = 12;
-const auto DEFAULT_STYLE = style::lines;
-const auto DEFAULT_LINEWIDTH = 2;
-const auto DEFAULT_ASPECT_RATIO = 1.618034; // golden ratio
-const auto DEFAULT_HEIGHT = 300;
-const auto DEFAULT_WIDTH = DEFAULT_HEIGHT * DEFAULT_ASPECT_RATIO;
-const auto DEFAULT_GRID_LINECOLOR = "#d6d7d9";
-const auto DEFAULT_GRID_LINEWIDTH = 1;
-const auto DEFAULT_GRID_LINETYPE = 1;
-const auto DEFAULT_GRID_DASHTYPE = 2;
-const auto DEFAULT_KEY_TEXTCOLOR = DEFAULT_TEXTCOLOR;
-const auto DEFAULT_KEY_LINECOLOR = DEFAULT_GRID_LINECOLOR;
-const auto DEFAULT_KEY_LINEWIDTH = DEFAULT_GRID_LINEWIDTH;
-const auto DEFAULT_KEY_LINETYPE = 1;
-const auto DEFAULT_KEY_FONTNAME = DEFAULT_FONTNAME;
-const auto DEFAULT_KEY_FONTSIZE = 10;
+/// The class used to specify if a plotting element is shown or not.
+template<typename derivedspecs>
+class showspecs : virtual public specs<derivedspecs>
+{
+public:
+    /// Construct a default showspecs instance.
+    showspecs();
+
+    /// Convert this showspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
+
+    /// Set the active state of the box.
+    auto show(bool value = true) -> derivedspecs& { m_show = value; return static_cast<derivedspecs&>(*this); }
+
+private:
+    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
+    bool m_show;
+};
+
+template<typename derivedspecs>
+showspecs<derivedspecs>::showspecs()
+{
+    show();
+}
+
+template<typename derivedspecs>
+auto showspecs<derivedspecs>::repr() const -> std::string
+{
+    return m_show ? "" : "no";
+}
 
 } // namespace internal
 } // namespace Capim

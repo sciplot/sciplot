@@ -184,7 +184,7 @@ Plot::Plot()
     tics("nomirror front out scale 0.25");
 
     /// The boolean flag name of the gnuplot pallete to be used
-//    key(str("opaque tc rgb '") + DEFAULT_TEXTCOLOR + "' box lc rgb '" + DEFAULT_KEY_LINECOLOR + "'");
+//    gnuplot("set key " + str("opaque tc rgb '") + DEFAULT_TEXTCOLOR + "' box lc rgb '" + DEFAULT_KEY_LINECOLOR + "'");
 
 }
 

@@ -35,7 +35,7 @@ namespace internal {
 
 /// The specifications for a line plot.
 template<typename derivedspecs>
-class linespecs : public specs<derivedspecs>
+class linespecs : virtual public specs<derivedspecs>
 {
 public:
     /// Construct a default linespecs instance.
@@ -45,19 +45,19 @@ public:
     auto repr() const -> std::string;
 
     /// Set the line style of the plot.
-    auto linestyle(std::size_t value) -> derivedspecs& { m_linestyle = str(value); return this->derived(); }
+    auto linestyle(std::size_t value) -> derivedspecs& { m_linestyle = str(value); return static_cast<derivedspecs&>(*this); }
 
     /// Set the line type of the plot.
-    auto linetype(std::size_t value) -> derivedspecs& { m_linetype = str(value); return this->derived(); }
+    auto linetype(std::size_t value) -> derivedspecs& { m_linetype = str(value); return static_cast<derivedspecs&>(*this); }
 
     /// Set the line width of the plot.
-    auto linewidth(std::size_t value) -> derivedspecs& { m_linewidth = str(value); return this->derived(); }
+    auto linewidth(std::size_t value) -> derivedspecs& { m_linewidth = str(value); return static_cast<derivedspecs&>(*this); }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> derivedspecs& { m_linecolor = "'" + value + "'"; return this->derived(); }
+    auto linecolor(std::string value) -> derivedspecs& { m_linecolor = "'" + value + "'"; return static_cast<derivedspecs&>(*this); }
 
     /// Set the dash type of the plot.
-    auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = str(value); return this->derived(); }
+    auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = str(value); return static_cast<derivedspecs&>(*this); }
 
 private:
     /// The line style of the plot (e.g., "ls 2").

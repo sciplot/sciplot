@@ -45,10 +45,10 @@ public:
     auto repr() const -> std::string;
 
     /// Set the enhanced mode of the text.
-    auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return this->derived(); }
+    auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return static_cast<derivedspecs&>(*this); }
 
     /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
-    auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return this->derived(); }
+    auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return static_cast<derivedspecs&>(*this); }
 
 private:
     /// The color of the title text.
