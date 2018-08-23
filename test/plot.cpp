@@ -46,17 +46,19 @@ TEST_CASE("plotting tests", "[plot]")
     std::vector<double> x = {1,2,3,4,5,6};
     std::vector<double> y = {1,2,2,3,3,4};
 
-    plt.pallete("parula");
+    plt.pallete("dark2");
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
-    plt.gnuplot("set mxtics 4");
+//    plt.gnuplot("set mxtics 4");
 //    plt.legend().box().show(false);
-    plt.legend().title("{/:Bold Legend}").fontsize(10);
+//    plt.legend().title("{/:Bold Legend}").fontsize(10);
 //    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
 
 //    plt.gnuplot("unset grid");
 
 //    plt.border().clear().left().top().behind();
+
+    plt.legend().titles().leftsiderightjustified();
 
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)

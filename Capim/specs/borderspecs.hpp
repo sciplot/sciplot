@@ -135,8 +135,7 @@ borderspecs::borderspecs()
 auto borderspecs::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << m_encoding.to_ulong() << " ";
-    ss << m_depth << " ";
+    ss << "set border " << m_encoding.to_ulong() << " " << m_depth << " ";
     ss << linespecs<borderspecs>::repr();
     return ss.str();
 }

@@ -184,9 +184,6 @@ Plot::Plot()
     // Set default values
     size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     pallete(DEFAULT_PALLETE);
-
-    /// The border style of the plot
-//    tics("nomirror front out scale 0.25");
 }
 
 Plot::~Plot()
@@ -203,8 +200,7 @@ auto Plot::plot(std::string what) -> plotspecs&
     // Save the draw arguments for this x,y data
     m_plotspecs.emplace_back(what);
 
-    // Set the default line style specification for this drawing
-    // Desired behavior is 1, 2, 3 (incrementing as new drawings are plotted)
+    // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
     m_plotspecs.back().linestyle(m_plotspecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
@@ -240,7 +236,9 @@ auto Plot::show() -> void
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << "set terminal qt size " << m_size << " enhanced font 'Georgia,10' persist" << std::endl;
+    script << "set termoption enhanced" << std::endl;
+    script << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
+    script << "set size ratio " << 1.0/DEFAULT_WIDTH_HEIGHT_RATIO << std::endl;
 
     script << "#==============================================================================" << std::endl;
     script << "# SETUP COMMANDS" << std::endl;
@@ -249,7 +247,7 @@ auto Plot::show() -> void
     script << commandvaluestr("set yrange", m_yrange);
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
-    script << commandvaluestr("set border", m_border);
+    script << m_border << std::endl;
     script << m_gridspecs << std::endl;
     script << m_tics << std::endl;
     script << m_legend << std::endl;
@@ -278,7 +276,7 @@ auto Plot::show() -> void
     // Flush the script file to avoid crashes with gnuplot
     script.flush();
 
-    std::string command = ("gnuplot " + scriptname);
+    std::string command = ("gnuplot -persistent " + scriptname);
     pipe = popen(command.c_str(), "w");
 
     // Remove the no longer needed show{#}.plt file
@@ -303,7 +301,7 @@ auto Plot::save(std::string filename) -> void
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << "set terminal " << extension << " size " << m_size << " enhanced rounded font 'Georgia,12'" << std::endl;
+    script << "set terminal " << extension << " size " << m_size << " enhanced rounded font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
 
     script << "#==============================================================================" << std::endl;
     script << "# OUTPUT" << std::endl;
@@ -317,7 +315,7 @@ auto Plot::save(std::string filename) -> void
     script << commandvaluestr("set yrange", m_yrange);
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
-    script << commandvaluestr("set border", m_border);
+    script << m_border << std::endl;
     script << m_gridspecs << std::endl;
     script << m_tics << std::endl;
     script << m_legend << std::endl;
