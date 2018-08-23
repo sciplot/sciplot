@@ -89,8 +89,8 @@ ticspecs::ticspecs()
     front();
     outside();
     mirror(false);
-    scalemajor(0.25);
-    scaleminor(1.0);
+    scalemajor(0.50);
+    scaleminor(0.25);
 }
 
 auto ticspecs::repr() const -> std::string
