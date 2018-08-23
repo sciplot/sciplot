@@ -23,45 +23,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Catch includes
-#include "catch.hpp"
+#pragma once
 
 // Capim includes
-#include <Capim/Plot.hpp>
-using namespace Capim;
+#include <Capim/specs/specs.hpp>
 
-TEST_CASE("plotting tests", "[plot]")
+namespace Capim {
+namespace internal {
+
+/// The class used to specify options for front or back placement of plot elements..
+template<typename derivedspecs>
+class depthspecs : virtual public specs<derivedspecs>
 {
-    SECTION("########## AUXILIARY FUNCTIONS ##########")
-    {
-        REQUIRE(titlestr("Something") == "'Something'");
-        REQUIRE(titlestr("columnheader") == "columnheader");
+public:
+    /// Construct a default depthspecs instance.
+    depthspecs();
 
-        REQUIRE(optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(optionvaluestr("ls", "") == "");
-    }
+    /// Convert this depthspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
-    Plot plt;
+    /// Set the plot element to be displayed on the front of all plot elements.
+    auto front() -> derivedspecs& { m_depth = "front"; return static_cast<derivedspecs&>(*this); }
 
-    std::vector<double> x = {1,2,3,4,5,6};
-    std::vector<double> y = {1,2,2,3,3,4};
+    /// Set the plot element to be displayed on the back of all plot elements.
+    auto back() -> derivedspecs& { m_depth = "back"; return static_cast<derivedspecs&>(*this); }
 
-    plt.pallete("parula");
-    plt.xlabel("Temperature [K]");
-    plt.ylabel("Amount [mol]");
-    plt.gnuplot("set mxtics 4");
-//    plt.legend().box().show(false);
-    plt.legend().title("{/:Bold Legend}").fontsize(10);
-//    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
+private:
+    /// The depth of the plot element (front or back) if applicable.
+    std::string m_depth;
+};
 
-//    plt.gnuplot("unset grid");
-
-//    plt.border().clear().left().top().behind();
-
-    plt.xrange(0, 3);
-    for(auto i = 1; i <= 7; ++i)
-        plt.plot(str(i) + " * sin(x)").title("line_" + str(i)).dashtype(i);
-
-    plt.show();
-    plt.save("xy.svg");
+template<typename derivedspecs>
+depthspecs<derivedspecs>::depthspecs()
+{
+    back();
 }
+
+template<typename derivedspecs>
+auto depthspecs<derivedspecs>::repr() const -> std::string
+{
+    return m_depth;
+}
+
+} // namespace internal
+} // namespace Capim

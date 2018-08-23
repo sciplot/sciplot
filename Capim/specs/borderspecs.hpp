@@ -103,14 +103,14 @@ public:
     /// Set the border for polar plot.
     auto polar() -> borderspecs& { m_encoding.set(2); return *this; }
 
-    /// Set the border to be printed on the front of all plot elements.
+    /// Set the border to be displayed on the front of all plot elements.
     auto front() -> borderspecs& { m_depth = "front"; return *this; }
 
-    /// Set the border to be printed on the back of all plot elements.
+    /// Set the border to be displayed on the back of all plot elements.
     auto back() -> borderspecs& { m_depth = "back"; return *this; }
 
-    /// Set the border to be printed behind of all plot elements. 
-    /// Methods behind and back have identical effect in 2d plots. 
+    /// Set the border to be displayed behind of all plot elements.
+    /// Methods behind and back have identical effect in 2d plots.
     /// In 3d plots, the behind method is applicable when in hidden mode.
     auto behind() -> borderspecs& { m_depth = "behind"; return *this; }
 

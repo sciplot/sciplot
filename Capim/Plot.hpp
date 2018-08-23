@@ -25,14 +25,18 @@
 
 #pragma once
 
+// C++ includes
+#include <vector>
+
 // Capim includes
 #include <Capim/palletes.hpp>
 #include <Capim/specs/axislabelspecs.hpp>
 #include <Capim/specs/borderspecs.hpp>
 #include <Capim/specs/gridspecs.hpp>
-#include <Capim/specs/keyspecs.hpp>
+#include <Capim/specs/legendspecs.hpp>
 #include <Capim/specs/linespecs.hpp>
 #include <Capim/specs/plotspecs.hpp>
+#include <Capim/specs/ticspecs.hpp>
 #include <Capim/util.hpp>
 
 namespace Capim {
@@ -75,10 +79,10 @@ public:
     auto grid() -> gridspecs& { return m_gridspecs; }
 
     /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics(std::string options) -> void { m_tics = options; }
+    auto tics() -> ticspecs& { return m_tics; }
 
-    /// Set the key of the plot and return a reference to the corresponding specs object.
-    auto key() -> keyspecs& { return m_key; }
+    /// Set the legend of the plot and return a reference to the corresponding specs object.
+    auto legend() -> legendspecs& { return m_legend; }
 
     /// Set the number of sample points for analytical plots.
     auto samples(std::size_t value) -> void { m_samples = str(value); }
@@ -131,11 +135,11 @@ private:
     /// The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
     gridspecs m_gridspecs;
 
-    /// The border style of the plot
-    std::string m_tics;
+    /// The specs of the tics of the plot
+    ticspecs m_tics;
 
-    /// The key specs of the plot
-    keyspecs m_key;
+    /// The legend specs of the plot
+    legendspecs m_legend;
 
     /// The number of sample points for functions
     std::string m_samples;
@@ -149,8 +153,8 @@ private:
     /// The label of the z-axis
     axislabelspecs m_zlabel;
 
-    /// The drawing options for each draw call
-    std::vector<plotspecs> m_drawings;
+    /// The plot specs for each call to gnuplot plot function
+    std::vector<plotspecs> m_plotspecs;
 
     /// The string stream containing gnuplot custom commands
     std::stringstream m_gnuplot;
@@ -174,18 +178,15 @@ Plot::Plot()
     // Increment the counter
     ++m_counter;
 
+    // Open the file where provided data is dumped for plotting
     m_filedata.open(m_filename);
 
-    // Set default values (not exactly the same as official gnuplot for aesthetics reasons)
+    // Set default values
     size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     pallete(DEFAULT_PALLETE);
 
     /// The border style of the plot
-    tics("nomirror front out scale 0.25");
-
-    /// The boolean flag name of the gnuplot pallete to be used
-//    gnuplot("set key " + str("opaque tc rgb '") + DEFAULT_TEXTCOLOR + "' box lc rgb '" + DEFAULT_KEY_LINECOLOR + "'");
-
+//    tics("nomirror front out scale 0.25");
 }
 
 Plot::~Plot()
@@ -200,14 +201,14 @@ Plot::~Plot()
 auto Plot::plot(std::string what) -> plotspecs&
 {
     // Save the draw arguments for this x,y data
-    m_drawings.emplace_back(what);
+    m_plotspecs.emplace_back(what);
 
     // Set the default line style specification for this drawing
     // Desired behavior is 1, 2, 3 (incrementing as new drawings are plotted)
-    m_drawings.back().linestyle(m_drawings.size());
+    m_plotspecs.back().linestyle(m_plotspecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
-    return m_drawings.back();
+    return m_plotspecs.back();
 }
 
 template<typename X, typename Y>
@@ -250,8 +251,8 @@ auto Plot::show() -> void
     script << m_ylabel << std::endl;
     script << commandvaluestr("set border", m_border);
     script << m_gridspecs << std::endl;
-    script << commandvaluestr("set tics", m_tics);
-    script << m_key << std::endl;
+    script << m_tics << std::endl;
+    script << m_legend << std::endl;
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;
@@ -265,11 +266,11 @@ auto Plot::show() -> void
     script << "plot ";
 
     // The number of things to draw in the plot
-    const auto n = m_drawings.size();
+    const auto n = m_plotspecs.size();
 
     // Plot in the same figure all those given drawing specs
     for(auto i = 0; i < n; ++i)
-        script << m_drawings[i] << (i < n - 1 ? ", " : "");
+        script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
 
     // Add an empty line at the end
     script << std::endl;
@@ -318,8 +319,8 @@ auto Plot::save(std::string filename) -> void
     script << m_ylabel << std::endl;
     script << commandvaluestr("set border", m_border);
     script << m_gridspecs << std::endl;
-    script << commandvaluestr("set tics", m_tics);
-    script << m_key << std::endl;
+    script << m_tics << std::endl;
+    script << m_legend << std::endl;
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;
@@ -333,11 +334,11 @@ auto Plot::save(std::string filename) -> void
     script << "plot ";
 
     // The number of things to draw in the plot
-    const auto n = m_drawings.size();
+    const auto n = m_plotspecs.size();
 
     // Plot in the same figure all those given drawing specs
     for(auto i = 0; i < n; ++i)
-        script << m_drawings[i] << (i < n - 1 ? ", " : "");
+        script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
 
     // Add an empty line at the end
     script << std::endl;

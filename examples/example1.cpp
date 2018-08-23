@@ -23,48 +23,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
 // Capim includes
-#include <Capim/default.hpp>
-#include <Capim/specs/linespecs.hpp>
-#include <Capim/util.hpp>
+#include <Capim/Plot.hpp>
+using namespace Capim;
 
-namespace Capim {
-namespace internal {
+// Capim example includes
+#include <examples/bessel.hpp>
+using namespace Capim::bessel;
 
-/// The class used to specify options for plotting elements with lines.
-template<typename derivedspecs>
-class boxspecs : public linespecs<derivedspecs>
+int main(int argc, char **argv)
 {
-public:
-    /// Construct a default boxspecs instance.
-    boxspecs();
+    Plot plt;
 
-    /// Convert this boxspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    plt.xlabel("x");
+    plt.ylabel("J_v(x)");
 
-    /// Set the active state of the box.
-    auto show(bool value = true) -> derivedspecs& { m_show = value; return static_cast<derivedspecs&>(*this); }
+    plt.plot(x, j0).title("J_0").dashtype(1);
+    plt.plot(x, j1).title("J_1").dashtype(2);
+    plt.plot(x, j2).title("J_2").dashtype(3);
+    plt.plot(x, j3).title("J_3").dashtype(4);
+    plt.plot(x, j4).title("J_4").dashtype(5);
+    plt.plot(x, j5).title("J_5").dashtype(6);
+    plt.plot(x, j6).title("J_6").dashtype(7);
 
-private:
-    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
-    bool m_show;
-};
-
-template<typename derivedspecs>
-boxspecs<derivedspecs>::boxspecs()
-{
-    show();
+    plt.show();
 }
-
-template<typename derivedspecs>
-auto boxspecs<derivedspecs>::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << "box " << linespecs<derivedspecs>::repr() << " ";
-    return m_show ? ss.str() : "nobox";
-}
-
-} // namespace internal
-} // namespace Capim

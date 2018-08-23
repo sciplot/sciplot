@@ -31,7 +31,7 @@
 namespace Capim {
 namespace internal {
 
-/// The class used to specify if a plotting element is shown or not.
+/// The class used to specify if a plot element is shown or not.
 template<typename derivedspecs>
 class showspecs : virtual public specs<derivedspecs>
 {
