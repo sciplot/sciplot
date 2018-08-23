@@ -36,8 +36,8 @@
 namespace Capim {
 namespace internal {
 
-/// The class used to setup the specs of the legend title.
-class legendtitlespecs : public titlespecs<legendtitlespecs>
+/// The class used to setup the specs of the legend header title.
+class legendheaderspecs : public titlespecs<legendheaderspecs>
 {};
 
 /// The class used to setup the specs of the legend border lines.
@@ -45,24 +45,64 @@ class legendborderspecs : public linespecs<legendborderspecs>, public showspecs<
 {
 public:
     /// Construct a default legendborderspecs object.
-    legendborderspecs()
-    {
-        linecolor(DEFAULT_KEY_LINECOLOR);
-        linetype(DEFAULT_KEY_LINETYPE);
-        linewidth(DEFAULT_KEY_LINEWIDTH);
-        linecolor(DEFAULT_KEY_LINECOLOR);
-    }
+    legendborderspecs();
 
     /// Convert this legendborderspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string
-    {
-        if(showspecs<legendborderspecs>::repr() == "no")
-            return "nobox";
+    auto repr() const -> std::string;
+};
 
-        std::stringstream ss;
-        ss << "box " << linespecs<legendborderspecs>::repr();
-        return ss.str();
-    }
+/// The class used to setup the specs of the legend border lines.
+class legendtitlesspecs : public virtual specs<legendtitlesspecs>
+{
+public:
+    /// Construct a default legendtitlesspecs object.
+    legendtitlesspecs();
+
+    /// Convert this legendborderspecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
+
+    /// Set the titles to be displayed along the vertical, one on top of each other.
+    auto vertical() -> legendtitlesspecs& { m_alignment = "vertical"; return *this; }
+
+    /// Set the titles to be displayed along the horizontal, one next to each other.
+    auto horizontal() -> legendtitlesspecs& { m_alignment = "horizontal"; return *this; }
+
+    /// Set the legend titles to be on the left side of the their corresponding symbols (e.g., line segments, points).
+    auto leftside() -> legendtitlesspecs& { m_reverse = "noreverse"; return *this; }
+
+    /// Set the legend titles to be on the right side of the their corresponding symbols (e.g., line segments, points).
+    auto rightside() -> legendtitlesspecs& { m_reverse = "reverse"; return *this; }
+
+    /// Set the legend titles to be left justified.
+    auto leftjustified() -> legendtitlesspecs& { m_justification = "Left"; return *this; }
+
+    /// Set the legend titles to be right justified.
+    auto rightjustified() -> legendtitlesspecs& { m_justification = "Right"; return *this; }
+
+    /// Set the legend titles to be on the left side and right justified.
+    auto leftsiderightjustified() -> legendtitlesspecs& { leftside(); rightjustified(); return *this; }
+
+    /// Set the legend titles to be on the right side and left justified.
+    auto rightsideleftjustified() -> legendtitlesspecs& { rightside(); leftjustified(); return *this; }
+
+    /// Set the legend titles to be displayed in the order from first to last.
+    auto startfromfirst() -> legendtitlesspecs& { m_invert = "noinvert"; return *this; }
+
+    /// Set the legend titles to be displayed in the order from last to first.
+    auto startfromlast() -> legendtitlesspecs& { m_invert = "invert"; return *this; }
+
+private:
+    /// The alignment of the titles (either along the horizontal or vertical).
+    std::string m_alignment;
+
+    /// The reverse option for the titles (if they printed on the left or right sides within the legend).
+    std::string m_reverse;
+
+    /// The invert option of the titles (if they are printed from first to last or the other way around).
+    std::string m_invert;
+
+    /// The justification mode of the titles in the legend (Left or Right gnuplot options).
+    std::string m_justification;
 };
 
 /// The class used to specify options for legend (legend).
@@ -84,54 +124,40 @@ public:
     /// Set the legend fram to be opaque or not, so that no plot element obstructs it.
     auto opaque(bool value = true) -> legendspecs& { m_opaque = value ? "opaque" : "noopaque"; return *this; }
 
-    /// Set the titles to be displayed one on top of each other (along the vertical).
-    auto vertical() -> legendspecs& { m_alignment = "vertical"; return *this; }
-
-    /// Set the titles to be displayed one next to each other (along the horizontal).
-    auto horizontal() -> legendspecs& { m_alignment = "horizontal"; return *this; }
-
-    /// Set the titles displayed in the legend to be left justified.
-    auto leftjustified() -> legendspecs& { m_justification = "Left"; return *this; }
-
-    /// Set the titles displayed in the legend to be right justified.
-    auto rightjustified() -> legendspecs& { m_justification = "Right"; return *this; }
+    /// Return the specs object for configuring how the titles in the legend are displayed.
+    auto titles() -> legendtitlesspecs& { return m_titles; }
 
     /// Enable or disable the border surrounding the legend and return a specs object for its further setup.
     auto border() -> legendborderspecs& { return m_border; }
 
-    /// Set the title of the legend and return a specs object for its further setup.
-    auto title(std::string text) -> legendtitlespecs& { m_title.text(text); return m_title; }
+    /// Set the header title of the legend and return a specs object for its further setup.
+    auto header(std::string text) -> legendheaderspecs& { m_header.text(text); return m_header; }
 
 private:
     /// The place where the legend is displayed (inside or outside the graph).
     std::string m_placement;
 
     /// The alignment of the titles (either along the horizontal or vertical).
-    std::string m_alignment;
-
-    /// The alignment of the titles (either along the horizontal or vertical).
     std::string m_opaque;
 
-    /// The justification mode of the titles in the legend (Left or Right gnuplot options).
-    std::string m_justification;
+    /// The specs of the titles of the legend.
+    legendtitlesspecs m_titles;
 
     /// The specs of the surrounding border of the legend.
     legendborderspecs m_border;
 
     /// The title of the label.
-    legendtitlespecs m_title;
+    legendheaderspecs m_header;
 };
 
 legendspecs::legendspecs()
 {
     inside();
-    vertical();
     opaque();
-    rightjustified();
     fontname(DEFAULT_KEY_FONTNAME);
     fontsize(DEFAULT_KEY_FONTSIZE);
     border().show(false);
-    title("").fontsize(DEFAULT_KEY_FONTSIZE);
+    header("").fontsize(DEFAULT_KEY_FONTSIZE);
 }
 
 auto legendspecs::repr() const -> std::string
@@ -140,11 +166,41 @@ auto legendspecs::repr() const -> std::string
         return "unset legend";
 
     std::stringstream ss;
-    ss << "set key " << m_placement << " " << m_alignment << " " << m_justification << " ";
+    ss << "set key " << m_placement << " " << " " << m_opaque << " " << m_border << " " << m_titles << " ";
     ss << textspecs<legendspecs>::repr() << " ";
-    ss << m_opaque << " ";
-    ss << m_border << " ";
-    ss << "title " << m_title << " ";
+    ss << "title " << m_header;
+    return ss.str();
+}
+
+legendborderspecs::legendborderspecs()
+{
+    linecolor(DEFAULT_KEY_LINECOLOR);
+    linetype(DEFAULT_KEY_LINETYPE);
+    linewidth(DEFAULT_KEY_LINEWIDTH);
+    linecolor(DEFAULT_KEY_LINECOLOR);
+}
+
+auto legendborderspecs::repr() const -> std::string
+{
+    if(showspecs<legendborderspecs>::repr() == "no")
+        return "nobox";
+
+    std::stringstream ss;
+    ss << "box " << linespecs<legendborderspecs>::repr();
+    return ss.str();
+}
+
+legendtitlesspecs::legendtitlesspecs()
+{
+    vertical();
+    rightsideleftjustified();
+    startfromfirst();
+}
+
+auto legendtitlesspecs::repr() const -> std::string
+{
+    std::stringstream ss;
+    ss << m_alignment << " " << m_justification << " " << m_invert << " " << m_reverse;
     return ss.str();
 }
 
