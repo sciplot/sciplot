@@ -236,6 +236,11 @@ auto Plot::show() -> void
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;
     script << "#==============================================================================" << std::endl;
+//    script << "if(strstrt(GPVAL_TERMINALS, 'qt') > 0) {" << std::endl;
+//    script << "    set terminal qt size " << m_size << " enhanced font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "' persist" << std::endl;
+//    script << "} else {" << std::endl;
+//    script << "    set terminal x11 size " << m_size << " enhanced font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "' linewidth " << DEFAULT_LINEWIDTH << " raise replotonresize" << std::endl;
+//    script << "}" << std::endl;
     script << "set termoption enhanced" << std::endl;
     script << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
     script << "set size ratio " << 1.0/DEFAULT_WIDTH_HEIGHT_RATIO << std::endl;
