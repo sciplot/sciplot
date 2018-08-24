@@ -38,7 +38,11 @@ namespace internal {
 
 /// The class used to setup the specs of the legend header title.
 class legendheaderspecs : public titlespecs<legendheaderspecs>
-{};
+{
+public:
+    /// Construct a default legendheaderspecs object.
+    legendheaderspecs();
+};
 
 /// The class used to setup the specs of the legend border lines.
 class legendborderspecs : public linespecs<legendborderspecs>, public showspecs<legendborderspecs>
@@ -133,6 +137,24 @@ public:
     /// Set the header title of the legend and return a specs object for its further setup.
     auto header(std::string text) -> legendheaderspecs& { m_header.text(text); return m_header; }
 
+    /// Set the width increment of the legend frame.
+    auto addtowidth(double value) -> legendspecs& { m_width = value; return *this; }
+
+    /// Set the height increment of the legend frame.
+    auto addtoheight(double value) -> legendspecs& { m_height = value; return *this; }
+
+    /// Set the length of the samples in the legend.
+    auto samplelength(double value) -> legendspecs& { m_samplen = value; return *this; }
+
+    /// Set the spacing between the titles in the legend.
+    auto spacing(double value) -> legendspecs& { m_spacing = value; return *this; }
+
+    /// Set the maximum number of rows of titles in the legend.
+    auto maxrows(std::size_t value) -> legendspecs& { m_maxrows = str(value); return *this; }
+
+    /// Set the maximum number of rows of titles in the legend.
+    auto maxcols(std::size_t value) -> legendspecs& { m_maxcols = str(value); return *this; }
+
 private:
     /// The place where the legend is displayed (inside or outside the graph).
     std::string m_placement;
@@ -148,6 +170,24 @@ private:
 
     /// The title of the label.
     legendheaderspecs m_header;
+
+    /// The width increment of the legend frame.
+    double m_width;
+
+    /// The height increment of the legend frame.
+    double m_height;
+
+    /// The length of the samples in the legend.
+    double m_samplen;
+
+    /// The spacing between the titles in the legend.
+    double m_spacing;
+
+    /// The maximum number of rows of titles in the legend.
+    std::string m_maxrows = "auto";
+
+    /// The maximum number of rows of titles in the legend.
+    std::string m_maxcols = "auto";
 };
 
 legendspecs::legendspecs()
@@ -156,8 +196,10 @@ legendspecs::legendspecs()
     opaque();
     fontname(DEFAULT_KEY_FONTNAME);
     fontsize(DEFAULT_KEY_FONTSIZE);
-    border().show(false);
-    header("").fontsize(DEFAULT_KEY_FONTSIZE);
+    addtowidth(0.0);
+    addtoheight(0.0);
+    samplelength(2);
+    spacing(1.5);
 }
 
 auto legendspecs::repr() const -> std::string
@@ -166,14 +208,30 @@ auto legendspecs::repr() const -> std::string
         return "unset legend";
 
     std::stringstream ss;
-    ss << "set key " << m_placement << " " << " " << m_opaque << " " << m_border << " " << m_titles << " ";
+    ss << "set key ";
+    ss << m_placement << " " << m_opaque << " ";
+    ss << m_border << " " << m_titles << " ";
+    ss << "width " << m_width << " ";
+    ss << "height " << m_height << " ";
+    ss << "samplen " << m_samplen << " ";
+    ss << "spacing " << m_spacing << " ";
     ss << textspecs<legendspecs>::repr() << " ";
     ss << "title " << m_header;
+    ss << "maxrows " << m_maxrows << " ";
+    ss << "maxcols " << m_maxcols << " ";
     return ss.str();
+}
+
+legendheaderspecs::legendheaderspecs()
+{
+    text("");
+    fontname(DEFAULT_KEY_FONTNAME);
+    fontsize(DEFAULT_KEY_FONTSIZE);
 }
 
 legendborderspecs::legendborderspecs()
 {
+    show(false);
     linecolor(DEFAULT_KEY_LINECOLOR);
     linetype(DEFAULT_KEY_LINETYPE);
     linewidth(DEFAULT_KEY_LINEWIDTH);

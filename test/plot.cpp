@@ -49,6 +49,8 @@ TEST_CASE("plotting tests", "[plot]")
     plt.pallete("dark2");
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
+    plt.legend().maxrows(2);
+    plt.legend().maxcols(2);
 //    plt.gnuplot("set mxtics 4");
 //    plt.legend().box().show(false);
 //    plt.legend().title("{/:Bold Legend}").fontsize(10);
@@ -58,7 +60,7 @@ TEST_CASE("plotting tests", "[plot]")
 
 //    plt.border().clear().left().top().behind();
 
-    plt.legend().titles().leftsiderightjustified();
+//    plt.legend().titles().leftsiderightjustified();
 
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)
