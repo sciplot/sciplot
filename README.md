@@ -31,8 +31,10 @@ int main()
 }
 ~~~
 
+After compiling and executing this C++ application, the following figure should be produced:
+
 <p align="center">
-    <img src="art/example-sincos.svg" width=90%;" title="sincos">
+    <img src="art/example-sincos.svg" width=60%;" title="sincos">
 </p>
 
 > Do you want to change the colors? Simple - just use the `plot::pallete` method to set your preferred color pallete. For example, `plot::pallete("parula")` sets the [**parula**](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palletes and their names can be found [**here**][gnuplot-palletes]. Many thanks to [**Anna Schneider**][AnnaSchneider] for this incredible work of art!
