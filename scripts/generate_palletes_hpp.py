@@ -7,14 +7,14 @@ join = os.path.join
 # Download the git submodule gnuplot-palettes
 os.system('git submodule update --init')
 
-# The root directory of the plot project
+# The root directory of the sciplot project
 rootdir = up(up(sys.argv[0]))
 
 # The directory where gnuplot-palettes are downloaded
 palletesdir = join(rootdir, 'gnuplot-palettes')
 
-# The directory of the library plot (source dir)
-plotdir = join(rootdir, 'plot')
+# The directory of the library sciplot (source dir)
+plotdir = join(rootdir, 'sciplot')
 
 # The sorted list of pallete file names (that ends with .pal)
 filenames = [filename for filename in os.listdir(palletesdir) if filename.endswith('.pal')]
@@ -27,7 +27,7 @@ for filename in filenames:
     file = open(join(palletesdir, filename), 'r')
     palletes.append((filename[:-4], file.read()))
 
-# Open the plot/palletes.hpp file
+# Open the sciplot/palletes.hpp file
 palletes_hpp = open(join(plotdir, 'palletes.hpp'), 'w')
 
 # Print the header part of the palletes.hpp file
