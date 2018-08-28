@@ -1,11 +1,12 @@
 <p align="center">
-    <!-- <img src="art/sciplot-logo.svg" style="max-width:100%;" title="sciplot"> -->
-    <img src="art/sciplot-logo.svg" style="width:100%;" title="sciplot">
+    <img src="art/sciplot-logo.svg" width=100%;" title="sciplot">
 </p>
 
 # Overview
 
-# sciplot 
-A modern C++ plotting library powered by gnuplot
+**So, you have an amazing C++ application for which you need some plotting capability.** You have searched around, and discovered that C++ is not very famous when it comes to plotting libraries compared to other programming languages, such as Python, for example, which has the nice package **[matplotlib]**. The idea of this **sciplot project** is to enable C++ programmers to conveniently plot beautifull graphs as other high-level programming languages out there. All plotting capabilities of **sciplot** are powered by **[gnuplot]**. 
 
-In development. Currently very unstable API.
+
+
+[gnuplot]: http://gnuplot.info/
+[matplotlib]: https://matplotlib.org/

@@ -1,5 +1,5 @@
 // sciplot - a modern C++ scientific plotting library powered by gnuplot
-// https://github.com/allanleal/sciplot
+// https://github.com/sciplot/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -38,7 +38,7 @@ class gridspecs : public gridspecsbase
 {
 public:
     /// Construct a default gridspecs instance.
-    gridspecs(bool active = true);
+    gridspecs();
 
     /// Convert this gridspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -91,7 +91,7 @@ private:
     std::vector<gridspecsbase> m_gridticsspecs;
 };
 
-gridspecs::gridspecs(bool active) : gridspecsbase("", true)
+gridspecs::gridspecs() : gridspecsbase("", true)
 {
     back();
 }

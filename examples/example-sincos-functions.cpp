@@ -23,49 +23,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Catch includes
-#include <tests/catch.hpp>
-
 // sciplot includes
-#include <sciplot/plot.hpp>
+#include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-TEST_CASE("plotting tests", "[plot]")
+int main(int argc, char **argv)
 {
-    SECTION("########## AUXILIARY FUNCTIONS ##########")
-    {
-        REQUIRE(titlestr("Something") == "'Something'");
-        REQUIRE(titlestr("columnheader") == "columnheader");
-
-        REQUIRE(optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(optionvaluestr("ls", "") == "");
-    }
+    const vec x = linspace(0.0, 5.0, 200);
 
     plot plt;
 
-    std::vector<double> x = {1,2,3,4,5,6};
-    std::vector<double> y = {1,2,2,3,3,4};
+    plt.pallete("matlab");
 
-    plt.pallete("dark2");
-    plt.xlabel("Temperature [K]");
-    plt.ylabel("Amount [mol]");
-//    plt.legend().maxrows(2);
-//    plt.legend().maxcols(2);
-//    plt.gnuplot("set mxtics 4");
-//    plt.legend().box().show(false);
-//    plt.legend().title("{/:Bold Legend}").fontsize(10);
-//    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
-
-//    plt.gnuplot("unset grid");
-
-//    plt.border().clear().left().top().behind();
-
-//    plt.legend().titles().leftsiderightjustified();
-
-    plt.xrange(0, 3);
-    for(auto i = 1; i <= 7; ++i)
-        plt.draw(str(i) + " * sin(x)").title("line_" + str(i)).dashtype(i);
+    plt.draw(x, std::sin(x)).title("sin(x)").linewidth(5);
+    plt.draw(x, std::cos(x)).title("cos(x)").linewidth(5);
 
     plt.show();
-    plt.save("xy.svg");
+
+    plt.save("example-sincos-functions.pdf");
 }
+

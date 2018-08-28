@@ -33,7 +33,7 @@ palletes_hpp = open(join(plotdir, 'palletes.hpp'), 'w')
 # Print the header part of the palletes.hpp file
 print >>palletes_hpp, \
 """// sciplot - a modern C++ scientific plotting library powered by gnuplot
-// https://github.com/allanleal/sciplot
+// https://github.com/sciplot/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -65,7 +65,7 @@ print >>palletes_hpp, \
 
 namespace sciplot {
 
-/// Color palettes for gnuplot taken from https://github.com/Gnuplotting/gnuplot-palettes"""
+/// Gnuplot color palettes for sciplot adapted from https://github.com/Gnuplotting/gnuplot-palettes"""
 
 # Print the std::map with keys equal to pallete names and values as the pal file contents
 print >>palletes_hpp, 'const std::map<std::string, std::string> palletes = {'

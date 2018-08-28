@@ -1,5 +1,5 @@
 // sciplot - a modern C++ scientific plotting library powered by gnuplot
-// https://github.com/allanleal/sciplot
+// https://github.com/sciplot/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -72,7 +72,7 @@ private:
 gridspecsbase::gridspecsbase(std::string tics, bool majortics)
 : m_tics(tics), m_majortics(majortics)
 {
-    show();
+    show(false);
     back();
     linecolor(DEFAULT_GRID_LINECOLOR);
     linewidth(DEFAULT_GRID_LINEWIDTH);

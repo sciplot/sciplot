@@ -1,5 +1,5 @@
 // sciplot - a modern C++ scientific plotting library powered by gnuplot
-// https://github.com/allanleal/sciplot
+// https://github.com/sciplot/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //

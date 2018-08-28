@@ -1,5 +1,5 @@
 // sciplot - a modern C++ scientific plotting library powered by gnuplot
-// https://github.com/allanleal/sciplot
+// https://github.com/sciplot/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -26,6 +26,8 @@
 #pragma once
 
 // C++ includes
+#include <algorithm>
+#include <functional>
 #include <valarray>
 
 namespace sciplot {
@@ -39,7 +41,7 @@ auto linspace(T0 x0, T1 x1, std::size_t numintervals) -> std::valarray<U>
 {
     std::valarray<U> result(numintervals + 1);
     for(std::size_t i = 0; i <= numintervals; ++i)
-        result[i] = x0 + i * (x1 - x0) / numintervals;
+        result[i] = x0 + i * (x1 - x0) / static_cast<U>(numintervals);
     return result;
 }
 
