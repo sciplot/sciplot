@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -29,7 +29,7 @@
 #include <map>
 #include <string>
 
-namespace Capim {
+namespace sciplot {
 
 /// Color palettes for gnuplot taken from https://github.com/Gnuplotting/gnuplot-palettes
 const std::map<std::string, std::string> palletes = {
@@ -82,4 +82,4 @@ const std::map<std::string, std::string> palletes = {
     { "ylrd", "# line styles\nset style line 1 lt 1 lc rgb '#ffee00' # yellow \nset style line 2 lt 1 lc rgb '#ff7000' #\nset style line 3 lt 1 lc rgb '#ee0000' #\nset style line 4 lt 1 lc rgb '#7f0000' # red\n\n# palette\nset palette defined ( \\\n    0 '#ffee00', \\\n    1 '#ff7000', \\\n    2 '#ee0000', \\\n    3 '#7f0000')\n" },
 };
 
-} // namespace Capim
+} // namespace sciplot

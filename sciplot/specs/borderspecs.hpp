@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -26,14 +26,14 @@
 #pragma once
 
 // C++ includes
+#include <sciplot/default.hpp>
+#include <sciplot/specs/linespecs.hpp>
+#include <sciplot/util.hpp>
 #include <bitset>
 
-// Capim includes
-#include <Capim/default.hpp>
-#include <Capim/specs/linespecs.hpp>
-#include <Capim/util.hpp>
+// sciplot includes
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
 /// The class used to specify options for plot border.
@@ -127,8 +127,9 @@ borderspecs::borderspecs()
     left();
     bottom();
     linecolor(DEFAULT_TEXTCOLOR);
-    linetype(1);
-    linewidth(1);
+    linetype(DEFAULT_BORDER_LINETYPE);
+    linewidth(DEFAULT_BORDER_LINEWIDTH);
+    linecolor(DEFAULT_BORDER_LINECOLOR);
     front();
 }
 
@@ -141,4 +142,4 @@ auto borderspecs::repr() const -> std::string
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

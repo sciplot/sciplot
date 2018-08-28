@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,54 +25,42 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/default.hpp>
-#include <Capim/specs/fontspecs.hpp>
-#include <Capim/util.hpp>
+// sciplot includes
+#include <sciplot/specs/specs.hpp>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
-/// The class used to specify options for text elements.
+/// The class used to specify if a plot element is shown or not.
 template<typename derivedspecs>
-class textspecs : public fontspecs<derivedspecs>
+class showspecs : virtual public specs<derivedspecs>
 {
 public:
-    /// Construct a default textspecs instance.
-    textspecs();
+    /// Construct a default showspecs instance.
+    showspecs();
 
-    /// Convert this textspecs object into a gnuplot formatted string.
+    /// Convert this showspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the enhanced mode of the text.
-    auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return static_cast<derivedspecs&>(*this); }
-
-    /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
-    auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return static_cast<derivedspecs&>(*this); }
+    /// Set the active state of the box.
+    auto show(bool value = true) -> derivedspecs& { m_show = value; return static_cast<derivedspecs&>(*this); }
 
 private:
-    /// The color of the title text.
-    std::string m_color;
-
-    /// The enhanced mode of the text (enhanced or noenhanced)
-    std::string m_enhanced;
+    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
+    bool m_show;
 };
 
 template<typename derivedspecs>
-textspecs<derivedspecs>::textspecs()
+showspecs<derivedspecs>::showspecs()
 {
-    enhanced(true);
-    textcolor(DEFAULT_TEXTCOLOR);
+    show();
 }
 
 template<typename derivedspecs>
-auto textspecs<derivedspecs>::repr() const -> std::string
+auto showspecs<derivedspecs>::repr() const -> std::string
 {
-    std::stringstream ss;
-    ss << m_enhanced << " textcolor " << m_color << " ";
-    ss << fontspecs<derivedspecs>::repr();
-    return ss.str();
+    return m_show ? "" : "no";
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

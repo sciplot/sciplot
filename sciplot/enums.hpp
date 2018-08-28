@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -28,7 +28,7 @@
 // C++ includes
 #include <string>
 
-namespace Capim {
+namespace sciplot {
 
 /// All gnuplot style options for plotting data
 enum class style
@@ -63,7 +63,7 @@ enum class style
     pm3d,
 };
 
-/// All extension formats supported by Capim when saving a plot to a file.
+/// All extension formats supported by sciplot when saving a plot to a file.
 enum class ext
 {
     emf,
@@ -112,4 +112,4 @@ inline auto stylestr(style value) -> std::string
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -24,11 +24,11 @@
 // SOFTWARE.
 
 // Catch includes
-#include "catch.hpp"
+#include <tests/catch.hpp>
 
-// Capim includes
-#include <Capim/Plot.hpp>
-using namespace Capim;
+// sciplot includes
+#include <sciplot/plot.hpp>
+using namespace sciplot;
 
 TEST_CASE("plotting tests", "[plot]")
 {
@@ -41,7 +41,7 @@ TEST_CASE("plotting tests", "[plot]")
         REQUIRE(optionvaluestr("ls", "") == "");
     }
 
-    Plot plt;
+    plot plt;
 
     std::vector<double> x = {1,2,3,4,5,6};
     std::vector<double> y = {1,2,2,3,3,4};
@@ -64,7 +64,7 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)
-        plt.plot(str(i) + " * sin(x)").title("line_" + str(i)).dashtype(i);
+        plt.draw(str(i) + " * sin(x)").title("line_" + str(i)).dashtype(i);
 
     plt.show();
     plt.save("xy.svg");

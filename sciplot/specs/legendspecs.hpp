@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,15 +25,15 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/specs/fontspecs.hpp>
-#include <Capim/specs/linespecs.hpp>
-#include <Capim/specs/showspecs.hpp>
-#include <Capim/specs/textspecs.hpp>
-#include <Capim/specs/titlespecs.hpp>
-#include <Capim/util.hpp>
+// sciplot includes
+#include <sciplot/specs/fontspecs.hpp>
+#include <sciplot/specs/linespecs.hpp>
+#include <sciplot/specs/showspecs.hpp>
+#include <sciplot/specs/textspecs.hpp>
+#include <sciplot/specs/titlespecs.hpp>
+#include <sciplot/util.hpp>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
 /// The class used to setup the specs of the legend header title.
@@ -194,12 +194,12 @@ legendspecs::legendspecs()
 {
     inside();
     opaque();
-    fontname(DEFAULT_KEY_FONTNAME);
-    fontsize(DEFAULT_KEY_FONTSIZE);
+    fontname(DEFAULT_LEGEND_FONTNAME);
+    fontsize(DEFAULT_LEGEND_FONTSIZE);
     addtowidth(0.0);
     addtoheight(0.0);
-    samplelength(2);
-    spacing(1.5);
+    samplelength(DEFAULT_LEGEND_SAMPLE_LENGTH);
+    spacing(DEFAULT_LEGEND_SPACING);
 }
 
 auto legendspecs::repr() const -> std::string
@@ -225,17 +225,17 @@ auto legendspecs::repr() const -> std::string
 legendheaderspecs::legendheaderspecs()
 {
     text("");
-    fontname(DEFAULT_KEY_FONTNAME);
-    fontsize(DEFAULT_KEY_FONTSIZE);
+    fontname(DEFAULT_LEGEND_FONTNAME);
+    fontsize(DEFAULT_LEGEND_FONTSIZE);
 }
 
 legendborderspecs::legendborderspecs()
 {
     show(false);
-    linecolor(DEFAULT_KEY_LINECOLOR);
-    linetype(DEFAULT_KEY_LINETYPE);
-    linewidth(DEFAULT_KEY_LINEWIDTH);
-    linecolor(DEFAULT_KEY_LINECOLOR);
+    linecolor(DEFAULT_LEGEND_LINECOLOR);
+    linetype(DEFAULT_LEGEND_LINETYPE);
+    linewidth(DEFAULT_LEGEND_LINEWIDTH);
+    linecolor(DEFAULT_LEGEND_LINECOLOR);
 }
 
 auto legendborderspecs::repr() const -> std::string
@@ -263,4 +263,4 @@ auto legendtitlesspecs::repr() const -> std::string
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

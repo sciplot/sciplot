@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -29,6 +29,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <valarray>
 
 // Ensure appropriate popen or pclose calls when compiling with MSVC
 #ifdef _MSC_VER
@@ -36,7 +37,7 @@
 #define pclose _pclose
 #endif
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
 /// Return a string for a given index
@@ -167,4 +168,4 @@ struct angle
 };
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

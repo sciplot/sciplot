@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,12 +25,12 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/default.hpp>
-#include <Capim/specs/textspecs.hpp>
-#include <Capim/util.hpp>
+// sciplot includes
+#include <sciplot/default.hpp>
+#include <sciplot/specs/textspecs.hpp>
+#include <sciplot/util.hpp>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
 /// The class used to specify options for titles.
@@ -82,4 +82,4 @@ auto titlespecs<derivedspecs>::repr() const -> std::string
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,31 +25,43 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/enums.hpp>
+// sciplot includes
+#include <sciplot/constants.hpp>
+#include <sciplot/enums.hpp>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
+const auto DEFAULT_FIGURE_HEIGHT_INCHES = 3;
+const auto DEFAULT_FIGURE_WIDTH_INCHES = DEFAULT_FIGURE_HEIGHT_INCHES * GOLDEN_RATIO;
+
 const auto DEFAULT_PALLETE = "dark2";
-const auto DEFAULT_TEXTCOLOR = "#404040";
+
 const auto DEFAULT_FONTNAME = "Georgia";
 const auto DEFAULT_FONTSIZE = 12;
-const auto DEFAULT_STYLE = style::lines;
+
+const auto DEFAULT_TEXTCOLOR = "#404040";
+
+const auto DEFAULT_LINESTYLE = style::lines;
 const auto DEFAULT_LINEWIDTH = 2;
-const auto DEFAULT_WIDTH_HEIGHT_RATIO = 1.618034; // golden ratio
-const auto DEFAULT_HEIGHT = 300;
-const auto DEFAULT_WIDTH = DEFAULT_HEIGHT * DEFAULT_WIDTH_HEIGHT_RATIO;
+
+const auto DEFAULT_BORDER_LINECOLOR = "#404040";
+const auto DEFAULT_BORDER_LINETYPE = 1;
+const auto DEFAULT_BORDER_LINEWIDTH = 2;
+
 const auto DEFAULT_GRID_LINECOLOR = "#d6d7d9";
 const auto DEFAULT_GRID_LINEWIDTH = 1;
 const auto DEFAULT_GRID_LINETYPE = 1;
-const auto DEFAULT_GRID_DASHTYPE = 2;
-const auto DEFAULT_KEY_TEXTCOLOR = DEFAULT_TEXTCOLOR;
-const auto DEFAULT_KEY_LINECOLOR = DEFAULT_GRID_LINECOLOR;
-const auto DEFAULT_KEY_LINEWIDTH = DEFAULT_GRID_LINEWIDTH;
-const auto DEFAULT_KEY_LINETYPE = 1;
-const auto DEFAULT_KEY_FONTNAME = DEFAULT_FONTNAME;
-const auto DEFAULT_KEY_FONTSIZE = 10;
+const auto DEFAULT_GRID_DASHTYPE = 0;
+
+const auto DEFAULT_LEGEND_TEXTCOLOR = DEFAULT_TEXTCOLOR;
+const auto DEFAULT_LEGEND_LINECOLOR = DEFAULT_GRID_LINECOLOR;
+const auto DEFAULT_LEGEND_LINEWIDTH = DEFAULT_GRID_LINEWIDTH;
+const auto DEFAULT_LEGEND_LINETYPE = 1;
+const auto DEFAULT_LEGEND_FONTNAME = DEFAULT_FONTNAME;
+const auto DEFAULT_LEGEND_FONTSIZE = 10;
+const auto DEFAULT_LEGEND_SPACING = 1;
+const auto DEFAULT_LEGEND_SAMPLE_LENGTH = 4;
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

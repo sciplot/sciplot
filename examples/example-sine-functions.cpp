@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -23,44 +23,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+// sciplot includes
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
-// Capim includes
-#include <Capim/specs/specs.hpp>
-
-namespace Capim {
-namespace internal {
-
-/// The class used to specify if a plot element is shown or not.
-template<typename derivedspecs>
-class showspecs : virtual public specs<derivedspecs>
+int main(int argc, char **argv)
 {
-public:
-    /// Construct a default showspecs instance.
-    showspecs();
+    // Create a vector with values from 0 to pi divived into 200 uniform intervals
+    const vec x = linspace(0.0, PI, 200);
 
-    /// Convert this showspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    // Create a sciplot::plot object
+    plot plt;
 
-    /// Set the active state of the box.
-    auto show(bool value = true) -> derivedspecs& { m_show = value; return static_cast<derivedspecs&>(*this); }
+    // Set the x and y labels
+    plt.xlabel("x");
+    plt.ylabel("y");
 
-private:
-    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
-    bool m_show;
-};
+    // Set the x and y ranges
+    plt.xrange(0.0, PI);
+    plt.yrange(0.0, 6.0);
 
-template<typename derivedspecs>
-showspecs<derivedspecs>::showspecs()
-{
-    show();
+    // Plot i*sin(x) from i = 1 to i = 6
+    for(auto i = 1; i <= 6; ++i)
+        plt.draw(x, i * std::sin(x)).title(str(i) + "⋅sin(x)");
+
+    // Show the plot in a pop-up window
+    plt.show();
+
+    // Save the plot to a pdf file
+    plt.save("example-sine-functions.pdf");
 }
 
-template<typename derivedspecs>
-auto showspecs<derivedspecs>::repr() const -> std::string
-{
-    return m_show ? "" : "no";
-}
-
-} // namespace internal
-} // namespace Capim

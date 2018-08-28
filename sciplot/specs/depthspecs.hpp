@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,53 +25,45 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/default.hpp>
-#include <Capim/specs/specs.hpp>
-#include <Capim/util.hpp>
+// sciplot includes
+#include <sciplot/specs/specs.hpp>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
-/// The class used to specify options for font.
+/// The class used to specify options for front or back placement of plot elements..
 template<typename derivedspecs>
-class fontspecs : virtual public specs<derivedspecs>
+class depthspecs : virtual public specs<derivedspecs>
 {
 public:
-    /// Construct a default fontspecs instance.
-    fontspecs();
+    /// Construct a default depthspecs instance.
+    depthspecs();
 
-    /// Convert this fontspecs object into a gnuplot formatted string.
+    /// Convert this depthspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the name of the font (e.g., Helvetica, Georgia, Times).
-    auto fontname(std::string name) -> derivedspecs& { m_fontname = name; return static_cast<derivedspecs&>(*this); }
+    /// Set the plot element to be displayed on the front of all plot elements.
+    auto front() -> derivedspecs& { m_depth = "front"; return static_cast<derivedspecs&>(*this); }
 
-    /// Set the point size of the font (e.g., 10, 12, 16).
-    auto fontsize(std::size_t size) -> derivedspecs& { m_fontsize = size; return static_cast<derivedspecs&>(*this); }
+    /// Set the plot element to be displayed on the back of all plot elements.
+    auto back() -> derivedspecs& { m_depth = "back"; return static_cast<derivedspecs&>(*this); }
 
 private:
-    /// The name of the font.
-    std::string m_fontname;
-
-    /// The point size of the font.
-    std::size_t m_fontsize;
+    /// The depth of the plot element (front or back) if applicable.
+    std::string m_depth;
 };
 
 template<typename derivedspecs>
-fontspecs<derivedspecs>::fontspecs()
+depthspecs<derivedspecs>::depthspecs()
 {
-    fontname(DEFAULT_FONTNAME);
-    fontsize(DEFAULT_FONTSIZE);
+    back();
 }
 
 template<typename derivedspecs>
-auto fontspecs<derivedspecs>::repr() const -> std::string
+auto depthspecs<derivedspecs>::repr() const -> std::string
 {
-    std::stringstream ss;
-    ss << "font '" << m_fontname << "," << m_fontsize << "'";
-    return ss.str();
+    return m_depth;
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

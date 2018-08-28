@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -28,37 +28,40 @@
 // C++ includes
 #include <vector>
 
-// Capim includes
-#include <Capim/palletes.hpp>
-#include <Capim/specs/axislabelspecs.hpp>
-#include <Capim/specs/borderspecs.hpp>
-#include <Capim/specs/gridspecs.hpp>
-#include <Capim/specs/legendspecs.hpp>
-#include <Capim/specs/linespecs.hpp>
-#include <Capim/specs/plotspecs.hpp>
-#include <Capim/specs/ticspecs.hpp>
-#include <Capim/util.hpp>
+// sciplot includes
+#include <sciplot/constants.hpp>
+#include <sciplot/default.hpp>
+#include <sciplot/enums.hpp>
+#include <sciplot/palletes.hpp>
+#include <sciplot/specs/axislabelspecs.hpp>
+#include <sciplot/specs/borderspecs.hpp>
+#include <sciplot/specs/gridspecs.hpp>
+#include <sciplot/specs/legendspecs.hpp>
+#include <sciplot/specs/linespecs.hpp>
+#include <sciplot/specs/plotspecs.hpp>
+#include <sciplot/specs/ticspecs.hpp>
+#include <sciplot/util.hpp>
 
-namespace Capim {
+namespace sciplot {
 
 using namespace internal;
 
 /// The class used to define the plots, show in a pop-up window and save to a file.
-class Plot
+class plot
 {
 public:
-    /// Construct a default Plot object
-    Plot();
+    /// Construct a default plot object
+    plot();
 
     /// Destroy this plot object
-    ~Plot();
+    ~plot();
 
     /// Set the pallete of colors for the plot.
     /// @param name Any pallete name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
     auto pallete(std::string name) -> void { m_pallete = name; }
 
-    /// Set the size of the figure.
-    auto size(std::size_t width, std::size_t height) -> void { m_size = str(width) + "," + str(height); }
+    /// Set the size of the plot (in unit of inches).
+    auto size(double width, double height) -> void { m_size = str(width) + "in," + str(height) + "in"; }
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
     auto xlabel(std::string label) -> axislabelspecs& { m_xlabel.text(label); return m_xlabel; }
@@ -88,11 +91,11 @@ public:
     auto samples(std::size_t value) -> void { m_samples = str(value); }
 
     /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
-    auto plot(std::string what) -> plotspecs&;
+    auto draw(std::string what) -> plotspecs&;
 
     /// Plot two vectors of data and return a reference to the corresponding specs object.
     template<typename X, typename Y>
-    auto plot(const X& x, const Y& y) -> plotspecs&;
+    auto draw(const X& x, const Y& y) -> plotspecs&;
 
     /// Show the plot in a pop-up window.
     auto show() -> void;
@@ -166,10 +169,10 @@ private:
     static std::size_t m_counter;
 };
 
-// Initialize the counter of Plot objects
-std::size_t Plot::m_counter = 0;
+// Initialize the counter of plot objects
+std::size_t plot::m_counter = 0;
 
-Plot::Plot()
+plot::plot()
 : m_filename("plot" + str(m_counter) + ".dat"),
   m_xlabel("x"),
   m_ylabel("y"),
@@ -182,11 +185,11 @@ Plot::Plot()
     m_filedata.open(m_filename);
 
     // Set default values
-    size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    size(DEFAULT_FIGURE_WIDTH_INCHES, DEFAULT_FIGURE_HEIGHT_INCHES);
     pallete(DEFAULT_PALLETE);
 }
 
-Plot::~Plot()
+plot::~plot()
 {
     if(pipe != nullptr)
     {
@@ -195,7 +198,7 @@ Plot::~Plot()
     }
 }
 
-auto Plot::plot(std::string what) -> plotspecs&
+auto plot::draw(std::string what) -> plotspecs&
 {
     // Save the draw arguments for this x,y data
     m_plotspecs.emplace_back(what);
@@ -208,7 +211,7 @@ auto Plot::plot(std::string what) -> plotspecs&
 }
 
 template<typename X, typename Y>
-auto Plot::plot(const X& x, const Y& y) -> plotspecs&
+auto plot::draw(const X& x, const Y& y) -> plotspecs&
 {
     // Save the given vectors x and y as a new data set in the data file
     gnuplotdataset(m_filedata, m_numdatasets, x, y);
@@ -217,10 +220,10 @@ auto Plot::plot(const X& x, const Y& y) -> plotspecs&
     ++m_numdatasets;
 
     // Draw the x,y data now saved in the data file in a data set with index `m_numdatasets - 1`
-    return plot("'" + m_filename + "' index " + str(m_numdatasets - 1));
+    return draw("'" + m_filename + "' index " + str(m_numdatasets - 1));
 }
 
-auto Plot::show() -> void
+auto plot::show() -> void
 {
     std::string scriptname = "show" + str(m_counter) + ".plt";
 
@@ -236,14 +239,9 @@ auto Plot::show() -> void
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;
     script << "#==============================================================================" << std::endl;
-//    script << "if(strstrt(GPVAL_TERMINALS, 'qt') > 0) {" << std::endl;
-//    script << "    set terminal qt size " << m_size << " enhanced font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "' persist" << std::endl;
-//    script << "} else {" << std::endl;
-//    script << "    set terminal x11 size " << m_size << " enhanced font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "' linewidth " << DEFAULT_LINEWIDTH << " raise replotonresize" << std::endl;
-//    script << "}" << std::endl;
     script << "set termoption enhanced" << std::endl;
     script << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
-    script << "set size ratio " << 1.0/DEFAULT_WIDTH_HEIGHT_RATIO << std::endl;
+    script << "set size ratio " << GOLDEN_RATIO_INVERSE << std::endl;
 
     script << "#==============================================================================" << std::endl;
     script << "# SETUP COMMANDS" << std::endl;
@@ -288,7 +286,7 @@ auto Plot::show() -> void
 //        std::remove(scriptname.c_str());
 }
 
-auto Plot::save(std::string filename) -> void
+auto plot::save(std::string filename) -> void
 {
     std::string extension = filename.substr(filename.rfind(".") + 1);
 
@@ -343,6 +341,10 @@ auto Plot::save(std::string filename) -> void
     for(auto i = 0; i < n; ++i)
         script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
 
+    // Unset the output
+    script << std::endl;
+    script << "set output";
+
     // Add an empty line at the end
     script << std::endl;
 
@@ -354,4 +356,4 @@ auto Plot::save(std::string filename) -> void
     pipe = popen(command.c_str(), "w");
 }
 
-} // namespace Capim
+} // namespace sciplot

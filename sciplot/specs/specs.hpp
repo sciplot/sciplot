@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,49 +25,39 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/default.hpp>
-#include <Capim/specs/fontspecs.hpp>
-#include <Capim/specs/titlespecs.hpp>
-#include <Capim/util.hpp>
+// C++ includes
+#include <string>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
-/// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class axislabelspecs : public titlespecs<axislabelspecs>
+/// The base class for other specs classes (e.g., linespecs, plotspecs, borderspecs, etc.)
+template<typename derivedspecs>
+class specs
 {
 public:
-    /// Construct a default axislabelspecs instance.
-    axislabelspecs(std::string axis);
+    /// Pure virtual destructor (this class is an abstract base class).
+    virtual ~specs() {};
 
-    /// Convert this axislabelspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    /// Return a string representation of this object of some class that derives from specs.
+    virtual auto repr() const -> std::string = 0;
 
-    /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs& { m_rotate = "parallel"; return *this; }
+    /// Return a string representation of this object of some class that derives from specs.
+    operator std::string() const { return repr(); }
 
-private:
-    /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
-    std::string m_axis;
+    /// Return a reference to the specs object of class derived from this.
+    auto derived() -> derivedspecs& { return static_cast<derivedspecs&>(*this); }
 
-    /// The rotation command to rotate the label around.
-    std::string m_rotate;
+    /// Return a const reference to the specs object of class derived from this.
+    auto derived() const -> const derivedspecs& { return static_cast<const derivedspecs&>(*this); }
 };
 
-axislabelspecs::axislabelspecs(std::string axis)
-: m_axis(axis)
+/// Output the state of a specs object to a ostream object.
+template<typename derivedspecs>
+auto operator<<(std::ostream& stream, const specs<derivedspecs>& obj) -> std::ostream&
 {
-}
-
-auto axislabelspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << "set " + m_axis + "label ";
-    ss << titlespecs<axislabelspecs>::repr();
-    ss << optionvaluestr("rotate", m_rotate);
-    return ss.str();
+    return stream << obj.repr();
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot

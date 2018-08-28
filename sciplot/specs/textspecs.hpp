@@ -1,5 +1,5 @@
-// Capim - a modern C++ plotting library powered by gnuplot
-// https://github.com/allanleal/capim
+// sciplot - a modern C++ scientific plotting library powered by gnuplot
+// https://github.com/allanleal/sciplot
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
@@ -25,45 +25,54 @@
 
 #pragma once
 
-// Capim includes
-#include <Capim/specs/specs.hpp>
+// sciplot includes
+#include <sciplot/default.hpp>
+#include <sciplot/specs/fontspecs.hpp>
+#include <sciplot/util.hpp>
 
-namespace Capim {
+namespace sciplot {
 namespace internal {
 
-/// The class used to specify options for front or back placement of plot elements..
+/// The class used to specify options for text elements.
 template<typename derivedspecs>
-class depthspecs : virtual public specs<derivedspecs>
+class textspecs : public fontspecs<derivedspecs>
 {
 public:
-    /// Construct a default depthspecs instance.
-    depthspecs();
+    /// Construct a default textspecs instance.
+    textspecs();
 
-    /// Convert this depthspecs object into a gnuplot formatted string.
+    /// Convert this textspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the plot element to be displayed on the front of all plot elements.
-    auto front() -> derivedspecs& { m_depth = "front"; return static_cast<derivedspecs&>(*this); }
+    /// Set the enhanced mode of the text.
+    auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return static_cast<derivedspecs&>(*this); }
 
-    /// Set the plot element to be displayed on the back of all plot elements.
-    auto back() -> derivedspecs& { m_depth = "back"; return static_cast<derivedspecs&>(*this); }
+    /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
+    auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return static_cast<derivedspecs&>(*this); }
 
 private:
-    /// The depth of the plot element (front or back) if applicable.
-    std::string m_depth;
+    /// The color of the title text.
+    std::string m_color;
+
+    /// The enhanced mode of the text (enhanced or noenhanced)
+    std::string m_enhanced;
 };
 
 template<typename derivedspecs>
-depthspecs<derivedspecs>::depthspecs()
+textspecs<derivedspecs>::textspecs()
 {
-    back();
+    enhanced(true);
+    textcolor(DEFAULT_TEXTCOLOR);
 }
 
 template<typename derivedspecs>
-auto depthspecs<derivedspecs>::repr() const -> std::string
+auto textspecs<derivedspecs>::repr() const -> std::string
 {
-    return m_depth;
+    std::stringstream ss;
+    ss << m_enhanced << " textcolor " << m_color << " ";
+    ss << fontspecs<derivedspecs>::repr();
+    return ss.str();
 }
 
 } // namespace internal
-} // namespace Capim
+} // namespace sciplot
