@@ -1,6 +1,6 @@
 
 <p align="center">
-    <!-- <img src="art/sciplot-logo.svg" width=100%;" title="sciplot"> -->
+    <img src="art/sciplot-logo.svg" width=100%;" title="sciplot">
 </p>
 
 # Overview
