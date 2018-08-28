@@ -35,7 +35,7 @@ int main()
     <img src="art/example-sincos.svg" width=90%;" title="sincos">
 </p>
 
-> Do you want to change the colors? Simple - just use the `plot::pallete` method to set your preferred color pallete (for example, `plot::pallete("parula")`. All available color palletes and their names can be found [**here**][gnuplot-palletes]. Many thanks to [**Anna Schneider**][AnnaSchneider] for this incredible work of art!
+> Do you want to change the colors? Simple - just use the `plot::pallete` method to set your preferred color pallete. For example, `plot::pallete("parula")` sets the [**parula**](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palletes and their names can be found [**here**][gnuplot-palletes]. Many thanks to [**Anna Schneider**][AnnaSchneider] for this incredible work of art!
 
 # sciplot and gnuplot
 
