@@ -33,10 +33,13 @@ int main()
 }
 ~~~
 
-
 <p align="center">
     <img src="art/example-sincos.svg" width=90%;" title="sincos">
 </p>
 
+# Come back soon for further instructions and demonstration.
+
 [gnuplot]: http://gnuplot.info/
 [matplotlib]: https://matplotlib.org/
+
+
