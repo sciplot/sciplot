@@ -60,8 +60,8 @@ public:
     /// @param name Any pallete name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
     auto pallete(std::string name) -> void { m_pallete = name; }
 
-    /// Set the size of the plot (in unit of inches).
-    auto size(double width, double height) -> void { m_size = str(width) + "in," + str(height) + "in"; }
+    /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
+    auto size(std::size_t width, std::size_t height) -> void { m_size = str(width) + "," + str(height); m_size_inches = str(width * POINT_TO_INCHES) + "in," + str(height * POINT_TO_INCHES) + "in"; }
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
     auto xlabel(std::string label) -> axislabelspecs& { m_xlabel.text(label); return m_xlabel; }
@@ -113,6 +113,9 @@ public:
 private:
     /// The size of the plot as a gnuplot formatted string (e.g., "size 400,300")
     std::string m_size;
+
+    /// The size of the plot in inches
+    std::string m_size_inches;
 
     /// The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
     std::string m_xrange;
@@ -185,7 +188,7 @@ plot::plot()
     m_filedata.open(m_filename);
 
     // Set default values
-    size(DEFAULT_FIGURE_WIDTH_INCHES, DEFAULT_FIGURE_HEIGHT_INCHES);
+    size(DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT);
     pallete(DEFAULT_PALLETE);
 }
 
@@ -292,6 +295,8 @@ auto plot::save(std::string filename) -> void
 
     std::string scriptname = filename + ".plt";
 
+    std::string size = extension == "pdf" ? m_size_inches : m_size;
+
     std::ofstream script(scriptname);
 
     script << "#==============================================================================" << std::endl;
@@ -304,7 +309,7 @@ auto plot::save(std::string filename) -> void
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << "set terminal " << extension << " size " << m_size << " enhanced rounded font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
+    script << "set terminal " << extension << " size " << size << " enhanced rounded font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
 
     script << "#==============================================================================" << std::endl;
     script << "# OUTPUT" << std::endl;

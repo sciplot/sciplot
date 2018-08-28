@@ -33,13 +33,14 @@ int main(int argc, char **argv)
 
     plot plt;
 
-    plt.pallete("matlab");
+    plt.pallete("dark2");
 
-    plt.draw(x, std::sin(x)).title("sin(x)").linewidth(5);
-    plt.draw(x, std::cos(x)).title("cos(x)").linewidth(5);
+    plt.draw(x, std::sin(x)).title("sin(x)");
+    plt.draw(x, std::cos(x)).title("cos(x)");
 
     plt.show();
 
     plt.save("example-sincos-functions.pdf");
+    plt.save("example-sincos-functions.svg");
 }
 

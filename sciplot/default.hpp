@@ -32,8 +32,8 @@
 namespace sciplot {
 namespace internal {
 
-const auto DEFAULT_FIGURE_HEIGHT_INCHES = 3;
-const auto DEFAULT_FIGURE_WIDTH_INCHES = DEFAULT_FIGURE_HEIGHT_INCHES * GOLDEN_RATIO;
+const auto DEFAULT_FIGURE_HEIGHT = 200; // this is equivalent to 6 inches if 1 in = 72 points
+const auto DEFAULT_FIGURE_WIDTH = DEFAULT_FIGURE_HEIGHT * GOLDEN_RATIO;
 
 const auto DEFAULT_PALLETE = "dark2";
 
