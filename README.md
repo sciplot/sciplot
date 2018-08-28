@@ -5,13 +5,13 @@
 
 # Overview
 
-**So, you have an amazing C++ application for which you need some plotting capability.** You have searched around, and discovered that C++ is not very famous when it comes to plotting libraries compared to other programming languages, such as Python, for example, which has the nice package **[matplotlib]**. 
+**So, you have an amazing C++ application for which you need plotting capabilities.** You have searched around and discovered that the options for C++ plotting libraries is rather limited compared to other programming languages, such as Python, for example, which has the nice package **[matplotlib]**. 
 
-The goal of the **sciplot project** is to enable you, C++ programmer, to conveniently plot beautiful graphs as easy as in other high-level programming languages. 
+The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. 
 
-All plotting capabilities of **sciplot** are powered by the amazing **[gnuplot]** application.  Your plotting code using a modern and elegant C++ API provided by **sciplot** is converted to a gnuplot script, which is then executed to generate the desired figure.
+All plotting capabilities of **sciplot** are powered by **[gnuplot]**.  Your plotting code, using a modern and elegant C++ API provided by **sciplot**, is converted to a gnuplot script, which is then executed to generate the desired figure.
 
-Here is an example:
+Here is an example of **sciplot** in action:
 
 ~~~c++
 #include <sciplot/sciplot.hpp>
