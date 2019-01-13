@@ -121,6 +121,7 @@ auto writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args
 {
     out << v[i] << " ";
     writeline(out, i, args...);
+    return out;
 }
 
 /// Auxiliary function to write many vector arguments into an ostream object
