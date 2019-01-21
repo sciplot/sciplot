@@ -273,7 +273,7 @@ auto plot::show() -> void
     const auto n = m_plotspecs.size();
 
     // Plot in the same figure all those given drawing specs
-    for(auto i = decltype(n){0}; i < n; ++i)
+    for(std::size_t i = 0; i < n; ++i)
         script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
 
     // Add an empty line at the end
@@ -343,7 +343,7 @@ auto plot::save(std::string filename) -> void
     const auto n = m_plotspecs.size();
 
     // Plot in the same figure all those given drawing specs
-    for(auto i = decltype(n){0}; i < n; ++i)
+    for(std::size_t i = 0; i < n; ++i)
         script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
 
     // Unset the output
