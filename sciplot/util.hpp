@@ -129,7 +129,7 @@ template<typename... Args>
 auto write(std::ostream& out, const Args&... args) -> std::ostream&
 {
     const auto size = minsize(args...);
-    for(auto i = 0; i < size; ++i)
+    for(std::size_t i = 0; i < size; ++i)
         writeline(out, i, args...);
     return out;
 }
