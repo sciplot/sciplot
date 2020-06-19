@@ -48,7 +48,7 @@ public:
     auto title(std::string value) -> plotspecs& { m_title = titlestr(value); return *this; }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(style value) -> plotspecs& { m_with = stylestr(value); return *this; }
+    auto with(plotstyle value) -> plotspecs& { m_with = plotstylestr(value); return *this; }
 
 private:
     /// The what to be plotted as a gnuplot formatted string (e.g., "sin(x)").
@@ -78,7 +78,7 @@ private:
 
 plotspecs::plotspecs(std::string what) : m_what(what)
 {
-    with(DEFAULT_LINESTYLE);
+    with(DEFAULT_PLOTSTYLE);
 }
 
 auto plotspecs::repr() const -> std::string
