@@ -31,7 +31,7 @@
 namespace sciplot {
 
 /// All gnuplot style options for plotting data
-enum class style
+enum class plotstyle
 {
     lines,
     points,
@@ -76,37 +76,37 @@ enum class ext
 namespace internal {
 
 /// Return a string for a given enum value of type `with`
-inline auto stylestr(style value) -> std::string
+inline auto plotstylestr(plotstyle value) -> std::string
 {
     switch(value) {
-    case style::lines: return "lines";
-    case style::points: return "points";
-    case style::linespoints: return "linespoints";
-    case style::impulses: return "impulses";
-    case style::dots: return "dots";
-    case style::steps: return "steps";
-    case style::fsteps: return "fsteps";
-    case style::histeps: return "histeps";
-    case style::errorbars: return "errorbars";
-    case style::labels: return "labels";
-    case style::xerrorbars: return "xerrorbars";
-    case style::yerrorbars: return "yerrorbars";
-    case style::xyerrorbars: return "xyerrorbars";
-    case style::errorlines: return "errorlines";
-    case style::xerrorlines: return "xerrorlines";
-    case style::yerrorlines: return "yerrorlines";
-    case style::xyerrorlines: return "xyerrorlines";
-    case style::boxes: return "boxes";
-    case style::histograms: return "histograms";
-    case style::filledcurves: return "filledcurves";
-    case style::boxerrorbars: return "boxerrorbars";
-    case style::boxxyerrorbars: return "boxxyerrorbars";
-    case style::financebars: return "financebars";
-    case style::candlesticks: return "candlesticks";
-    case style::vectors: return "vectors";
-    case style::image: return "image";
-    case style::rgbimage: return "rgbimage";
-    case style::pm3d: return "pm3d";
+    case plotstyle::lines: return "lines";
+    case plotstyle::points: return "points";
+    case plotstyle::linespoints: return "linespoints";
+    case plotstyle::impulses: return "impulses";
+    case plotstyle::dots: return "dots";
+    case plotstyle::steps: return "steps";
+    case plotstyle::fsteps: return "fsteps";
+    case plotstyle::histeps: return "histeps";
+    case plotstyle::errorbars: return "errorbars";
+    case plotstyle::labels: return "labels";
+    case plotstyle::xerrorbars: return "xerrorbars";
+    case plotstyle::yerrorbars: return "yerrorbars";
+    case plotstyle::xyerrorbars: return "xyerrorbars";
+    case plotstyle::errorlines: return "errorlines";
+    case plotstyle::xerrorlines: return "xerrorlines";
+    case plotstyle::yerrorlines: return "yerrorlines";
+    case plotstyle::xyerrorlines: return "xyerrorlines";
+    case plotstyle::boxes: return "boxes";
+    case plotstyle::histograms: return "histograms";
+    case plotstyle::filledcurves: return "filledcurves";
+    case plotstyle::boxerrorbars: return "boxerrorbars";
+    case plotstyle::boxxyerrorbars: return "boxxyerrorbars";
+    case plotstyle::financebars: return "financebars";
+    case plotstyle::candlesticks: return "candlesticks";
+    case plotstyle::vectors: return "vectors";
+    case plotstyle::image: return "image";
+    case plotstyle::rgbimage: return "rgbimage";
+    case plotstyle::pm3d: return "pm3d";
     default: return "lines";
     }
 }

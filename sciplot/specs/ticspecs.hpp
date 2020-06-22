@@ -97,7 +97,8 @@ auto ticspecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << "set tics " << m_mirror << " " << m_depth << " " << m_inout << " ";
-    ss << "scale " << m_scalemajor << "," << m_scaleminor;
+    ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
+    ss << textspecs<ticspecs>::repr();
     return ss.str();
 }
 

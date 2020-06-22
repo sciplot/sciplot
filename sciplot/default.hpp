@@ -42,7 +42,7 @@ const auto DEFAULT_FONTSIZE = 12;
 
 const auto DEFAULT_TEXTCOLOR = "#404040";
 
-const auto DEFAULT_LINESTYLE = style::lines;
+const auto DEFAULT_PLOTSTYLE = plotstyle::lines;
 const auto DEFAULT_LINEWIDTH = 2;
 
 const auto DEFAULT_BORDER_LINECOLOR = "#404040";
