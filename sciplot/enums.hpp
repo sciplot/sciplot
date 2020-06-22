@@ -63,6 +63,14 @@ enum class plotstyle
     pm3d,
 };
 
+/// All gnuplot style options filling the areas of plot data
+enum class FillStyle
+{
+    empty,
+    solid,
+    pattern
+};
+
 /// All extension formats supported by sciplot when saving a plot to a file.
 enum class ext
 {
@@ -108,6 +116,17 @@ inline auto plotstylestr(plotstyle value) -> std::string
     case plotstyle::rgbimage: return "rgbimage";
     case plotstyle::pm3d: return "pm3d";
     default: return "lines";
+    }
+}
+
+/// Return a string for a given enum value of type `fillstyle`
+inline auto fillstylestr(FillStyle value) -> std::string
+{
+    switch(value) {
+    case FillStyle::empty: return "empty";
+    case FillStyle::solid: return "solid";
+    case FillStyle::pattern: return "pattern";
+    default: return "empty";
     }
 }
 

@@ -29,6 +29,7 @@
 #include <sciplot/default.hpp>
 #include <sciplot/specs/specs.hpp>
 #include <sciplot/util.hpp>
+#include <sciplot/enums.hpp>
 
 namespace sciplot {
 namespace internal {
@@ -59,6 +60,19 @@ public:
     /// Set the dash type of the plot.
     auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = str(value); return static_cast<derivedspecs&>(*this); }
 
+    /// Set the dash type of the plot.
+    /// The density parameter only works for the "solid" fill mode and must be in [0,1].
+    auto fillstyle(FillStyle value, float density = 1.0F) -> derivedspecs&
+    { 
+        m_fillstyle = fillstylestr(value);
+        if (value == FillStyle::solid)
+        {
+            density = density < 0.0F ? 0.0F : (density > 1.0F ? 1.0F : density);
+            m_fillstyle += " " + str(density);
+        }
+        return static_cast<derivedspecs&>(*this);
+    }
+
 private:
     /// The line style of the plot (e.g., "ls 2").
     std::string m_linestyle;
@@ -74,6 +88,9 @@ private:
 
     /// The dash type of the plot (e.g., "dt 2").
     std::string m_dashtype;
+
+    /// The fill style of the plot (e.g., "fs solid 0.5").
+    std::string m_fillstyle;
 };
 
 template<typename derivedspecs>
@@ -91,6 +108,7 @@ auto linespecs<derivedspecs>::repr() const -> std::string
     ss << optionvaluestr("linewidth", m_linewidth);
     ss << optionvaluestr("linecolor", m_linecolor);
     ss << optionvaluestr("dashtype", m_dashtype);
+    ss << optionvaluestr("fillstyle", m_fillstyle);
     return ss.str();
 }
 

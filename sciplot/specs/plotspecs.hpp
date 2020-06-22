@@ -59,21 +59,6 @@ private:
 
     /// The style of the plot (lines, points, linespoints) as a gnuplot formatted string (e.g., "with linespoints").
     std::string m_with;
-
-    /// The line style of the plot as a gnuplot formatted string (e.g., "ls 2").
-    std::string m_linestyle;
-
-    /// The line type of the plot as a gnuplot formatted string (e.g., "lt 3").
-    std::string m_linetype;
-
-    /// The line width of the plot as a gnuplot formatted string (e.g., "lw 2").
-    std::string m_linewidth;
-
-    /// The line color of the plot as a gnuplot formatted string (e.g., "lc rgb '#FF00FF'").
-    std::string m_linecolor;
-
-    /// The dash type of the plot as a gnuplot formatted string (e.g., "dt 2").
-    std::string m_dashtype;
 };
 
 plotspecs::plotspecs(std::string what) : m_what(what)
