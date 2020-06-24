@@ -71,6 +71,14 @@ enum class FillStyle
     pattern
 };
 
+/// All gnuplot box width type options
+enum class boxwidthtype
+{
+    automatic,
+    relative,
+    absolute
+};
+
 /// All extension formats supported by sciplot when saving a plot to a file.
 enum class ext
 {
@@ -127,6 +135,17 @@ inline auto fillstylestr(FillStyle value) -> std::string
     case FillStyle::solid: return "solid";
     case FillStyle::pattern: return "pattern";
     default: return "empty";
+    }
+}
+
+/// Return a string for a given enum value of type `boxwidth`
+inline auto boxwidthtypestr(boxwidthtype value) -> std::string
+{
+    switch(value) {
+    case boxwidthtype::automatic: return "";
+    case boxwidthtype::relative: return "relative";
+    case boxwidthtype::absolute: return "absolute";
+    default: return "";
     }
 }
 
