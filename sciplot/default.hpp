@@ -35,7 +35,7 @@ namespace internal {
 const auto DEFAULT_FIGURE_HEIGHT = 200; // this is equivalent to 6 inches if 1 in = 72 points
 const auto DEFAULT_FIGURE_WIDTH = DEFAULT_FIGURE_HEIGHT * GOLDEN_RATIO;
 
-const auto DEFAULT_PALLETE = "dark2";
+const auto DEFAULT_PALETTE = "dark2";
 
 const auto DEFAULT_FONTNAME = "Georgia";
 const auto DEFAULT_FONTSIZE = 12;

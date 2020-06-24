@@ -32,7 +32,7 @@
 #include <sciplot/constants.hpp>
 #include <sciplot/default.hpp>
 #include <sciplot/enums.hpp>
-#include <sciplot/palletes.hpp>
+#include <sciplot/palettes.hpp>
 #include <sciplot/specs/axislabelspecs.hpp>
 #include <sciplot/specs/borderspecs.hpp>
 #include <sciplot/specs/gridspecs.hpp>
@@ -56,9 +56,9 @@ public:
     /// Destroy this plot object
     ~plot();
 
-    /// Set the pallete of colors for the plot.
-    /// @param name Any pallete name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-    auto pallete(std::string name) -> void { m_pallete = name; }
+    /// Set the palette of colors for the plot.
+    /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
+    auto palette(std::string name) -> void { m_palette = name; }
 
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
     auto size(std::size_t width, std::size_t height) -> void { m_size = str(width) + "," + str(height); m_size_inches = str(width * POINT_TO_INCHES) + "in," + str(height * POINT_TO_INCHES) + "in"; }
@@ -138,8 +138,8 @@ private:
     /// The current number of data sets in the data file
     std::size_t m_numdatasets = 0;
 
-    /// The name of the gnuplot pallete to be used
-    std::string m_pallete;
+    /// The name of the gnuplot palette to be used
+    std::string m_palette;
 
     /// The border style of the plot
     borderspecs m_border;
@@ -199,7 +199,7 @@ plot::plot()
 
     // Set default values
     size(DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT);
-    pallete(DEFAULT_PALLETE);
+    palette(DEFAULT_PALETTE);
 }
 
 plot::~plot()
@@ -243,11 +243,11 @@ auto plot::show() -> void
     std::ofstream script(scriptname);
 
     script << "#==============================================================================" << std::endl;
-    script << "# GNUPLOT-PALLETE (" << m_pallete << ")" << std::endl;
+    script << "# GNUPLOT-palette (" << m_palette << ")" << std::endl;
     script << "#------------------------------------------------------------------------------" << std::endl;
     script << "# see more at https://github.com/Gnuplotting/gnuplot-palettes" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << palletes.at(m_pallete) << std::endl;
+    script << palettes.at(m_palette) << std::endl;
 
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;
@@ -311,11 +311,11 @@ auto plot::save(std::string filename) -> void
     std::ofstream script(scriptname);
 
     script << "#==============================================================================" << std::endl;
-    script << "# GNUPLOT-PALLETE (" << m_pallete << ")" << std::endl;
+    script << "# GNUPLOT-palette (" << m_palette << ")" << std::endl;
     script << "#------------------------------------------------------------------------------" << std::endl;
     script << "# see more at https://github.com/Gnuplotting/gnuplot-palettes" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << palletes.at(m_pallete) << std::endl;
+    script << palettes.at(m_palette) << std::endl;
 
     script << "#==============================================================================" << std::endl;
     script << "# TERMINAL" << std::endl;

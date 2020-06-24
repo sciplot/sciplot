@@ -11,27 +11,27 @@ os.system('git submodule update --init')
 rootdir = up(up(sys.argv[0]))
 
 # The directory where gnuplot-palettes are downloaded
-palletesdir = join(rootdir, 'gnuplot-palettes')
+palettesdir = join(rootdir, 'gnuplot-palettes')
 
 # The directory of the library sciplot (source dir)
 plotdir = join(rootdir, 'sciplot')
 
-# The sorted list of pallete file names (that ends with .pal)
-filenames = [filename for filename in os.listdir(palletesdir) if filename.endswith('.pal')]
+# The sorted list of palette file names (that ends with .pal)
+filenames = [filename for filename in os.listdir(palettesdir) if filename.endswith('.pal')]
 filenames.sort()
 
-# The list of pairs (pallete name, pallete .pal file contents)
-palletes = []
+# The list of pairs (palette name, palette .pal file contents)
+palettes = []
 
 for filename in filenames:
-    file = open(join(palletesdir, filename), 'r')
-    palletes.append((filename[:-4], file.read()))
+    file = open(join(palettesdir, filename), 'r')
+    palettes.append((filename[:-4], file.read()))
 
-# Open the sciplot/palletes.hpp file
-palletes_hpp = open(join(plotdir, 'palletes.hpp'), 'w')
+# Open the sciplot/palettes.hpp file
+palettes_hpp = open(join(plotdir, 'palettes.hpp'), 'w')
 
-# Print the header part of the palletes.hpp file
-print >>palletes_hpp, \
+# Print the header part of the palettes.hpp file
+print >>palettes_hpp, \
 """// sciplot - a modern C++ scientific plotting library powered by gnuplot
 // https://github.com/sciplot/sciplot
 //
@@ -67,17 +67,17 @@ namespace sciplot {
 
 /// Gnuplot color palettes for sciplot adapted from https://github.com/Gnuplotting/gnuplot-palettes"""
 
-# Print the std::map with keys equal to pallete names and values as the pal file contents
-print >>palletes_hpp, 'const std::map<std::string, std::string> palletes = {'
+# Print the std::map with keys equal to palette names and values as the pal file contents
+print >>palettes_hpp, 'const std::map<std::string, std::string> palettes = {'
 
-for (key, value) in palletes:
+for (key, value) in palettes:
     key = repr(key).replace("'", '"')
     value = repr(value).replace('"', '')
     value = '"{0}"'.format(value)
-    print >>palletes_hpp, "    {{ {0}, {1} }},".format(key, value)
+    print >>palettes_hpp, "    {{ {0}, {1} }},".format(key, value)
 
-print >>palletes_hpp, '};'
+print >>palettes_hpp, '};'
 
 # Print the closing brace of namespace sciplot
-print >>palletes_hpp
-print >>palletes_hpp, '} // namespace sciplot'
+print >>palettes_hpp
+print >>palettes_hpp, '} // namespace sciplot'

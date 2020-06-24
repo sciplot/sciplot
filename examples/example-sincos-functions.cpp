@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
     plot plt;
 
-    plt.pallete("dark2");
+    plt.palette("dark2");
 
     plt.draw(x, std::sin(x)).title("sin(x)");
     plt.draw(x, std::cos(x)).title("cos(x)");
