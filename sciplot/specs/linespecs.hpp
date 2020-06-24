@@ -62,10 +62,10 @@ public:
 
     /// Set the dash type of the plot.
     /// The density parameter only works for the "solid" fill mode and must be in [0,1].
-    auto fillstyle(FillStyle value, float density = 1.0F) -> derivedspecs&
+    auto fillstyle(fillstyle value, float density = 1.0F) -> derivedspecs&
     { 
         m_fillstyle = fillstylestr(value);
-        if (value == FillStyle::solid)
+        if (value == fillstyle::solid)
         {
             density = density < 0.0F ? 0.0F : (density > 1.0F ? 1.0F : density);
             m_fillstyle += " " + str(density);

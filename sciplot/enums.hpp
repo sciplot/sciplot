@@ -64,7 +64,7 @@ enum class plotstyle
 };
 
 /// All gnuplot style options filling the areas of plot data
-enum class FillStyle
+enum class fillstyle
 {
     empty,
     solid,
@@ -128,12 +128,12 @@ inline auto plotstylestr(plotstyle value) -> std::string
 }
 
 /// Return a string for a given enum value of type `fillstyle`
-inline auto fillstylestr(FillStyle value) -> std::string
+inline auto fillstylestr(fillstyle value) -> std::string
 {
     switch(value) {
-    case FillStyle::empty: return "empty";
-    case FillStyle::solid: return "solid";
-    case FillStyle::pattern: return "pattern";
+    case fillstyle::empty: return "empty";
+    case fillstyle::solid: return "solid";
+    case fillstyle::pattern: return "pattern";
     default: return "empty";
     }
 }
