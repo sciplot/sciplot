@@ -59,7 +59,6 @@ inline auto str() -> std::string
     return {};
 }
 
-
 /// Return the formatted string for a plot title.
 inline auto titlestr(std::string word) -> std::string
 {

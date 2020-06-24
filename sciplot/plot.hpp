@@ -87,6 +87,12 @@ public:
     /// Set the legend of the plot and return a reference to the corresponding specs object.
     auto legend() -> legendspecs& { return m_legend; }
 
+    /// Set the width of boxes if plot style / plot::with() is "boxes", "boxerrorbars", "candelsticks" or "histograms".
+    /// The default box width type is "automatic", which makes the boxes touch. For "relative", "width" specifies 
+    /// a fraction of that automatic value. With "absolute", "width" specifies an absolute size on the x-axis.
+    /// This setting will be applied to all plot draw() calls after this.
+    auto boxwidth(boxwidthtype widthtype = boxwidthtype::automatic, float width = 1.0F) -> void { m_boxwidth = str(width) + " " + boxwidthtypestr(widthtype); }
+
     /// Set the number of sample points for analytical plots.
     auto samples(std::size_t value) -> void { m_samples = str(value); }
 
@@ -158,6 +164,10 @@ private:
 
     /// The label of the z-axis
     axislabelspecs m_zlabel;
+
+    /// Boxes width type if plot style is "boxes", "boxerrorbars", "candelsticks" or "histograms and 
+    /// relative or absolute box width value
+    std::string m_boxwidth;
 
     /// The plot specs for each call to gnuplot plot function
     std::vector<plotspecs> m_plotspecs;
@@ -257,6 +267,7 @@ auto plot::show() -> void
     script << m_gridspecs << std::endl;
     script << m_tics << std::endl;
     script << m_legend << std::endl;
+    script << commandvaluestr("set boxwidth", m_boxwidth);
     script << commandvaluestr("set samples", m_samples);
 
     script << "#==============================================================================" << std::endl;
