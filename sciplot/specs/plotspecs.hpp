@@ -29,6 +29,8 @@
 #include <sciplot/enums.hpp>
 #include <sciplot/specs/linespecs.hpp>
 #include <sciplot/util.hpp>
+#include <limits>
+#include <numeric>
 
 namespace sciplot {
 namespace internal {
@@ -37,6 +39,9 @@ namespace internal {
 class plotspecs : public linespecs<plotspecs>
 {
 public:
+    /// Undefine / ignore column usage value. See use().
+    static constexpr int USE_AUTO = std::numeric_limits<int>::min();
+
     /// Construct a plotspecs instance.
     /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
     plotspecs(std::string what);
@@ -50,6 +55,28 @@ public:
     /// Set the format of the plot (lines, points, linespoints).
     auto with(plotstyle value) -> plotspecs& { m_with = plotstylestr(value); return *this; }
 
+    /// Set which columns from the data file to use for plot data or tick labels. Resembles the "using" directive for a plot.
+    /// Pass an USE_AUTO in any of these values to "undefine" that value, e.g. to use column 2 for y, do: plot.use(USE_AUTO, 2);
+    /// To use strings as tick labels, you can pass them in the corresponding data column in the plot.draw() call.
+    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> plotspecs&
+    {
+        std::vector<std::pair<unsigned int, std::string>> values = {
+            {xcol, std::to_string(xcol)},
+            {ycol, std::to_string(ycol)},
+            {zcol, std::to_string(zcol)},
+            {xtic, "xtic(" + std::to_string(xtic) + ")"},
+            {x2tic, "x2tic(" + std::to_string(x2tic) + ")"},
+            {ytic, "ytic(" + std::to_string(ytic) + ")"},
+            {y2tic, "y2tic(" + std::to_string(y2tic) + ")"},
+            {ztic, "ztic(" + std::to_string(ztic) + ")"}};
+        std::vector<std::string> strings;
+        // filter out all valuzes we don't want to use and put the remaining one int strings
+        std::for_each(values.begin(), values.end(), [&strings](const std::pair<unsigned int, std::string> &v) { if (v.first != USE_AUTO) { strings.push_back(v.second); } });
+        // join all remaining values using ":"
+        m_using = std::accumulate(std::next(strings.begin()), strings.end(), strings[0], [](const std::string &a, const std::string &b) { return a + ":" + b; });
+        return *this;
+    }
+
 private:
     /// The what to be plotted as a gnuplot formatted string (e.g., "sin(x)").
     std::string m_what;
@@ -59,6 +86,9 @@ private:
 
     /// The style of the plot (lines, points, linespoints) as a gnuplot formatted string (e.g., "with linespoints").
     std::string m_with;
+
+    /// Select which columns from the data file to use for plot data or tick labels (e.g. "using 1:xtic(2)").
+    std::string m_using;
 };
 
 plotspecs::plotspecs(std::string what) : m_what(what)
@@ -70,6 +100,7 @@ auto plotspecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_what << " ";
+    ss << optionvaluestr("using", m_using);
     ss << optionvaluestr("title", m_title);
     ss << optionvaluestr("with", m_with);
     ss << linespecs<plotspecs>::repr();

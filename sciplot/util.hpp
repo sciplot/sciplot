@@ -107,16 +107,35 @@ auto minsize(const VectorType& v, const Args&... args) -> std::size_t
 }
 
 /// Auxiliary function to write a vector into a line of an ostream object
-template<typename VectorType>
-auto writeline(std::ostream& out, std::size_t i, const VectorType& v) -> std::ostream&
+/// This version is called for std::vector<std::string> and escapes strings
+template <typename VectorType>
+typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v)
+{
+    out << "\"" << v[i] << "\"" << "\n";
+    return out;
+}
+
+/// Auxiliary function to write a vector into a line of an ostream object
+template <typename VectorType>
+typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v)
 {
     out << v[i] << "\n";
     return out;
 }
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object
-template<typename VectorType, typename... Args>
-auto writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args&... args) -> std::ostream&
+/// This version is called for std::vector<std::string> and escapes strings
+template <typename VectorType, typename... Args>
+typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v, const Args &... args)
+{
+    out << "\"" << v[i] << "\" ";
+    writeline(out, i, args...);
+    return out;
+}
+
+/// Auxiliary function to write many vector arguments into a line of an ostream object
+template <typename VectorType, typename... Args>
+typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v, const Args &... args)
 {
     out << v[i] << " ";
     writeline(out, i, args...);
