@@ -46,7 +46,7 @@ TEST_CASE("plotting tests", "[plot]")
     std::vector<double> x = {1,2,3,4,5,6};
     std::vector<double> y = {1,2,2,3,3,4};
 
-    plt.pallete("dark2");
+    plt.palette("dark2");
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
 //    plt.legend().maxrows(2);

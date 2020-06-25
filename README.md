@@ -21,7 +21,7 @@ int main()
 
     plot plt;
 
-    plt.pallete("set2");
+    plt.palette("set2");
 
     plt.draw(x, std::sin(x)).title("sin(x)").linewidth(8);
     plt.draw(x, std::cos(x)).title("cos(x)").linewidth(8);
@@ -37,7 +37,7 @@ After compiling and executing this C++ application, the following figure should 
     <img src="art/example-sincos.svg" width=60%;" title="sincos">
 </p>
 
-> Do you want to change the colors? Simple - just use the `plot::pallete` method to set your preferred color pallete. For example, `plot::pallete("parula")` sets the [**parula**](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palletes and their names can be found [**here**][gnuplot-palletes]. Many thanks to [**Anna Schneider**][AnnaSchneider] for this incredible work of art!
+> Do you want to change the colors? Simple - just use the `plot::palette` method to set your preferred color palette. For example, `plot::palette("parula")` sets the [**parula**](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palettes and their names can be found [**here**][gnuplot-palettes]. Many thanks to [**Anna Schneider**][AnnaSchneider] for this incredible work of art!
 
 # sciplot and gnuplot
 
@@ -46,7 +46,7 @@ All plotting capabilities of **sciplot** are powered by **[gnuplot]**.  Your plo
 # Come back soon for further instructions and demonstration.
 
 [gnuplot]: http://gnuplot.info/
-[gnuplot-palletes]: https://github.com/sciplot/gnuplot-palettes
+[gnuplot-palettes]: https://github.com/sciplot/gnuplot-palettes
 [matplotlib]: https://matplotlib.org/
 [AnnaSchneider]: https://github.com/aschn
 
