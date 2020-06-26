@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018 Allan Leal
+// Copyright (c) 2020 Allan Leal
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,41 +23,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+// sciplot includes
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
-// C++ includes
-#include <string>
-
-namespace sciplot {
-namespace internal {
-
-/// The base class for other specs classes (e.g., linespecs, plotspecs, borderspecs, etc.)
-template<typename derivedspecs>
-class specs
+int main(int argc, char **argv)
 {
-public:
-    /// Pure virtual destructor (this class is an abstract base class).
-    virtual ~specs() = default;
+    // Create 4 different plots
+    const vec x = linspace(0.0, 5.0, 200);
+    plot p0;
+    p0.draw(x, std::sin(x)).title("sin(x)");
+    p0.draw(x, std::cos(x)).title("cos(x)");
+    plot p1;
+    p1.draw(x, std::cos(x)).title("cos(x)");
+    plot p2;
+    p2.draw(x, std::tan(x)).title("tan(x)");
+    plot p3;
+    p3.draw(x, std::sqrt(x)).title("sqrt(x)");
 
-    /// Return a string representation of this object of some class that derives from specs.
-    virtual auto repr() const -> std::string = 0;
+    // Create multiplot and set title, palette and 2x2 layout
+    multiplot mp;
+    mp.title("Example - Multiplot");
+    mp.palette("dark2");
+    mp.layout(2,2);
+    // Add plots to multiplot
+    mp.add(p0).add(p1).add(p2).add(p3);
 
-    /// Return a string representation of this object of some class that derives from specs.
-    operator std::string() const { return repr(); }
-
-    /// Return a reference to the specs object of class derived from this.
-    auto derived() -> derivedspecs& { return static_cast<derivedspecs&>(*this); }
-
-    /// Return a const reference to the specs object of class derived from this.
-    auto derived() const -> const derivedspecs& { return static_cast<const derivedspecs&>(*this); }
-};
-
-/// Output the state of a specs object to a ostream object.
-template<typename derivedspecs>
-auto operator<<(std::ostream& stream, const specs<derivedspecs>& obj) -> std::ostream&
-{
-    return stream << obj.repr();
+    // Show the plot in a pop-up window
+    mp.show();
+    // Save the plots to files
+    mp.save("example-multiplot.pdf");
+    mp.save("example-multiplot.svg");
 }
 
-} // namespace internal
-} // namespace sciplot

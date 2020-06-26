@@ -173,6 +173,99 @@ auto gnuplotdataset(std::ostream& out, std::size_t index, const Args&... args) -
     return out;
 }
 
+/// Auxiliary function to write palette data for a selected palette ot start of plot script
+auto gnuplotpalettecmd(std::ostream &out, const std::string &palette) -> std::ostream &
+{
+    out << "#==============================================================================" << std::endl;
+    out << "# GNUPLOT-palette (" << palette << ")" << std::endl;
+    out << "#------------------------------------------------------------------------------" << std::endl;
+    out << "# see more at https://github.com/Gnuplotting/gnuplot-palettes" << std::endl;
+    out << "#==============================================================================" << std::endl;
+    out << palettes.at(palette) << std::endl;
+    return out;
+}
+
+/// Auxiliary function to write terminal commands for showing a plot from a script file
+auto gnuplotshowterminalcmd(std::ostream &out) -> std::ostream &
+{
+    out << "#==============================================================================" << std::endl;
+    out << "# TERMINAL" << std::endl;
+    out << "#==============================================================================" << std::endl;
+    out << "set termoption enhanced" << std::endl;
+    //out << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
+    out << "set size ratio " << GOLDEN_RATIO_INVERSE << std::endl;
+    return out;
+}
+
+/// Auxiliary function to write terminal commands for saving a plot from a script file
+auto gnuplotsaveterminalcmd(std::ostream &out, const std::string & extension, const std::string & size) -> std::ostream &
+{
+    out << "#==============================================================================" << std::endl;
+    out << "# TERMINAL" << std::endl;
+    out << "#==============================================================================" << std::endl;
+    out << "set terminal " << extension << " size " << size << " enhanced rounded" << std::endl;// font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
+    return out;
+}
+
+/// Auxiliary function to set the output command to make GNUplot output plots to a file
+auto gnuplotoutputcmd(std::ostream &out, const std::string &filename) -> std::ostream &
+{
+    out << "#==============================================================================" << std::endl;
+    out << "# OUTPUT" << std::endl;
+    out << "#==============================================================================" << std::endl;
+    out << "set output '" << filename << "'" << std::endl;
+    return out;
+}
+
+/// Auxiliary function to write multiplot commands to a script file
+auto gnuplotmultiplotcmd(std::ostream &out, std::size_t rows, std::size_t columns, const std::string &title) -> std::ostream &
+{
+    out << "#==============================================================================" << std::endl;
+    out << "# MULTIPLOT" << std::endl;
+    out << "#==============================================================================" << std::endl;
+    out << "set multiplot";
+    if (rows != 0 || columns != 0)
+    {
+        out << " layout " << rows << "," << columns;
+    }
+    if (!title.empty())
+    {
+        out << " title \"" << title << "\"";
+    }
+    out << std::endl;
+    return out;
+}
+
+auto gnuplotrunscript(const std::string &scriptfilename, bool persistent) -> bool
+{
+    // persistent: show the file using GNUplot until the window is closed
+    // not persistent: close gnuplot immediately
+    std::string command = (persistent ? "gnuplot -persistent " : "gnuplot ") + scriptfilename;
+    auto pipe = popen(command.c_str(), "w");
+    if (pipe == nullptr)
+    {
+        //std::cout << "Failed to show " << scriptfilename << " using GNUplot" << std::endl;
+        return false;
+    }
+    // close pipe and wait for GNUplot to finish
+    if (pclose(pipe) < 0)
+    {
+        //std::cout << "Failed to wait for GNUplot to finish showing " << scriptfilename << std::endl;
+        return false;
+    }
+    return true;
+}
+
+auto gnuplotsize(std::size_t width, std::size_t height) -> std::string
+{
+    return str(width) + "," + str(height);
+}
+
+auto gnuplotsizeinches(std::size_t width, std::size_t height) -> std::string
+{
+    return str(width * POINT_TO_INCHES) + "in," + str(height * POINT_TO_INCHES) + "in";
+}
+
 /// The struct where static angle methods are defined.
 struct angle
 {
