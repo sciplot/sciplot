@@ -7,7 +7,7 @@
 
 **So, you have an amazing C++ application for which you need plotting capabilities.** You have searched around and discovered that the available options for C++ plotting libraries is rather limited compared to other programming languages, such as Python, for example, which has [matplotlib].
 
-The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. sciplot is a header-only library that needs a C++14-capable compiler, but has no external dependencies for compiling. The only external runtime dependencies are [gnuplot-palettes] for providing color palettes and a [gnuplot] executable.
+The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. **sciplot** is a header-only library that needs a C++14-capable compiler, but has no external dependencies for compiling. The only external runtime dependencies are [gnuplot-palettes] for providing color palettes and a [gnuplot] executable.
 
 Here is an example of **sciplot** in action:
 
@@ -46,7 +46,7 @@ For more examples, see the [examples](./examples) directory.
 
 # sciplot and gnuplot
 
-All plotting capabilities of **sciplot** are powered by [gnuplot].  Your plotting code, using a modern and elegant C++ API provided by **sciplot**, is converted to a gnuplot script, which is then executed to generate the desired figure. Note that gnuplot 5.0+ is needed for multiplots.
+All plotting capabilities of **sciplot** are powered by [gnuplot].  Your plotting code, using a modern and elegant C++ API provided by **sciplot**, is converted to a gnuplot script, which is then executed to generate the desired figure. Note that gnuplot 4.2+ is needed for multiplots.
 
 [gnuplot]: http://gnuplot.info/
 [gnuplot-palettes]: https://github.com/sciplot/gnuplot-palettes
