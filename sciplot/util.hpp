@@ -37,6 +37,12 @@
 #define pclose _pclose
 #endif
 
+#if defined _WIN32
+constexpr char OS_SEP = '\\';
+#else
+constexpr char OS_SEP = '/';
+#endif
+
 namespace sciplot {
 namespace internal {
 
@@ -236,11 +242,13 @@ auto gnuplotmultiplotcmd(std::ostream &out, std::size_t rows, std::size_t column
     return out;
 }
 
+/// Auxiliary function to run gnuplot to show or save a script file
+// persistent == true: for show commands. show the file using GNUplot until the window is closed
+// persistent == false: for save commands. close gnuplot immediately
 auto gnuplotrunscript(const std::string &scriptfilename, bool persistent) -> bool
 {
-    // persistent: show the file using GNUplot until the window is closed
-    // not persistent: close gnuplot immediately
-    std::string command = (persistent ? "gnuplot -persistent " : "gnuplot ") + scriptfilename;
+    std::string command = persistent ? "gnuplot -persistent " : "gnuplot ";
+    command += "\"" + scriptfilename + "\"";
     auto pipe = popen(command.c_str(), "w");
     if (pipe == nullptr)
     {
@@ -264,6 +272,16 @@ auto gnuplotsize(std::size_t width, std::size_t height) -> std::string
 auto gnuplotsizeinches(std::size_t width, std::size_t height) -> std::string
 {
     return str(width * POINT_TO_INCHES) + "in," + str(height * POINT_TO_INCHES) + "in";
+}
+
+/// Auxiliary function to escape a output path so it can be used for GNUplot.
+/// Removes every character from invalidchars from the path.
+auto gnuplotcleanpath(const std::string &path) -> std::string
+{
+    const std::string invalidchars = ":*?!\"<>|";
+    std::string result = path;
+    result.erase(std::remove_if(result.begin(), result.end(), [&invalidchars](char c) { return (std::find(invalidchars.cbegin(), invalidchars.cend(), c) != invalidchars.cend()); }), result.end());
+    return result;
 }
 
 /// The struct where static angle methods are defined.

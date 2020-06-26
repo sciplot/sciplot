@@ -69,3 +69,10 @@ TEST_CASE("plotting tests", "[plot]")
     plt.show();
     plt.save("xy.svg");
 }
+
+TEST_CASE("output escaping", "[plot]")
+{
+    CHECK(gnuplotcleanpath("build/:*?!\"<>|xy.svg") == "build/xy.svg");
+    CHECK(gnuplotcleanpath("build:*?!\"<>|/xy.svg") == "build/xy.svg");
+    CHECK(gnuplotcleanpath("build:*?!\"<>|/xy:*?!\"<>|.svg") == "build/xy.svg");
+}

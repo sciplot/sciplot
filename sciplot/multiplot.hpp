@@ -189,9 +189,12 @@ namespace sciplot
 
     auto multiplot::save(const std::string &filename) -> void
     {
+        // Clean the file name to prevent errors
+        auto cleanedfilename = gnuplotcleanpath(filename);
         // Get extension from file name
-        std::string extension = filename.substr(filename.rfind(".") + 1);
-        std::string scriptfilename = filename + ".plt";
+        auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
+        // Open script file
+        std::string scriptfilename = cleanedfilename + ".plt";
         std::ofstream script(scriptfilename);
         // Add palette info. Use default palette if the user hasn't set one
         gnuplotpalettecmd(script, m_palette.empty() ? DEFAULT_PALETTE : m_palette);
@@ -201,7 +204,7 @@ namespace sciplot
         std::string size = extension == "pdf" ? gnuplotsizeinches(width, height) : gnuplotsize(width, height);
         gnuplotsaveterminalcmd(script, extension, size);
         // Add output command
-        gnuplotoutputcmd(script, filename);
+        gnuplotoutputcmd(script, cleanedfilename);
         // Add multiplot commands
         gnuplotmultiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
         // Add the plot commands
