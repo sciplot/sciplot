@@ -26,22 +26,11 @@
 #pragma once
 
 // C++ includes
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <valarray>
-
-// Ensure appropriate popen or pclose calls when compiling with MSVC
-#ifdef _MSC_VER
-#define popen _popen
-#define pclose _pclose
-#endif
-
-#if defined _WIN32
-constexpr char OS_SEP = '\\';
-#else
-constexpr char OS_SEP = '/';
-#endif
 
 namespace sciplot
 {
@@ -276,19 +265,7 @@ auto runscript(const std::string &scriptfilename, bool persistent) -> bool
 {
     std::string command = persistent ? "gnuplot -persistent " : "gnuplot ";
     command += "\"" + scriptfilename + "\"";
-    auto pipe = popen(command.c_str(), "w");
-    if (pipe == nullptr)
-    {
-        //std::cout << "Failed to show " << scriptfilename << " using GNUplot" << std::endl;
-        return false;
-    }
-    // close pipe and wait for GNUplot to finish
-    if (pclose(pipe) < 0)
-    {
-        //std::cout << "Failed to wait for GNUplot to finish showing " << scriptfilename << std::endl;
-        return false;
-    }
-    return true;
+    return std::system(command.c_str()) == 0;
 }
 
 /// Auxiliary function to escape a output path so it can be used for GNUplot.
