@@ -89,7 +89,7 @@ enum class ext
     eps
 };
 
-namespace internal {
+namespace gnuplot {
 
 /// Return a string for a given enum value of type `with`
 inline auto plotstylestr(plotstyle value) -> std::string

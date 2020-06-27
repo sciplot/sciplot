@@ -31,7 +31,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for grid.
 class gridspecs : public gridspecsbase
@@ -105,5 +104,4 @@ auto gridspecs::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

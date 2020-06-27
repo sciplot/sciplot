@@ -34,7 +34,6 @@
 // sciplot includes
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for plot border.
 class borderspecs : public linespecs<borderspecs>
@@ -126,10 +125,10 @@ borderspecs::borderspecs()
 {
     left();
     bottom();
-    linecolor(DEFAULT_TEXTCOLOR);
-    linetype(DEFAULT_BORDER_LINETYPE);
-    linewidth(DEFAULT_BORDER_LINEWIDTH);
-    linecolor(DEFAULT_BORDER_LINECOLOR);
+    linecolor(internal::DEFAULT_TEXTCOLOR);
+    linetype(internal::DEFAULT_BORDER_LINETYPE);
+    linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
+    linecolor(internal::DEFAULT_BORDER_LINECOLOR);
     front();
 }
 
@@ -141,5 +140,4 @@ auto borderspecs::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

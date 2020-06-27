@@ -34,11 +34,11 @@ TEST_CASE("plotting tests", "[plot]")
 {
     SECTION("########## AUXILIARY FUNCTIONS ##########")
     {
-        REQUIRE(titlestr("Something") == "'Something'");
-        REQUIRE(titlestr("columnheader") == "columnheader");
+        REQUIRE(gnuplot::titlestr("Something") == "'Something'");
+        REQUIRE(gnuplot::titlestr("columnheader") == "columnheader");
 
-        REQUIRE(optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(optionvaluestr("ls", "") == "");
+        REQUIRE(gnuplot::optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
+        REQUIRE(gnuplot::optionvaluestr("ls", "") == "");
     }
 
     plot plt;
@@ -64,7 +64,7 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xrange(0, 3);
     for(auto i = 1; i <= 7; ++i)
-        plt.draw(str(i) + " * sin(x)").title("line_" + str(i)).dashtype(i);
+        plt.draw(std::to_string(i) + " * sin(x)").title("line_" + std::to_string(i)).dashtype(i);
 
     plt.show();
     plt.save("xy.svg");
@@ -72,7 +72,7 @@ TEST_CASE("plotting tests", "[plot]")
 
 TEST_CASE("output escaping", "[plot]")
 {
-    CHECK(gnuplotcleanpath("build/:*?!\"<>|xy.svg") == "build/xy.svg");
-    CHECK(gnuplotcleanpath("build:*?!\"<>|/xy.svg") == "build/xy.svg");
-    CHECK(gnuplotcleanpath("build:*?!\"<>|/xy:*?!\"<>|.svg") == "build/xy.svg");
+    CHECK(gnuplot::cleanpath("build/:*?!\"<>|xy.svg") == "build/xy.svg");
+    CHECK(gnuplot::cleanpath("build:*?!\"<>|/xy.svg") == "build/xy.svg");
+    CHECK(gnuplot::cleanpath("build:*?!\"<>|/xy:*?!\"<>|.svg") == "build/xy.svg");
 }

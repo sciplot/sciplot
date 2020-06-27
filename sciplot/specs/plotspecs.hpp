@@ -33,7 +33,6 @@
 #include <numeric>
 
 namespace sciplot {
-namespace internal {
 
 /// The class where options for the plot function are specified.
 class plotspecs : public linespecs<plotspecs>
@@ -50,10 +49,10 @@ public:
     auto repr() const -> std::string;
 
     /// Set the title of the plot.
-    auto title(std::string value) -> plotspecs& { m_title = titlestr(value); return *this; }
+    auto title(std::string value) -> plotspecs& { m_title = gnuplot::titlestr(value); return *this; }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(plotstyle value) -> plotspecs& { m_with = plotstylestr(value); return *this; }
+    auto with(plotstyle value) -> plotspecs& { m_with = gnuplot::plotstylestr(value); return *this; }
 
     /// Set which columns from the data file to use for plot data or tick labels. Resembles the "using" directive for a plot.
     /// Pass an USE_AUTO in any of these values to "undefine" that value, e.g. to use column 2 for y, do: plot.use(USE_AUTO, 2);
@@ -93,19 +92,18 @@ private:
 
 plotspecs::plotspecs(std::string what) : m_what(what)
 {
-    with(DEFAULT_PLOTSTYLE);
+    with(internal::DEFAULT_PLOTSTYLE);
 }
 
 auto plotspecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_what << " ";
-    ss << optionvaluestr("using", m_using);
-    ss << optionvaluestr("title", m_title);
-    ss << optionvaluestr("with", m_with);
+    ss << gnuplot::optionvaluestr("using", m_using);
+    ss << gnuplot::optionvaluestr("title", m_title);
+    ss << gnuplot::optionvaluestr("with", m_with);
     ss << linespecs<plotspecs>::repr();
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

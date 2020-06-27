@@ -31,7 +31,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for titles.
 template<typename derivedspecs>
@@ -50,10 +49,10 @@ public:
     /// Set the offset of the title element.
     /// @param xval The offset along the x direction
     /// @param yval The offset along the y direction
-    auto offset(int xval, int yval) -> derivedspecs& { m_offset = "offset " + str(xval) + "," + str(yval); return static_cast<derivedspecs&>(*this); }
+    auto offset(int xval, int yval) -> derivedspecs& { m_offset = "offset " + internal::str(xval) + "," + internal::str(yval); return static_cast<derivedspecs&>(*this); }
 
     /// Set the rotation angle of the title element in degrees.
-    auto rotate(double angle) -> derivedspecs& { m_rotate = "by " + str(angle); return static_cast<derivedspecs&>(*this); }
+    auto rotate(double angle) -> derivedspecs& { m_rotate = "by " + internal::str(angle); return static_cast<derivedspecs&>(*this); }
 
 private:
     /// The title word.
@@ -77,9 +76,8 @@ auto titlespecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_title << " " << textspecs<derivedspecs>::repr() << " ";
-    ss << optionstr(m_rotate) << optionstr(m_offset);
+    ss << gnuplot::optionstr(m_rotate) << gnuplot::optionstr(m_offset);
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

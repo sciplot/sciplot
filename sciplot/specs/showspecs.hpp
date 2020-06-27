@@ -29,11 +29,10 @@
 #include <sciplot/specs/specs.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify if a plot element is shown or not.
-template<typename derivedspecs>
-class showspecs : virtual public specs<derivedspecs>
+template <typename derivedspecs>
+class showspecs : virtual public internal::specs<derivedspecs>
 {
 public:
     /// Construct a default showspecs instance.
@@ -62,5 +61,4 @@ auto showspecs<derivedspecs>::repr() const -> std::string
     return m_show ? "" : "no";
 }
 
-} // namespace internal
 } // namespace sciplot

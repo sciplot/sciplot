@@ -31,7 +31,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for text elements.
 template<typename derivedspecs>
@@ -62,7 +61,7 @@ template<typename derivedspecs>
 textspecs<derivedspecs>::textspecs()
 {
     enhanced(true);
-    textcolor(DEFAULT_TEXTCOLOR);
+    textcolor(internal::DEFAULT_TEXTCOLOR);
 }
 
 template<typename derivedspecs>
@@ -74,5 +73,4 @@ auto textspecs<derivedspecs>::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

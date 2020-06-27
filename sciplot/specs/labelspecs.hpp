@@ -30,9 +30,7 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 // TODO Missing implementation
 
-} // namespace internal
 } // namespace sciplot

@@ -31,7 +31,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for font.
 class ticspecs : public textspecs<ticspecs>
@@ -102,5 +101,4 @@ auto ticspecs::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

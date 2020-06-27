@@ -31,7 +31,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for grid lines along axis tics (major or minor).
 class gridspecsbase : public linespecs<gridspecsbase>
@@ -74,10 +73,10 @@ gridspecsbase::gridspecsbase(std::string tics, bool majortics)
 {
     show(false);
     back();
-    linecolor(DEFAULT_GRID_LINECOLOR);
-    linewidth(DEFAULT_GRID_LINEWIDTH);
-    linetype(DEFAULT_GRID_LINETYPE);
-    dashtype(DEFAULT_GRID_DASHTYPE);
+    linecolor(internal::DEFAULT_GRID_LINECOLOR);
+    linewidth(internal::DEFAULT_GRID_LINEWIDTH);
+    linetype(internal::DEFAULT_GRID_LINETYPE);
+    dashtype(internal::DEFAULT_GRID_DASHTYPE);
 }
 
 auto gridspecsbase::repr() const -> std::string
@@ -90,12 +89,11 @@ auto gridspecsbase::repr() const -> std::string
 
     std::stringstream ss;
     ss << "set grid ";
-    ss << optionstr(m_tics);
-    ss << optionstr(m_depth);
+    ss << gnuplot::optionstr(m_tics);
+    ss << gnuplot::optionstr(m_depth);
     if(m_majortics) ss << linespecs<gridspecsbase>::repr();
     else ss << ", " + linespecs<gridspecsbase>::repr(); // For minor tics, the preceding comma is needed
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

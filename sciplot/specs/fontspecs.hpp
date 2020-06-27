@@ -31,11 +31,10 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for font.
 template<typename derivedspecs>
-class fontspecs : virtual public specs<derivedspecs>
+class fontspecs : virtual public internal::specs<derivedspecs>
 {
 public:
     /// Construct a default fontspecs instance.
@@ -61,8 +60,8 @@ private:
 template<typename derivedspecs>
 fontspecs<derivedspecs>::fontspecs()
 {
-    fontname(DEFAULT_FONTNAME);
-    fontsize(DEFAULT_FONTSIZE);
+    fontname(internal::DEFAULT_FONTNAME);
+    fontsize(internal::DEFAULT_FONTSIZE);
 }
 
 template<typename derivedspecs>
@@ -73,5 +72,4 @@ auto fontspecs<derivedspecs>::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

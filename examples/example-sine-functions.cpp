@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 
     // Plot i*sin(x) from i = 1 to i = 6
     for(auto i = 1; i <= 6; ++i)
-        plt.draw(x, i * std::sin(x)).title(str(i) + "⋅sin(x)");
+        plt.draw(x, i * std::sin(x)).title(std::to_string(i) + "⋅sin(x)");
 
     // Show the plot in a pop-up window
     plt.show();

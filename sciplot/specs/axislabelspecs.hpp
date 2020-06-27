@@ -32,7 +32,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
 class axislabelspecs : public titlespecs<axislabelspecs>
@@ -65,9 +64,8 @@ auto axislabelspecs::repr() const -> std::string
     std::stringstream ss;
     ss << "set " + m_axis + "label ";
     ss << titlespecs<axislabelspecs>::repr();
-    ss << optionvaluestr("rotate", m_rotate);
+    ss << gnuplot::optionvaluestr("rotate", m_rotate);
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

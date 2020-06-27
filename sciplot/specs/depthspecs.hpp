@@ -29,7 +29,6 @@
 #include <sciplot/specs/specs.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to specify options for front or back placement of plot elements..
 template<typename derivedspecs>
@@ -65,5 +64,4 @@ auto depthspecs<derivedspecs>::repr() const -> std::string
     return m_depth;
 }
 
-} // namespace internal
 } // namespace sciplot

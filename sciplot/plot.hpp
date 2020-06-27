@@ -45,8 +45,6 @@
 namespace sciplot
 {
 
-    using namespace internal;
-
     /// The class used to define the plots and their data, show them in a pop-up window or save them to a file.
     class plot
     {
@@ -80,10 +78,10 @@ namespace sciplot
         }
 
         /// Set the x-range of the plot.
-        auto xrange(double min, double max) -> void { m_xrange = "[" + str(min) + ":" + str(max) + "]"; }
+        auto xrange(double min, double max) -> void { m_xrange = "[" + internal::str(min) + ":" + internal::str(max) + "]"; }
 
         /// Set the y-range of the plot.
-        auto yrange(double min, double max) -> void { m_yrange = "[" + str(min) + ":" + str(max) + "]"; }
+        auto yrange(double min, double max) -> void { m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]"; }
 
         /// Set the border of the plot and return a reference to the corresponding specs object.
         auto border() -> borderspecs & { return m_border; }
@@ -101,10 +99,10 @@ namespace sciplot
         /// The default box width type is "automatic", which makes the boxes touch. For "relative", "width" specifies
         /// a fraction of that automatic value. With "absolute", "width" specifies an absolute size on the x-axis.
         /// This setting will be applied to all plot draw() calls after this.
-        auto boxwidth(boxwidthtype widthtype = boxwidthtype::automatic, float width = 1.0F) -> void { m_boxwidth = str(width) + " " + boxwidthtypestr(widthtype); }
+        auto boxwidth(boxwidthtype widthtype = boxwidthtype::automatic, float width = 1.0F) -> void { m_boxwidth = internal::str(width) + " " + gnuplot::boxwidthtypestr(widthtype); }
 
         /// Set the number of sample points for analytical plots.
-        auto samples(std::size_t value) -> void { m_samples = str(value); }
+        auto samples(std::size_t value) -> void { m_samples = internal::str(value); }
 
         /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
         auto draw(const std::string &what) -> plotspecs &;
@@ -201,7 +199,7 @@ namespace sciplot
     std::size_t plot::m_counter = 0;
 
     plot::plot()
-        : m_id(m_counter++), m_scriptfilename("show" + str(id()) + ".plt"), m_datafilename("plot" + str(id()) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_zlabel("z")
+        : m_id(m_counter++), m_scriptfilename("show" + internal::str(id()) + ".plt"), m_datafilename("plot" + internal::str(id()) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_zlabel("z")
     {
     }
 
@@ -235,9 +233,9 @@ namespace sciplot
         auto openmode = m_numdatasets == 0 ? std::ios::trunc : (std::ios::app | std::ios::ate);
         std::ofstream datastream(m_datafilename, openmode);
         // Save the given vectors x and y as a new data set in the data file
-        gnuplotdataset(datastream, m_numdatasets, x, y);
+        gnuplot::writedataset(datastream, m_numdatasets, x, y);
         // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
-        return draw("'" + m_datafilename + "' index " + str(m_numdatasets++));
+        return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++));
     }
 
     auto plot::repr() const -> std::string
@@ -247,16 +245,16 @@ namespace sciplot
         script << "#==============================================================================" << std::endl;
         script << "# SETUP COMMANDS" << std::endl;
         script << "#==============================================================================" << std::endl;
-        script << commandvaluestr("set xrange", m_xrange);
-        script << commandvaluestr("set yrange", m_yrange);
+        script << gnuplot::commandvaluestr("set xrange", m_xrange);
+        script << gnuplot::commandvaluestr("set yrange", m_yrange);
         script << m_xlabel << std::endl;
         script << m_ylabel << std::endl;
         script << m_border << std::endl;
         script << m_gridspecs << std::endl;
         script << m_tics << std::endl;
         script << m_legend << std::endl;
-        script << commandvaluestr("set boxwidth", m_boxwidth);
-        script << commandvaluestr("set samples", m_samples);
+        script << gnuplot::commandvaluestr("set boxwidth", m_boxwidth);
+        script << gnuplot::commandvaluestr("set samples", m_samples);
         // Add custom gnuplot commands
         if (!m_customcmds.empty())
         {
@@ -289,16 +287,16 @@ namespace sciplot
         // Open script file and truncate it
         std::ofstream script(m_scriptfilename);
         // Add palette info. Use default palette if the user hasn't set one
-        gnuplotpalettecmd(script, m_palette.empty() ? DEFAULT_PALETTE : m_palette);
+        gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
         // Add terminal info
-        gnuplotshowterminalcmd(script);
+        gnuplot::showterminalcmd(script);
         // Add the plot commands
         script << repr();
         // Add an empty line at the end and close the script to avoid crashes with gnuplot
         script << std::endl;
         script.close();
         // Show the plot
-        gnuplotrunscript(m_scriptfilename, true);
+        gnuplot::runscript(m_scriptfilename, true);
         // Remove the no longer needed show{#}.plt file
         //        std::remove(m_scriptfilename.c_str());
     }
@@ -306,21 +304,21 @@ namespace sciplot
     auto plot::save(const std::string &filename) -> void
     {
         // Clean the file name to prevent errors
-        auto cleanedfilename = gnuplotcleanpath(filename);
+        auto cleanedfilename = gnuplot::cleanpath(filename);
         // Get extension from file name
         auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
         // Open script file
         std::string scriptfilename = cleanedfilename + ".plt";
         std::ofstream script(scriptfilename);
         // Add palette info. Use default palette if the user hasn't set one
-        gnuplotpalettecmd(script, m_palette.empty() ? DEFAULT_PALETTE : m_palette);
+        gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
         // Add terminal info
-        auto width = m_width == 0 ? DEFAULT_FIGURE_WIDTH : m_width;
-        auto height = m_height == 0 ? DEFAULT_FIGURE_HEIGHT : m_height;
-        std::string size = extension == "pdf" ? gnuplotsizeinches(width, height) : gnuplotsize(width, height);
-        gnuplotsaveterminalcmd(script, extension, size);
+        auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
+        auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
+        std::string size = gnuplot::sizestr(width, height, extension == "pdf");
+        gnuplot::saveterminalcmd(script, extension, size);
         // Add output command
-        gnuplotoutputcmd(script, cleanedfilename);
+        gnuplot::outputcmd(script, cleanedfilename);
         // Add the plot commands
         script << repr();
         // Unset the output
@@ -330,7 +328,7 @@ namespace sciplot
         script << std::endl;
         script.close();
         // Save the plot as a file
-        gnuplotrunscript(scriptfilename, false);
+        gnuplot::runscript(scriptfilename, false);
     }
 
 } // namespace sciplot

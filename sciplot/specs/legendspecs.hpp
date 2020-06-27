@@ -34,7 +34,6 @@
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-namespace internal {
 
 /// The class used to setup the specs of the legend header title.
 class legendheaderspecs : public titlespecs<legendheaderspecs>
@@ -56,7 +55,7 @@ public:
 };
 
 /// The class used to setup the specs of the legend border lines.
-class legendtitlesspecs : public virtual specs<legendtitlesspecs>
+class legendtitlesspecs : public virtual internal::specs<legendtitlesspecs>
 {
 public:
     /// Construct a default legendtitlesspecs object.
@@ -150,10 +149,10 @@ public:
     auto spacing(double value) -> legendspecs& { m_spacing = value; return *this; }
 
     /// Set the maximum number of rows of titles in the legend.
-    auto maxrows(std::size_t value) -> legendspecs& { m_maxrows = str(value); return *this; }
+    auto maxrows(std::size_t value) -> legendspecs& { m_maxrows = internal::str(value); return *this; }
 
     /// Set the maximum number of rows of titles in the legend.
-    auto maxcols(std::size_t value) -> legendspecs& { m_maxcols = str(value); return *this; }
+    auto maxcols(std::size_t value) -> legendspecs& { m_maxcols = internal::str(value); return *this; }
 
 private:
     /// The place where the legend is displayed (inside or outside the graph).
@@ -194,12 +193,12 @@ legendspecs::legendspecs()
 {
     inside();
     opaque();
-    fontname(DEFAULT_LEGEND_FONTNAME);
-    fontsize(DEFAULT_LEGEND_FONTSIZE);
+    fontname(internal::DEFAULT_LEGEND_FONTNAME);
+    fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
     addtowidth(0.0);
     addtoheight(0.0);
-    samplelength(DEFAULT_LEGEND_SAMPLE_LENGTH);
-    spacing(DEFAULT_LEGEND_SPACING);
+    samplelength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
+    spacing(internal::DEFAULT_LEGEND_SPACING);
 }
 
 auto legendspecs::repr() const -> std::string
@@ -225,17 +224,17 @@ auto legendspecs::repr() const -> std::string
 legendheaderspecs::legendheaderspecs()
 {
     text("");
-    fontname(DEFAULT_LEGEND_FONTNAME);
-    fontsize(DEFAULT_LEGEND_FONTSIZE);
+    fontname(internal::DEFAULT_LEGEND_FONTNAME);
+    fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
 }
 
 legendborderspecs::legendborderspecs()
 {
     show(false);
-    linecolor(DEFAULT_LEGEND_LINECOLOR);
-    linetype(DEFAULT_LEGEND_LINETYPE);
-    linewidth(DEFAULT_LEGEND_LINEWIDTH);
-    linecolor(DEFAULT_LEGEND_LINECOLOR);
+    linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
+    linetype(internal::DEFAULT_LEGEND_LINETYPE);
+    linewidth(internal::DEFAULT_LEGEND_LINEWIDTH);
+    linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
 }
 
 auto legendborderspecs::repr() const -> std::string
@@ -262,5 +261,4 @@ auto legendtitlesspecs::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot
