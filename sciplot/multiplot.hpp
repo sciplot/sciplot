@@ -80,15 +80,12 @@ namespace sciplot
         /// file extension as in `fig.png`.
         auto save(const std::string &filename) -> void;
 
-    protected:
-        /// Plot id derived from m_counter upon construction
-        auto id() const -> std::size_t;
-
+    private:
         /// Counter of how many plot / singleplot objects have been instanciated in the application
         static std::size_t m_counter;
 
-    private:
         /// Plot id derived from m_counter upon construction
+        /// Must be the first member due to constructor initialization order!
         std::size_t m_id = 0;
 
         /// The name of the gnuplot palette to be used
@@ -120,13 +117,8 @@ namespace sciplot
     std::size_t multiplot::m_counter = 0;
 
     multiplot::multiplot()
-        : m_id(m_counter++), m_scriptfilename("multishow" + internal::str(id()) + ".plt")
+        : m_id(m_counter++), m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
     {
-    }
-
-    auto multiplot::id() const -> std::size_t
-    {
-        return m_id;
     }
 
     auto multiplot::palette(const std::string &name) -> multiplot &

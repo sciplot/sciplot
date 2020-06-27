@@ -125,15 +125,12 @@ namespace sciplot
         /// Use this method to provide gnuplot commands to be executed before the plotting calls.
         auto gnuplot(const std::string &command) -> void { m_customcmds.push_back(command); }
 
-    protected:
-        /// Plot id derived from m_counter upon construction
-        std::size_t id() const { return m_id; }
-
+    private:
         /// Counter of how many plot / singleplot objects have been instanciated in the application
         static std::size_t m_counter;
 
-    private:
         /// Plot id derived from m_counter upon construction
+        /// Must be the first member due to constructor initialization order!
         std::size_t m_id = 0;
 
         /// The name of the gnuplot palette to be used
@@ -199,7 +196,7 @@ namespace sciplot
     std::size_t plot::m_counter = 0;
 
     plot::plot()
-        : m_id(m_counter++), m_scriptfilename("show" + internal::str(id()) + ".plt"), m_datafilename("plot" + internal::str(id()) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_zlabel("z")
+        : m_id(m_counter++), m_scriptfilename("show" + internal::str(m_id) + ".plt"), m_datafilename("plot" + internal::str(m_id) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_zlabel("z")
     {
     }
 
