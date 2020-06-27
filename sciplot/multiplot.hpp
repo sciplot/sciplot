@@ -49,7 +49,7 @@ namespace sciplot
     using namespace internal;
 
     /// The class used to define multipleplots in one canvas, show them in a pop-up window or save them to a file.
-    class multiplot : public plot
+    class multiplot
     {
     public:
         /// Construct a default multiplot object
