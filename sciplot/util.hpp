@@ -43,18 +43,20 @@ constexpr char OS_SEP = '\\';
 constexpr char OS_SEP = '/';
 #endif
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
+namespace internal
+{
 
 /// Return a string for a given index
-template<typename T>
-auto str(const T& i) -> std::string
+template <typename T>
+auto str(const T &i) -> std::string
 {
     return std::to_string(i);
 }
 
 /// Return a string for a given char array
-inline auto str(const char* word) -> std::string
+inline auto str(const char *word) -> std::string
 {
     return word;
 }
@@ -66,15 +68,15 @@ inline auto str() -> std::string
 }
 
 /// Auxiliary function that returns the size of the vector argument with least size (for a single vector case)
-template<typename VectorType>
-auto minsize(const VectorType& v) -> std::size_t
+template <typename VectorType>
+auto minsize(const VectorType &v) -> std::size_t
 {
     return v.size();
 }
 
 /// Auxiliary function that returns the size of the vector argument with least size
-template<typename VectorType, typename... Args>
-auto minsize(const VectorType& v, const Args&... args) -> std::size_t
+template <typename VectorType, typename... Args>
+auto minsize(const VectorType &v, const Args &... args) -> std::size_t
 {
     return std::min(v.size(), minsize(args...));
 }
@@ -84,7 +86,8 @@ auto minsize(const VectorType& v, const Args&... args) -> std::size_t
 template <typename VectorType>
 typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v)
 {
-    out << "\"" << v[i] << "\"" << "\n";
+    out << "\"" << v[i] << "\""
+        << "\n";
     return out;
 }
 
@@ -116,18 +119,19 @@ typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::val
 }
 
 /// Auxiliary function to write many vector arguments into an ostream object
-template<typename... Args>
-auto write(std::ostream& out, const Args&... args) -> std::ostream&
+template <typename... Args>
+auto write(std::ostream &out, const Args &... args) -> std::ostream &
 {
     const auto size = minsize(args...);
-    for(std::size_t i = 0; i < size; ++i)
+    for (std::size_t i = 0; i < size; ++i)
         writeline(out, i, args...);
     return out;
 }
 
 } // namespace internal
 
-namespace gnuplot {
+namespace gnuplot
+{
 
 /// Return the formatted string for a plot title.
 inline auto titlestr(std::string word) -> std::string

@@ -30,13 +30,14 @@
 #include <sciplot/specs/fontspecs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to specify options for text elements.
-template<typename derivedspecs>
+template <typename derivedspecs>
 class textspecs : public fontspecs<derivedspecs>
 {
-public:
+  public:
     /// Construct a default textspecs instance.
     textspecs();
 
@@ -44,12 +45,20 @@ public:
     auto repr() const -> std::string;
 
     /// Set the enhanced mode of the text.
-    auto enhanced(bool value) -> derivedspecs& { m_enhanced = value ? "enhanced" : "noenhanced"; return static_cast<derivedspecs&>(*this); }
+    auto enhanced(bool value) -> derivedspecs &
+    {
+        m_enhanced = value ? "enhanced" : "noenhanced";
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
-    auto textcolor(std::string color) -> derivedspecs& { m_color = "'" + color + "'"; return static_cast<derivedspecs&>(*this); }
+    auto textcolor(std::string color) -> derivedspecs &
+    {
+        m_color = "'" + color + "'";
+        return static_cast<derivedspecs &>(*this);
+    }
 
-private:
+  private:
     /// The color of the title text.
     std::string m_color;
 
@@ -57,14 +66,14 @@ private:
     std::string m_enhanced;
 };
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 textspecs<derivedspecs>::textspecs()
 {
     enhanced(true);
     textcolor(internal::DEFAULT_TEXTCOLOR);
 }
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto textspecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;

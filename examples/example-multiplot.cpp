@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     multiplot mp;
     mp.title("Example - Multiplot");
     mp.palette("dark2");
-    mp.layout(2,2);
+    mp.layout(2, 2);
     // Add plots to multiplot
     mp.add(p0).add(p1).add(p2).add(p3);
 
@@ -55,4 +55,3 @@ int main(int argc, char **argv)
     mp.save("example-multiplot.pdf");
     mp.save("example-multiplot.svg");
 }
-

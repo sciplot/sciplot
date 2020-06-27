@@ -27,17 +27,18 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
+#include <sciplot/enums.hpp>
 #include <sciplot/specs/specs.hpp>
 #include <sciplot/util.hpp>
-#include <sciplot/enums.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The specifications for a line plot.
-template<typename derivedspecs>
+template <typename derivedspecs>
 class linespecs : virtual public internal::specs<derivedspecs>
 {
-public:
+  public:
     /// Construct a default linespecs instance.
     linespecs();
 
@@ -45,23 +46,43 @@ public:
     auto repr() const -> std::string;
 
     /// Set the line style of the plot.
-    auto linestyle(std::size_t value) -> derivedspecs& { m_linestyle = internal::str(value); return static_cast<derivedspecs&>(*this); }
+    auto linestyle(std::size_t value) -> derivedspecs &
+    {
+        m_linestyle = internal::str(value);
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the line type of the plot.
-    auto linetype(std::size_t value) -> derivedspecs& { m_linetype = internal::str(value); return static_cast<derivedspecs&>(*this); }
+    auto linetype(std::size_t value) -> derivedspecs &
+    {
+        m_linetype = internal::str(value);
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the line width of the plot.
-    auto linewidth(std::size_t value) -> derivedspecs& { m_linewidth = internal::str(value); return static_cast<derivedspecs&>(*this); }
+    auto linewidth(std::size_t value) -> derivedspecs &
+    {
+        m_linewidth = internal::str(value);
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> derivedspecs& { m_linecolor = "'" + value + "'"; return static_cast<derivedspecs&>(*this); }
+    auto linecolor(std::string value) -> derivedspecs &
+    {
+        m_linecolor = "'" + value + "'";
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the dash type of the plot.
-    auto dashtype(std::size_t value) -> derivedspecs& { m_dashtype = internal::str(value); return static_cast<derivedspecs&>(*this); }
+    auto dashtype(std::size_t value) -> derivedspecs &
+    {
+        m_dashtype = internal::str(value);
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the dash type of the plot.
     /// The density parameter only works for the "solid" fill mode and must be in [0,1].
-    auto fillstyle(fillstyle value, float density = 1.0F) -> derivedspecs&
+    auto fillstyle(fillstyle value, float density = 1.0F) -> derivedspecs &
     {
         m_fillstyle = gnuplot::fillstylestr(value);
         if (value == fillstyle::solid)
@@ -69,10 +90,10 @@ public:
             density = density < 0.0F ? 0.0F : (density > 1.0F ? 1.0F : density);
             m_fillstyle += " " + internal::str(density);
         }
-        return static_cast<derivedspecs&>(*this);
+        return static_cast<derivedspecs &>(*this);
     }
 
-private:
+  private:
     /// The line style of the plot (e.g., "ls 2").
     std::string m_linestyle;
 
@@ -92,13 +113,13 @@ private:
     std::string m_fillstyle;
 };
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 linespecs<derivedspecs>::linespecs()
 {
     linewidth(internal::DEFAULT_LINEWIDTH);
 }
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto linespecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;

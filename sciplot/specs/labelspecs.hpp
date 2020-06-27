@@ -29,7 +29,8 @@
 #include <sciplot/specs/specs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 // TODO Missing implementation
 

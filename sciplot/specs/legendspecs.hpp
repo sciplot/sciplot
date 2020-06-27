@@ -33,12 +33,13 @@
 #include <sciplot/specs/titlespecs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to setup the specs of the legend header title.
 class legendheaderspecs : public titlespecs<legendheaderspecs>
 {
-public:
+  public:
     /// Construct a default legendheaderspecs object.
     legendheaderspecs();
 };
@@ -46,7 +47,7 @@ public:
 /// The class used to setup the specs of the legend border lines.
 class legendborderspecs : public linespecs<legendborderspecs>, public showspecs<legendborderspecs>
 {
-public:
+  public:
     /// Construct a default legendborderspecs object.
     legendborderspecs();
 
@@ -57,7 +58,7 @@ public:
 /// The class used to setup the specs of the legend border lines.
 class legendtitlesspecs : public virtual internal::specs<legendtitlesspecs>
 {
-public:
+  public:
     /// Construct a default legendtitlesspecs object.
     legendtitlesspecs();
 
@@ -65,36 +66,78 @@ public:
     auto repr() const -> std::string;
 
     /// Set the titles to be displayed along the vertical, one on top of each other.
-    auto vertical() -> legendtitlesspecs& { m_alignment = "vertical"; return *this; }
+    auto vertical() -> legendtitlesspecs &
+    {
+        m_alignment = "vertical";
+        return *this;
+    }
 
     /// Set the titles to be displayed along the horizontal, one next to each other.
-    auto horizontal() -> legendtitlesspecs& { m_alignment = "horizontal"; return *this; }
+    auto horizontal() -> legendtitlesspecs &
+    {
+        m_alignment = "horizontal";
+        return *this;
+    }
 
     /// Set the legend titles to be on the left side of the their corresponding symbols (e.g., line segments, points).
-    auto leftside() -> legendtitlesspecs& { m_reverse = "noreverse"; return *this; }
+    auto leftside() -> legendtitlesspecs &
+    {
+        m_reverse = "noreverse";
+        return *this;
+    }
 
     /// Set the legend titles to be on the right side of the their corresponding symbols (e.g., line segments, points).
-    auto rightside() -> legendtitlesspecs& { m_reverse = "reverse"; return *this; }
+    auto rightside() -> legendtitlesspecs &
+    {
+        m_reverse = "reverse";
+        return *this;
+    }
 
     /// Set the legend titles to be left justified.
-    auto leftjustified() -> legendtitlesspecs& { m_justification = "Left"; return *this; }
+    auto leftjustified() -> legendtitlesspecs &
+    {
+        m_justification = "Left";
+        return *this;
+    }
 
     /// Set the legend titles to be right justified.
-    auto rightjustified() -> legendtitlesspecs& { m_justification = "Right"; return *this; }
+    auto rightjustified() -> legendtitlesspecs &
+    {
+        m_justification = "Right";
+        return *this;
+    }
 
     /// Set the legend titles to be on the left side and right justified.
-    auto leftsiderightjustified() -> legendtitlesspecs& { leftside(); rightjustified(); return *this; }
+    auto leftsiderightjustified() -> legendtitlesspecs &
+    {
+        leftside();
+        rightjustified();
+        return *this;
+    }
 
     /// Set the legend titles to be on the right side and left justified.
-    auto rightsideleftjustified() -> legendtitlesspecs& { rightside(); leftjustified(); return *this; }
+    auto rightsideleftjustified() -> legendtitlesspecs &
+    {
+        rightside();
+        leftjustified();
+        return *this;
+    }
 
     /// Set the legend titles to be displayed in the order from first to last.
-    auto startfromfirst() -> legendtitlesspecs& { m_invert = "noinvert"; return *this; }
+    auto startfromfirst() -> legendtitlesspecs &
+    {
+        m_invert = "noinvert";
+        return *this;
+    }
 
     /// Set the legend titles to be displayed in the order from last to first.
-    auto startfromlast() -> legendtitlesspecs& { m_invert = "invert"; return *this; }
+    auto startfromlast() -> legendtitlesspecs &
+    {
+        m_invert = "invert";
+        return *this;
+    }
 
-private:
+  private:
     /// The alignment of the titles (either along the horizontal or vertical).
     std::string m_alignment;
 
@@ -111,7 +154,7 @@ private:
 /// The class used to specify options for legend (legend).
 class legendspecs : public textspecs<legendspecs>, public showspecs<legendspecs>
 {
-public:
+  public:
     /// Construct a default legendspecs instance.
     legendspecs();
 
@@ -119,42 +162,82 @@ public:
     auto repr() const -> std::string;
 
     /// Set the legend to be displayed inside the graph's border.
-    auto inside() -> legendspecs& { m_placement = "inside"; return *this; }
+    auto inside() -> legendspecs &
+    {
+        m_placement = "inside";
+        return *this;
+    }
 
     /// Set the legend to be displayed outside the graph's border.
-    auto outside() -> legendspecs& { m_placement = "outside"; return *this; }
+    auto outside() -> legendspecs &
+    {
+        m_placement = "outside";
+        return *this;
+    }
 
     /// Set the legend fram to be opaque or not, so that no plot element obstructs it.
-    auto opaque(bool value = true) -> legendspecs& { m_opaque = value ? "opaque" : "noopaque"; return *this; }
+    auto opaque(bool value = true) -> legendspecs &
+    {
+        m_opaque = value ? "opaque" : "noopaque";
+        return *this;
+    }
 
     /// Return the specs object for configuring how the titles in the legend are displayed.
-    auto titles() -> legendtitlesspecs& { return m_titles; }
+    auto titles() -> legendtitlesspecs & { return m_titles; }
 
     /// Enable or disable the border surrounding the legend and return a specs object for its further setup.
-    auto border() -> legendborderspecs& { return m_border; }
+    auto border() -> legendborderspecs & { return m_border; }
 
     /// Set the header title of the legend and return a specs object for its further setup.
-    auto header(std::string text) -> legendheaderspecs& { m_header.text(text); return m_header; }
+    auto header(std::string text) -> legendheaderspecs &
+    {
+        m_header.text(text);
+        return m_header;
+    }
 
     /// Set the width increment of the legend frame.
-    auto addtowidth(double value) -> legendspecs& { m_width = value; return *this; }
+    auto addtowidth(double value) -> legendspecs &
+    {
+        m_width = value;
+        return *this;
+    }
 
     /// Set the height increment of the legend frame.
-    auto addtoheight(double value) -> legendspecs& { m_height = value; return *this; }
+    auto addtoheight(double value) -> legendspecs &
+    {
+        m_height = value;
+        return *this;
+    }
 
     /// Set the length of the samples in the legend.
-    auto samplelength(double value) -> legendspecs& { m_samplen = value; return *this; }
+    auto samplelength(double value) -> legendspecs &
+    {
+        m_samplen = value;
+        return *this;
+    }
 
     /// Set the spacing between the titles in the legend.
-    auto spacing(double value) -> legendspecs& { m_spacing = value; return *this; }
+    auto spacing(double value) -> legendspecs &
+    {
+        m_spacing = value;
+        return *this;
+    }
 
     /// Set the maximum number of rows of titles in the legend.
-    auto maxrows(std::size_t value) -> legendspecs& { m_maxrows = internal::str(value); return *this; }
+    auto maxrows(std::size_t value) -> legendspecs &
+    {
+        m_maxrows = internal::str(value);
+        return *this;
+    }
 
     /// Set the maximum number of rows of titles in the legend.
-    auto maxcols(std::size_t value) -> legendspecs& { m_maxcols = internal::str(value); return *this; }
+    auto maxcols(std::size_t value) -> legendspecs &
+    {
+        m_maxcols = internal::str(value);
+        return *this;
+    }
 
-private:
+  private:
     /// The place where the legend is displayed (inside or outside the graph).
     std::string m_placement;
 
@@ -203,7 +286,7 @@ legendspecs::legendspecs()
 
 auto legendspecs::repr() const -> std::string
 {
-    if(showspecs<legendspecs>::repr() == "no")
+    if (showspecs<legendspecs>::repr() == "no")
         return "unset legend";
 
     std::stringstream ss;
@@ -239,7 +322,7 @@ legendborderspecs::legendborderspecs()
 
 auto legendborderspecs::repr() const -> std::string
 {
-    if(showspecs<legendborderspecs>::repr() == "no")
+    if (showspecs<legendborderspecs>::repr() == "no")
         return "nobox";
 
     std::stringstream ss;

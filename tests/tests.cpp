@@ -43,27 +43,27 @@ TEST_CASE("plotting tests", "[plot]")
 
     plot plt;
 
-    std::vector<double> x = {1,2,3,4,5,6};
-    std::vector<double> y = {1,2,2,3,3,4};
+    std::vector<double> x = {1, 2, 3, 4, 5, 6};
+    std::vector<double> y = {1, 2, 2, 3, 3, 4};
 
     plt.palette("dark2");
     plt.xlabel("Temperature [K]");
     plt.ylabel("Amount [mol]");
-//    plt.legend().maxrows(2);
-//    plt.legend().maxcols(2);
-//    plt.gnuplot("set mxtics 4");
-//    plt.legend().box().show(false);
-//    plt.legend().title("{/:Bold Legend}").fontsize(10);
-//    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
+    //    plt.legend().maxrows(2);
+    //    plt.legend().maxcols(2);
+    //    plt.gnuplot("set mxtics 4");
+    //    plt.legend().box().show(false);
+    //    plt.legend().title("{/:Bold Legend}").fontsize(10);
+    //    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
 
-//    plt.gnuplot("unset grid");
+    //    plt.gnuplot("unset grid");
 
-//    plt.border().clear().left().top().behind();
+    //    plt.border().clear().left().top().behind();
 
-//    plt.legend().titles().leftsiderightjustified();
+    //    plt.legend().titles().leftsiderightjustified();
 
     plt.xrange(0, 3);
-    for(auto i = 1; i <= 7; ++i)
+    for (auto i = 1; i <= 7; ++i)
         plt.draw(std::to_string(i) + " * sin(x)").title("line_" + std::to_string(i)).dashtype(i);
 
     plt.show();

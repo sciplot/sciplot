@@ -26,18 +26,19 @@
 #pragma once
 
 // sciplot includes
+#include <limits>
+#include <numeric>
 #include <sciplot/enums.hpp>
 #include <sciplot/specs/linespecs.hpp>
 #include <sciplot/util.hpp>
-#include <limits>
-#include <numeric>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class where options for the plot function are specified.
 class plotspecs : public linespecs<plotspecs>
 {
-public:
+  public:
     /// Undefine / ignore column usage value. See use().
     static constexpr int USE_AUTO = std::numeric_limits<int>::min();
 
@@ -49,15 +50,23 @@ public:
     auto repr() const -> std::string;
 
     /// Set the title of the plot.
-    auto title(std::string value) -> plotspecs& { m_title = gnuplot::titlestr(value); return *this; }
+    auto title(std::string value) -> plotspecs &
+    {
+        m_title = gnuplot::titlestr(value);
+        return *this;
+    }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(plotstyle value) -> plotspecs& { m_with = gnuplot::plotstylestr(value); return *this; }
+    auto with(plotstyle value) -> plotspecs &
+    {
+        m_with = gnuplot::plotstylestr(value);
+        return *this;
+    }
 
     /// Set which columns from the data file to use for plot data or tick labels. Resembles the "using" directive for a plot.
     /// Pass an USE_AUTO in any of these values to "undefine" that value, e.g. to use column 2 for y, do: plot.use(USE_AUTO, 2);
     /// To use strings as tick labels, you can pass them in the corresponding data column in the plot.draw() call.
-    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> plotspecs&
+    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> plotspecs &
     {
         std::vector<std::pair<unsigned int, std::string>> values = {
             {xcol, std::to_string(xcol)},
@@ -76,7 +85,7 @@ public:
         return *this;
     }
 
-private:
+  private:
     /// The what to be plotted as a gnuplot formatted string (e.g., "sin(x)").
     std::string m_what;
 
@@ -90,7 +99,8 @@ private:
     std::string m_using;
 };
 
-plotspecs::plotspecs(std::string what) : m_what(what)
+plotspecs::plotspecs(std::string what)
+    : m_what(what)
 {
     with(internal::DEFAULT_PLOTSTYLE);
 }

@@ -43,4 +43,3 @@ int main(int argc, char **argv)
     plt.save("example-sincos-functions.pdf");
     plt.save("example-sincos-functions.svg");
 }
-

@@ -28,13 +28,14 @@
 // sciplot includes
 #include <sciplot/specs/specs.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to specify options for front or back placement of plot elements..
-template<typename derivedspecs>
+template <typename derivedspecs>
 class depthspecs : virtual public specs<derivedspecs>
 {
-public:
+  public:
     /// Construct a default depthspecs instance.
     depthspecs();
 
@@ -42,23 +43,31 @@ public:
     auto repr() const -> std::string;
 
     /// Set the plot element to be displayed on the front of all plot elements.
-    auto front() -> derivedspecs& { m_depth = "front"; return static_cast<derivedspecs&>(*this); }
+    auto front() -> derivedspecs &
+    {
+        m_depth = "front";
+        return static_cast<derivedspecs &>(*this);
+    }
 
     /// Set the plot element to be displayed on the back of all plot elements.
-    auto back() -> derivedspecs& { m_depth = "back"; return static_cast<derivedspecs&>(*this); }
+    auto back() -> derivedspecs &
+    {
+        m_depth = "back";
+        return static_cast<derivedspecs &>(*this);
+    }
 
-private:
+  private:
     /// The depth of the plot element (front or back) if applicable.
     std::string m_depth;
 };
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 depthspecs<derivedspecs>::depthspecs()
 {
     back();
 }
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto depthspecs<derivedspecs>::repr() const -> std::string
 {
     return m_depth;

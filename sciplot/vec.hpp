@@ -30,17 +30,18 @@
 #include <functional>
 #include <valarray>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// A convenient type alias for std::valarray<double>
 using vec = std::valarray<double>;
 
 /// Return an array with uniform incrementes from a given initial value to a final one
-template<typename T0, typename T1, typename U = double>
+template <typename T0, typename T1, typename U = double>
 auto linspace(T0 x0, T1 x1, std::size_t numintervals) -> std::valarray<U>
 {
     std::valarray<U> result(numintervals + 1);
-    for(std::size_t i = 0; i <= numintervals; ++i)
+    for (std::size_t i = 0; i <= numintervals; ++i)
         result[i] = x0 + i * (x1 - x0) / static_cast<U>(numintervals);
     return result;
 }

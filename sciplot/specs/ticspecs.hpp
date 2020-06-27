@@ -30,12 +30,13 @@
 #include <sciplot/specs/textspecs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to specify options for font.
 class ticspecs : public textspecs<ticspecs>
 {
-public:
+  public:
     /// Construct a default ticspecs instance.
     ticspecs();
 
@@ -43,30 +44,58 @@ public:
     auto repr() const -> std::string;
 
     /// Set the tics to be mirrored on the oposing axes if `true`.
-    auto mirror(bool value = true) -> ticspecs& { m_mirror = value ? "mirror" : "nomirror"; return *this; }
+    auto mirror(bool value = true) -> ticspecs &
+    {
+        m_mirror = value ? "mirror" : "nomirror";
+        return *this;
+    }
 
     /// Set the tics to be displayed on the front of all plot elements.
-    auto front() -> ticspecs& { m_depth = "front"; return *this; }
+    auto front() -> ticspecs &
+    {
+        m_depth = "front";
+        return *this;
+    }
 
     /// Set the tics to be displayed on the back of all plot elements.
-    auto back() -> ticspecs& { m_depth = "back"; return *this; }
+    auto back() -> ticspecs &
+    {
+        m_depth = "back";
+        return *this;
+    }
 
     /// Set the tics to be displayed inside the graph.
-    auto inside() -> ticspecs& { m_inout = "in"; return *this; }
+    auto inside() -> ticspecs &
+    {
+        m_inout = "in";
+        return *this;
+    }
 
     /// Set the tics to be displayed outside the graph.
-    auto outside() -> ticspecs& { m_inout = "out"; return *this; }
+    auto outside() -> ticspecs &
+    {
+        m_inout = "out";
+        return *this;
+    }
 
     /// Set the scale for the major tics (identical to method scalemajor).
-    auto scale(double value) -> ticspecs& { return scalemajor(value); }
+    auto scale(double value) -> ticspecs & { return scalemajor(value); }
 
     /// Set the scale for the major tics.
-    auto scalemajor(double value) -> ticspecs& { m_scalemajor = value; return *this; }
+    auto scalemajor(double value) -> ticspecs &
+    {
+        m_scalemajor = value;
+        return *this;
+    }
 
     /// Set the scale for the minor tics.
-    auto scaleminor(double value) -> ticspecs& { m_scaleminor = value; return *this; }
+    auto scaleminor(double value) -> ticspecs &
+    {
+        m_scaleminor = value;
+        return *this;
+    }
 
-private:
+  private:
     /// The mirror option of the tics.
     std::string m_mirror;
 

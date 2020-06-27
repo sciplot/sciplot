@@ -29,8 +29,10 @@
 #include <sciplot/constants.hpp>
 #include <sciplot/enums.hpp>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
+namespace internal
+{
 
 const auto DEFAULT_FIGURE_HEIGHT = 200; // this is equivalent to 6 inches if 1 in = 72 points
 const auto DEFAULT_FIGURE_WIDTH = DEFAULT_FIGURE_HEIGHT * GOLDEN_RATIO;

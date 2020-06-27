@@ -46,172 +46,172 @@
 namespace sciplot
 {
 
-    /// The class used to define multipleplots in one canvas, show them in a pop-up window or save them to a file.
-    class multiplot
+/// The class used to define multipleplots in one canvas, show them in a pop-up window or save them to a file.
+class multiplot
+{
+  public:
+    /// Construct a default multiplot object
+    multiplot();
+
+    /// Set the palette of colors for the plot.
+    /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
+    auto palette(const std::string &name) -> multiplot &;
+
+    /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
+    auto size(std::size_t width, std::size_t height) -> multiplot &;
+
+    /// Set the layout of the multiplot in x- and y-direction.
+    auto layout(std::size_t rows, std::size_t columns) -> multiplot &;
+
+    /// Set the title of the multiplot.
+    auto title(const std::string &title) -> multiplot &;
+
+    /// Add a plot to the multiplot.
+    /// Note that if you're changing the plot afterwards, changes will NOT be recorded in the multiplot.
+    auto add(const plot &p) -> multiplot &;
+
+    /// Show the plot in a pop-up window.
+    auto show() -> void;
+
+    /// Save the plot in a file, with its extension defining the figure format.
+    /// The extension of the file name determines the format of the figure.
+    /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
+    /// Thus, to save a plot in `png` format, choose a file name with a `.png`
+    /// file extension as in `fig.png`.
+    auto save(const std::string &filename) -> void;
+
+  private:
+    /// Counter of how many plot / singleplot objects have been instanciated in the application
+    static std::size_t m_counter;
+
+    /// Plot id derived from m_counter upon construction
+    /// Must be the first member due to constructor initialization order!
+    std::size_t m_id = 0;
+
+    /// The name of the gnuplot palette to be used
+    std::string m_palette;
+
+    /// The size of the plot in x
+    std::size_t m_width = 0;
+
+    /// The size of the plot in y
+    std::size_t m_height = 0;
+
+    /// The number of rows in the multiplot layout
+    std::size_t m_layoutrows = 0;
+
+    /// The number of columns in the multiplot layout
+    std::size_t m_layoutcols = 0;
+
+    /// The title of the plot
+    std::string m_title;
+
+    /// The name of the file where the plot commands are saved
+    std::string m_scriptfilename;
+
+    /// All the plots that have been added to the multiplot
+    std::vector<plot> m_plots;
+};
+
+// Initialize the counter of plot objects
+std::size_t multiplot::m_counter = 0;
+
+multiplot::multiplot()
+    : m_id(m_counter++), m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
+{
+}
+
+auto multiplot::palette(const std::string &name) -> multiplot &
+{
+    m_palette = name;
+    return *this;
+}
+
+auto multiplot::size(std::size_t width, std::size_t height) -> multiplot &
+{
+    m_width = width;
+    m_height = height;
+    return *this;
+}
+
+auto multiplot::layout(std::size_t rows, std::size_t columns) -> multiplot &
+{
+    m_layoutrows = rows;
+    m_layoutcols = columns;
+    return *this;
+}
+
+auto multiplot::title(const std::string &title) -> multiplot &
+{
+    m_title = title;
+    return *this;
+}
+
+auto multiplot::add(const plot &p) -> multiplot &
+{
+    m_plots.push_back(p);
+    return *this;
+}
+
+auto multiplot::show() -> void
+{
+    // Open script file and truncate it
+    std::ofstream script(m_scriptfilename);
+    // Add palette info. Use default palette if the user hasn't set one
+    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+    // Add terminal info
+    gnuplot::showterminalcmd(script);
+    // Add multiplot commands
+    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
+    // Add the plot commands
+    for (const auto &p : m_plots)
     {
-    public:
-        /// Construct a default multiplot object
-        multiplot();
-
-        /// Set the palette of colors for the plot.
-        /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-        auto palette(const std::string &name) -> multiplot &;
-
-        /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
-        auto size(std::size_t width, std::size_t height) -> multiplot &;
-
-        /// Set the layout of the multiplot in x- and y-direction.
-        auto layout(std::size_t rows, std::size_t columns) -> multiplot &;
-
-        /// Set the title of the multiplot.
-        auto title(const std::string &title) -> multiplot &;
-
-        /// Add a plot to the multiplot.
-        /// Note that if you're changing the plot afterwards, changes will NOT be recorded in the multiplot.
-        auto add(const plot &p) -> multiplot &;
-
-        /// Show the plot in a pop-up window.
-        auto show() -> void;
-
-        /// Save the plot in a file, with its extension defining the figure format.
-        /// The extension of the file name determines the format of the figure.
-        /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
-        /// Thus, to save a plot in `png` format, choose a file name with a `.png`
-        /// file extension as in `fig.png`.
-        auto save(const std::string &filename) -> void;
-
-    private:
-        /// Counter of how many plot / singleplot objects have been instanciated in the application
-        static std::size_t m_counter;
-
-        /// Plot id derived from m_counter upon construction
-        /// Must be the first member due to constructor initialization order!
-        std::size_t m_id = 0;
-
-        /// The name of the gnuplot palette to be used
-        std::string m_palette;
-
-        /// The size of the plot in x
-        std::size_t m_width = 0;
-
-        /// The size of the plot in y
-        std::size_t m_height = 0;
-
-        /// The number of rows in the multiplot layout
-        std::size_t m_layoutrows = 0;
-
-        /// The number of columns in the multiplot layout
-        std::size_t m_layoutcols = 0;
-
-        /// The title of the plot
-        std::string m_title;
-
-        /// The name of the file where the plot commands are saved
-        std::string m_scriptfilename;
-
-        /// All the plots that have been added to the multiplot
-        std::vector<plot> m_plots;
-    };
-
-    // Initialize the counter of plot objects
-    std::size_t multiplot::m_counter = 0;
-
-    multiplot::multiplot()
-        : m_id(m_counter++), m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
-    {
+        script << p.repr();
     }
+    // Add an empty line at the end and close the script to avoid crashes with gnuplot
+    script << std::endl;
+    script.close();
+    // Show the plot
+    gnuplot::runscript(m_scriptfilename, true);
+    // Remove the no longer needed show{#}.plt file
+    //        std::remove(m_scriptfilename.c_str());
+}
 
-    auto multiplot::palette(const std::string &name) -> multiplot &
+auto multiplot::save(const std::string &filename) -> void
+{
+    // Clean the file name to prevent errors
+    auto cleanedfilename = gnuplot::cleanpath(filename);
+    // Get extension from file name
+    auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
+    // Open script file
+    std::string scriptfilename = cleanedfilename + ".plt";
+    std::ofstream script(scriptfilename);
+    // Add palette info. Use default palette if the user hasn't set one
+    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+    // Add terminal info
+    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
+    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
+    std::string size = gnuplot::sizestr(width, height, extension == "pdf");
+    gnuplot::saveterminalcmd(script, extension, size);
+    // Add output command
+    gnuplot::outputcmd(script, cleanedfilename);
+    // Add multiplot commands
+    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
+    // Add the plot commands
+    for (const auto &p : m_plots)
     {
-        m_palette = name;
-        return *this;
+        script << p.repr();
     }
-
-    auto multiplot::size(std::size_t width, std::size_t height) -> multiplot &
-    {
-        m_width = width;
-        m_height = height;
-        return *this;
-    }
-
-    auto multiplot::layout(std::size_t rows, std::size_t columns) -> multiplot &
-    {
-        m_layoutrows = rows;
-        m_layoutcols = columns;
-        return *this;
-    }
-
-    auto multiplot::title(const std::string &title) -> multiplot &
-    {
-        m_title = title;
-        return *this;
-    }
-
-    auto multiplot::add(const plot &p) -> multiplot &
-    {
-        m_plots.push_back(p);
-        return *this;
-    }
-
-    auto multiplot::show() -> void
-    {
-        // Open script file and truncate it
-        std::ofstream script(m_scriptfilename);
-        // Add palette info. Use default palette if the user hasn't set one
-        gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
-        // Add terminal info
-        gnuplot::showterminalcmd(script);
-        // Add multiplot commands
-        gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
-        // Add the plot commands
-        for (const auto &p : m_plots)
-        {
-            script << p.repr();
-        }
-        // Add an empty line at the end and close the script to avoid crashes with gnuplot
-        script << std::endl;
-        script.close();
-        // Show the plot
-        gnuplot::runscript(m_scriptfilename, true);
-        // Remove the no longer needed show{#}.plt file
-        //        std::remove(m_scriptfilename.c_str());
-    }
-
-    auto multiplot::save(const std::string &filename) -> void
-    {
-        // Clean the file name to prevent errors
-        auto cleanedfilename = gnuplot::cleanpath(filename);
-        // Get extension from file name
-        auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
-        // Open script file
-        std::string scriptfilename = cleanedfilename + ".plt";
-        std::ofstream script(scriptfilename);
-        // Add palette info. Use default palette if the user hasn't set one
-        gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
-        // Add terminal info
-        auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
-        auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
-        std::string size = gnuplot::sizestr(width, height, extension == "pdf");
-        gnuplot::saveterminalcmd(script, extension, size);
-        // Add output command
-        gnuplot::outputcmd(script, cleanedfilename);
-        // Add multiplot commands
-        gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
-        // Add the plot commands
-        for (const auto &p : m_plots)
-        {
-            script << p.repr();
-        }
-        // Close multiplot
-        script << "unset multiplot" << std::endl;
-        // Unset the output
-        script << std::endl;
-        script << "set output";
-        // Add an empty line at the end and close the script to avoid crashes with gnuplot
-        script << std::endl;
-        script.close();
-        // Save the plot as a file
-        gnuplot::runscript(scriptfilename, false);
-    }
+    // Close multiplot
+    script << "unset multiplot" << std::endl;
+    // Unset the output
+    script << std::endl;
+    script << "set output";
+    // Add an empty line at the end and close the script to avoid crashes with gnuplot
+    script << std::endl;
+    script.close();
+    // Save the plot as a file
+    gnuplot::runscript(scriptfilename, false);
+}
 
 } // namespace sciplot
