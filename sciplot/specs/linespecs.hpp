@@ -46,43 +46,43 @@ class linespecs : virtual public internal::specs<derivedspecs>
     auto repr() const -> std::string;
 
     /// Set the line style of the plot.
-    auto linestyle(std::size_t value) -> derivedspecs &
+    auto linestyle(std::size_t value) -> derivedspecs&
     {
         m_linestyle = internal::str(value);
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
     /// Set the line type of the plot.
-    auto linetype(std::size_t value) -> derivedspecs &
+    auto linetype(std::size_t value) -> derivedspecs&
     {
         m_linetype = internal::str(value);
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
     /// Set the line width of the plot.
-    auto linewidth(std::size_t value) -> derivedspecs &
+    auto linewidth(std::size_t value) -> derivedspecs&
     {
         m_linewidth = internal::str(value);
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> derivedspecs &
+    auto linecolor(std::string value) -> derivedspecs&
     {
         m_linecolor = "'" + value + "'";
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
     /// Set the dash type of the plot.
-    auto dashtype(std::size_t value) -> derivedspecs &
+    auto dashtype(std::size_t value) -> derivedspecs&
     {
         m_dashtype = internal::str(value);
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
     /// Set the dash type of the plot.
     /// The density parameter only works for the "solid" fill mode and must be in [0,1].
-    auto fillstyle(fillstyle value, float density = 1.0F) -> derivedspecs &
+    auto fillstyle(fillstyle value, float density = 1.0F) -> derivedspecs&
     {
         m_fillstyle = gnuplot::fillstylestr(value);
         if (value == fillstyle::solid)
@@ -90,7 +90,7 @@ class linespecs : virtual public internal::specs<derivedspecs>
             density = density < 0.0F ? 0.0F : (density > 1.0F ? 1.0F : density);
             m_fillstyle += " " + internal::str(density);
         }
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
   private:

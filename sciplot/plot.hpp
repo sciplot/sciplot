@@ -58,20 +58,20 @@ class plot
 
     /// Set the palette of colors for the plot.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-    auto palette(const std::string &name) -> plot &;
+    auto palette(const std::string& name) -> plot&;
 
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
-    auto size(std::size_t width, std::size_t height) -> plot &;
+    auto size(std::size_t width, std::size_t height) -> plot&;
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    auto xlabel(const std::string &label) -> axislabelspecs &
+    auto xlabel(const std::string& label) -> axislabelspecs&
     {
         m_xlabel.text(label);
         return m_xlabel;
     }
 
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    auto ylabel(const std::string &label) -> axislabelspecs &
+    auto ylabel(const std::string& label) -> axislabelspecs&
     {
         m_ylabel.text(label);
         return m_ylabel;
@@ -84,16 +84,16 @@ class plot
     auto yrange(double min, double max) -> void { m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]"; }
 
     /// Set the border of the plot and return a reference to the corresponding specs object.
-    auto border() -> borderspecs & { return m_border; }
+    auto border() -> borderspecs& { return m_border; }
 
     /// Set the grid of the plot and return a reference to the corresponding specs object.
-    auto grid() -> gridspecs & { return m_gridspecs; }
+    auto grid() -> gridspecs& { return m_gridspecs; }
 
     /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics() -> ticspecs & { return m_tics; }
+    auto tics() -> ticspecs& { return m_tics; }
 
     /// Set the legend of the plot and return a reference to the corresponding specs object.
-    auto legend() -> legendspecs & { return m_legend; }
+    auto legend() -> legendspecs& { return m_legend; }
 
     /// Set the width of boxes if plot style / plot::with() is "boxes", "boxerrorbars", "candelsticks" or "histograms".
     /// The default box width type is "automatic", which makes the boxes touch. For "relative", "width" specifies
@@ -105,12 +105,12 @@ class plot
     auto samples(std::size_t value) -> void { m_samples = internal::str(value); }
 
     /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
-    auto draw(const std::string &what) -> plotspecs &;
+    auto draw(const std::string& what) -> plotspecs&;
 
     /// Plot two vectors of data and return a reference to the corresponding specs object.
     /// Will write all data to a plot<N>.dat file.
     template <typename X, typename Y>
-    auto draw(const X &x, const Y &y) -> plotspecs &;
+    auto draw(const X& x, const Y& y) -> plotspecs&;
 
     /// Show the plot in a pop-up window.
     auto show() -> void;
@@ -120,10 +120,10 @@ class plot
     /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
     /// Thus, to save a plot in `png` format, choose a file name with a `.png`
     /// file extension as in `fig.png`.
-    auto save(const std::string &filename) -> void;
+    auto save(const std::string& filename) -> void;
 
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
-    auto gnuplot(const std::string &command) -> void { m_customcmds.push_back(command); }
+    auto gnuplot(const std::string& command) -> void { m_customcmds.push_back(command); }
 
   private:
     /// Counter of how many plot / singleplot objects have been instanciated in the application
@@ -200,20 +200,20 @@ plot::plot()
 {
 }
 
-auto plot::palette(const std::string &name) -> plot &
+auto plot::palette(const std::string& name) -> plot&
 {
     m_palette = name;
     return *this;
 }
 
-auto plot::size(std::size_t width, std::size_t height) -> plot &
+auto plot::size(std::size_t width, std::size_t height) -> plot&
 {
     m_width = width;
     m_height = height;
     return *this;
 }
 
-auto plot::draw(const std::string &what) -> plotspecs &
+auto plot::draw(const std::string& what) -> plotspecs&
 {
     // Save the draw arguments for this x,y data
     m_plotspecs.emplace_back(what);
@@ -224,7 +224,7 @@ auto plot::draw(const std::string &what) -> plotspecs &
 }
 
 template <typename X, typename Y>
-auto plot::draw(const X &x, const Y &y) -> plotspecs &
+auto plot::draw(const X& x, const Y& y) -> plotspecs&
 {
     // Open the data file. Make sure we clear the file the first time we open it, but then always append to it
     auto openmode = m_numdatasets == 0 ? std::ios::trunc : (std::ios::app | std::ios::ate);
@@ -258,7 +258,7 @@ auto plot::repr() const -> std::string
         script << "#==============================================================================" << std::endl;
         script << "# CUSTOM EXPLICIT GNUPLOT COMMANDS" << std::endl;
         script << "#==============================================================================" << std::endl;
-        for (const auto &c : m_customcmds)
+        for (const auto& c : m_customcmds)
         {
             script << c << std::endl;
         }
@@ -298,7 +298,7 @@ auto plot::show() -> void
     //        std::remove(m_scriptfilename.c_str());
 }
 
-auto plot::save(const std::string &filename) -> void
+auto plot::save(const std::string& filename) -> void
 {
     // Clean the file name to prevent errors
     auto cleanedfilename = gnuplot::cleanpath(filename);

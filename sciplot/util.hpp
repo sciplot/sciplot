@@ -39,13 +39,13 @@ namespace internal
 
 /// Return a string for a given index
 template <typename T>
-auto str(const T &i) -> std::string
+auto str(const T& i) -> std::string
 {
     return std::to_string(i);
 }
 
 /// Return a string for a given char array
-inline auto str(const char *word) -> std::string
+inline auto str(const char* word) -> std::string
 {
     return word;
 }
@@ -58,14 +58,14 @@ inline auto str() -> std::string
 
 /// Auxiliary function that returns the size of the vector argument with least size (for a single vector case)
 template <typename VectorType>
-auto minsize(const VectorType &v) -> std::size_t
+auto minsize(const VectorType& v) -> std::size_t
 {
     return v.size();
 }
 
 /// Auxiliary function that returns the size of the vector argument with least size
 template <typename VectorType, typename... Args>
-auto minsize(const VectorType &v, const Args &... args) -> std::size_t
+auto minsize(const VectorType& v, const Args&... args) -> std::size_t
 {
     return std::min(v.size(), minsize(args...));
 }
@@ -73,7 +73,7 @@ auto minsize(const VectorType &v, const Args &... args) -> std::size_t
 /// Auxiliary function to write a vector into a line of an ostream object
 /// This version is called for std::vector<std::string> and escapes strings
 template <typename VectorType>
-typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v)
+typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v)
 {
     out << "\"" << v[i] << "\""
         << "\n";
@@ -82,7 +82,7 @@ typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::valu
 
 /// Auxiliary function to write a vector into a line of an ostream object
 template <typename VectorType>
-typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v)
+typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v)
 {
     out << v[i] << "\n";
     return out;
@@ -91,7 +91,7 @@ typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::val
 /// Auxiliary function to write many vector arguments into a line of an ostream object
 /// This version is called for std::vector<std::string> and escapes strings
 template <typename VectorType, typename... Args>
-typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v, const Args &... args)
+typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args&... args)
 {
     out << "\"" << v[i] << "\" ";
     writeline(out, i, args...);
@@ -100,7 +100,7 @@ typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::valu
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object
 template <typename VectorType, typename... Args>
-typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream &>::type writeline(std::ostream &out, std::size_t i, const VectorType &v, const Args &... args)
+typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args&... args)
 {
     out << v[i] << " ";
     writeline(out, i, args...);
@@ -109,7 +109,7 @@ typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::val
 
 /// Auxiliary function to write many vector arguments into an ostream object
 template <typename... Args>
-auto write(std::ostream &out, const Args &... args) -> std::ostream &
+auto write(std::ostream& out, const Args&... args) -> std::ostream&
 {
     const auto size = minsize(args...);
     for (std::size_t i = 0; i < size; ++i)
@@ -176,7 +176,7 @@ struct angle
 
 /// Auxiliary function to create a data set in an ostream object that is understood by gnuplot
 template <typename... Args>
-auto writedataset(std::ostream &out, std::size_t index, const Args &... args) -> std::ostream &
+auto writedataset(std::ostream& out, std::size_t index, const Args&... args) -> std::ostream&
 {
     // Save the given vectors x and y in a new data set of the data file
     out << "#==============================================================================" << std::endl;
@@ -196,7 +196,7 @@ auto writedataset(std::ostream &out, std::size_t index, const Args &... args) ->
 }
 
 /// Auxiliary function to write palette data for a selected palette ot start of plot script
-auto palettecmd(std::ostream &out, const std::string &palette) -> std::ostream &
+auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# GNUPLOT-palette (" << palette << ")" << std::endl;
@@ -208,7 +208,7 @@ auto palettecmd(std::ostream &out, const std::string &palette) -> std::ostream &
 }
 
 /// Auxiliary function to write terminal commands for showing a plot from a script file
-auto showterminalcmd(std::ostream &out) -> std::ostream &
+auto showterminalcmd(std::ostream& out) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
@@ -220,7 +220,7 @@ auto showterminalcmd(std::ostream &out) -> std::ostream &
 }
 
 /// Auxiliary function to write terminal commands for saving a plot from a script file
-auto saveterminalcmd(std::ostream &out, const std::string &extension, const std::string &size) -> std::ostream &
+auto saveterminalcmd(std::ostream& out, const std::string& extension, const std::string& size) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
@@ -230,7 +230,7 @@ auto saveterminalcmd(std::ostream &out, const std::string &extension, const std:
 }
 
 /// Auxiliary function to set the output command to make GNUplot output plots to a file
-auto outputcmd(std::ostream &out, const std::string &filename) -> std::ostream &
+auto outputcmd(std::ostream& out, const std::string& filename) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# OUTPUT" << std::endl;
@@ -240,7 +240,7 @@ auto outputcmd(std::ostream &out, const std::string &filename) -> std::ostream &
 }
 
 /// Auxiliary function to write multiplot commands to a script file
-auto multiplotcmd(std::ostream &out, std::size_t rows, std::size_t columns, const std::string &title) -> std::ostream &
+auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, const std::string& title) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# MULTIPLOT" << std::endl;
@@ -261,7 +261,7 @@ auto multiplotcmd(std::ostream &out, std::size_t rows, std::size_t columns, cons
 /// Auxiliary function to run gnuplot to show or save a script file
 // persistent == true: for show commands. show the file using GNUplot until the window is closed
 // persistent == false: for save commands. close gnuplot immediately
-auto runscript(const std::string &scriptfilename, bool persistent) -> bool
+auto runscript(const std::string& scriptfilename, bool persistent) -> bool
 {
     std::string command = persistent ? "gnuplot -persistent " : "gnuplot ";
     command += "\"" + scriptfilename + "\"";
@@ -270,7 +270,7 @@ auto runscript(const std::string &scriptfilename, bool persistent) -> bool
 
 /// Auxiliary function to escape a output path so it can be used for GNUplot.
 /// Removes every character from invalidchars from the path.
-auto cleanpath(const std::string &path) -> std::string
+auto cleanpath(const std::string& path) -> std::string
 {
     const std::string invalidchars = ":*?!\"<>|";
     std::string result = path;

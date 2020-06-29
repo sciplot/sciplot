@@ -27,7 +27,7 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     const vec x = linspace(0.0, 5.0, 200);
 

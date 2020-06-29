@@ -43,17 +43,17 @@ class depthspecs : virtual public specs<derivedspecs>
     auto repr() const -> std::string;
 
     /// Set the plot element to be displayed on the front of all plot elements.
-    auto front() -> derivedspecs &
+    auto front() -> derivedspecs&
     {
         m_depth = "front";
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
     /// Set the plot element to be displayed on the back of all plot elements.
-    auto back() -> derivedspecs &
+    auto back() -> derivedspecs&
     {
         m_depth = "back";
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
   private:

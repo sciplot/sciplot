@@ -50,14 +50,14 @@ class plotspecs : public linespecs<plotspecs>
     auto repr() const -> std::string;
 
     /// Set the title of the plot.
-    auto title(std::string value) -> plotspecs &
+    auto title(std::string value) -> plotspecs&
     {
         m_title = gnuplot::titlestr(value);
         return *this;
     }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(plotstyle value) -> plotspecs &
+    auto with(plotstyle value) -> plotspecs&
     {
         m_with = gnuplot::plotstylestr(value);
         return *this;
@@ -66,7 +66,7 @@ class plotspecs : public linespecs<plotspecs>
     /// Set which columns from the data file to use for plot data or tick labels. Resembles the "using" directive for a plot.
     /// Pass an USE_AUTO in any of these values to "undefine" that value, e.g. to use column 2 for y, do: plot.use(USE_AUTO, 2);
     /// To use strings as tick labels, you can pass them in the corresponding data column in the plot.draw() call.
-    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> plotspecs &
+    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> plotspecs&
     {
         std::vector<std::pair<unsigned int, std::string>> values = {
             {xcol, std::to_string(xcol)},
@@ -79,9 +79,9 @@ class plotspecs : public linespecs<plotspecs>
             {ztic, "ztic(" + std::to_string(ztic) + ")"}};
         std::vector<std::string> strings;
         // filter out all valuzes we don't want to use and put the remaining one int strings
-        std::for_each(values.begin(), values.end(), [&strings](const std::pair<unsigned int, std::string> &v) { if (v.first != USE_AUTO) { strings.push_back(v.second); } });
+        std::for_each(values.begin(), values.end(), [&strings](const std::pair<unsigned int, std::string>& v) { if (v.first != USE_AUTO) { strings.push_back(v.second); } });
         // join all remaining values using ":"
-        m_using = std::accumulate(std::next(strings.begin()), strings.end(), strings[0], [](const std::string &a, const std::string &b) { return a + ":" + b; });
+        m_using = std::accumulate(std::next(strings.begin()), strings.end(), strings[0], [](const std::string& a, const std::string& b) { return a + ":" + b; });
         return *this;
     }
 

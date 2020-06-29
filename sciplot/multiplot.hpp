@@ -55,20 +55,20 @@ class multiplot
 
     /// Set the palette of colors for the plot.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-    auto palette(const std::string &name) -> multiplot &;
+    auto palette(const std::string& name) -> multiplot&;
 
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
-    auto size(std::size_t width, std::size_t height) -> multiplot &;
+    auto size(std::size_t width, std::size_t height) -> multiplot&;
 
     /// Set the layout of the multiplot in x- and y-direction.
-    auto layout(std::size_t rows, std::size_t columns) -> multiplot &;
+    auto layout(std::size_t rows, std::size_t columns) -> multiplot&;
 
     /// Set the title of the multiplot.
-    auto title(const std::string &title) -> multiplot &;
+    auto title(const std::string& title) -> multiplot&;
 
     /// Add a plot to the multiplot.
     /// Note that if you're changing the plot afterwards, changes will NOT be recorded in the multiplot.
-    auto add(const plot &p) -> multiplot &;
+    auto add(const plot& p) -> multiplot&;
 
     /// Show the plot in a pop-up window.
     auto show() -> void;
@@ -78,7 +78,7 @@ class multiplot
     /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
     /// Thus, to save a plot in `png` format, choose a file name with a `.png`
     /// file extension as in `fig.png`.
-    auto save(const std::string &filename) -> void;
+    auto save(const std::string& filename) -> void;
 
   private:
     /// Counter of how many plot / singleplot objects have been instanciated in the application
@@ -121,33 +121,33 @@ multiplot::multiplot()
 {
 }
 
-auto multiplot::palette(const std::string &name) -> multiplot &
+auto multiplot::palette(const std::string& name) -> multiplot&
 {
     m_palette = name;
     return *this;
 }
 
-auto multiplot::size(std::size_t width, std::size_t height) -> multiplot &
+auto multiplot::size(std::size_t width, std::size_t height) -> multiplot&
 {
     m_width = width;
     m_height = height;
     return *this;
 }
 
-auto multiplot::layout(std::size_t rows, std::size_t columns) -> multiplot &
+auto multiplot::layout(std::size_t rows, std::size_t columns) -> multiplot&
 {
     m_layoutrows = rows;
     m_layoutcols = columns;
     return *this;
 }
 
-auto multiplot::title(const std::string &title) -> multiplot &
+auto multiplot::title(const std::string& title) -> multiplot&
 {
     m_title = title;
     return *this;
 }
 
-auto multiplot::add(const plot &p) -> multiplot &
+auto multiplot::add(const plot& p) -> multiplot&
 {
     m_plots.push_back(p);
     return *this;
@@ -164,7 +164,7 @@ auto multiplot::show() -> void
     // Add multiplot commands
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
     // Add the plot commands
-    for (const auto &p : m_plots)
+    for (const auto& p : m_plots)
     {
         script << p.repr();
     }
@@ -177,7 +177,7 @@ auto multiplot::show() -> void
     //        std::remove(m_scriptfilename.c_str());
 }
 
-auto multiplot::save(const std::string &filename) -> void
+auto multiplot::save(const std::string& filename) -> void
 {
     // Clean the file name to prevent errors
     auto cleanedfilename = gnuplot::cleanpath(filename);
@@ -198,7 +198,7 @@ auto multiplot::save(const std::string &filename) -> void
     // Add multiplot commands
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
     // Add the plot commands
-    for (const auto &p : m_plots)
+    for (const auto& p : m_plots)
     {
         script << p.repr();
     }

@@ -43,10 +43,10 @@ class showspecs : virtual public internal::specs<derivedspecs>
     auto repr() const -> std::string;
 
     /// Set the active state of the box.
-    auto show(bool value = true) -> derivedspecs &
+    auto show(bool value = true) -> derivedspecs&
     {
         m_show = value;
-        return static_cast<derivedspecs &>(*this);
+        return static_cast<derivedspecs&>(*this);
     }
 
   private:

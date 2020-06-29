@@ -27,7 +27,7 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     // Create a vector with x values
     std::vector<int> x = {0, 1, 2, 3};
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     plt.yrange(-5, 5);
 
     // Add values to plot
-    auto &specs = plt.draw(x, y);
+    auto& specs = plt.draw(x, y);
     // makes sure we plot boxes
     specs.with(sciplot::plotstyle::boxes);
     // and set the fill style to a solid fill, half-transparent

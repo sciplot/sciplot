@@ -44,28 +44,28 @@ class gridspecsbase : public linespecs<gridspecsbase>
     auto repr() const -> std::string;
 
     /// Set the active state of the grid lines along the specified axis tics.
-    auto show(bool value = true) -> gridspecsbase &
+    auto show(bool value = true) -> gridspecsbase&
     {
         m_show = value;
         return *this;
     }
 
     /// Set the grid lines to be plot on the back of other plot elements.
-    auto back() -> gridspecsbase &
+    auto back() -> gridspecsbase&
     {
         m_depth = "back";
         return *this;
     }
 
     /// Set the grid lines to be plot on the front of other plot elements.
-    auto front() -> gridspecsbase &
+    auto front() -> gridspecsbase&
     {
         m_depth = "front";
         return *this;
     }
 
     /// Set the grid lines to be plot on the back of other plot elements in 2d plots. In 3d plots, this option splits the grid and the graph box into two layers, with one behind, and the other in front of the plotted elements.
-    auto layerdefault() -> gridspecsbase &
+    auto layerdefault() -> gridspecsbase&
     {
         m_depth = "layerdefault";
         return *this;

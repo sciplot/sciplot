@@ -48,15 +48,15 @@ class specs
     operator std::string() const { return repr(); }
 
     /// Return a reference to the specs object of class derived from this.
-    auto derived() -> derivedspecs & { return static_cast<derivedspecs &>(*this); }
+    auto derived() -> derivedspecs& { return static_cast<derivedspecs&>(*this); }
 
     /// Return a const reference to the specs object of class derived from this.
-    auto derived() const -> const derivedspecs & { return static_cast<const derivedspecs &>(*this); }
+    auto derived() const -> const derivedspecs& { return static_cast<const derivedspecs&>(*this); }
 };
 
 /// Output the state of a specs object to a ostream object.
 template <typename derivedspecs>
-auto operator<<(std::ostream &stream, const specs<derivedspecs> &obj) -> std::ostream &
+auto operator<<(std::ostream& stream, const specs<derivedspecs>& obj) -> std::ostream&
 {
     return stream << obj.repr();
 }

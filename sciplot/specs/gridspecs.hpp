@@ -44,51 +44,51 @@ class gridspecs : public gridspecsbase
     auto repr() const -> std::string;
 
     /// Return a grid specification object for configuring grid lines along major xtics.
-    auto xtics() -> gridspecsbase & { return _gridmajor("xtics"); }
+    auto xtics() -> gridspecsbase& { return _gridmajor("xtics"); }
 
     /// Return a grid specification object for configuring grid lines along major ytics.
-    auto ytics() -> gridspecsbase & { return _gridmajor("ytics"); }
+    auto ytics() -> gridspecsbase& { return _gridmajor("ytics"); }
 
     /// Return a grid specification object for configuring grid lines along major ztics.
-    auto ztics() -> gridspecsbase & { return _gridmajor("ztics"); }
+    auto ztics() -> gridspecsbase& { return _gridmajor("ztics"); }
 
     /// Return a grid specification object for configuring grid lines along major rtics.
-    auto rtics() -> gridspecsbase & { return _gridmajor("rtics"); }
+    auto rtics() -> gridspecsbase& { return _gridmajor("rtics"); }
 
     /// Return a grid specification object for configuring grid lines along major x2tics.
-    auto x2tics() -> gridspecsbase & { return _gridmajor("x2tics"); }
+    auto x2tics() -> gridspecsbase& { return _gridmajor("x2tics"); }
 
     /// Return a grid specification object for configuring grid lines along major y2tics.
-    auto y2tics() -> gridspecsbase & { return _gridmajor("y2tics"); }
+    auto y2tics() -> gridspecsbase& { return _gridmajor("y2tics"); }
 
     /// Return a grid specification object for configuring grid lines along minor xtics.
-    auto mxtics() -> gridspecsbase & { return _gridminor("mxtics"); }
+    auto mxtics() -> gridspecsbase& { return _gridminor("mxtics"); }
 
     /// Return a grid specification object for configuring grid lines along minor ytics.
-    auto mytics() -> gridspecsbase & { return _gridminor("mytics"); }
+    auto mytics() -> gridspecsbase& { return _gridminor("mytics"); }
 
     /// Return a grid specification object for configuring grid lines along minor ztics.
-    auto mztics() -> gridspecsbase & { return _gridminor("mztics"); }
+    auto mztics() -> gridspecsbase& { return _gridminor("mztics"); }
 
     /// Return a grid specification object for configuring grid lines along minor rtics.
-    auto mrtics() -> gridspecsbase & { return _gridminor("mrtics"); }
+    auto mrtics() -> gridspecsbase& { return _gridminor("mrtics"); }
 
     /// Return a grid specification object for configuring grid lines along minor x2tics.
-    auto mx2tics() -> gridspecsbase & { return _gridminor("mx2tics"); }
+    auto mx2tics() -> gridspecsbase& { return _gridminor("mx2tics"); }
 
     /// Return a grid specification object for configuring grid lines along minor y2tics.
-    auto my2tics() -> gridspecsbase & { return _gridminor("my2tics"); }
+    auto my2tics() -> gridspecsbase& { return _gridminor("my2tics"); }
 
   private:
     /// Auxiliary private method that adds a new specs object for grid lines along a major tics.
-    auto _gridmajor(std::string tics) -> gridspecsbase &
+    auto _gridmajor(std::string tics) -> gridspecsbase&
     {
         m_gridticsspecs.emplace_back(tics, true);
         return m_gridticsspecs.back();
     }
 
     /// Auxiliary private method that adds a new specs object for grid lines along a minor tics.
-    auto _gridminor(std::string tics) -> gridspecsbase &
+    auto _gridminor(std::string tics) -> gridspecsbase&
     {
         m_gridticsspecs.emplace_back(tics, false);
         return m_gridticsspecs.back();

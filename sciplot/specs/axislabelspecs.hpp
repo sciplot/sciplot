@@ -45,7 +45,7 @@ class axislabelspecs : public titlespecs<axislabelspecs>
     auto repr() const -> std::string;
 
     /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs &
+    auto axisparallel() -> axislabelspecs&
     {
         m_rotate = "parallel";
         return *this;

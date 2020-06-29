@@ -27,7 +27,7 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     // Create a vector with x values
     std::vector<std::string> x = {"strings", "as", "tick", "labels"};
@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     plt.ylabel("y");
 
     // Add values to plot
-    auto &specs = plt.draw(x, y);
+    auto& specs = plt.draw(x, y);
     // plot y values from data column 2, and the x-axis ticks from column 1
     specs.use(plotspecs::USE_AUTO, 2, plotspecs::USE_AUTO, 1);
     // makes sure we plot boxes

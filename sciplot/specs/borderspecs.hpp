@@ -47,143 +47,143 @@ class borderspecs : public linespecs<borderspecs>
     auto repr() const -> std::string;
 
     /// Remove all border edges from a 2d or 3d plot.
-    auto clear() -> borderspecs &
+    auto clear() -> borderspecs&
     {
         m_encoding.reset();
         return *this;
     }
 
     /// Set all border edges to inactive. Methods none and clear have identical effect.
-    auto none() -> borderspecs & { return clear(); }
+    auto none() -> borderspecs& { return clear(); }
 
     /// Activate the bottom border edge on the xy plane for a 2d plot.
-    auto bottom() -> borderspecs &
+    auto bottom() -> borderspecs&
     {
         m_encoding.set(0);
         return *this;
     }
 
     /// Activate the left border edge on the xy plane for a 2d plot.
-    auto left() -> borderspecs &
+    auto left() -> borderspecs&
     {
         m_encoding.set(1);
         return *this;
     }
 
     /// Activate the top border edge on the xy plane for a 2d plot.
-    auto top() -> borderspecs &
+    auto top() -> borderspecs&
     {
         m_encoding.set(2);
         return *this;
     }
 
     /// Activate the right border edge on the xy plane for a 2d plot.
-    auto right() -> borderspecs &
+    auto right() -> borderspecs&
     {
         m_encoding.set(3);
         return *this;
     }
 
     /// Activate the border edge on the bottom xy plane going from the left corner to front corner in a 3d perspective.
-    auto bottomleftfront() -> borderspecs &
+    auto bottomleftfront() -> borderspecs&
     {
         m_encoding.set(0);
         return *this;
     }
 
     /// Activate the border edge on the bottom xy plane going from the left corder to back corner in a 3d perspective.
-    auto bottomleftback() -> borderspecs &
+    auto bottomleftback() -> borderspecs&
     {
         m_encoding.set(1);
         return *this;
     }
 
     /// Activate the border edge on the bottom xy plane going from the right corner to front corner in a 3d perspective.
-    auto bottomrightfront() -> borderspecs &
+    auto bottomrightfront() -> borderspecs&
     {
         m_encoding.set(2);
         return *this;
     }
 
     /// Activate the border edge on the bottom xy plane going from the right corder to back corner in a 3d perspective.
-    auto bottomrightback() -> borderspecs &
+    auto bottomrightback() -> borderspecs&
     {
         m_encoding.set(3);
         return *this;
     }
 
     /// Activate the left vertical border edge in a 3d perspective.
-    auto leftvertical() -> borderspecs &
+    auto leftvertical() -> borderspecs&
     {
         m_encoding.set(4);
         return *this;
     }
 
     /// Activate the back vertical border edge in a 3d perspective.
-    auto backvertical() -> borderspecs &
+    auto backvertical() -> borderspecs&
     {
         m_encoding.set(5);
         return *this;
     }
 
     /// Activate the right vertical border edge in a 3d perspective.
-    auto rightvertical() -> borderspecs &
+    auto rightvertical() -> borderspecs&
     {
         m_encoding.set(6);
         return *this;
     }
 
     /// Activate the front vertical border edge in a 3d perspective.
-    auto frontvertical() -> borderspecs &
+    auto frontvertical() -> borderspecs&
     {
         m_encoding.set(7);
         return *this;
     }
 
     /// Activate the border edge on the top xy plane going from the left corner to back corner in a 3d perspective.
-    auto topleftback() -> borderspecs &
+    auto topleftback() -> borderspecs&
     {
         m_encoding.set(7);
         return *this;
     }
 
     /// Activate the border edge on the top xy plane going from the right corder to back corner in a 3d perspective.
-    auto toprightback() -> borderspecs &
+    auto toprightback() -> borderspecs&
     {
         m_encoding.set(9);
         return *this;
     }
 
     /// Activate the border edge on the top xy plane going from the left corner to front corner in a 3d perspective.
-    auto topleftfront() -> borderspecs &
+    auto topleftfront() -> borderspecs&
     {
         m_encoding.set(10);
         return *this;
     }
 
     /// Activate the border edge on the top xy plane going from the right corder to front corner in a 3d perspective.
-    auto toprightfront() -> borderspecs &
+    auto toprightfront() -> borderspecs&
     {
         m_encoding.set(11);
         return *this;
     }
 
     /// Set the border for polar plot.
-    auto polar() -> borderspecs &
+    auto polar() -> borderspecs&
     {
         m_encoding.set(2);
         return *this;
     }
 
     /// Set the border to be displayed on the front of all plot elements.
-    auto front() -> borderspecs &
+    auto front() -> borderspecs&
     {
         m_depth = "front";
         return *this;
     }
 
     /// Set the border to be displayed on the back of all plot elements.
-    auto back() -> borderspecs &
+    auto back() -> borderspecs&
     {
         m_depth = "back";
         return *this;
@@ -192,7 +192,7 @@ class borderspecs : public linespecs<borderspecs>
     /// Set the border to be displayed behind of all plot elements.
     /// Methods behind and back have identical effect in 2d plots.
     /// In 3d plots, the behind method is applicable when in hidden mode.
-    auto behind() -> borderspecs &
+    auto behind() -> borderspecs&
     {
         m_depth = "behind";
         return *this;
