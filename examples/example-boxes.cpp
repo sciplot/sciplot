@@ -29,7 +29,7 @@ using namespace sciplot;
 
 int main(int argc, char** argv)
 {
-    // Create a vector with x values
+    // Create a vector with x-axis values
     std::vector<int> x = {0, 1, 2, 3};
 
     // Create a vector with y values

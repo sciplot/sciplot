@@ -29,8 +29,10 @@ using namespace sciplot;
 
 int main(int argc, char** argv)
 {
-    // Create 4 different plots
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     const vec x = linspace(0.0, 5.0, 200);
+
+    // Create 4 different plots
     plot p0;
     p0.draw(x, std::sin(x)).title("sin(x)");
     p0.draw(x, std::cos(x)).title("cos(x)");
@@ -41,17 +43,18 @@ int main(int argc, char** argv)
     plot p3;
     p3.draw(x, std::sqrt(x)).title("sqrt(x)");
 
-    // Create multiplot and set title, palette and 2x2 layout
+    // Create multiplot to add the plots, set title, palette and 2x2 layout
     multiplot mp;
     mp.title("Example - Multiplot");
     mp.palette("dark2");
     mp.layout(2, 2);
+
     // Add plots to multiplot
     mp.add(p0).add(p1).add(p2).add(p3);
 
-    // Show the plot in a pop-up window
+    // Show the multiplot in a pop-up window
     mp.show();
-    // Save the plots to files
+    // Save the multiplot to files
     mp.save("example-multiplot.pdf");
     mp.save("example-multiplot.svg");
 }

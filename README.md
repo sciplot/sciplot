@@ -19,16 +19,22 @@ int main()
 {
     // Create values for your x-axis
     const vec x = linspace(0.0, 5.0, 100);
+
     // Create a plot object
     plot plt;
+
     // Set its palette
     plt.palette("set2");
+
     // Draw a sine graph putting x on the x- and sin(x) on the y-axis
     plt.draw(x, std::sin(x)).title("sin(x)").linewidth(8);
+
     // Draw a cosine graph putting x on the x- and cos(x) on the y-axis
     plt.draw(x, std::cos(x)).title("cos(x)").linewidth(8);
+
     // Show the plot
     plt.show();
+
     // Save the plot to a PDF file
     plt.save("figure.pdf");
 }
@@ -42,7 +48,7 @@ After compiling and executing this C++ application, the following figure should 
 
 Do you want to change the colors? Simple - just use the `plot::palette` method to set your preferred color palette. For example, `plot::palette("parula")` sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palettes and their names can be found [here][gnuplot-palettes]. Many thanks to [Anna Schneider][AnnaSchneider] for this incredible work of art!
 
-For more examples, see the [examples](./examples) directory.
+For more examples, see the [examples](./examples) directory. If you need information about specific gnuplot functions, see the gnuplot [documentation](http://www.gnuplot.info/documentation.html).
 
 # sciplot and gnuplot
 

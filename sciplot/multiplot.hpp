@@ -157,20 +157,26 @@ auto multiplot::show() -> void
 {
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
+
     // Add palette info. Use default palette if the user hasn't set one
     gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+
     // Add terminal info
     gnuplot::showterminalcmd(script);
+
     // Add multiplot commands
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
+
     // Add the plot commands
     for (const auto& p : m_plots)
     {
         script << p.repr();
     }
+
     // Add an empty line at the end and close the script to avoid crashes with gnuplot
     script << std::endl;
     script.close();
+
     // Show the plot
     gnuplot::runscript(m_scriptfilename, true);
     // Remove the no longer needed show{#}.plt file
@@ -181,37 +187,47 @@ auto multiplot::save(const std::string& filename) -> void
 {
     // Clean the file name to prevent errors
     auto cleanedfilename = gnuplot::cleanpath(filename);
+
     // Get extension from file name
     auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
+
     // Open script file
-    std::string scriptfilename = cleanedfilename + ".plt";
-    std::ofstream script(scriptfilename);
+    std::ofstream script(m_scriptfilename);
+
     // Add palette info. Use default palette if the user hasn't set one
     gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+
     // Add terminal info
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
     std::string size = gnuplot::sizestr(width, height, extension == "pdf");
     gnuplot::saveterminalcmd(script, extension, size);
+
     // Add output command
     gnuplot::outputcmd(script, cleanedfilename);
+
     // Add multiplot commands
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
+
     // Add the plot commands
     for (const auto& p : m_plots)
     {
         script << p.repr();
     }
+
     // Close multiplot
     script << "unset multiplot" << std::endl;
+
     // Unset the output
     script << std::endl;
     script << "set output";
+
     // Add an empty line at the end and close the script to avoid crashes with gnuplot
     script << std::endl;
     script.close();
+
     // Save the plot as a file
-    gnuplot::runscript(scriptfilename, false);
+    gnuplot::runscript(m_scriptfilename, false);
 }
 
 } // namespace sciplot
