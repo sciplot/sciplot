@@ -189,9 +189,6 @@ auto writedataset(std::ostream& out, std::size_t index, const Args&... args) -> 
     // Ensure two blank lines are added here so that gnuplot understands a new data set has been added
     out << "\n\n";
 
-    // Flush the file data to ensure its correct state when gnuplot is called
-    out.flush();
-
     return out;
 }
 
