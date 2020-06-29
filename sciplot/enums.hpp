@@ -28,7 +28,8 @@
 // C++ includes
 #include <string>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// All gnuplot style options for plotting data
 enum class plotstyle
@@ -89,65 +90,69 @@ enum class ext
     eps
 };
 
-namespace internal {
+namespace gnuplot
+{
 
 /// Return a string for a given enum value of type `with`
 inline auto plotstylestr(plotstyle value) -> std::string
 {
-    switch(value) {
-    case plotstyle::lines: return "lines";
-    case plotstyle::points: return "points";
-    case plotstyle::linespoints: return "linespoints";
-    case plotstyle::impulses: return "impulses";
-    case plotstyle::dots: return "dots";
-    case plotstyle::steps: return "steps";
-    case plotstyle::fsteps: return "fsteps";
-    case plotstyle::histeps: return "histeps";
-    case plotstyle::errorbars: return "errorbars";
-    case plotstyle::labels: return "labels";
-    case plotstyle::xerrorbars: return "xerrorbars";
-    case plotstyle::yerrorbars: return "yerrorbars";
-    case plotstyle::xyerrorbars: return "xyerrorbars";
-    case plotstyle::errorlines: return "errorlines";
-    case plotstyle::xerrorlines: return "xerrorlines";
-    case plotstyle::yerrorlines: return "yerrorlines";
-    case plotstyle::xyerrorlines: return "xyerrorlines";
-    case plotstyle::boxes: return "boxes";
-    case plotstyle::histograms: return "histograms";
-    case plotstyle::filledcurves: return "filledcurves";
-    case plotstyle::boxerrorbars: return "boxerrorbars";
-    case plotstyle::boxxyerrorbars: return "boxxyerrorbars";
-    case plotstyle::financebars: return "financebars";
-    case plotstyle::candlesticks: return "candlesticks";
-    case plotstyle::vectors: return "vectors";
-    case plotstyle::image: return "image";
-    case plotstyle::rgbimage: return "rgbimage";
-    case plotstyle::pm3d: return "pm3d";
-    default: return "lines";
+    switch (value)
+    {
+        case plotstyle::lines: return "lines";
+        case plotstyle::points: return "points";
+        case plotstyle::linespoints: return "linespoints";
+        case plotstyle::impulses: return "impulses";
+        case plotstyle::dots: return "dots";
+        case plotstyle::steps: return "steps";
+        case plotstyle::fsteps: return "fsteps";
+        case plotstyle::histeps: return "histeps";
+        case plotstyle::errorbars: return "errorbars";
+        case plotstyle::labels: return "labels";
+        case plotstyle::xerrorbars: return "xerrorbars";
+        case plotstyle::yerrorbars: return "yerrorbars";
+        case plotstyle::xyerrorbars: return "xyerrorbars";
+        case plotstyle::errorlines: return "errorlines";
+        case plotstyle::xerrorlines: return "xerrorlines";
+        case plotstyle::yerrorlines: return "yerrorlines";
+        case plotstyle::xyerrorlines: return "xyerrorlines";
+        case plotstyle::boxes: return "boxes";
+        case plotstyle::histograms: return "histograms";
+        case plotstyle::filledcurves: return "filledcurves";
+        case plotstyle::boxerrorbars: return "boxerrorbars";
+        case plotstyle::boxxyerrorbars: return "boxxyerrorbars";
+        case plotstyle::financebars: return "financebars";
+        case plotstyle::candlesticks: return "candlesticks";
+        case plotstyle::vectors: return "vectors";
+        case plotstyle::image: return "image";
+        case plotstyle::rgbimage: return "rgbimage";
+        case plotstyle::pm3d: return "pm3d";
+        default: return "lines";
     }
 }
 
 /// Return a string for a given enum value of type `fillstyle`
 inline auto fillstylestr(fillstyle value) -> std::string
 {
-    switch(value) {
-    case fillstyle::empty: return "empty";
-    case fillstyle::solid: return "solid";
-    case fillstyle::pattern: return "pattern";
-    default: return "empty";
+    switch (value)
+    {
+        case fillstyle::empty: return "empty";
+        case fillstyle::solid: return "solid";
+        case fillstyle::pattern: return "pattern";
+        default: return "empty";
     }
 }
 
 /// Return a string for a given enum value of type `boxwidth`
 inline auto boxwidthtypestr(boxwidthtype value) -> std::string
 {
-    switch(value) {
-    case boxwidthtype::automatic: return "";
-    case boxwidthtype::relative: return "relative";
-    case boxwidthtype::absolute: return "absolute";
-    default: return "";
+    switch (value)
+    {
+        case boxwidthtype::automatic: return "";
+        case boxwidthtype::relative: return "relative";
+        case boxwidthtype::absolute: return "absolute";
+        default: return "";
     }
 }
 
-} // namespace internal
+} // namespace gnuplot
 } // namespace sciplot

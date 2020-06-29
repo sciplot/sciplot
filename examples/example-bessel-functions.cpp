@@ -30,7 +30,7 @@ using namespace sciplot;
 // sciplot include for Bessel functions
 #include "bessel.hpp"
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     // Create a sciplot::plot object
     plot plt;

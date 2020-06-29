@@ -27,20 +27,25 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     const vec x = linspace(0.0, 5.0, 200);
 
+    // Create a plot object
     plot plt;
 
+    // Change its palette
     plt.palette("dark2");
 
+    // Plot two functions
     plt.draw(x, std::sin(x)).title("sin(x)");
     plt.draw(x, std::cos(x)).title("cos(x)");
 
+    // Show the plot in a pop-up window
     plt.show();
 
+    // Save the plot to a pdf and svg file
     plt.save("example-sincos-functions.pdf");
     plt.save("example-sincos-functions.svg");
 }
-

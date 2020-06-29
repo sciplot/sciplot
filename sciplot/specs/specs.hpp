@@ -28,16 +28,18 @@
 // C++ includes
 #include <string>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
+namespace internal
+{
 
 /// The base class for other specs classes (e.g., linespecs, plotspecs, borderspecs, etc.)
-template<typename derivedspecs>
+template <typename derivedspecs>
 class specs
 {
-public:
+  public:
     /// Pure virtual destructor (this class is an abstract base class).
-    virtual ~specs() {};
+    virtual ~specs() = default;
 
     /// Return a string representation of this object of some class that derives from specs.
     virtual auto repr() const -> std::string = 0;
@@ -53,7 +55,7 @@ public:
 };
 
 /// Output the state of a specs object to a ostream object.
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto operator<<(std::ostream& stream, const specs<derivedspecs>& obj) -> std::ostream&
 {
     return stream << obj.repr();

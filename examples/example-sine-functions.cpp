@@ -27,9 +27,9 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    // Create a vector with values from 0 to pi divived into 200 uniform intervals
+    // Create a vector with values from 0 to pi divived into 200 uniform intervals for the x-axis
     const vec x = linspace(0.0, PI, 200);
 
     // Create a sciplot::plot object
@@ -44,8 +44,8 @@ int main(int argc, char **argv)
     plt.yrange(0.0, 6.0);
 
     // Plot i*sin(x) from i = 1 to i = 6
-    for(auto i = 1; i <= 6; ++i)
-        plt.draw(x, i * std::sin(x)).title(str(i) + "⋅sin(x)");
+    for (auto i = 1; i <= 6; ++i)
+        plt.draw(x, i * std::sin(x)).title(std::to_string(i) + "⋅sin(x)");
 
     // Show the plot in a pop-up window
     plt.show();
@@ -53,4 +53,3 @@ int main(int argc, char **argv)
     // Save the plot to a pdf file
     plt.save("example-sine-functions.pdf");
 }
-

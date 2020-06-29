@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018 Allan Leal
+// Copyright (c) 2020 Allan Leal
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
 // sciplot includes
-#include <sciplot/specs/specs.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
-namespace sciplot
+int main(int argc, char** argv)
 {
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+    const vec x = linspace(0.0, 5.0, 200);
 
-// TODO Missing implementation
+    // Create 4 different plots
+    plot p0;
+    p0.draw(x, std::sin(x)).title("sin(x)");
+    p0.draw(x, std::cos(x)).title("cos(x)");
+    plot p1;
+    p1.draw(x, std::cos(x)).title("cos(x)");
+    plot p2;
+    p2.draw(x, std::tan(x)).title("tan(x)");
+    plot p3;
+    p3.draw(x, std::sqrt(x)).title("sqrt(x)");
 
-} // namespace sciplot
+    // Create multiplot to add the plots, set title, palette and 2x2 layout
+    multiplot mp;
+    mp.title("Example - Multiplot");
+    mp.palette("dark2");
+    mp.layout(2, 2);
+
+    // Add plots to multiplot
+    mp.add(p0).add(p1).add(p2).add(p3);
+
+    // Show the multiplot in a pop-up window
+    mp.show();
+    // Save the multiplot to files
+    mp.save("example-multiplot.pdf");
+    mp.save("example-multiplot.svg");
+}

@@ -30,14 +30,14 @@
 #include <sciplot/specs/specs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
 
 /// The class used to specify options for font.
-template<typename derivedspecs>
-class fontspecs : virtual public specs<derivedspecs>
+template <typename derivedspecs>
+class fontspecs : virtual public internal::specs<derivedspecs>
 {
-public:
+  public:
     /// Construct a default fontspecs instance.
     fontspecs();
 
@@ -45,12 +45,20 @@ public:
     auto repr() const -> std::string;
 
     /// Set the name of the font (e.g., Helvetica, Georgia, Times).
-    auto fontname(std::string name) -> derivedspecs& { m_fontname = name; return static_cast<derivedspecs&>(*this); }
+    auto fontname(std::string name) -> derivedspecs&
+    {
+        m_fontname = name;
+        return static_cast<derivedspecs&>(*this);
+    }
 
     /// Set the point size of the font (e.g., 10, 12, 16).
-    auto fontsize(std::size_t size) -> derivedspecs& { m_fontsize = size; return static_cast<derivedspecs&>(*this); }
+    auto fontsize(std::size_t size) -> derivedspecs&
+    {
+        m_fontsize = size;
+        return static_cast<derivedspecs&>(*this);
+    }
 
-private:
+  private:
     /// The name of the font.
     std::string m_fontname;
 
@@ -58,14 +66,14 @@ private:
     std::size_t m_fontsize;
 };
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 fontspecs<derivedspecs>::fontspecs()
 {
-    fontname(DEFAULT_FONTNAME);
-    fontsize(DEFAULT_FONTSIZE);
+    fontname(internal::DEFAULT_FONTNAME);
+    fontsize(internal::DEFAULT_FONTSIZE);
 }
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto fontspecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
@@ -73,5 +81,4 @@ auto fontspecs<derivedspecs>::repr() const -> std::string
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

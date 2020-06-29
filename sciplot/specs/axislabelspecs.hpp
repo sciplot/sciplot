@@ -31,13 +31,13 @@
 #include <sciplot/specs/titlespecs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
 
 /// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
 class axislabelspecs : public titlespecs<axislabelspecs>
 {
-public:
+  public:
     /// Construct a default axislabelspecs instance.
     axislabelspecs(std::string axis);
 
@@ -45,9 +45,13 @@ public:
     auto repr() const -> std::string;
 
     /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs& { m_rotate = "parallel"; return *this; }
+    auto axisparallel() -> axislabelspecs&
+    {
+        m_rotate = "parallel";
+        return *this;
+    }
 
-private:
+  private:
     /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
     std::string m_axis;
 
@@ -56,7 +60,7 @@ private:
 };
 
 axislabelspecs::axislabelspecs(std::string axis)
-: m_axis(axis)
+    : m_axis(axis)
 {
 }
 
@@ -65,9 +69,8 @@ auto axislabelspecs::repr() const -> std::string
     std::stringstream ss;
     ss << "set " + m_axis + "label ";
     ss << titlespecs<axislabelspecs>::repr();
-    ss << optionvaluestr("rotate", m_rotate);
+    ss << gnuplot::optionvaluestr("rotate", m_rotate);
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

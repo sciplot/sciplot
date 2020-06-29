@@ -27,9 +27,9 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    // Create a vector with x values
+    // Create a vector with strings as x-axis tick labels
     std::vector<std::string> x = {"strings", "as", "tick", "labels"};
 
     // Create a vector with y values
@@ -45,16 +45,14 @@ int main(int argc, char **argv)
     plt.xlabel("x");
     plt.ylabel("y");
 
-    // Add values to plot
-    auto & specs = plt.draw(x, y);
-    // plot y values from data column 2, and the x-axis ticks from column 1
+    // Add values to plot. This returns a plotspect object to set up various aspects of the plot
+    auto& specs = plt.draw(x, y);
+
+    // plot y values from data column 2, and the x-axis ticks from column 1 (columns start at 1)
     specs.use(plotspecs::USE_AUTO, 2, plotspecs::USE_AUTO, 1);
-    // makes sure we plot boxes
-    specs.with(sciplot::plotstyle::boxes);
-    // and set the the fill style to a solid fill
-    specs.fillstyle(sciplot::fillstyle::solid);
-    // Set a proper title for the plot
-    specs.title("Plot title");
+
+    // makes sure we plot boxes with a solid fill style
+    specs.with(sciplot::plotstyle::boxes).fillstyle(sciplot::fillstyle::solid);
 
     // Adjust the relative width of the boxes
     plt.boxwidth(sciplot::boxwidthtype::relative, 0.75F);

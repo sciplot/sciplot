@@ -30,14 +30,14 @@
 #include <sciplot/specs/textspecs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
 
 /// The class used to specify options for titles.
-template<typename derivedspecs>
+template <typename derivedspecs>
 class titlespecs : public textspecs<derivedspecs>
 {
-public:
+  public:
     /// Construct a default titlespecs instance.
     titlespecs();
 
@@ -45,17 +45,29 @@ public:
     auto repr() const -> std::string;
 
     /// Set the text of the title.
-    auto text(std::string title) -> derivedspecs& { m_title = "'" + title + "'"; return static_cast<derivedspecs&>(*this); }
+    auto text(std::string title) -> derivedspecs&
+    {
+        m_title = "'" + title + "'";
+        return static_cast<derivedspecs&>(*this);
+    }
 
     /// Set the offset of the title element.
     /// @param xval The offset along the x direction
     /// @param yval The offset along the y direction
-    auto offset(int xval, int yval) -> derivedspecs& { m_offset = "offset " + str(xval) + "," + str(yval); return static_cast<derivedspecs&>(*this); }
+    auto offset(int xval, int yval) -> derivedspecs&
+    {
+        m_offset = "offset " + internal::str(xval) + "," + internal::str(yval);
+        return static_cast<derivedspecs&>(*this);
+    }
 
     /// Set the rotation angle of the title element in degrees.
-    auto rotate(double angle) -> derivedspecs& { m_rotate = "by " + str(angle); return static_cast<derivedspecs&>(*this); }
+    auto rotate(double angle) -> derivedspecs&
+    {
+        m_rotate = "by " + internal::str(angle);
+        return static_cast<derivedspecs&>(*this);
+    }
 
-private:
+  private:
     /// The title word.
     std::string m_title;
 
@@ -66,20 +78,19 @@ private:
     std::string m_rotate;
 };
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 titlespecs<derivedspecs>::titlespecs()
 {
     text("");
 }
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto titlespecs<derivedspecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_title << " " << textspecs<derivedspecs>::repr() << " ";
-    ss << optionstr(m_rotate) << optionstr(m_offset);
+    ss << gnuplot::optionstr(m_rotate) << gnuplot::optionstr(m_offset);
     return ss.str();
 }
 
-} // namespace internal
 } // namespace sciplot

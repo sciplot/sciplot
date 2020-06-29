@@ -28,14 +28,14 @@
 // sciplot includes
 #include <sciplot/specs/specs.hpp>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
 
 /// The class used to specify if a plot element is shown or not.
-template<typename derivedspecs>
-class showspecs : virtual public specs<derivedspecs>
+template <typename derivedspecs>
+class showspecs : virtual public internal::specs<derivedspecs>
 {
-public:
+  public:
     /// Construct a default showspecs instance.
     showspecs();
 
@@ -43,24 +43,27 @@ public:
     auto repr() const -> std::string;
 
     /// Set the active state of the box.
-    auto show(bool value = true) -> derivedspecs& { m_show = value; return static_cast<derivedspecs&>(*this); }
+    auto show(bool value = true) -> derivedspecs&
+    {
+        m_show = value;
+        return static_cast<derivedspecs&>(*this);
+    }
 
-private:
+  private:
     /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
     bool m_show;
 };
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 showspecs<derivedspecs>::showspecs()
 {
     show();
 }
 
-template<typename derivedspecs>
+template <typename derivedspecs>
 auto showspecs<derivedspecs>::repr() const -> std::string
 {
     return m_show ? "" : "no";
 }
 
-} // namespace internal
 } // namespace sciplot
