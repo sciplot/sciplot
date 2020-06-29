@@ -80,6 +80,20 @@ enum class boxwidthtype
     absolute
 };
 
+/// Multiplot layout grow direction
+enum class growdirectiontype
+{
+    downwards,
+    upwards
+};
+
+/// Multiplot layout fill order
+enum class fillordertype
+{
+    rowsfirst,
+    columnsfirst
+};
+
 /// All extension formats supported by sciplot when saving a plot to a file.
 enum class ext
 {
@@ -151,6 +165,28 @@ inline auto boxwidthtypestr(boxwidthtype value) -> std::string
         case boxwidthtype::relative: return "relative";
         case boxwidthtype::absolute: return "absolute";
         default: return "";
+    }
+}
+
+/// Return a string for a given enum value of type `fillorder`
+inline auto fillordertypestr(fillordertype value) -> std::string
+{
+    switch (value)
+    {
+        case fillordertype::rowsfirst: return "rowsfirst";
+        case fillordertype::columnsfirst: return "columnsfirst";
+        default: return "rowsfirst";
+    }
+}
+
+/// Return a string for a given enum value of type `growdirection`
+inline auto growdirectiontypestr(growdirectiontype value) -> std::string
+{
+    switch (value)
+    {
+        case growdirectiontype::downwards: return "downwards";
+        case growdirectiontype::upwards: return "upwards";
+        default: return "downwards";
     }
 }
 

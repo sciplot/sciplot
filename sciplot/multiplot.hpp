@@ -67,6 +67,12 @@ class multiplot
     /// Set the layout of the multiplot in x- and y-direction.
     auto layout(std::size_t rows, std::size_t columns) -> multiplot&;
 
+    /// Set order in which the layout will be filled.
+    auto fillorder(fillordertype value) -> multiplot&;
+
+    /// Set direction in which the layout will grow.
+    auto growdirection(growdirectiontype value) -> multiplot&;
+
     /// Set the title of the multiplot.
     auto title(const std::string& title) -> multiplot&;
 
@@ -118,6 +124,12 @@ class multiplot
     /// The number of columns in the multiplot layout
     std::size_t m_layoutcols = 0;
 
+    /// Order in which the layout will be filled
+    fillordertype m_fillorder = fillordertype::rowsfirst;
+
+    /// Direction in which the layout will grow
+    growdirectiontype m_growdirection = growdirectiontype::downwards;
+
     /// The title of the plot
     std::string m_title;
 
@@ -161,6 +173,18 @@ auto multiplot::layout(std::size_t rows, std::size_t columns) -> multiplot&
     return *this;
 }
 
+auto multiplot::fillorder(fillordertype value) -> multiplot&
+{
+    m_fillorder = value;
+    return *this;
+}
+
+auto multiplot::growdirection(growdirectiontype value) -> multiplot&
+{
+    m_growdirection = value;
+    return *this;
+}
+
 auto multiplot::title(const std::string& title) -> multiplot&
 {
     m_title = title;
@@ -193,7 +217,7 @@ auto multiplot::show() const -> void
     gnuplot::showterminalcmd(script);
 
     // Add multiplot commands
-    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
+    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_fillorder, m_growdirection, m_title);
 
     // Add the plot commands
     for (const auto& p : m_plots)
@@ -242,7 +266,7 @@ auto multiplot::save(const std::string& filename) const -> void
     gnuplot::outputcmd(script, cleanedfilename);
 
     // Add multiplot commands
-    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
+    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_fillorder, m_growdirection, m_title);
 
     // Add the plot commands
     for (const auto& p : m_plots)

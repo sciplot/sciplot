@@ -49,6 +49,9 @@ int main(int argc, char** argv)
     mp.palette("dark2");
     mp.layout(2, 2);
 
+    // Fill up columns of the multiplot first and grow layout upwards (default is rowsfirst downwards)
+    mp.fillorder(fillordertype::columnsfirst).growdirection(growdirectiontype::upwards);
+
     // Add plots to multiplot
     mp.add(p0).add(p1).add(p2).add(p3);
 
