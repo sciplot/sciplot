@@ -189,9 +189,6 @@ auto writedataset(std::ostream& out, std::size_t index, const Args&... args) -> 
     // Ensure two blank lines are added here so that gnuplot understands a new data set has been added
     out << "\n\n";
 
-    // Flush the file data to ensure its correct state when gnuplot is called
-    out.flush();
-
     return out;
 }
 
@@ -240,7 +237,7 @@ auto outputcmd(std::ostream& out, const std::string& filename) -> std::ostream&
 }
 
 /// Auxiliary function to write multiplot commands to a script file
-auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, const std::string& title) -> std::ostream&
+auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, fillordertype fillorder, growdirectiontype growdir, const std::string& title) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# MULTIPLOT" << std::endl;
@@ -250,6 +247,8 @@ auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, cons
     {
         out << " layout " << rows << "," << columns;
     }
+    out << " " << fillordertypestr(fillorder);
+    out << " " << growdirectiontypestr(growdir);
     if (!title.empty())
     {
         out << " title \"" << title << "\"";

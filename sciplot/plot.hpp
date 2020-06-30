@@ -26,6 +26,7 @@
 #pragma once
 
 // C++ includes
+#include <sstream>
 #include <vector>
 
 // sciplot includes
@@ -51,6 +52,10 @@ class plot
   public:
     /// Construct a default plot object
     plot();
+
+    /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
+    /// Call cleanup() to remove those files manually.
+    auto autoclean(bool enable = true) -> void;
 
     /// Convert this plot object into a gnuplot formatted string.
     /// Note that this will only return the plot commands. Data needs to be writte to a seperate file using draw().
@@ -104,6 +109,9 @@ class plot
     /// Set the number of sample points for analytical plots.
     auto samples(std::size_t value) -> void { m_samples = internal::str(value); }
 
+    /// Use this method to provide gnuplot commands to be executed before the plotting calls.
+    auto gnuplot(const std::string& command) -> void { m_customcmds.push_back(command); }
+
     /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
     auto draw(const std::string& what) -> plotspecs&;
 
@@ -112,18 +120,23 @@ class plot
     template <typename X, typename Y>
     auto draw(const X& x, const Y& y) -> plotspecs&;
 
+    /// Write the current plot data to the data file.
+    auto saveplotdata() const -> void;
+
     /// Show the plot in a pop-up window.
-    auto show() -> void;
+    /// Will remove temporary files after showing if autoclean(true) (default).
+    auto show() const -> void;
 
     /// Save the plot in a file, with its extension defining the figure format.
     /// The extension of the file name determines the format of the figure.
     /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
     /// Thus, to save a plot in `png` format, choose a file name with a `.png`
     /// file extension as in `fig.png`.
-    auto save(const std::string& filename) -> void;
+    /// Will remove temporary files after saving if autoclean(true) (default).
+    auto save(const std::string& filename) const -> void;
 
-    /// Use this method to provide gnuplot commands to be executed before the plotting calls.
-    auto gnuplot(const std::string& command) -> void { m_customcmds.push_back(command); }
+    /// Delete all files used to store plot data or scripts.
+    auto cleanup() const -> void;
 
   private:
     /// Counter of how many plot / singleplot objects have been instanciated in the application
@@ -132,6 +145,9 @@ class plot
     /// Plot id derived from m_counter upon construction
     /// Must be the first member due to constructor initialization order!
     std::size_t m_id = 0;
+
+    /// Toggle automatic cleaning of temporary files (enabled by default)
+    bool m_autoclean = true;
 
     /// The name of the gnuplot palette to be used
     std::string m_palette;
@@ -147,6 +163,9 @@ class plot
 
     /// The multi data set file where data given to plot (e.g., vectors) are saved
     std::string m_datafilename;
+
+    /// The current plot data as a string
+    std::string m_data;
 
     /// The current number of data sets in the data file
     std::size_t m_numdatasets = 0;
@@ -200,6 +219,11 @@ plot::plot()
 {
 }
 
+auto plot::autoclean(bool enable) -> void
+{
+    m_autoclean = enable;
+}
+
 auto plot::palette(const std::string& name) -> plot&
 {
     m_palette = name;
@@ -217,8 +241,10 @@ auto plot::draw(const std::string& what) -> plotspecs&
 {
     // Save the draw arguments for this x,y data
     m_plotspecs.emplace_back(what);
+
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
     m_plotspecs.back().linestyle(m_plotspecs.size());
+
     // Return the just created drawing object in case the user wants to customize it
     return m_plotspecs.back();
 }
@@ -226,11 +252,13 @@ auto plot::draw(const std::string& what) -> plotspecs&
 template <typename X, typename Y>
 auto plot::draw(const X& x, const Y& y) -> plotspecs&
 {
-    // Open the data file. Make sure we clear the file the first time we open it, but then always append to it
-    auto openmode = m_numdatasets == 0 ? std::ios::trunc : (std::ios::app | std::ios::ate);
-    std::ofstream datastream(m_datafilename, openmode);
-    // Save the given vectors x and y as a new data set in the data file
+    // Write the given vectors x and y as a new data set to the stream
+    std::ostringstream datastream;
     gnuplot::writedataset(datastream, m_numdatasets, x, y);
+
+    // Append new data set to existing data
+    m_data += datastream.str();
+
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
     return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++));
 }
@@ -282,7 +310,17 @@ auto plot::repr() const -> std::string
     return script.str();
 }
 
-auto plot::show() -> void
+auto plot::saveplotdata() const -> void
+{
+    // Open data file, truncate it and write all current plot data to it
+    if (!m_data.empty())
+    {
+        std::ofstream data(m_datafilename);
+        data << m_data;
+    }
+}
+
+auto plot::show() const -> void
 {
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
@@ -300,13 +338,20 @@ auto plot::show() -> void
     script << std::endl;
     script.close();
 
+    // save plot data to a file
+    saveplotdata();
+
     // Show the plot
     gnuplot::runscript(m_scriptfilename, true);
-    // Remove the no longer needed show{#}.plt file
-    //        std::remove(m_scriptfilename.c_str());
+
+    // remove the temporary files if user wants to
+    if (m_autoclean)
+    {
+        cleanup();
+    }
 }
 
-auto plot::save(const std::string& filename) -> void
+auto plot::save(const std::string& filename) const -> void
 {
     // Clean the file name to prevent errors
     auto cleanedfilename = gnuplot::cleanpath(filename);
@@ -340,8 +385,23 @@ auto plot::save(const std::string& filename) -> void
     script << std::endl;
     script.close();
 
+    // save plot data to a file
+    saveplotdata();
+
     // Save the plot as a file
     gnuplot::runscript(m_scriptfilename, false);
+
+    // remove the temporary files if user wants to
+    if (m_autoclean)
+    {
+        cleanup();
+    }
+}
+
+auto plot::cleanup() const -> void
+{
+    std::remove(m_scriptfilename.c_str());
+    std::remove(m_datafilename.c_str());
 }
 
 } // namespace sciplot
