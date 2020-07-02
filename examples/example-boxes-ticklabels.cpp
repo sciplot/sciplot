@@ -45,8 +45,14 @@ int main(int argc, char** argv)
     plt.xlabel("x");
     plt.ylabel("y");
 
+    // Rotate tick labels on x-axis by 90°
+    plt.xtics().rotate();
+
     // Add values to plot. This returns a plotspect object to set up various aspects of the plot
     auto& specs = plt.draw(x, y);
+
+    // set empty title to remove plot legend entry
+    specs.title("");
 
     // plot y values from data column 2, and the x-axis ticks from column 1 (columns start at 1)
     specs.use(plotspecs::USE_AUTO, 2, plotspecs::USE_AUTO, 1);

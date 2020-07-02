@@ -58,9 +58,9 @@ class ticspecs : public textspecs<ticspecs>
     }
 
     /// Set the tics to be rotated angle degrees if `true`.
-    auto rotateby(bool angle) -> ticspecs&
+    auto rotateby(double angle) -> ticspecs&
     {
-        m_rotate = "rotate by " + angle;
+        m_rotate = "rotate by " + std::to_string(angle);
         return *this;
     }
 
