@@ -97,6 +97,12 @@ class plot
     /// Set the tics of the plot and return a reference to the corresponding specs object.
     auto tics() -> ticspecs& { return m_tics; }
 
+    /// Set the xtics of the plot and return a reference to the corresponding specs object.
+    auto xtics() -> ticspecs& { return m_xtics; }
+
+    /// Set the ytics of the plot and return a reference to the corresponding specs object.
+    auto ytics() -> ticspecs& { return m_ytics; }
+
     /// Set the legend of the plot and return a reference to the corresponding specs object.
     auto legend() -> legendspecs& { return m_legend; }
 
@@ -184,6 +190,12 @@ class plot
 
     /// The specs of the tics of the plot
     ticspecs m_tics;
+
+    /// The specs of the xtics of the plot
+    ticspecs m_xtics = ticspecs(ticaxis::x);
+
+    /// The specs of the ytics of the plot
+    ticspecs m_ytics = ticspecs(ticaxis::y);
 
     /// The legend specs of the plot
     legendspecs m_legend;
@@ -278,6 +290,8 @@ auto plot::repr() const -> std::string
     script << m_border << std::endl;
     script << m_gridspecs << std::endl;
     script << m_tics << std::endl;
+    script << m_xtics << std::endl;
+    script << m_ytics << std::endl;
     script << m_legend << std::endl;
     script << gnuplot::commandvaluestr("set boxwidth", m_boxwidth);
     script << gnuplot::commandvaluestr("set samples", m_samples);

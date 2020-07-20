@@ -38,7 +38,7 @@ class ticspecs : public textspecs<ticspecs>
 {
   public:
     /// Construct a default ticspecs instance.
-    ticspecs();
+    ticspecs(ticaxis axis = ticaxis::all);
 
     /// Convert this ticspecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -47,6 +47,20 @@ class ticspecs : public textspecs<ticspecs>
     auto mirror(bool value = true) -> ticspecs&
     {
         m_mirror = value ? "mirror" : "nomirror";
+        return *this;
+    }
+
+    /// Set the tics to be rotated 90 degrees if `true`.
+    auto rotate(bool value = true) -> ticspecs&
+    {
+        m_rotate = value ? "rotate" : "norotate";
+        return *this;
+    }
+
+    /// Set the tics to be rotated angle degrees if `true`.
+    auto rotateby(double angle) -> ticspecs&
+    {
+        m_rotate = "rotate by " + std::to_string(angle);
         return *this;
     }
 
@@ -96,8 +110,14 @@ class ticspecs : public textspecs<ticspecs>
     }
 
   private:
+    /// The axis the tic options will be applied to.
+    ticaxis m_axis = ticaxis::all;
+
     /// The mirror option of the tics.
     std::string m_mirror;
+
+    /// The rotate option for the tics.
+    std::string m_rotate;
 
     /// The depth where the tics are displayed (back or front).
     std::string m_depth;
@@ -112,11 +132,13 @@ class ticspecs : public textspecs<ticspecs>
     double m_scaleminor;
 };
 
-ticspecs::ticspecs()
+ticspecs::ticspecs(ticaxis axis)
+    : m_axis(axis)
 {
     front();
     outside();
     mirror(false);
+    rotate(false);
     scalemajor(0.50);
     scaleminor(0.25);
 }
@@ -124,8 +146,15 @@ ticspecs::ticspecs()
 auto ticspecs::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << "set tics " << m_mirror << " " << m_depth << " " << m_inout << " ";
+    ss << "set " << gnuplot::ticaxisstr(m_axis) << " " << m_mirror << " ";
+    // only "tics" support the front / back parameters
+    if (m_axis == ticaxis::all)
+    {
+        ss << m_depth << " ";
+    }
+    ss << m_inout << " ";
     ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
+    ss << m_rotate << " ";
     ss << textspecs<ticspecs>::repr();
     return ss.str();
 }

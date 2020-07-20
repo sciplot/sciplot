@@ -64,6 +64,18 @@ enum class plotstyle
     pm3d,
 };
 
+/// All gnuplot options for tick axes
+enum class ticaxis
+{
+    all,
+    x,
+    y,
+    z,
+    x2,
+    y2,
+    cb
+};
+
 /// All gnuplot style options filling the areas of plot data
 enum class fillstyle
 {
@@ -141,6 +153,21 @@ inline auto plotstylestr(plotstyle value) -> std::string
         case plotstyle::rgbimage: return "rgbimage";
         case plotstyle::pm3d: return "pm3d";
         default: return "lines";
+    }
+}
+
+/// Return a string for a given enum value of type `ticaxis`
+inline auto ticaxisstr(ticaxis value) -> std::string
+{
+    switch (value)
+    {
+        case ticaxis::x: return "xtics";
+        case ticaxis::y: return "ytics";
+        case ticaxis::z: return "ztics";
+        case ticaxis::x2: return "x2tics";
+        case ticaxis::y2: return "y2tics";
+        case ticaxis::cb: return "cbtics";
+        default: return "tics";
     }
 }
 
