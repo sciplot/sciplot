@@ -205,14 +205,14 @@ auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
 }
 
 /// Auxiliary function to write terminal commands for showing a plot from a script file
-auto showterminalcmd(std::ostream& out) -> std::ostream&
+auto showterminalcmd(std::ostream& out, const float ratio = GOLDEN_RATIO_INVERSE) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
     out << "#==============================================================================" << std::endl;
     out << "set termoption enhanced" << std::endl;
     //out << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
-    out << "set size ratio " << GOLDEN_RATIO_INVERSE << std::endl;
+    out << "set size ratio " << ratio << std::endl;
     return out;
 }
 
