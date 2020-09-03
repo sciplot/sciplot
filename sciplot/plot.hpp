@@ -345,8 +345,8 @@ auto plot::show() const -> void
     // Add terminal info
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
-    const float ratio = (float)height / (float)width;
-    gnuplot::showterminalcmd(script, ratio);
+    std::string size = gnuplot::sizestr(width, height, false);
+    gnuplot::showterminalcmd(script, size);
 
     // Add the plot commands
     script << repr();
