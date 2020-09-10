@@ -205,14 +205,19 @@ auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
 }
 
 /// Auxiliary function to write terminal commands for showing a plot from a script file
-auto showterminalcmd(std::ostream& out) -> std::ostream&
+auto showterminalcmd(std::ostream& out, const std::string& size) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
     out << "#==============================================================================" << std::endl;
+    // We set a terminal here to make sure we can also set a size. This is necessary, because the
+    // canvas size can ONLY be set using "set terminal <TERMINAL> size W, H".
+    // See: http://www.bersch.net/gnuplot-doc/canvas-size.html#set-term-size
+    // The GNUTERM variable contains the default terminal, which we're using for the show command.
+    // See: http://www.bersch.net/gnuplot-doc/unset.html
     out << "set termoption enhanced" << std::endl;
     //out << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
-    out << "set size ratio " << GOLDEN_RATIO_INVERSE << std::endl;
+    out << "set terminal GNUTERM size " << size << std::endl;
     return out;
 }
 

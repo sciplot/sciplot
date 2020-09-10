@@ -343,7 +343,10 @@ auto plot::show() const -> void
     gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
 
     // Add terminal info
-    gnuplot::showterminalcmd(script);
+    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
+    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
+    std::string size = gnuplot::sizestr(width, height, false);
+    gnuplot::showterminalcmd(script, size);
 
     // Add the plot commands
     script << repr();
