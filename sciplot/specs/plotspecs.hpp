@@ -32,6 +32,9 @@
 #include <sciplot/specs/linespecs.hpp>
 #include <sciplot/util.hpp>
 
+// C++ includes
+#include <algorithm>
+
 namespace sciplot
 {
 
