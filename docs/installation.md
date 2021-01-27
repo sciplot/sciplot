@@ -10,14 +10,11 @@ Installing {{sciplot}} is easy, since it is a *header-only library*. Follow the 
 
 ## Download
 
-Download {{sciplot}} by either git cloning its [GitHub repository][github]:
+Download {{sciplot}} by git cloning its [GitHub repository][github]:
 
 ~~~
-git clone https://github.com/sciplot/sciplot
+git clone https://github.com/sciplot/sciplot --recursive
 ~~~
-
-or by [clicking here][zip] to start the download of a zip file, which
-you should extract to a directory of your choice.
 
 ## Installation by copying
 
