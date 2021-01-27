@@ -1,0 +1,64 @@
+# Project information
+site_name: sciplot
+site_description: sciplot documentation.
+site_author: Allan leal
+site_url: https://sciplot.github.io
+
+# Repository
+repo_name: sciplot/sciplot
+repo_url: https://github.com/sciplot/sciplot/
+
+# Copyright
+copyright: 'Copyright &copy; 2018–2021 Allan Leal'
+
+# Configuration
+theme:
+  name: material
+  palette:
+    primary: 'black'
+    accent: 'pink'
+  favicon: 'img/logo.png'
+
+# Navigation
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Tutorials: tutorials.md
+  - FAQ: faq.md
+  - About: about.md
+
+# Customization
+extra_css:
+    - css/extra.css
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Plugins
+plugins:
+  - search
+  - macros
+
+# Macros
+extra:
+  sciplot: <span style="font-family:'Comfortaa'">sciplot</span>
