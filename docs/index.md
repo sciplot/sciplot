@@ -32,9 +32,8 @@ int main(int argc, char** argv)
     // Show the plot in a popup window
     plt.show();
 
-    // Save the plot to PDF and EPS files
+    // Save the plot to a PDF file
     plt.save("figure.pdf");
-    plt.save("figure.svg");
 }
 ```
 
