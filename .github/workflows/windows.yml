@@ -1,0 +1,72 @@
+# name: windows
+
+# on:
+#   push:
+#     branches:
+#       - master
+
+#   pull_request:
+
+#   schedule:
+#     - cron: "0 5 * * 1"  # runs at 05:00 UTC on Mondays
+
+# jobs:
+#   build:
+
+#     runs-on: windows-latest
+
+#     env:
+#       configuration: Release
+
+#     strategy:
+#       fail-fast: true
+#       max-parallel: 4
+
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           submodules: recursive
+
+#       - uses: conda-incubator/setup-miniconda@v2
+#         with:
+#           auto-update-conda: true
+#           auto-activate-base: true
+#           activate-environment: ''
+#       - name: Configuring Conda Environment
+#         shell: powershell
+#         run: |
+#           conda config --set always_yes yes --set changeps1 no
+#           conda config --add channels conda-forge
+#           conda install conda-devenv
+#           conda devenv
+#       - name: Configuring Cache
+#         id: cache
+#         uses: actions/cache@v2
+#         with:
+#           path: $HOME\clcache
+#           key: ${{ runner.os }}-clcache
+#       - name: Installing Dependencies
+#         shell: powershell
+#         run: |
+#           conda activate reaktoro
+#           cmake -P deps/install
+#       - name: Configuring Reaktoro
+#         shell: powershell
+#         run: |
+#           conda activate reaktoro
+#           cmake -S . -B .build
+#       - name: Building Reaktoro
+#         shell: powershell
+#         run: |
+#           conda activate reaktoro
+#           cmake --build .build --config ${{ env.configuration }}
+#       - name: Installing Reaktoro
+#         shell: powershell
+#         run: |
+#           conda activate reaktoro
+#           cmake --build .build --config ${{ env.configuration }} --target install
+#       - name: Testing Reaktoro
+#         shell: powershell
+#         run: |
+#           conda activate reaktoro
+#           cmake --build .build --config ${{ env.configuration }} --target tests
