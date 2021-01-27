@@ -4,8 +4,12 @@
 # Visual Studio Code directory
 .vscode/
 
-# Build dir
+# Build directories
 build/
+*-build-*/
+
+# JetBrains related files
+.idea/
 
 # Eclipse related files
 /.cproject
@@ -49,5 +53,5 @@ __pycache__
 *.out
 *.app
 
-.idea/
-cmake-build-debug/
+# Mkdocs
+site/*
