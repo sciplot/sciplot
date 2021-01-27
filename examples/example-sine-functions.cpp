@@ -50,6 +50,6 @@ int main(int argc, char** argv)
     // Show the plot in a pop-up window
     plt.show();
 
-    // Save the plot to a pdf file
+    // Save the plot to a PDF file
     plt.save("example-sine-functions.pdf");
 }
