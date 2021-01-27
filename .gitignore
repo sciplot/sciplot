@@ -28,6 +28,12 @@ build/
 *.dylib
 *.dll
 
+# Conda files to be ignored
+environment.yml
+
+# Python files to be ignored
+__pycache__
+
 # Fortran module files
 *.mod
 *.smod
