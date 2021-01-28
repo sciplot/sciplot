@@ -26,7 +26,6 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/specs/FontSpecs.hpp>
 #include <sciplot/specs/LineSpecs.hpp>
 #include <sciplot/specs/ShowSpecs.hpp>
 #include <sciplot/specs/TextSpecs.hpp>
@@ -276,8 +275,8 @@ LegendSpecs::LegendSpecs()
 {
     inside();
     opaque();
-    fontname(internal::DEFAULT_LEGEND_FONTNAME);
-    fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
+    fontName(internal::DEFAULT_LEGEND_FONTNAME);
+    fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
     addtowidth(0.0);
     addtoheight(0.0);
     samplelength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
@@ -307,8 +306,8 @@ auto LegendSpecs::repr() const -> std::string
 LegendHeaderSpecs::LegendHeaderSpecs()
 {
     text("");
-    fontname(internal::DEFAULT_LEGEND_FONTNAME);
-    fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
+    fontName(internal::DEFAULT_LEGEND_FONTNAME);
+    fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
 }
 
 LegendBorderSpecs::LegendBorderSpecs()

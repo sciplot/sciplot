@@ -27,7 +27,7 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/FontSpecs.hpp>
+#include <sciplot/specs/FontSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
@@ -35,7 +35,7 @@ namespace sciplot
 
 /// The class used to specify options for text elements.
 template <typename DerivedSpecs>
-class TextSpecs : public FontSpecs<DerivedSpecs>
+class TextSpecs : public FontSpecsOf<DerivedSpecs>
 {
   public:
     /// Construct a default TextSpecs instance.
@@ -88,7 +88,7 @@ auto TextSpecs<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_enhanced << " textcolor " << m_color << " ";
-    ss << FontSpecs<DerivedSpecs>::repr();
+    ss << FontSpecsOf<DerivedSpecs>::repr();
     return internal::removeExtraWhitespaces(ss.str());
 }
 
