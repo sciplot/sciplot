@@ -32,6 +32,9 @@
 #include <string>
 #include <valarray>
 
+// sciplot includes
+#include <sciplot/palettes.hpp>
+
 namespace sciplot
 {
 namespace internal
@@ -54,6 +57,43 @@ inline auto str(const char* word) -> std::string
 inline auto str() -> std::string
 {
     return {};
+}
+
+/// Trim the string from start
+inline auto trimleft(std::string str) -> std::string
+{
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(),
+        [](unsigned char ch) { return !std::isspace(ch); }));
+    return str;
+}
+
+/// Trim the string from end
+inline auto trimright(std::string str) -> std::string
+{
+    str.erase(std::find_if(str.rbegin(), str.rend(),
+        [](unsigned char ch) { return !std::isspace(ch); }).base(), str.end());
+    return str;
+}
+
+/// Trim the string from both ends
+inline auto trim(std::string str) -> std::string
+{
+    return trimleft(trimright(str));
+}
+
+/// Remove extra spaces from a string (e.g., `"abc  acb   xy s "` becomes `"abc acb xy s "`).
+inline auto collapseWhitespaces(std::string s) -> std::string
+{
+    s.erase(std::unique(std::begin(s), std::end(s),
+        [](unsigned char a, unsigned char b){ return std::isspace(a) && std::isspace(b); }),
+            std::end(s));
+    return s;
+}
+
+/// Trim and collapse all spaces in a string (e.g., `"  abc  acb   xy s "` becomes `"abc acb xy s"`).
+inline auto removeExtraWhitespaces(std::string s) -> std::string
+{
+    return trim(collapseWhitespaces(s));
 }
 
 /// Auxiliary function that returns the size of the vector argument with least size (for a single vector case)
