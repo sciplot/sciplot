@@ -27,14 +27,14 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/TextSpecs.hpp>
+#include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The class used to specify options for font.
-class TicSpecs : public TextSpecs<TicSpecs>
+class TicSpecs : public TextSpecsOf<TicSpecs>
 {
   public:
     /// Construct a default TicSpecs instance.
@@ -155,7 +155,7 @@ auto TicSpecs::repr() const -> std::string
     ss << m_inout << " ";
     ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
     ss << m_rotate << " ";
-    ss << TextSpecs<TicSpecs>::repr();
+    ss << TextSpecsOf<TicSpecs>::repr();
     return ss.str();
 }
 

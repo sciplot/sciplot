@@ -27,7 +27,7 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/TextSpecs.hpp>
+#include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
@@ -35,13 +35,13 @@ namespace sciplot
 
 /// The class used to specify options for titles.
 template <typename DerivedSpecs>
-class TitleSpecs : public TextSpecs<DerivedSpecs>
+class TitleSpecsOf : public TextSpecsOf<DerivedSpecs>
 {
   public:
-    /// Construct a default TitleSpecs instance.
-    TitleSpecs();
+    /// Construct a default TitleSpecsOf instance.
+    TitleSpecsOf();
 
-    /// Convert this TitleSpecs object into a gnuplot formatted string.
+    /// Convert this TitleSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the text of the title.
@@ -79,16 +79,16 @@ class TitleSpecs : public TextSpecs<DerivedSpecs>
 };
 
 template <typename DerivedSpecs>
-TitleSpecs<DerivedSpecs>::TitleSpecs()
+TitleSpecsOf<DerivedSpecs>::TitleSpecsOf()
 {
     text("");
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecs<DerivedSpecs>::repr() const -> std::string
+auto TitleSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << m_title << " " << TextSpecs<DerivedSpecs>::repr() << " ";
+    ss << m_title << " " << TextSpecsOf<DerivedSpecs>::repr() << " ";
     ss << gnuplot::optionstr(m_rotate) << gnuplot::optionstr(m_offset);
     return ss.str();
 }

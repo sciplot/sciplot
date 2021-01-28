@@ -29,7 +29,7 @@
 #include <limits>
 #include <numeric>
 #include <sciplot/enums.hpp>
-#include <sciplot/specs/LineSpecs.hpp>
+#include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 // C++ includes
@@ -39,7 +39,7 @@ namespace sciplot
 {
 
 /// The class where options for the plot function are specified.
-class PlotSpecs : public LineSpecs<PlotSpecs>
+class PlotSpecs : public LineSpecsOf<PlotSpecs>
 {
   public:
     /// Undefine / ignore column usage value. See use().
@@ -115,7 +115,7 @@ auto PlotSpecs::repr() const -> std::string
     ss << gnuplot::optionvaluestr("using", m_using);
     ss << gnuplot::optionvaluestr("title", m_title);
     ss << gnuplot::optionvaluestr("with", m_with);
-    ss << LineSpecs<PlotSpecs>::repr();
+    ss << LineSpecsOf<PlotSpecs>::repr();
     return ss.str();
 }
 

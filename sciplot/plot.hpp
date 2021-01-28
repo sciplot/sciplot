@@ -38,7 +38,7 @@
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/GridSpecs.hpp>
 #include <sciplot/specs/LegendSpecs.hpp>
-#include <sciplot/specs/LineSpecs.hpp>
+#include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PlotSpecs.hpp>
 #include <sciplot/specs/TicSpecs.hpp>
 #include <sciplot/util.hpp>

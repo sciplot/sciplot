@@ -36,13 +36,13 @@ namespace sciplot
 
 /// The specifications for a line plot.
 template <typename DerivedSpecs>
-class LineSpecs : virtual public internal::specs<DerivedSpecs>
+class LineSpecsOf : virtual public internal::specs<DerivedSpecs>
 {
   public:
-    /// Construct a default LineSpecs instance.
-    LineSpecs();
+    /// Construct a default LineSpecsOf instance.
+    LineSpecsOf();
 
-    /// Convert this LineSpecs object into a gnuplot formatted string.
+    /// Convert this LineSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the line style of the plot.
@@ -114,13 +114,13 @@ class LineSpecs : virtual public internal::specs<DerivedSpecs>
 };
 
 template <typename DerivedSpecs>
-LineSpecs<DerivedSpecs>::LineSpecs()
+LineSpecsOf<DerivedSpecs>::LineSpecsOf()
 {
     linewidth(internal::DEFAULT_LINEWIDTH);
 }
 
 template <typename DerivedSpecs>
-auto LineSpecs<DerivedSpecs>::repr() const -> std::string
+auto LineSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << gnuplot::optionvaluestr("linestyle", m_linestyle);

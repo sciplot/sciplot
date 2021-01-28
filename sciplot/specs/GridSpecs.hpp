@@ -34,7 +34,7 @@ namespace sciplot
 {
 
 /// The class used to specify options for grid.
-class GridSpecs : public GridSpecsbase
+class GridSpecs : public GridSpecsBase
 {
   public:
     /// Construct a default GridSpecs instance.
@@ -44,51 +44,51 @@ class GridSpecs : public GridSpecsbase
     auto repr() const -> std::string;
 
     /// Return a grid specification object for configuring grid lines along major xtics.
-    auto xtics() -> GridSpecsbase& { return _gridmajor("xtics"); }
+    auto xtics() -> GridSpecsBase& { return _gridmajor("xtics"); }
 
     /// Return a grid specification object for configuring grid lines along major ytics.
-    auto ytics() -> GridSpecsbase& { return _gridmajor("ytics"); }
+    auto ytics() -> GridSpecsBase& { return _gridmajor("ytics"); }
 
     /// Return a grid specification object for configuring grid lines along major ztics.
-    auto ztics() -> GridSpecsbase& { return _gridmajor("ztics"); }
+    auto ztics() -> GridSpecsBase& { return _gridmajor("ztics"); }
 
     /// Return a grid specification object for configuring grid lines along major rtics.
-    auto rtics() -> GridSpecsbase& { return _gridmajor("rtics"); }
+    auto rtics() -> GridSpecsBase& { return _gridmajor("rtics"); }
 
     /// Return a grid specification object for configuring grid lines along major x2tics.
-    auto x2tics() -> GridSpecsbase& { return _gridmajor("x2tics"); }
+    auto x2tics() -> GridSpecsBase& { return _gridmajor("x2tics"); }
 
     /// Return a grid specification object for configuring grid lines along major y2tics.
-    auto y2tics() -> GridSpecsbase& { return _gridmajor("y2tics"); }
+    auto y2tics() -> GridSpecsBase& { return _gridmajor("y2tics"); }
 
     /// Return a grid specification object for configuring grid lines along minor xtics.
-    auto mxtics() -> GridSpecsbase& { return _gridminor("mxtics"); }
+    auto mxtics() -> GridSpecsBase& { return _gridminor("mxtics"); }
 
     /// Return a grid specification object for configuring grid lines along minor ytics.
-    auto mytics() -> GridSpecsbase& { return _gridminor("mytics"); }
+    auto mytics() -> GridSpecsBase& { return _gridminor("mytics"); }
 
     /// Return a grid specification object for configuring grid lines along minor ztics.
-    auto mztics() -> GridSpecsbase& { return _gridminor("mztics"); }
+    auto mztics() -> GridSpecsBase& { return _gridminor("mztics"); }
 
     /// Return a grid specification object for configuring grid lines along minor rtics.
-    auto mrtics() -> GridSpecsbase& { return _gridminor("mrtics"); }
+    auto mrtics() -> GridSpecsBase& { return _gridminor("mrtics"); }
 
     /// Return a grid specification object for configuring grid lines along minor x2tics.
-    auto mx2tics() -> GridSpecsbase& { return _gridminor("mx2tics"); }
+    auto mx2tics() -> GridSpecsBase& { return _gridminor("mx2tics"); }
 
     /// Return a grid specification object for configuring grid lines along minor y2tics.
-    auto my2tics() -> GridSpecsbase& { return _gridminor("my2tics"); }
+    auto my2tics() -> GridSpecsBase& { return _gridminor("my2tics"); }
 
   private:
     /// Auxiliary private method that adds a new specs object for grid lines along a major tics.
-    auto _gridmajor(std::string tics) -> GridSpecsbase&
+    auto _gridmajor(std::string tics) -> GridSpecsBase&
     {
         m_gridticsspecs.emplace_back(tics, true);
         return m_gridticsspecs.back();
     }
 
     /// Auxiliary private method that adds a new specs object for grid lines along a minor tics.
-    auto _gridminor(std::string tics) -> GridSpecsbase&
+    auto _gridminor(std::string tics) -> GridSpecsBase&
     {
         m_gridticsspecs.emplace_back(tics, false);
         return m_gridticsspecs.back();
@@ -96,11 +96,11 @@ class GridSpecs : public GridSpecsbase
 
   private:
     /// The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
-    std::vector<GridSpecsbase> m_gridticsspecs;
+    std::vector<GridSpecsBase> m_gridticsspecs;
 };
 
 GridSpecs::GridSpecs()
-    : GridSpecsbase("", true)
+    : GridSpecsBase("", true)
 {
     back();
 }
@@ -108,7 +108,7 @@ GridSpecs::GridSpecs()
 auto GridSpecs::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << GridSpecsbase::repr();
+    ss << GridSpecsBase::repr();
     for (auto specs : m_gridticsspecs)
         ss << '\n'
            << specs.repr();
