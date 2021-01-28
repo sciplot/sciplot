@@ -30,16 +30,16 @@
 
 namespace sciplot
 {
-namespace internal
+namespace internal // TODO: Remove Specs from internal namespace.
 {
 
 /// The base class for other specs classes (e.g., LineSpecsOf, PlotSpecs, BorderSpecs, etc.)
 template <typename DerivedSpecs>
-class specs
+class Specs
 {
   public:
     /// Pure virtual destructor (this class is an abstract base class).
-    virtual ~specs() = default;
+    virtual ~Specs() = default;
 
     /// Return a string representation of this object of some class that derives from specs.
     virtual auto repr() const -> std::string = 0;
@@ -56,7 +56,7 @@ class specs
 
 /// Output the state of a specs object to a ostream object.
 template <typename DerivedSpecs>
-auto operator<<(std::ostream& stream, const specs<DerivedSpecs>& obj) -> std::ostream&
+auto operator<<(std::ostream& stream, const Specs<DerivedSpecs>& obj) -> std::ostream&
 {
     return stream << obj.repr();
 }

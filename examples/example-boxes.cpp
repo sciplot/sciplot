@@ -55,7 +55,7 @@ int main(int argc, char** argv)
     specs.with(sciplot::plotstyle::boxes);
 
     // and set the fill style to a solid fill, half-transparent
-    specs.fillstyle(sciplot::fillstyle::solid, 0.5F);
+    specs.fillStyle(sciplot::fillstyle::solid, 0.5F);
 
     // Set a proper title for the plot
     specs.title("Plot title");

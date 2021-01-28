@@ -32,6 +32,6 @@
 namespace sciplot
 {
 
-// TODO Missing implementation
+// TODO: Implement LabelSpecs
 
 } // namespace sciplot

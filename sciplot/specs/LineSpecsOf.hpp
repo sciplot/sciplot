@@ -36,7 +36,7 @@ namespace sciplot
 
 /// The specifications for a line plot.
 template <typename DerivedSpecs>
-class LineSpecsOf : virtual public internal::specs<DerivedSpecs>
+class LineSpecsOf : virtual public internal::Specs<DerivedSpecs>
 {
   public:
     /// Construct a default LineSpecsOf instance.
