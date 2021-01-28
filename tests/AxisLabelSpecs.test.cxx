@@ -35,9 +35,9 @@ TEST_CASE("AxisLabelSpecs", "[specs]")
     auto axislabel = AxisLabelSpecs("x");
 
     axislabel.text("Distance");
-    axislabel.textcolor("red");
-    axislabel.fontsize(14);
-    axislabel.fontname("Arial");
+    axislabel.textColor("red");
+    axislabel.fontSize(14);
+    axislabel.fontName("Arial");
 
     const std::string basestr = "set xlabel 'Distance' enhanced textcolor 'red' font 'Arial,14'";
 
