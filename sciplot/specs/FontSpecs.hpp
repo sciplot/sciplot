@@ -45,14 +45,14 @@ class FontSpecs : virtual public internal::specs<DerivedSpecs>
     auto repr() const -> std::string;
 
     /// Set the name of the font (e.g., Helvetica, Georgia, Times).
-    auto fontname(std::string name) -> DerivedSpecs&
+    auto fontName(std::string name) -> DerivedSpecs&
     {
         m_fontname = name;
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the point size of the font (e.g., 10, 12, 16).
-    auto fontsize(std::size_t size) -> DerivedSpecs&
+    auto fontSize(std::size_t size) -> DerivedSpecs&
     {
         m_fontsize = size;
         return static_cast<DerivedSpecs&>(*this);
@@ -69,8 +69,8 @@ class FontSpecs : virtual public internal::specs<DerivedSpecs>
 template <typename DerivedSpecs>
 FontSpecs<DerivedSpecs>::FontSpecs()
 {
-    fontname(internal::DEFAULT_FONTNAME);
-    fontsize(internal::DEFAULT_FONTSIZE);
+    fontName(internal::DEFAULT_FONTNAME);
+    fontSize(internal::DEFAULT_FONTSIZE);
 }
 
 template <typename DerivedSpecs>

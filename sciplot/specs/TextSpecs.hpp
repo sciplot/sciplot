@@ -41,22 +41,18 @@ class TextSpecs : public FontSpecs<DerivedSpecs>
     /// Construct a default TextSpecs instance.
     TextSpecs();
 
-    /// Convert this TextSpecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
-
     /// Set the enhanced mode of the text.
-    auto enhanced(bool value) -> DerivedSpecs&
-    {
-        m_enhanced = value ? "enhanced" : "noenhanced";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    /// The enhanced text mode allows superscript text to be represented as
+    /// `a^x`, subscript text with `a_x`, and combined superscript and
+    /// subscript text with `a@^b_{cd}`.
+    /// For more details, read "Enhanced text mode" section of the Gnuplot manual.
+    auto enhanced(bool value=true) -> DerivedSpecs&;
 
     /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
-    auto textcolor(std::string color) -> DerivedSpecs&
-    {
-        m_color = "'" + color + "'";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto textColor(std::string color) -> DerivedSpecs&;
+
+    /// Convert this TextSpecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
   private:
     /// The color of the title text.
@@ -70,7 +66,21 @@ template <typename DerivedSpecs>
 TextSpecs<DerivedSpecs>::TextSpecs()
 {
     enhanced(true);
-    textcolor(internal::DEFAULT_TEXTCOLOR);
+    textColor(internal::DEFAULT_TEXTCOLOR);
+}
+
+template <typename DerivedSpecs>
+auto TextSpecs<DerivedSpecs>::enhanced(bool value) -> DerivedSpecs&
+{
+    m_enhanced = value ? "enhanced" : "noenhanced";
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto TextSpecs<DerivedSpecs>::textColor(std::string color) -> DerivedSpecs&
+{
+    m_color = "'" + color + "'";
+    return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
@@ -79,7 +89,7 @@ auto TextSpecs<DerivedSpecs>::repr() const -> std::string
     std::stringstream ss;
     ss << m_enhanced << " textcolor " << m_color << " ";
     ss << FontSpecs<DerivedSpecs>::repr();
-    return ss.str();
+    return internal::removeExtraWhitespaces(ss.str());
 }
 
 } // namespace sciplot
