@@ -28,6 +28,7 @@
 // C++ includes
 #include <bitset>
 #include <sciplot/default.hpp>
+#include <sciplot/specs/DepthSpecsOf.hpp>
 #include <sciplot/specs/LineSpecs.hpp>
 #include <sciplot/util.hpp>
 
@@ -37,7 +38,7 @@ namespace sciplot
 {
 
 /// The class used to specify options for plot border.
-class BorderSpecs : public LineSpecs<BorderSpecs>
+class BorderSpecs : public LineSpecs<BorderSpecs>, public DepthSpecsOf<BorderSpecs>
 {
   public:
     /// Construct a default border instance.
@@ -99,17 +100,6 @@ class BorderSpecs : public LineSpecs<BorderSpecs>
 
     /// Set the border for polar plot.
     auto polar() -> BorderSpecs&;
-
-    /// Set the border to be displayed on the front of all plot elements.
-    auto front() -> BorderSpecs&;
-
-    /// Set the border to be displayed on the back of all plot elements.
-    auto back() -> BorderSpecs&;
-
-    /// Set the border to be displayed behind of all plot elements.
-    /// Methods behind and back have identical effect in 2d plots.
-    /// In 3d plots, the behind method is applicable when in hidden mode.
-    auto behind() -> BorderSpecs&;
 
     /// Convert this BorderSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -245,28 +235,11 @@ auto BorderSpecs::polar() -> BorderSpecs&
     return *this;
 }
 
-auto BorderSpecs::front() -> BorderSpecs&
-{
-    m_depth = "front";
-    return *this;
-}
-
-auto BorderSpecs::back() -> BorderSpecs&
-{
-    m_depth = "back";
-    return *this;
-}
-
-auto BorderSpecs::behind() -> BorderSpecs&
-{
-    m_depth = "behind";
-    return *this;
-}
-
 auto BorderSpecs::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << "set border " << m_encoding.to_ulong() << " " << m_depth << " ";
+    ss << "set border " << m_encoding.to_ulong() << " ";
+    ss << DepthSpecsOf<BorderSpecs>::repr() << " ";
     ss << LineSpecs<BorderSpecs>::repr();
     return internal::removeExtraWhitespaces(ss.str());
 }
