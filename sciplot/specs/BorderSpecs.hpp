@@ -43,160 +43,76 @@ class BorderSpecs : public LineSpecs<BorderSpecs>
     /// Construct a default border instance.
     BorderSpecs();
 
-    /// Convert this BorderSpecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
-
     /// Remove all border edges from a 2d or 3d plot.
-    auto clear() -> BorderSpecs&
-    {
-        m_encoding.reset();
-        return *this;
-    }
+    auto clear() -> BorderSpecs&;
 
     /// Set all border edges to inactive. Methods none and clear have identical effect.
-    auto none() -> BorderSpecs& { return clear(); }
+    auto none() -> BorderSpecs&;
 
     /// Activate the bottom border edge on the xy plane for a 2d plot.
-    auto bottom() -> BorderSpecs&
-    {
-        m_encoding.set(0);
-        return *this;
-    }
+    auto bottom() -> BorderSpecs&;
 
     /// Activate the left border edge on the xy plane for a 2d plot.
-    auto left() -> BorderSpecs&
-    {
-        m_encoding.set(1);
-        return *this;
-    }
+    auto left() -> BorderSpecs&;
 
     /// Activate the top border edge on the xy plane for a 2d plot.
-    auto top() -> BorderSpecs&
-    {
-        m_encoding.set(2);
-        return *this;
-    }
+    auto top() -> BorderSpecs&;
 
     /// Activate the right border edge on the xy plane for a 2d plot.
-    auto right() -> BorderSpecs&
-    {
-        m_encoding.set(3);
-        return *this;
-    }
+    auto right() -> BorderSpecs&;
 
     /// Activate the border edge on the bottom xy plane going from the left corner to front corner in a 3d perspective.
-    auto bottomleftfront() -> BorderSpecs&
-    {
-        m_encoding.set(0);
-        return *this;
-    }
+    auto bottomLeftFront() -> BorderSpecs&;
 
     /// Activate the border edge on the bottom xy plane going from the left corder to back corner in a 3d perspective.
-    auto bottomleftback() -> BorderSpecs&
-    {
-        m_encoding.set(1);
-        return *this;
-    }
+    auto bottomLeftBack() -> BorderSpecs&;
 
     /// Activate the border edge on the bottom xy plane going from the right corner to front corner in a 3d perspective.
-    auto bottomrightfront() -> BorderSpecs&
-    {
-        m_encoding.set(2);
-        return *this;
-    }
+    auto bottomRightFront() -> BorderSpecs&;
 
     /// Activate the border edge on the bottom xy plane going from the right corder to back corner in a 3d perspective.
-    auto bottomrightback() -> BorderSpecs&
-    {
-        m_encoding.set(3);
-        return *this;
-    }
+    auto bottomRightBack() -> BorderSpecs&;
 
     /// Activate the left vertical border edge in a 3d perspective.
-    auto leftvertical() -> BorderSpecs&
-    {
-        m_encoding.set(4);
-        return *this;
-    }
+    auto leftVertical() -> BorderSpecs&;
 
     /// Activate the back vertical border edge in a 3d perspective.
-    auto backvertical() -> BorderSpecs&
-    {
-        m_encoding.set(5);
-        return *this;
-    }
+    auto backVertical() -> BorderSpecs&;
 
     /// Activate the right vertical border edge in a 3d perspective.
-    auto rightvertical() -> BorderSpecs&
-    {
-        m_encoding.set(6);
-        return *this;
-    }
+    auto rightVertical() -> BorderSpecs&;
 
     /// Activate the front vertical border edge in a 3d perspective.
-    auto frontvertical() -> BorderSpecs&
-    {
-        m_encoding.set(7);
-        return *this;
-    }
+    auto frontVertical() -> BorderSpecs&;
 
     /// Activate the border edge on the top xy plane going from the left corner to back corner in a 3d perspective.
-    auto topleftback() -> BorderSpecs&
-    {
-        m_encoding.set(7);
-        return *this;
-    }
+    auto topLeftBack() -> BorderSpecs&;
 
     /// Activate the border edge on the top xy plane going from the right corder to back corner in a 3d perspective.
-    auto toprightback() -> BorderSpecs&
-    {
-        m_encoding.set(9);
-        return *this;
-    }
+    auto topRightBack() -> BorderSpecs&;
 
     /// Activate the border edge on the top xy plane going from the left corner to front corner in a 3d perspective.
-    auto topleftfront() -> BorderSpecs&
-    {
-        m_encoding.set(10);
-        return *this;
-    }
+    auto topLeftFront() -> BorderSpecs&;
 
     /// Activate the border edge on the top xy plane going from the right corder to front corner in a 3d perspective.
-    auto toprightfront() -> BorderSpecs&
-    {
-        m_encoding.set(11);
-        return *this;
-    }
+    auto topRightFront() -> BorderSpecs&;
 
     /// Set the border for polar plot.
-    auto polar() -> BorderSpecs&
-    {
-        m_encoding.set(2);
-        return *this;
-    }
+    auto polar() -> BorderSpecs&;
 
     /// Set the border to be displayed on the front of all plot elements.
-    auto front() -> BorderSpecs&
-    {
-        m_depth = "front";
-        return *this;
-    }
+    auto front() -> BorderSpecs&;
 
     /// Set the border to be displayed on the back of all plot elements.
-    auto back() -> BorderSpecs&
-    {
-        m_depth = "back";
-        return *this;
-    }
+    auto back() -> BorderSpecs&;
 
     /// Set the border to be displayed behind of all plot elements.
     /// Methods behind and back have identical effect in 2d plots.
     /// In 3d plots, the behind method is applicable when in hidden mode.
-    auto behind() -> BorderSpecs&
-    {
-        m_depth = "behind";
-        return *this;
-    }
+    auto behind() -> BorderSpecs&;
+
+    /// Convert this BorderSpecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
   private:
     /// The bits encoding the active and inactive borders.
@@ -210,11 +126,141 @@ BorderSpecs::BorderSpecs()
 {
     left();
     bottom();
-    linecolor(internal::DEFAULT_TEXTCOLOR);
     linetype(internal::DEFAULT_BORDER_LINETYPE);
     linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
     linecolor(internal::DEFAULT_BORDER_LINECOLOR);
     front();
+}
+
+auto BorderSpecs::clear() -> BorderSpecs&
+{
+    m_encoding.reset();
+    return *this;
+}
+
+auto BorderSpecs::none() -> BorderSpecs&
+{
+    return clear();
+}
+
+auto BorderSpecs::bottom() -> BorderSpecs&
+{
+    m_encoding.set(0);
+    return *this;
+}
+
+auto BorderSpecs::left() -> BorderSpecs&
+{
+    m_encoding.set(1);
+    return *this;
+}
+
+auto BorderSpecs::top() -> BorderSpecs&
+{
+    m_encoding.set(2);
+    return *this;
+}
+
+auto BorderSpecs::right() -> BorderSpecs&
+{
+    m_encoding.set(3);
+    return *this;
+}
+
+auto BorderSpecs::bottomLeftFront() -> BorderSpecs&
+{
+    m_encoding.set(0);
+    return *this;
+}
+
+auto BorderSpecs::bottomLeftBack() -> BorderSpecs&
+{
+    m_encoding.set(1);
+    return *this;
+}
+
+auto BorderSpecs::bottomRightFront() -> BorderSpecs&
+{
+    m_encoding.set(2);
+    return *this;
+}
+
+auto BorderSpecs::bottomRightBack() -> BorderSpecs&
+{
+    m_encoding.set(3);
+    return *this;
+}
+
+auto BorderSpecs::leftVertical() -> BorderSpecs&
+{
+    m_encoding.set(4);
+    return *this;
+}
+
+auto BorderSpecs::backVertical() -> BorderSpecs&
+{
+    m_encoding.set(5);
+    return *this;
+}
+
+auto BorderSpecs::rightVertical() -> BorderSpecs&
+{
+    m_encoding.set(6);
+    return *this;
+}
+
+auto BorderSpecs::frontVertical() -> BorderSpecs&
+{
+    m_encoding.set(7);
+    return *this;
+}
+
+auto BorderSpecs::topLeftBack() -> BorderSpecs&
+{
+    m_encoding.set(8);
+    return *this;
+}
+
+auto BorderSpecs::topRightBack() -> BorderSpecs&
+{
+    m_encoding.set(9);
+    return *this;
+}
+
+auto BorderSpecs::topLeftFront() -> BorderSpecs&
+{
+    m_encoding.set(10);
+    return *this;
+}
+
+auto BorderSpecs::topRightFront() -> BorderSpecs&
+{
+    m_encoding.set(11);
+    return *this;
+}
+
+auto BorderSpecs::polar() -> BorderSpecs&
+{
+    m_encoding.set(2);
+    return *this;
+}
+
+auto BorderSpecs::front() -> BorderSpecs&
+{
+    m_depth = "front";
+    return *this;
+}
+
+auto BorderSpecs::back() -> BorderSpecs&
+{
+    m_depth = "back";
+    return *this;
+}
+
+auto BorderSpecs::behind() -> BorderSpecs&
+{
+    m_depth = "behind";
+    return *this;
 }
 
 auto BorderSpecs::repr() const -> std::string
@@ -222,7 +268,7 @@ auto BorderSpecs::repr() const -> std::string
     std::stringstream ss;
     ss << "set border " << m_encoding.to_ulong() << " " << m_depth << " ";
     ss << LineSpecs<BorderSpecs>::repr();
-    return ss.str();
+    return internal::removeExtraWhitespaces(ss.str());
 }
 
 } // namespace sciplot
