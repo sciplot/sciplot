@@ -27,7 +27,6 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/FontSpecs.hpp>
 #include <sciplot/specs/TitleSpecs.hpp>
 #include <sciplot/util.hpp>
 

@@ -33,30 +33,22 @@
 namespace sciplot
 {
 
-/// The class used to specify options for font.
+/// The class used to specify font options for a text element in the plot.
 template <typename DerivedSpecs>
-class FontSpecs : virtual public internal::specs<DerivedSpecs>
+class FontSpecsOf : virtual public internal::specs<DerivedSpecs>
 {
   public:
-    /// Construct a default FontSpecs instance.
-    FontSpecs();
-
-    /// Convert this FontSpecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    /// Construct a default FontSpecsOf instance.
+    FontSpecsOf();
 
     /// Set the name of the font (e.g., Helvetica, Georgia, Times).
-    auto fontName(std::string name) -> DerivedSpecs&
-    {
-        m_fontname = name;
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto fontName(std::string name) -> DerivedSpecs&;
 
     /// Set the point size of the font (e.g., 10, 12, 16).
-    auto fontSize(std::size_t size) -> DerivedSpecs&
-    {
-        m_fontsize = size;
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto fontSize(std::size_t size) -> DerivedSpecs&;
+
+    /// Convert this FontSpecsOf object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
   private:
     /// The name of the font.
@@ -67,14 +59,28 @@ class FontSpecs : virtual public internal::specs<DerivedSpecs>
 };
 
 template <typename DerivedSpecs>
-FontSpecs<DerivedSpecs>::FontSpecs()
+FontSpecsOf<DerivedSpecs>::FontSpecsOf()
 {
     fontName(internal::DEFAULT_FONTNAME);
     fontSize(internal::DEFAULT_FONTSIZE);
 }
 
 template <typename DerivedSpecs>
-auto FontSpecs<DerivedSpecs>::repr() const -> std::string
+auto FontSpecsOf<DerivedSpecs>::fontName(std::string name) -> DerivedSpecs&
+{
+    m_fontname = name;
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto FontSpecsOf<DerivedSpecs>::fontSize(std::size_t size) -> DerivedSpecs&
+{
+    m_fontsize = size;
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto FontSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << "font '" << m_fontname << "," << m_fontsize << "'";
