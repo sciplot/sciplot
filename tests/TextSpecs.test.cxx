@@ -27,13 +27,13 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/specs/TextSpecs.hpp>
+#include <sciplot/specs/TextSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test TextSpecs below!
-struct SomeText : TextSpecs<SomeText> {};
+// This construction is needed to test TextSpecsOf below!
+struct SomeText : TextSpecsOf<SomeText> {};
 
-TEST_CASE("TextSpecs", "[specs]")
+TEST_CASE("TextSpecsOf", "[specs]")
 {
     auto text = SomeText();
 

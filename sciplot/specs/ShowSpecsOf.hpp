@@ -33,13 +33,13 @@ namespace sciplot
 
 /// The class used to specify if a plot element is shown or not.
 template <typename DerivedSpecs>
-class ShowSpecs : virtual public internal::specs<DerivedSpecs>
+class ShowSpecsOf : virtual public internal::specs<DerivedSpecs>
 {
   public:
-    /// Construct a default ShowSpecs instance.
-    ShowSpecs();
+    /// Construct a default ShowSpecsOf instance.
+    ShowSpecsOf();
 
-    /// Convert this ShowSpecs object into a gnuplot formatted string.
+    /// Convert this ShowSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the active state of the box.
@@ -55,13 +55,13 @@ class ShowSpecs : virtual public internal::specs<DerivedSpecs>
 };
 
 template <typename DerivedSpecs>
-ShowSpecs<DerivedSpecs>::ShowSpecs()
+ShowSpecsOf<DerivedSpecs>::ShowSpecsOf()
 {
     show();
 }
 
 template <typename DerivedSpecs>
-auto ShowSpecs<DerivedSpecs>::repr() const -> std::string
+auto ShowSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
     return m_show ? "" : "no";
 }

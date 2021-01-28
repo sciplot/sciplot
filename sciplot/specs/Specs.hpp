@@ -33,7 +33,7 @@ namespace sciplot
 namespace internal
 {
 
-/// The base class for other specs classes (e.g., LineSpecs, PlotSpecs, BorderSpecs, etc.)
+/// The base class for other specs classes (e.g., LineSpecsOf, PlotSpecs, BorderSpecs, etc.)
 template <typename DerivedSpecs>
 class specs
 {

@@ -29,7 +29,7 @@
 #include <bitset>
 #include <sciplot/default.hpp>
 #include <sciplot/specs/DepthSpecsOf.hpp>
-#include <sciplot/specs/LineSpecs.hpp>
+#include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 // sciplot includes
@@ -38,7 +38,7 @@ namespace sciplot
 {
 
 /// The class used to specify options for plot border.
-class BorderSpecs : public LineSpecs<BorderSpecs>, public DepthSpecsOf<BorderSpecs>
+class BorderSpecs : public LineSpecsOf<BorderSpecs>, public DepthSpecsOf<BorderSpecs>
 {
   public:
     /// Construct a default border instance.
@@ -240,7 +240,7 @@ auto BorderSpecs::repr() const -> std::string
     std::stringstream ss;
     ss << "set border " << m_encoding.to_ulong() << " ";
     ss << DepthSpecsOf<BorderSpecs>::repr() << " ";
-    ss << LineSpecs<BorderSpecs>::repr();
+    ss << LineSpecsOf<BorderSpecs>::repr();
     return internal::removeExtraWhitespaces(ss.str());
 }
 

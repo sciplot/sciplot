@@ -26,17 +26,17 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/specs/LineSpecs.hpp>
-#include <sciplot/specs/ShowSpecs.hpp>
-#include <sciplot/specs/TextSpecs.hpp>
-#include <sciplot/specs/TitleSpecs.hpp>
+#include <sciplot/specs/LineSpecsOf.hpp>
+#include <sciplot/specs/ShowSpecsOf.hpp>
+#include <sciplot/specs/TextSpecsOf.hpp>
+#include <sciplot/specs/TitleSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The class used to setup the specs of the legend header title.
-class LegendHeaderSpecs : public TitleSpecs<LegendHeaderSpecs>
+class LegendHeaderSpecs : public TitleSpecsOf<LegendHeaderSpecs>
 {
   public:
     /// Construct a default LegendHeaderSpecs object.
@@ -44,7 +44,7 @@ class LegendHeaderSpecs : public TitleSpecs<LegendHeaderSpecs>
 };
 
 /// The class used to setup the specs of the legend border lines.
-class LegendBorderSpecs : public LineSpecs<LegendBorderSpecs>, public ShowSpecs<LegendBorderSpecs>
+class LegendBorderSpecs : public LineSpecsOf<LegendBorderSpecs>, public ShowSpecsOf<LegendBorderSpecs>
 {
   public:
     /// Construct a default LegendBorderSpecs object.
@@ -151,7 +151,7 @@ class LegendTitlesSpecs : public virtual internal::specs<LegendTitlesSpecs>
 };
 
 /// The class used to specify options for legend (legend).
-class LegendSpecs : public TextSpecs<LegendSpecs>, public ShowSpecs<LegendSpecs>
+class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSpecs>
 {
   public:
     /// Construct a default LegendSpecs instance.
@@ -285,7 +285,7 @@ LegendSpecs::LegendSpecs()
 
 auto LegendSpecs::repr() const -> std::string
 {
-    if (ShowSpecs<LegendSpecs>::repr() == "no")
+    if (ShowSpecsOf<LegendSpecs>::repr() == "no")
         return "unset legend";
 
     std::stringstream ss;
@@ -296,7 +296,7 @@ auto LegendSpecs::repr() const -> std::string
     ss << "height " << m_height << " ";
     ss << "samplen " << m_samplen << " ";
     ss << "spacing " << m_spacing << " ";
-    ss << TextSpecs<LegendSpecs>::repr() << " ";
+    ss << TextSpecsOf<LegendSpecs>::repr() << " ";
     ss << "title " << m_header;
     ss << "maxrows " << m_maxrows << " ";
     ss << "maxcols " << m_maxcols << " ";
@@ -321,11 +321,11 @@ LegendBorderSpecs::LegendBorderSpecs()
 
 auto LegendBorderSpecs::repr() const -> std::string
 {
-    if (ShowSpecs<LegendBorderSpecs>::repr() == "no")
+    if (ShowSpecsOf<LegendBorderSpecs>::repr() == "no")
         return "nobox";
 
     std::stringstream ss;
-    ss << "box " << LineSpecs<LegendBorderSpecs>::repr();
+    ss << "box " << LineSpecsOf<LegendBorderSpecs>::repr();
     return ss.str();
 }
 

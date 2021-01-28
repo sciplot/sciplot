@@ -27,14 +27,14 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/TitleSpecs.hpp>
+#include <sciplot/specs/TitleSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class AxisLabelSpecs : public TitleSpecs<AxisLabelSpecs>
+class AxisLabelSpecs : public TitleSpecsOf<AxisLabelSpecs>
 {
   public:
     /// Construct a default AxisLabelSpecs instance.
@@ -85,7 +85,7 @@ auto AxisLabelSpecs::rotateNone() -> AxisLabelSpecs&
 
 auto AxisLabelSpecs::repr() const -> std::string
 {
-    const auto title_str = TitleSpecs<AxisLabelSpecs>::repr();
+    const auto title_str = TitleSpecsOf<AxisLabelSpecs>::repr();
     const auto rotate_str = m_rotate;
 
     if(rotate_str.empty() && title_str.empty())
