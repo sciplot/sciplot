@@ -33,42 +33,60 @@ namespace sciplot
 
 /// The class used to specify options for front or back placement of plot elements..
 template <typename DerivedSpecs>
-class DepthSpecs : virtual public specs<DerivedSpecs>
+class DepthSpecsOf : virtual public internal::specs<DerivedSpecs>
 {
   public:
-    /// Construct a default DepthSpecs instance.
-    DepthSpecs();
+    /// Construct a default DepthSpecsOf instance.
+    DepthSpecsOf();
 
-    /// Convert this DepthSpecs object into a gnuplot formatted string.
+    /// Set the underlying plot element to be displayed on the front of all plot elements.
+    auto front() -> DerivedSpecs&;
+
+    /// Set the underlying plot element to be displayed on the back of all plot elements.
+    auto back() -> DerivedSpecs&;
+
+    /// Set the underlying plot element to be displayed behind of all plot elements.
+    /// In 2D plots, this method is identical to @ref front.
+    /// In 3D plots, this method is applicable when in hidden mode.
+    auto behind() -> DerivedSpecs&;
+
+    /// Convert this DepthSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the plot element to be displayed on the front of all plot elements.
-    auto front() -> DerivedSpecs&
-    {
-        m_depth = "front";
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Set the plot element to be displayed on the back of all plot elements.
-    auto back() -> DerivedSpecs&
-    {
-        m_depth = "back";
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
   private:
-    /// The depth of the plot element (front or back) if applicable.
+    /// The depth of the underlying plot element (front or back) if applicable.
     std::string m_depth;
 };
 
 template <typename DerivedSpecs>
-DepthSpecs<DerivedSpecs>::DepthSpecs()
+DepthSpecsOf<DerivedSpecs>::DepthSpecsOf()
 {
     back();
 }
 
 template <typename DerivedSpecs>
-auto DepthSpecs<DerivedSpecs>::repr() const -> std::string
+auto DepthSpecsOf<DerivedSpecs>::front() -> DerivedSpecs&
+{
+    m_depth = "front";
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto DepthSpecsOf<DerivedSpecs>::back() -> DerivedSpecs&
+{
+    m_depth = "back";
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto DepthSpecsOf<DerivedSpecs>::behind() -> DerivedSpecs&
+{
+    m_depth = "behind";
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto DepthSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
     return m_depth;
 }
