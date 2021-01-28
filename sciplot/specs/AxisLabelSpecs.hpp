@@ -41,15 +41,17 @@ class AxisLabelSpecs : public TitleSpecs<AxisLabelSpecs>
     /// Construct a default AxisLabelSpecs instance.
     AxisLabelSpecs(std::string axis);
 
+    /// Specify that the axis label should be rotated by a given angle in degrees.
+    auto rotateByAngle(int degrees) -> AxisLabelSpecs&;
+
+    /// Specify that the axis label should be rotated to be in parallel to the corresponding axis (for 3D plots).
+    auto rotateAxisParallel() -> AxisLabelSpecs&;
+
+    /// Specify that the axis label should not be rotated.
+    auto rotateNone() -> AxisLabelSpecs&;
+
     /// Convert this AxisLabelSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
-
-    /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> AxisLabelSpecs&
-    {
-        m_rotate = "parallel";
-        return *this;
-    }
 
   private:
     /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
@@ -60,17 +62,41 @@ class AxisLabelSpecs : public TitleSpecs<AxisLabelSpecs>
 };
 
 AxisLabelSpecs::AxisLabelSpecs(std::string axis)
-    : m_axis(axis)
+: m_axis(axis)
 {
+}
+
+auto AxisLabelSpecs::rotateByAngle(int degrees) -> AxisLabelSpecs&
+{
+    m_rotate = "rotate by " + std::to_string(degrees);
+    return *this;
+}
+
+auto AxisLabelSpecs::rotateAxisParallel() -> AxisLabelSpecs&
+{
+    m_rotate = "rotate parallel";
+    return *this;
+}
+
+auto AxisLabelSpecs::rotateNone() -> AxisLabelSpecs&
+{
+    m_rotate = "norotate";
+    return *this;
 }
 
 auto AxisLabelSpecs::repr() const -> std::string
 {
+    const auto title_str = TitleSpecs<AxisLabelSpecs>::repr();
+    const auto rotate_str = m_rotate;
+
+    if(rotate_str.empty() && title_str.empty())
+        return "";
+
     std::stringstream ss;
     ss << "set " + m_axis + "label ";
-    ss << TitleSpecs<AxisLabelSpecs>::repr();
-    ss << gnuplot::optionvaluestr("rotate", m_rotate);
-    return ss.str();
+    ss << title_str;
+    ss << m_rotate;
+    return internal::removeExtraWhitespaces(ss.str());
 }
 
 } // namespace sciplot
