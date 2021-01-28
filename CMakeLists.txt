@@ -12,6 +12,15 @@ set(CMAKE_CXX_STANDARD 11)
 
 include(cmake_install_generation.cmake)
 
-add_subdirectory(examples)
-add_subdirectory(tests)
+option(SCIPLOT_BUILD_EXAMPLES "Build examples" ON)
+option(SCIPLOT_BUILD_TESTS "Build tests" ON)
+
+if(SCIPLOT_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
+if(SCIPLOT_BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
+
 add_subdirectory(scripts)
