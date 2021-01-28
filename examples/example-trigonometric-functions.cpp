@@ -39,10 +39,10 @@ int main(int argc, char** argv)
     plt.palette("set2");
 
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
-    plt.draw(x, std::sin(x)).title("sin(x)").linewidth(4);
+    plt.draw(x, std::sin(x)).title("sin(x)").lineWidth(4);
 
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    plt.draw(x, std::cos(x)).title("cos(x)").linewidth(4);
+    plt.draw(x, std::cos(x)).title("cos(x)").lineWidth(4);
 
     // Show the plot in a popup window
     plt.show();

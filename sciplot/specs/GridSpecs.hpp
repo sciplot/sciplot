@@ -27,8 +27,8 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/util.hpp>
 #include <sciplot/specs/GridSpecsBase.hpp>
+#include <sciplot/util.hpp>
 
 namespace sciplot
 {
@@ -40,44 +40,56 @@ class GridSpecs : public GridSpecsBase
     /// Construct a default GridSpecs instance.
     GridSpecs();
 
-    /// Convert this GridSpecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
-
-    /// Return a grid specification object for configuring grid lines along major xtics.
+    /// Return the specifications of the grid lines along major xtics on the bottom axis.
     auto xtics() -> GridSpecsBase& { return _gridmajor("xtics"); }
 
-    /// Return a grid specification object for configuring grid lines along major ytics.
+    /// Return the specifications of the grid lines along major ytics on the left axis.
     auto ytics() -> GridSpecsBase& { return _gridmajor("ytics"); }
 
-    /// Return a grid specification object for configuring grid lines along major ztics.
+    /// Return the specifications of the grid lines along major ztics.
     auto ztics() -> GridSpecsBase& { return _gridmajor("ztics"); }
 
-    /// Return a grid specification object for configuring grid lines along major rtics.
+    /// Return the specifications of the grid lines along major rtics.
     auto rtics() -> GridSpecsBase& { return _gridmajor("rtics"); }
 
-    /// Return a grid specification object for configuring grid lines along major x2tics.
-    auto x2tics() -> GridSpecsBase& { return _gridmajor("x2tics"); }
+    /// Return the specifications of the grid lines along major xtics on the bottom axis.
+    auto xticsMajorBottom() -> GridSpecsBase& { return _gridmajor("xtics"); }
 
-    /// Return a grid specification object for configuring grid lines along major y2tics.
-    auto y2tics() -> GridSpecsBase& { return _gridmajor("y2tics"); }
+    /// Return the specifications of the grid lines along major xtics on the top axis.
+    auto xticsMajorTop() -> GridSpecsBase& { return _gridmajor("x2tics"); }
 
-    /// Return a grid specification object for configuring grid lines along minor xtics.
-    auto mxtics() -> GridSpecsBase& { return _gridminor("mxtics"); }
+    /// Return the specifications of the grid lines along minor xtics on the bottom axis.
+    auto xticsMinorBottom() -> GridSpecsBase& { return _gridminor("mxtics"); }
 
-    /// Return a grid specification object for configuring grid lines along minor ytics.
-    auto mytics() -> GridSpecsBase& { return _gridminor("mytics"); }
+    /// Return the specifications of the grid lines along minor xtics on the top axis.
+    auto xticsMinorTop() -> GridSpecsBase& { return _gridminor("mx2tics"); }
 
-    /// Return a grid specification object for configuring grid lines along minor ztics.
-    auto mztics() -> GridSpecsBase& { return _gridminor("mztics"); }
+    /// Return the specifications of the grid lines along major ytics on the left axis.
+    auto yticsMajorBottom() -> GridSpecsBase& { return _gridmajor("ytics"); }
 
-    /// Return a grid specification object for configuring grid lines along minor rtics.
-    auto mrtics() -> GridSpecsBase& { return _gridminor("mrtics"); }
+    /// Return the specifications of the grid lines along major ytics on the right axis.
+    auto yticsMajorTop() -> GridSpecsBase& { return _gridmajor("y2tics"); }
 
-    /// Return a grid specification object for configuring grid lines along minor x2tics.
-    auto mx2tics() -> GridSpecsBase& { return _gridminor("mx2tics"); }
+    /// Return the specifications of the grid lines along minor ytics on the left axis.
+    auto yticsMinorBottom() -> GridSpecsBase& { return _gridminor("mytics"); }
 
-    /// Return a grid specification object for configuring grid lines along minor y2tics.
-    auto my2tics() -> GridSpecsBase& { return _gridminor("my2tics"); }
+    /// Return the specifications of the grid lines along minor ytics on the right axis.
+    auto yticsMinorTop() -> GridSpecsBase& { return _gridminor("my2tics"); }
+
+    /// Return the specifications of the grid lines along major ztics.
+    auto zticsMajor() -> GridSpecsBase& { return _gridmajor("ztics"); }
+
+    /// Return the specifications of the grid lines along minor ztics.
+    auto zticsMinor() -> GridSpecsBase& { return _gridminor("mztics"); }
+
+    /// Return the specifications of the grid lines along minor rtics.
+    auto rticsMajor() -> GridSpecsBase& { return _gridmajor("rtics"); }
+
+    /// Return the specifications of the grid lines along minor rtics.
+    auto rticsMinor() -> GridSpecsBase& { return _gridminor("mrtics"); }
+
+    /// Convert this GridSpecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
   private:
     /// Auxiliary private method that adds a new specs object for grid lines along a major tics.
@@ -100,7 +112,7 @@ class GridSpecs : public GridSpecsBase
 };
 
 GridSpecs::GridSpecs()
-    : GridSpecsBase("", true)
+: GridSpecsBase("", true)
 {
     back();
 }

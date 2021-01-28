@@ -27,33 +27,33 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/specs/BorderSpecs.hpp>
+#include <sciplot/specs/GridSpecs.hpp>
 using namespace sciplot;
 
-TEST_CASE("BorderSpecs", "[specs]")
+TEST_CASE("GridSpecs", "[specs]")
 {
-    auto defaultborder = BorderSpecs();
-    defaultborder.left();
-    defaultborder.bottom();
-    defaultborder.lineType(internal::DEFAULT_BORDER_LINETYPE);
-    defaultborder.lineWidth(internal::DEFAULT_BORDER_LINEWIDTH);
-    defaultborder.lineColor(internal::DEFAULT_BORDER_LINECOLOR);
-    defaultborder.front();
+    // auto defaultborder = GridSpecs();
+    // defaultborder.left();
+    // defaultborder.bottom();
+    // defaultborder.linetype(internal::DEFAULT_BORDER_LINETYPE);
+    // defaultborder.linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
+    // defaultborder.linecolor(internal::DEFAULT_BORDER_LINECOLOR);
+    // defaultborder.front();
 
-    auto border = BorderSpecs();
+    // auto border = GridSpecs();
 
-    CHECK( border.repr() == defaultborder.repr() );
+    // CHECK( border.repr() == defaultborder.repr() );
 
-    border.right();
-    border.top();
-    border.lineType(5);
-    border.lineWidth(7);
-    border.lineColor("red");
-    border.back();
+    // border.right();
+    // border.top();
+    // border.linetype(5);
+    // border.linewidth(7);
+    // border.linecolor("red");
+    // border.back();
 
-    CHECK( border.repr() == "set border 15 back linetype 5 linewidth 7 linecolor 'red'" );
+    // CHECK( border.repr() == "set border 15 back linetype 5 linewidth 7 linecolor 'red'" );
 
-    border.behind();
+    // border.behind();
 
-    CHECK( border.repr() == "set border 15 behind linetype 5 linewidth 7 linecolor 'red'" );
+    // CHECK( border.repr() == "set border 15 behind linetype 5 linewidth 7 linecolor 'red'" );
 }

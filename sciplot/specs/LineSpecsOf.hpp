@@ -46,35 +46,35 @@ class LineSpecsOf : virtual public internal::specs<DerivedSpecs>
     auto repr() const -> std::string;
 
     /// Set the line style of the plot.
-    auto linestyle(std::size_t value) -> DerivedSpecs&
+    auto lineStyle(std::size_t value) -> DerivedSpecs&
     {
         m_linestyle = internal::str(value);
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the line type of the plot.
-    auto linetype(std::size_t value) -> DerivedSpecs&
+    auto lineType(std::size_t value) -> DerivedSpecs&
     {
         m_linetype = internal::str(value);
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the line width of the plot.
-    auto linewidth(std::size_t value) -> DerivedSpecs&
+    auto lineWidth(std::size_t value) -> DerivedSpecs&
     {
         m_linewidth = internal::str(value);
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the line color of the plot.
-    auto linecolor(std::string value) -> DerivedSpecs&
+    auto lineColor(std::string value) -> DerivedSpecs&
     {
         m_linecolor = "'" + value + "'";
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the dash type of the plot.
-    auto dashtype(std::size_t value) -> DerivedSpecs&
+    auto dashType(std::size_t value) -> DerivedSpecs&
     {
         m_dashtype = internal::str(value);
         return static_cast<DerivedSpecs&>(*this);
@@ -82,7 +82,7 @@ class LineSpecsOf : virtual public internal::specs<DerivedSpecs>
 
     /// Set the dash type of the plot.
     /// The density parameter only works for the "solid" fill mode and must be in [0,1].
-    auto fillstyle(fillstyle value, float density = 1.0F) -> DerivedSpecs&
+    auto fillStyle(fillstyle value, float density = 1.0F) -> DerivedSpecs&  // TODO: This fillStyle method should not belong to LineSpecsOf.
     {
         m_fillstyle = gnuplot::fillstylestr(value);
         if (value == fillstyle::solid)
@@ -116,7 +116,7 @@ class LineSpecsOf : virtual public internal::specs<DerivedSpecs>
 template <typename DerivedSpecs>
 LineSpecsOf<DerivedSpecs>::LineSpecsOf()
 {
-    linewidth(internal::DEFAULT_LINEWIDTH);
+    lineWidth(internal::DEFAULT_LINEWIDTH);
 }
 
 template <typename DerivedSpecs>

@@ -313,10 +313,10 @@ LegendHeaderSpecs::LegendHeaderSpecs()
 LegendBorderSpecs::LegendBorderSpecs()
 {
     show(false);
-    linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
-    linetype(internal::DEFAULT_LEGEND_LINETYPE);
-    linewidth(internal::DEFAULT_LEGEND_LINEWIDTH);
-    linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
+    lineColor(internal::DEFAULT_LEGEND_LINECOLOR);
+    lineType(internal::DEFAULT_LEGEND_LINETYPE);
+    lineWidth(internal::DEFAULT_LEGEND_LINEWIDTH);
+    lineColor(internal::DEFAULT_LEGEND_LINECOLOR);
 }
 
 auto LegendBorderSpecs::repr() const -> std::string
