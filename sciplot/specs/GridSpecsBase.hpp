@@ -27,45 +27,45 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/linespecs.hpp>
+#include <sciplot/specs/LineSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The class used to specify options for grid lines along axis tics (major or minor).
-class gridspecsbase : public linespecs<gridspecsbase>
+class GridSpecsbase : public LineSpecs<GridSpecsbase>
 {
   public:
-    /// Construct a default gridspecsbase instance.
-    gridspecsbase(std::string tics = "", bool majortics = true);
+    /// Construct a default GridSpecsbase instance.
+    GridSpecsbase(std::string tics = "", bool majortics = true);
 
-    /// Convert this gridspecsbase object into a gnuplot formatted string.
+    /// Convert this GridSpecsbase object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the active state of the grid lines along the specified axis tics.
-    auto show(bool value = true) -> gridspecsbase&
+    auto show(bool value = true) -> GridSpecsbase&
     {
         m_show = value;
         return *this;
     }
 
     /// Set the grid lines to be plot on the back of other plot elements.
-    auto back() -> gridspecsbase&
+    auto back() -> GridSpecsbase&
     {
         m_depth = "back";
         return *this;
     }
 
     /// Set the grid lines to be plot on the front of other plot elements.
-    auto front() -> gridspecsbase&
+    auto front() -> GridSpecsbase&
     {
         m_depth = "front";
         return *this;
     }
 
     /// Set the grid lines to be plot on the back of other plot elements in 2d plots. In 3d plots, this option splits the grid and the graph box into two layers, with one behind, and the other in front of the plotted elements.
-    auto layerdefault() -> gridspecsbase&
+    auto layerdefault() -> GridSpecsbase&
     {
         m_depth = "layerdefault";
         return *this;
@@ -85,7 +85,7 @@ class gridspecsbase : public linespecs<gridspecsbase>
     std::string m_depth;
 };
 
-gridspecsbase::gridspecsbase(std::string tics, bool majortics)
+GridSpecsbase::GridSpecsbase(std::string tics, bool majortics)
     : m_tics(tics), m_majortics(majortics)
 {
     show(false);
@@ -96,7 +96,7 @@ gridspecsbase::gridspecsbase(std::string tics, bool majortics)
     dashtype(internal::DEFAULT_GRID_DASHTYPE);
 }
 
-auto gridspecsbase::repr() const -> std::string
+auto GridSpecsbase::repr() const -> std::string
 {
     if (m_tics.empty() && !m_show)
         return "unset grid";
@@ -109,9 +109,9 @@ auto gridspecsbase::repr() const -> std::string
     ss << gnuplot::optionstr(m_tics);
     ss << gnuplot::optionstr(m_depth);
     if (m_majortics)
-        ss << linespecs<gridspecsbase>::repr();
+        ss << LineSpecs<GridSpecsbase>::repr();
     else
-        ss << ", " + linespecs<gridspecsbase>::repr(); // For minor tics, the preceding comma is needed
+        ss << ", " + LineSpecs<GridSpecsbase>::repr(); // For minor tics, the preceding comma is needed
     return ss.str();
 }
 

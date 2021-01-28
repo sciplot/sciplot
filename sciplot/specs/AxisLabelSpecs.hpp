@@ -27,69 +27,49 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/textspecs.hpp>
+#include <sciplot/specs/FontSpecs.hpp>
+#include <sciplot/specs/TitleSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
-/// The class used to specify options for titles.
-template <typename derivedspecs>
-class titlespecs : public textspecs<derivedspecs>
+/// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
+class AxisLabelSpecs : public TitleSpecs<AxisLabelSpecs>
 {
   public:
-    /// Construct a default titlespecs instance.
-    titlespecs();
+    /// Construct a default AxisLabelSpecs instance.
+    AxisLabelSpecs(std::string axis);
 
-    /// Convert this titlespecs object into a gnuplot formatted string.
+    /// Convert this AxisLabelSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the text of the title.
-    auto text(std::string title) -> derivedspecs&
+    /// Set the axis label parallel to its corresponding axis.
+    auto axisparallel() -> AxisLabelSpecs&
     {
-        m_title = "'" + title + "'";
-        return static_cast<derivedspecs&>(*this);
-    }
-
-    /// Set the offset of the title element.
-    /// @param xval The offset along the x direction
-    /// @param yval The offset along the y direction
-    auto offset(int xval, int yval) -> derivedspecs&
-    {
-        m_offset = "offset " + internal::str(xval) + "," + internal::str(yval);
-        return static_cast<derivedspecs&>(*this);
-    }
-
-    /// Set the rotation angle of the title element in degrees.
-    auto rotate(double angle) -> derivedspecs&
-    {
-        m_rotate = "by " + internal::str(angle);
-        return static_cast<derivedspecs&>(*this);
+        m_rotate = "parallel";
+        return *this;
     }
 
   private:
-    /// The title word.
-    std::string m_title;
-
-    /// The offset used to move the label around.
-    std::string m_offset;
+    /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
+    std::string m_axis;
 
     /// The rotation command to rotate the label around.
     std::string m_rotate;
 };
 
-template <typename derivedspecs>
-titlespecs<derivedspecs>::titlespecs()
+AxisLabelSpecs::AxisLabelSpecs(std::string axis)
+    : m_axis(axis)
 {
-    text("");
 }
 
-template <typename derivedspecs>
-auto titlespecs<derivedspecs>::repr() const -> std::string
+auto AxisLabelSpecs::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << m_title << " " << textspecs<derivedspecs>::repr() << " ";
-    ss << gnuplot::optionstr(m_rotate) << gnuplot::optionstr(m_offset);
+    ss << "set " + m_axis + "label ";
+    ss << TitleSpecs<AxisLabelSpecs>::repr();
+    ss << gnuplot::optionvaluestr("rotate", m_rotate);
     return ss.str();
 }
 

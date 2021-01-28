@@ -27,35 +27,35 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/fontspecs.hpp>
+#include <sciplot/specs/FontSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The class used to specify options for text elements.
-template <typename derivedspecs>
-class textspecs : public fontspecs<derivedspecs>
+template <typename DerivedSpecs>
+class TextSpecs : public FontSpecs<DerivedSpecs>
 {
   public:
-    /// Construct a default textspecs instance.
-    textspecs();
+    /// Construct a default TextSpecs instance.
+    TextSpecs();
 
-    /// Convert this textspecs object into a gnuplot formatted string.
+    /// Convert this TextSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the enhanced mode of the text.
-    auto enhanced(bool value) -> derivedspecs&
+    auto enhanced(bool value) -> DerivedSpecs&
     {
         m_enhanced = value ? "enhanced" : "noenhanced";
-        return static_cast<derivedspecs&>(*this);
+        return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
-    auto textcolor(std::string color) -> derivedspecs&
+    auto textcolor(std::string color) -> DerivedSpecs&
     {
         m_color = "'" + color + "'";
-        return static_cast<derivedspecs&>(*this);
+        return static_cast<DerivedSpecs&>(*this);
     }
 
   private:
@@ -66,19 +66,19 @@ class textspecs : public fontspecs<derivedspecs>
     std::string m_enhanced;
 };
 
-template <typename derivedspecs>
-textspecs<derivedspecs>::textspecs()
+template <typename DerivedSpecs>
+TextSpecs<DerivedSpecs>::TextSpecs()
 {
     enhanced(true);
     textcolor(internal::DEFAULT_TEXTCOLOR);
 }
 
-template <typename derivedspecs>
-auto textspecs<derivedspecs>::repr() const -> std::string
+template <typename DerivedSpecs>
+auto TextSpecs<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_enhanced << " textcolor " << m_color << " ";
-    ss << fontspecs<derivedspecs>::repr();
+    ss << FontSpecs<DerivedSpecs>::repr();
     return ss.str();
 }
 
