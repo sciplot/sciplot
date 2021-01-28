@@ -33,7 +33,7 @@ using namespace sciplot;
 TEST_CASE("GridSpecsBase", "[specs]")
 {
     auto defaultgrid = GridSpecsBase();
-    defaultgrid.show(false);
+    defaultgrid.show(true);
     defaultgrid.back();
     defaultgrid.lineColor(internal::DEFAULT_GRID_LINECOLOR);
     defaultgrid.lineWidth(internal::DEFAULT_GRID_LINEWIDTH);

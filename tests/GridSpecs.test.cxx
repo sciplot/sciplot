@@ -32,28 +32,35 @@ using namespace sciplot;
 
 TEST_CASE("GridSpecs", "[specs]")
 {
-    // auto defaultborder = GridSpecs();
-    // defaultborder.left();
-    // defaultborder.bottom();
-    // defaultborder.linetype(internal::DEFAULT_BORDER_LINETYPE);
-    // defaultborder.linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
-    // defaultborder.linecolor(internal::DEFAULT_BORDER_LINECOLOR);
-    // defaultborder.front();
+    auto grid = GridSpecs();
 
-    // auto border = GridSpecs();
+    CHECK( grid.repr() == "unset grid" );
 
-    // CHECK( border.repr() == defaultborder.repr() );
+    grid.show();
+    grid.front();
+    grid.lineColor("ocean");
+    grid.lineWidth(1);
+    grid.lineType(3);
+    grid.dashType(5);
 
-    // border.right();
-    // border.top();
-    // border.linetype(5);
-    // border.linewidth(7);
-    // border.linecolor("red");
-    // border.back();
+    CHECK( grid.repr() == "set grid front linetype 3 linewidth 1 linecolor 'ocean' dashtype 5" );
 
-    // CHECK( border.repr() == "set border 15 back linetype 5 linewidth 7 linecolor 'red'" );
+    grid.xticsMajorBottom().front().lineColor("red");
+    grid.xticsMajorTop().back().lineColor("black");
+    grid.yticsMajorLeft().front().lineColor("purple");
+    grid.yticsMajorRight().back().lineColor("green");
+    grid.xticsMinorBottom().front().lineColor("white");
+    grid.xticsMinorTop().back().lineColor("gray");
+    grid.yticsMinorLeft().front().lineColor("orange");
+    grid.yticsMinorRight().back().lineColor("lime");
 
-    // border.behind();
-
-    // CHECK( border.repr() == "set border 15 behind linetype 5 linewidth 7 linecolor 'red'" );
+    CHECK( grid.repr() == "set grid front linetype 3 linewidth 1 linecolor 'ocean' dashtype 5\n"
+                          "set grid xtics front linetype 1 linewidth 1 linecolor 'red' dashtype 0\n"
+                          "set grid x2tics back linetype 1 linewidth 1 linecolor 'black' dashtype 0\n"
+                          "set grid ytics front linetype 1 linewidth 1 linecolor 'purple' dashtype 0\n"
+                          "set grid y2tics back linetype 1 linewidth 1 linecolor 'green' dashtype 0\n"
+                          "set grid mxtics front , linetype 1 linewidth 1 linecolor 'white' dashtype 0\n"
+                          "set grid mx2tics back , linetype 1 linewidth 1 linecolor 'gray' dashtype 0\n"
+                          "set grid mytics front , linetype 1 linewidth 1 linecolor 'orange' dashtype 0\n"
+                          "set grid my2tics back , linetype 1 linewidth 1 linecolor 'lime' dashtype 0");
 }
