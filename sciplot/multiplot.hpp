@@ -34,13 +34,13 @@
 #include <sciplot/enums.hpp>
 #include <sciplot/palettes.hpp>
 #include <sciplot/plot.hpp>
-#include <sciplot/specs/axislabelspecs.hpp>
-#include <sciplot/specs/borderspecs.hpp>
-#include <sciplot/specs/gridspecs.hpp>
-#include <sciplot/specs/legendspecs.hpp>
-#include <sciplot/specs/linespecs.hpp>
-#include <sciplot/specs/plotspecs.hpp>
-#include <sciplot/specs/ticspecs.hpp>
+#include <sciplot/specs/AxisLabelSpecs.hpp>
+#include <sciplot/specs/BorderSpecs.hpp>
+#include <sciplot/specs/GridSpecs.hpp>
+#include <sciplot/specs/LegendSpecs.hpp>
+#include <sciplot/specs/LineSpecs.hpp>
+#include <sciplot/specs/PlotSpecs.hpp>
+#include <sciplot/specs/TicSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot

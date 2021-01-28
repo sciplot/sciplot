@@ -55,7 +55,7 @@ int main(int argc, char** argv)
     specs.title("");
 
     // plot y values from data column 2, and the x-axis ticks from column 1 (columns start at 1)
-    specs.use(plotspecs::USE_AUTO, 2, plotspecs::USE_AUTO, 1);
+    specs.use(PlotSpecs::USE_AUTO, 2, PlotSpecs::USE_AUTO, 1);
 
     // makes sure we plot boxes with a solid fill style
     specs.with(sciplot::plotstyle::boxes).fillstyle(sciplot::fillstyle::solid);

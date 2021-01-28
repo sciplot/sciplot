@@ -33,8 +33,8 @@ namespace sciplot
 namespace internal
 {
 
-/// The base class for other specs classes (e.g., linespecs, plotspecs, borderspecs, etc.)
-template <typename derivedspecs>
+/// The base class for other specs classes (e.g., LineSpecs, PlotSpecs, BorderSpecs, etc.)
+template <typename DerivedSpecs>
 class specs
 {
   public:
@@ -48,15 +48,15 @@ class specs
     operator std::string() const { return repr(); }
 
     /// Return a reference to the specs object of class derived from this.
-    auto derived() -> derivedspecs& { return static_cast<derivedspecs&>(*this); }
+    auto derived() -> DerivedSpecs& { return static_cast<DerivedSpecs&>(*this); }
 
     /// Return a const reference to the specs object of class derived from this.
-    auto derived() const -> const derivedspecs& { return static_cast<const derivedspecs&>(*this); }
+    auto derived() const -> const DerivedSpecs& { return static_cast<const DerivedSpecs&>(*this); }
 };
 
 /// Output the state of a specs object to a ostream object.
-template <typename derivedspecs>
-auto operator<<(std::ostream& stream, const specs<derivedspecs>& obj) -> std::ostream&
+template <typename DerivedSpecs>
+auto operator<<(std::ostream& stream, const specs<DerivedSpecs>& obj) -> std::ostream&
 {
     return stream << obj.repr();
 }

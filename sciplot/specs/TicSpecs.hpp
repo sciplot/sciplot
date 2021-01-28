@@ -27,83 +27,83 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/textspecs.hpp>
+#include <sciplot/specs/TextSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The class used to specify options for font.
-class ticspecs : public textspecs<ticspecs>
+class TicSpecs : public TextSpecs<TicSpecs>
 {
   public:
-    /// Construct a default ticspecs instance.
-    ticspecs(ticaxis axis = ticaxis::all);
+    /// Construct a default TicSpecs instance.
+    TicSpecs(ticaxis axis = ticaxis::all);
 
-    /// Convert this ticspecs object into a gnuplot formatted string.
+    /// Convert this TicSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the tics to be mirrored on the oposing axes if `true`.
-    auto mirror(bool value = true) -> ticspecs&
+    auto mirror(bool value = true) -> TicSpecs&
     {
         m_mirror = value ? "mirror" : "nomirror";
         return *this;
     }
 
     /// Set the tics to be rotated 90 degrees if `true`.
-    auto rotate(bool value = true) -> ticspecs&
+    auto rotate(bool value = true) -> TicSpecs&
     {
         m_rotate = value ? "rotate" : "norotate";
         return *this;
     }
 
     /// Set the tics to be rotated angle degrees if `true`.
-    auto rotateby(double angle) -> ticspecs&
+    auto rotateby(double angle) -> TicSpecs&
     {
         m_rotate = "rotate by " + std::to_string(angle);
         return *this;
     }
 
     /// Set the tics to be displayed on the front of all plot elements.
-    auto front() -> ticspecs&
+    auto front() -> TicSpecs&
     {
         m_depth = "front";
         return *this;
     }
 
     /// Set the tics to be displayed on the back of all plot elements.
-    auto back() -> ticspecs&
+    auto back() -> TicSpecs&
     {
         m_depth = "back";
         return *this;
     }
 
     /// Set the tics to be displayed inside the graph.
-    auto inside() -> ticspecs&
+    auto inside() -> TicSpecs&
     {
         m_inout = "in";
         return *this;
     }
 
     /// Set the tics to be displayed outside the graph.
-    auto outside() -> ticspecs&
+    auto outside() -> TicSpecs&
     {
         m_inout = "out";
         return *this;
     }
 
     /// Set the scale for the major tics (identical to method scalemajor).
-    auto scale(double value) -> ticspecs& { return scalemajor(value); }
+    auto scale(double value) -> TicSpecs& { return scalemajor(value); }
 
     /// Set the scale for the major tics.
-    auto scalemajor(double value) -> ticspecs&
+    auto scalemajor(double value) -> TicSpecs&
     {
         m_scalemajor = value;
         return *this;
     }
 
     /// Set the scale for the minor tics.
-    auto scaleminor(double value) -> ticspecs&
+    auto scaleminor(double value) -> TicSpecs&
     {
         m_scaleminor = value;
         return *this;
@@ -132,7 +132,7 @@ class ticspecs : public textspecs<ticspecs>
     double m_scaleminor;
 };
 
-ticspecs::ticspecs(ticaxis axis)
+TicSpecs::TicSpecs(ticaxis axis)
     : m_axis(axis)
 {
     front();
@@ -143,7 +143,7 @@ ticspecs::ticspecs(ticaxis axis)
     scaleminor(0.25);
 }
 
-auto ticspecs::repr() const -> std::string
+auto TicSpecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << "set " << gnuplot::ticaxisstr(m_axis) << " " << m_mirror << " ";
@@ -155,7 +155,7 @@ auto ticspecs::repr() const -> std::string
     ss << m_inout << " ";
     ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
     ss << m_rotate << " ";
-    ss << textspecs<ticspecs>::repr();
+    ss << TextSpecs<TicSpecs>::repr();
     return ss.str();
 }
 

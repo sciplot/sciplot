@@ -26,51 +26,44 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/specs/specs.hpp>
+#include <sciplot/specs/Specs.hpp>
 
 namespace sciplot
 {
 
-/// The class used to specify options for front or back placement of plot elements..
-template <typename derivedspecs>
-class depthspecs : virtual public specs<derivedspecs>
+/// The class used to specify if a plot element is shown or not.
+template <typename DerivedSpecs>
+class ShowSpecs : virtual public internal::specs<DerivedSpecs>
 {
   public:
-    /// Construct a default depthspecs instance.
-    depthspecs();
+    /// Construct a default ShowSpecs instance.
+    ShowSpecs();
 
-    /// Convert this depthspecs object into a gnuplot formatted string.
+    /// Convert this ShowSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the plot element to be displayed on the front of all plot elements.
-    auto front() -> derivedspecs&
+    /// Set the active state of the box.
+    auto show(bool value = true) -> DerivedSpecs&
     {
-        m_depth = "front";
-        return static_cast<derivedspecs&>(*this);
-    }
-
-    /// Set the plot element to be displayed on the back of all plot elements.
-    auto back() -> derivedspecs&
-    {
-        m_depth = "back";
-        return static_cast<derivedspecs&>(*this);
+        m_show = value;
+        return static_cast<DerivedSpecs&>(*this);
     }
 
   private:
-    /// The depth of the plot element (front or back) if applicable.
-    std::string m_depth;
+    /// The boolean flag that indicates if the grid lines for the chosen tics are shown.
+    bool m_show;
 };
 
-template <typename derivedspecs>
-depthspecs<derivedspecs>::depthspecs()
+template <typename DerivedSpecs>
+ShowSpecs<DerivedSpecs>::ShowSpecs()
 {
-    back();
+    show();
 }
 
-template <typename derivedspecs>
-auto depthspecs<derivedspecs>::repr() const -> std::string
+template <typename DerivedSpecs>
+auto ShowSpecs<DerivedSpecs>::repr() const -> std::string
 {
-    return m_depth;
+    return m_show ? "" : "no";
 }
 
 } // namespace sciplot

@@ -34,13 +34,13 @@
 #include <sciplot/default.hpp>
 #include <sciplot/enums.hpp>
 #include <sciplot/palettes.hpp>
-#include <sciplot/specs/axislabelspecs.hpp>
-#include <sciplot/specs/borderspecs.hpp>
-#include <sciplot/specs/gridspecs.hpp>
-#include <sciplot/specs/legendspecs.hpp>
-#include <sciplot/specs/linespecs.hpp>
-#include <sciplot/specs/plotspecs.hpp>
-#include <sciplot/specs/ticspecs.hpp>
+#include <sciplot/specs/AxisLabelSpecs.hpp>
+#include <sciplot/specs/BorderSpecs.hpp>
+#include <sciplot/specs/GridSpecs.hpp>
+#include <sciplot/specs/LegendSpecs.hpp>
+#include <sciplot/specs/LineSpecs.hpp>
+#include <sciplot/specs/PlotSpecs.hpp>
+#include <sciplot/specs/TicSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
@@ -69,14 +69,14 @@ class plot
     auto size(std::size_t width, std::size_t height) -> plot&;
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    auto xlabel(const std::string& label) -> axislabelspecs&
+    auto xlabel(const std::string& label) -> AxisLabelSpecs&
     {
         m_xlabel.text(label);
         return m_xlabel;
     }
 
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    auto ylabel(const std::string& label) -> axislabelspecs&
+    auto ylabel(const std::string& label) -> AxisLabelSpecs&
     {
         m_ylabel.text(label);
         return m_ylabel;
@@ -89,22 +89,22 @@ class plot
     auto yrange(double min, double max) -> void { m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]"; }
 
     /// Set the border of the plot and return a reference to the corresponding specs object.
-    auto border() -> borderspecs& { return m_border; }
+    auto border() -> BorderSpecs& { return m_border; }
 
     /// Set the grid of the plot and return a reference to the corresponding specs object.
-    auto grid() -> gridspecs& { return m_gridspecs; }
+    auto grid() -> GridSpecs& { return m_GridSpecs; }
 
     /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics() -> ticspecs& { return m_tics; }
+    auto tics() -> TicSpecs& { return m_tics; }
 
     /// Set the xtics of the plot and return a reference to the corresponding specs object.
-    auto xtics() -> ticspecs& { return m_xtics; }
+    auto xtics() -> TicSpecs& { return m_xtics; }
 
     /// Set the ytics of the plot and return a reference to the corresponding specs object.
-    auto ytics() -> ticspecs& { return m_ytics; }
+    auto ytics() -> TicSpecs& { return m_ytics; }
 
     /// Set the legend of the plot and return a reference to the corresponding specs object.
-    auto legend() -> legendspecs& { return m_legend; }
+    auto legend() -> LegendSpecs& { return m_legend; }
 
     /// Set the width of boxes if plot style / plot::with() is "boxes", "boxerrorbars", "candelsticks" or "histograms".
     /// The default box width type is "automatic", which makes the boxes touch. For "relative", "width" specifies
@@ -119,12 +119,12 @@ class plot
     auto gnuplot(const std::string& command) -> void { m_customcmds.push_back(command); }
 
     /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
-    auto draw(const std::string& what) -> plotspecs&;
+    auto draw(const std::string& what) -> PlotSpecs&;
 
     /// Plot two vectors of data and return a reference to the corresponding specs object.
     /// Will write all data to a plot<N>.dat file.
     template <typename X, typename Y>
-    auto draw(const X& x, const Y& y) -> plotspecs&;
+    auto draw(const X& x, const Y& y) -> PlotSpecs&;
 
     /// Write the current plot data to the data file.
     auto saveplotdata() const -> void;
@@ -183,41 +183,41 @@ class plot
     std::string m_yrange;
 
     /// The border style of the plot
-    borderspecs m_border;
+    BorderSpecs m_border;
 
     /// The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
-    gridspecs m_gridspecs;
+    GridSpecs m_GridSpecs;
 
     /// The specs of the tics of the plot
-    ticspecs m_tics;
+    TicSpecs m_tics;
 
     /// The specs of the xtics of the plot
-    ticspecs m_xtics = ticspecs(ticaxis::x);
+    TicSpecs m_xtics = TicSpecs(ticaxis::x);
 
     /// The specs of the ytics of the plot
-    ticspecs m_ytics = ticspecs(ticaxis::y);
+    TicSpecs m_ytics = TicSpecs(ticaxis::y);
 
     /// The legend specs of the plot
-    legendspecs m_legend;
+    LegendSpecs m_legend;
 
     /// The number of sample points for functions
     std::string m_samples;
 
     /// The label of the x-axis
-    axislabelspecs m_xlabel;
+    AxisLabelSpecs m_xlabel;
 
     /// The label of the y-axis
-    axislabelspecs m_ylabel;
+    AxisLabelSpecs m_ylabel;
 
     /// The label of the z-axis
-    axislabelspecs m_zlabel;
+    AxisLabelSpecs m_zlabel;
 
     /// Boxes width type if plot style is "boxes", "boxerrorbars", "candelsticks" or "histograms and
     /// relative or absolute box width value
     std::string m_boxwidth;
 
     /// The plot specs for each call to gnuplot plot function
-    std::vector<plotspecs> m_plotspecs;
+    std::vector<PlotSpecs> m_PlotSpecs;
 
     /// The strings containing gnuplot custom commands
     std::vector<std::string> m_customcmds;
@@ -249,20 +249,20 @@ auto plot::size(std::size_t width, std::size_t height) -> plot&
     return *this;
 }
 
-auto plot::draw(const std::string& what) -> plotspecs&
+auto plot::draw(const std::string& what) -> PlotSpecs&
 {
     // Save the draw arguments for this x,y data
-    m_plotspecs.emplace_back(what);
+    m_PlotSpecs.emplace_back(what);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
-    m_plotspecs.back().linestyle(m_plotspecs.size());
+    m_PlotSpecs.back().linestyle(m_PlotSpecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
-    return m_plotspecs.back();
+    return m_PlotSpecs.back();
 }
 
 template <typename X, typename Y>
-auto plot::draw(const X& x, const Y& y) -> plotspecs&
+auto plot::draw(const X& x, const Y& y) -> PlotSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
@@ -288,7 +288,7 @@ auto plot::repr() const -> std::string
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
     script << m_border << std::endl;
-    script << m_gridspecs << std::endl;
+    script << m_GridSpecs << std::endl;
     script << m_tics << std::endl;
     script << m_xtics << std::endl;
     script << m_ytics << std::endl;
@@ -315,9 +315,9 @@ auto plot::repr() const -> std::string
     script << "plot ";
 
     // Write plot commands and style per plot
-    const auto n = m_plotspecs.size();
+    const auto n = m_PlotSpecs.size();
     for (std::size_t i = 0; i < n; ++i)
-        script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
+        script << m_PlotSpecs[i] << (i < n - 1 ? ", " : "");
 
     // Add an empty line at the end
     script << std::endl;

@@ -27,35 +27,35 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/specs.hpp>
 #include <sciplot/util.hpp>
+#include <sciplot/specs/Specs.hpp>
 
 namespace sciplot
 {
 
 /// The class used to specify options for font.
-template <typename derivedspecs>
-class fontspecs : virtual public internal::specs<derivedspecs>
+template <typename DerivedSpecs>
+class FontSpecs : virtual public internal::specs<DerivedSpecs>
 {
   public:
-    /// Construct a default fontspecs instance.
-    fontspecs();
+    /// Construct a default FontSpecs instance.
+    FontSpecs();
 
-    /// Convert this fontspecs object into a gnuplot formatted string.
+    /// Convert this FontSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the name of the font (e.g., Helvetica, Georgia, Times).
-    auto fontname(std::string name) -> derivedspecs&
+    auto fontname(std::string name) -> DerivedSpecs&
     {
         m_fontname = name;
-        return static_cast<derivedspecs&>(*this);
+        return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the point size of the font (e.g., 10, 12, 16).
-    auto fontsize(std::size_t size) -> derivedspecs&
+    auto fontsize(std::size_t size) -> DerivedSpecs&
     {
         m_fontsize = size;
-        return static_cast<derivedspecs&>(*this);
+        return static_cast<DerivedSpecs&>(*this);
     }
 
   private:
@@ -66,15 +66,15 @@ class fontspecs : virtual public internal::specs<derivedspecs>
     std::size_t m_fontsize;
 };
 
-template <typename derivedspecs>
-fontspecs<derivedspecs>::fontspecs()
+template <typename DerivedSpecs>
+FontSpecs<DerivedSpecs>::FontSpecs()
 {
     fontname(internal::DEFAULT_FONTNAME);
     fontsize(internal::DEFAULT_FONTSIZE);
 }
 
-template <typename derivedspecs>
-auto fontspecs<derivedspecs>::repr() const -> std::string
+template <typename DerivedSpecs>
+auto FontSpecs<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
     ss << "font '" << m_fontname << "," << m_fontsize << "'";

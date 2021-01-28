@@ -26,51 +26,12 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/default.hpp>
-#include <sciplot/specs/fontspecs.hpp>
-#include <sciplot/specs/titlespecs.hpp>
+#include <sciplot/specs/Specs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
-/// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class axislabelspecs : public titlespecs<axislabelspecs>
-{
-  public:
-    /// Construct a default axislabelspecs instance.
-    axislabelspecs(std::string axis);
-
-    /// Convert this axislabelspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
-
-    /// Set the axis label parallel to its corresponding axis.
-    auto axisparallel() -> axislabelspecs&
-    {
-        m_rotate = "parallel";
-        return *this;
-    }
-
-  private:
-    /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
-    std::string m_axis;
-
-    /// The rotation command to rotate the label around.
-    std::string m_rotate;
-};
-
-axislabelspecs::axislabelspecs(std::string axis)
-    : m_axis(axis)
-{
-}
-
-auto axislabelspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << "set " + m_axis + "label ";
-    ss << titlespecs<axislabelspecs>::repr();
-    ss << gnuplot::optionvaluestr("rotate", m_rotate);
-    return ss.str();
-}
+// TODO Missing implementation
 
 } // namespace sciplot

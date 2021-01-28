@@ -29,7 +29,7 @@
 #include <limits>
 #include <numeric>
 #include <sciplot/enums.hpp>
-#include <sciplot/specs/linespecs.hpp>
+#include <sciplot/specs/LineSpecs.hpp>
 #include <sciplot/util.hpp>
 
 // C++ includes
@@ -39,28 +39,28 @@ namespace sciplot
 {
 
 /// The class where options for the plot function are specified.
-class plotspecs : public linespecs<plotspecs>
+class PlotSpecs : public LineSpecs<PlotSpecs>
 {
   public:
     /// Undefine / ignore column usage value. See use().
     static constexpr int USE_AUTO = std::numeric_limits<int>::min();
 
-    /// Construct a plotspecs instance.
+    /// Construct a PlotSpecs instance.
     /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
-    plotspecs(std::string what);
+    PlotSpecs(std::string what);
 
-    /// Convert this plotspecs object into a gnuplot formatted string.
+    /// Convert this PlotSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
     /// Set the title of the plot.
-    auto title(std::string value) -> plotspecs&
+    auto title(std::string value) -> PlotSpecs&
     {
         m_title = gnuplot::titlestr(value);
         return *this;
     }
 
     /// Set the format of the plot (lines, points, linespoints).
-    auto with(plotstyle value) -> plotspecs&
+    auto with(plotstyle value) -> PlotSpecs&
     {
         m_with = gnuplot::plotstylestr(value);
         return *this;
@@ -69,7 +69,7 @@ class plotspecs : public linespecs<plotspecs>
     /// Set which columns from the data file to use for plot data or tick labels. Resembles the "using" directive for a plot.
     /// Pass an USE_AUTO in any of these values to "undefine" that value, e.g. to use column 2 for y, do: plot.use(USE_AUTO, 2);
     /// To use strings as tick labels, you can pass them in the corresponding data column in the plot.draw() call.
-    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> plotspecs&
+    auto use(int xcol = USE_AUTO, int ycol = USE_AUTO, int zcol = USE_AUTO, int xtic = USE_AUTO, int x2tic = USE_AUTO, int ytic = USE_AUTO, int y2tic = USE_AUTO, int ztic = USE_AUTO) -> PlotSpecs&
     {
         std::vector<std::pair<unsigned int, std::string>> values = {
             {xcol, std::to_string(xcol)},
@@ -102,20 +102,20 @@ class plotspecs : public linespecs<plotspecs>
     std::string m_using;
 };
 
-plotspecs::plotspecs(std::string what)
+PlotSpecs::PlotSpecs(std::string what)
     : m_what(what)
 {
     with(internal::DEFAULT_PLOTSTYLE);
 }
 
-auto plotspecs::repr() const -> std::string
+auto PlotSpecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_what << " ";
     ss << gnuplot::optionvaluestr("using", m_using);
     ss << gnuplot::optionvaluestr("title", m_title);
     ss << gnuplot::optionvaluestr("with", m_with);
-    ss << linespecs<plotspecs>::repr();
+    ss << LineSpecs<PlotSpecs>::repr();
     return ss.str();
 }
 
