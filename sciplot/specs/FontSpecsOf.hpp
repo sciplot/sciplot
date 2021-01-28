@@ -35,7 +35,7 @@ namespace sciplot
 
 /// The class used to specify font options for a text element in the plot.
 template <typename DerivedSpecs>
-class FontSpecsOf : virtual public internal::specs<DerivedSpecs>
+class FontSpecsOf : virtual public internal::Specs<DerivedSpecs>
 {
   public:
     /// Construct a default FontSpecsOf instance.

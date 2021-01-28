@@ -33,7 +33,7 @@ namespace sciplot
 
 /// The class used to specify options for front or back placement of plot elements..
 template <typename DerivedSpecs>
-class DepthSpecsOf : virtual public internal::specs<DerivedSpecs>
+class DepthSpecsOf : virtual public internal::Specs<DerivedSpecs>
 {
   public:
     /// Construct a default DepthSpecsOf instance.

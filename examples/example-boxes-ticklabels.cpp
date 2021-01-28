@@ -58,7 +58,7 @@ int main(int argc, char** argv)
     specs.use(PlotSpecs::USE_AUTO, 2, PlotSpecs::USE_AUTO, 1);
 
     // makes sure we plot boxes with a solid fill style
-    specs.with(sciplot::plotstyle::boxes).fillstyle(sciplot::fillstyle::solid);
+    specs.with(sciplot::plotstyle::boxes).fillStyle(sciplot::fillstyle::solid);
 
     // Adjust the relative width of the boxes
     plt.boxwidth(sciplot::boxwidthtype::relative, 0.75F);

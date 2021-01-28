@@ -33,7 +33,7 @@ namespace sciplot
 
 /// The class used to specify if a plot element is shown or not.
 template <typename DerivedSpecs>
-class ShowSpecsOf : virtual public internal::specs<DerivedSpecs>
+class ShowSpecsOf : virtual public internal::Specs<DerivedSpecs>
 {
   public:
     /// Construct a default ShowSpecsOf instance.
