@@ -1,5 +1,5 @@
-add_library(catch OBJECT catch.hpp catch.cpp)
-target_include_directories(catch PUBLIC ${CMAKE_SOURCE_DIR})
+file(GLOB_RECURSE FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.test.cxx)
 
-add_executable(tests tests.cpp $<TARGET_OBJECTS:catch>)
-target_link_libraries(tests PUBLIC sciplot)
+add_executable(sciplot-cpptests ${FILES})
+target_link_libraries(sciplot-cpptests sciplot)
+target_include_directories(sciplot-cpptests PUBLIC ${PROJECT_SOURCE_DIR})
