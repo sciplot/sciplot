@@ -56,7 +56,7 @@ class GridSpecsBase : public LineSpecsOf<GridSpecsBase>, public DepthSpecsOf<Gri
 inline GridSpecsBase::GridSpecsBase(std::string tics, bool majortics)
 : m_tics(tics), m_majortics(majortics)
 {
-    show(false);
+    show(true);
     back();
     lineColor(internal::DEFAULT_GRID_LINECOLOR);
     lineWidth(internal::DEFAULT_GRID_LINEWIDTH);

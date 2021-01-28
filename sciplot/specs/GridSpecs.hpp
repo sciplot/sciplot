@@ -41,16 +41,16 @@ class GridSpecs : public GridSpecsBase
     GridSpecs();
 
     /// Return the specifications of the grid lines along major xtics on the bottom axis.
-    auto xtics() -> GridSpecsBase& { return _gridmajor("xtics"); }
+    auto xtics() -> GridSpecsBase& { return xticsMajorBottom(); }
 
     /// Return the specifications of the grid lines along major ytics on the left axis.
-    auto ytics() -> GridSpecsBase& { return _gridmajor("ytics"); }
+    auto ytics() -> GridSpecsBase& { return yticsMajorLeft(); }
 
     /// Return the specifications of the grid lines along major ztics.
-    auto ztics() -> GridSpecsBase& { return _gridmajor("ztics"); }
+    auto ztics() -> GridSpecsBase& { return zticsMajor(); }
 
     /// Return the specifications of the grid lines along major rtics.
-    auto rtics() -> GridSpecsBase& { return _gridmajor("rtics"); }
+    auto rtics() -> GridSpecsBase& { return rticsMajor(); }
 
     /// Return the specifications of the grid lines along major xtics on the bottom axis.
     auto xticsMajorBottom() -> GridSpecsBase& { return _gridmajor("xtics"); }
@@ -65,16 +65,16 @@ class GridSpecs : public GridSpecsBase
     auto xticsMinorTop() -> GridSpecsBase& { return _gridminor("mx2tics"); }
 
     /// Return the specifications of the grid lines along major ytics on the left axis.
-    auto yticsMajorBottom() -> GridSpecsBase& { return _gridmajor("ytics"); }
+    auto yticsMajorLeft() -> GridSpecsBase& { return _gridmajor("ytics"); }
 
     /// Return the specifications of the grid lines along major ytics on the right axis.
-    auto yticsMajorTop() -> GridSpecsBase& { return _gridmajor("y2tics"); }
+    auto yticsMajorRight() -> GridSpecsBase& { return _gridmajor("y2tics"); }
 
     /// Return the specifications of the grid lines along minor ytics on the left axis.
-    auto yticsMinorBottom() -> GridSpecsBase& { return _gridminor("mytics"); }
+    auto yticsMinorLeft() -> GridSpecsBase& { return _gridminor("mytics"); }
 
     /// Return the specifications of the grid lines along minor ytics on the right axis.
-    auto yticsMinorTop() -> GridSpecsBase& { return _gridminor("my2tics"); }
+    auto yticsMinorRight() -> GridSpecsBase& { return _gridminor("my2tics"); }
 
     /// Return the specifications of the grid lines along major ztics.
     auto zticsMajor() -> GridSpecsBase& { return _gridmajor("ztics"); }
@@ -114,6 +114,7 @@ class GridSpecs : public GridSpecsBase
 GridSpecs::GridSpecs()
 : GridSpecsBase("", true)
 {
+    show(false);
     back();
 }
 
