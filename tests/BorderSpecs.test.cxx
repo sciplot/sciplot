@@ -52,4 +52,8 @@ TEST_CASE("BorderSpecs", "[specs]")
     border.back();
 
     CHECK( border.repr() == "set border 15 back linetype 5 linewidth 7 linecolor 'red'" );
+
+    border.behind();
+
+    CHECK( border.repr() == "set border 15 behind linetype 5 linewidth 7 linecolor 'red'" );
 }
