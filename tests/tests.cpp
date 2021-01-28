@@ -64,7 +64,7 @@ TEST_CASE("plotting tests", "[plot]")
 
     plt.xrange(0, 3);
     for (auto i = 1; i <= 7; ++i)
-        plt.draw(std::to_string(i) + " * sin(x)").title("line_" + std::to_string(i)).dashtype(i);
+        plt.draw(std::to_string(i) + " * sin(x)").title("line_" + std::to_string(i)).dashType(i);
 
     plt.show();
     plt.save("xy.svg");

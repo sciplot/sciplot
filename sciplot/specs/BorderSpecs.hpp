@@ -116,9 +116,9 @@ BorderSpecs::BorderSpecs()
 {
     left();
     bottom();
-    linetype(internal::DEFAULT_BORDER_LINETYPE);
-    linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
-    linecolor(internal::DEFAULT_BORDER_LINECOLOR);
+    lineType(internal::DEFAULT_BORDER_LINETYPE);
+    lineWidth(internal::DEFAULT_BORDER_LINEWIDTH);
+    lineColor(internal::DEFAULT_BORDER_LINECOLOR);
     front();
 }
 

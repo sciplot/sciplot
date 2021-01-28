@@ -255,7 +255,7 @@ auto plot::draw(const std::string& what) -> PlotSpecs&
     m_PlotSpecs.emplace_back(what);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
-    m_PlotSpecs.back().linestyle(m_PlotSpecs.size());
+    m_PlotSpecs.back().lineStyle(m_PlotSpecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
     return m_PlotSpecs.back();
