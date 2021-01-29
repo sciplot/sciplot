@@ -33,7 +33,7 @@
 namespace sciplot
 {
 
-/// The class used to specify options for text elements.
+/// The class used to specify text options for plot elements with text.
 template <typename DerivedSpecs>
 class TextSpecsOf : public FontSpecsOf<DerivedSpecs>
 {
@@ -41,15 +41,15 @@ class TextSpecsOf : public FontSpecsOf<DerivedSpecs>
     /// Construct a default TextSpecsOf instance.
     TextSpecsOf();
 
+    /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
+    auto textColor(std::string color) -> DerivedSpecs&;
+
     /// Set the enhanced mode of the text.
     /// The enhanced text mode allows superscript text to be represented as
     /// `a^x`, subscript text with `a_x`, and combined superscript and
     /// subscript text with `a@^b_{cd}`.
     /// For more details, read "Enhanced text mode" section of the Gnuplot manual.
     auto enhanced(bool value=true) -> DerivedSpecs&;
-
-    /// Set the color of the text (e.g., `"blue"`, `"#404040"`)
-    auto textColor(std::string color) -> DerivedSpecs&;
 
     /// Convert this TextSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -70,16 +70,16 @@ TextSpecsOf<DerivedSpecs>::TextSpecsOf()
 }
 
 template <typename DerivedSpecs>
-auto TextSpecsOf<DerivedSpecs>::enhanced(bool value) -> DerivedSpecs&
+auto TextSpecsOf<DerivedSpecs>::textColor(std::string color) -> DerivedSpecs&
 {
-    m_enhanced = value ? "enhanced" : "noenhanced";
+    m_color = "'" + color + "'";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TextSpecsOf<DerivedSpecs>::textColor(std::string color) -> DerivedSpecs&
+auto TextSpecsOf<DerivedSpecs>::enhanced(bool value) -> DerivedSpecs&
 {
-    m_color = "'" + color + "'";
+    m_enhanced = value ? "enhanced" : "noenhanced";
     return static_cast<DerivedSpecs&>(*this);
 }
 
