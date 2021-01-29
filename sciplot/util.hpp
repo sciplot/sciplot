@@ -177,7 +177,7 @@ inline auto optionstr(std::string option) -> std::string
 
 /// Return the formatted string for a `option value` pair with a leading space (e.g., "size 400,300 ", "ls 2 ")
 /// Note that if value is empty, then the option is not needed and an empty string is returned.
-inline auto optionvaluestr(std::string option, std::string value) -> std::string
+inline auto optionValueStr(std::string option, std::string value) -> std::string
 {
     return value.size() ? (option + " " + value + " ") : "";
 }

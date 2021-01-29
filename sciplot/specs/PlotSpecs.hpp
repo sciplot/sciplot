@@ -112,9 +112,9 @@ auto PlotSpecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << m_what << " ";
-    ss << gnuplot::optionvaluestr("using", m_using);
-    ss << gnuplot::optionvaluestr("title", m_title);
-    ss << gnuplot::optionvaluestr("with", m_with);
+    ss << gnuplot::optionValueStr("using", m_using);
+    ss << gnuplot::optionValueStr("title", m_title);
+    ss << gnuplot::optionValueStr("with", m_with);
     ss << LineSpecsOf<PlotSpecs>::repr();
     return ss.str();
 }

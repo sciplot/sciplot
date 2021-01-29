@@ -33,7 +33,7 @@
 namespace sciplot
 {
 
-/// The class used to specify options for font.
+/// The class used to specify options for tics.
 class TicSpecs : public TextSpecsOf<TicSpecs>
 {
   public:
