@@ -27,18 +27,21 @@
 
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/TitleSpecsOf.hpp>
+#include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot
 {
 
 /// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
-class AxisLabelSpecs : public TitleSpecsOf<AxisLabelSpecs>
+class AxisLabelSpecs : public TextSpecsOf<AxisLabelSpecs>
 {
   public:
     /// Construct a default AxisLabelSpecs instance.
     AxisLabelSpecs(std::string axis);
+
+    /// Set the text of the axis label.
+    auto text(std::string text) -> AxisLabelSpecs&;
 
     /// Specify that the axis label should be rotated by a given angle in degrees.
     auto rotateByAngle(int degrees) -> AxisLabelSpecs&;
@@ -56,6 +59,9 @@ class AxisLabelSpecs : public TitleSpecsOf<AxisLabelSpecs>
     /// The name of the axis (e.g., `"x"`, `"y"`, `"z"`)
     std::string m_axis;
 
+    /// The axis label text (e.g., "Distance (km)")
+    std::string m_text;
+
     /// The rotation command to rotate the label around.
     std::string m_rotate;
 };
@@ -63,6 +69,12 @@ class AxisLabelSpecs : public TitleSpecsOf<AxisLabelSpecs>
 AxisLabelSpecs::AxisLabelSpecs(std::string axis)
 : m_axis(axis)
 {
+}
+
+auto AxisLabelSpecs::text(std::string text) -> AxisLabelSpecs&
+{
+    m_text = "'" + text + "'";
+    return *this;
 }
 
 auto AxisLabelSpecs::rotateByAngle(int degrees) -> AxisLabelSpecs&
@@ -85,16 +97,14 @@ auto AxisLabelSpecs::rotateNone() -> AxisLabelSpecs&
 
 auto AxisLabelSpecs::repr() const -> std::string
 {
-    const auto title_str = TitleSpecsOf<AxisLabelSpecs>::repr();
-    const auto rotate_str = m_rotate;
-
-    if(rotate_str.empty() && title_str.empty())
+    if(m_text.empty() && m_rotate.empty())
         return "";
 
     std::stringstream ss;
     ss << "set " + m_axis + "label ";
-    ss << title_str;
-    ss << m_rotate;
+    ss << m_text << " ";
+    ss << TextSpecsOf<AxisLabelSpecs>::repr() + " ";
+    ss << gnuplot::optionStr(m_rotate);
     return internal::removeExtraWhitespaces(ss.str());
 }
 
