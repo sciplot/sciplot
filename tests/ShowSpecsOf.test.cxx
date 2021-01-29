@@ -23,50 +23,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+// Catch includes
+#include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/specs/Specs.hpp>
+#include <sciplot/specs/ShowSpecsOf.hpp>
+using namespace sciplot;
 
-namespace sciplot
+// This construction is needed to test ShowSpecsOf below!
+struct SomeElement : ShowSpecsOf<SomeElement> {};
+
+TEST_CASE("ShowSpecsOf", "[specs]")
 {
+    auto defaultelem = SomeElement();
 
-/// The class used to specify if an underlying plot element is shown or not.
-template <typename DerivedSpecs>
-class ShowSpecsOf : virtual public internal::Specs<DerivedSpecs>
-{
-  public:
-    /// Construct a default ShowSpecsOf instance.
-    ShowSpecsOf();
+    auto elem = SomeElement();
 
-    /// Set the visibility status of the plot element.
-    auto show(bool value = true) -> DerivedSpecs&;
+    CHECK( elem.repr() == defaultelem.repr() );
 
-    /// Convert this ShowSpecsOf object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    elem.show(false);
 
-  private:
-    /// The boolean flag that indicates if the plot element is shown or not.
-    bool m_show;
-};
-
-template <typename DerivedSpecs>
-ShowSpecsOf<DerivedSpecs>::ShowSpecsOf()
-{
-    show();
+    CHECK( elem.repr() == "no");
 }
-
-template <typename DerivedSpecs>
-auto ShowSpecsOf<DerivedSpecs>::show(bool value) -> DerivedSpecs&
-{
-    m_show = value;
-    return static_cast<DerivedSpecs&>(*this);
-}
-
-template <typename DerivedSpecs>
-auto ShowSpecsOf<DerivedSpecs>::repr() const -> std::string
-{
-    return m_show ? "" : "no";
-}
-
-} // namespace sciplot
