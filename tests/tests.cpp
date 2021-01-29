@@ -37,8 +37,8 @@ TEST_CASE("plotting tests", "[plot]")
         REQUIRE(gnuplot::titlestr("Something") == "'Something'");
         REQUIRE(gnuplot::titlestr("columnheader") == "columnheader");
 
-        REQUIRE(gnuplot::optionvaluestr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(gnuplot::optionvaluestr("ls", "") == "");
+        REQUIRE(gnuplot::optionValueStr("title", "'sin(x)'") == "title 'sin(x)' ");
+        REQUIRE(gnuplot::optionValueStr("ls", "") == "");
     }
 
     plot plt;
