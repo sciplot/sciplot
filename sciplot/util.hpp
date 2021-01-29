@@ -40,11 +40,13 @@ namespace sciplot
 namespace internal
 {
 
-/// Return a string for a given index
+/// Return a string for a given value of a generic type.
 template <typename T>
-auto str(const T& i) -> std::string
+auto str(const T& val) -> std::string
 {
-    return std::to_string(i);
+    std::stringstream ss;
+    ss << val;
+    return ss.str(); // Note: This is different than std::to_string(i). For example, it works with custom types. Also, std::to_string(2.0) may produce "2.000000", difficulting string comparison in the tests.
 }
 
 /// Return a string for a given char array
@@ -170,7 +172,7 @@ inline auto titlestr(std::string word) -> std::string
 
 /// Return the formatted string for a `option` with a leading space (e.g., "enhanced ")
 /// Note that if option is empty, then an empty string is returned.
-inline auto optionstr(std::string option) -> std::string
+inline auto optionStr(std::string option) -> std::string
 {
     return option.size() ? (option + " ") : "";
 }
