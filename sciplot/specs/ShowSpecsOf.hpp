@@ -33,7 +33,7 @@ namespace sciplot
 
 /// The class used to attach visibility options to a type.
 template <typename DerivedSpecs>
-class ShowSpecsOf : virtual public internal::Specs<DerivedSpecs>
+class ShowSpecsOf : virtual public Specs<DerivedSpecs>
 {
   public:
     /// Construct a default ShowSpecsOf instance.
