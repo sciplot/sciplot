@@ -31,7 +31,7 @@
 namespace sciplot
 {
 
-/// The class used to specify if an underlying plot element is shown or not.
+/// The class used to attach visibility options to a type.
 template <typename DerivedSpecs>
 class ShowSpecsOf : virtual public internal::Specs<DerivedSpecs>
 {
@@ -40,7 +40,10 @@ class ShowSpecsOf : virtual public internal::Specs<DerivedSpecs>
     ShowSpecsOf();
 
     /// Set the visibility status of the plot element.
-    auto show(bool value = true) -> DerivedSpecs&;
+    auto show(bool value=true) -> DerivedSpecs&;
+
+    /// Set the visibility status of the plot element as hidden.
+    auto hide() -> DerivedSpecs&;
 
     /// Convert this ShowSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -49,6 +52,9 @@ class ShowSpecsOf : virtual public internal::Specs<DerivedSpecs>
     /// The boolean flag that indicates if the plot element is shown or not.
     bool m_show;
 };
+
+/// The class used to specify visibility options.
+class ShowSpecs : public ShowSpecsOf<ShowSpecs> {};
 
 template <typename DerivedSpecs>
 ShowSpecsOf<DerivedSpecs>::ShowSpecsOf()
@@ -61,6 +67,12 @@ auto ShowSpecsOf<DerivedSpecs>::show(bool value) -> DerivedSpecs&
 {
     m_show = value;
     return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto ShowSpecsOf<DerivedSpecs>::hide() -> DerivedSpecs&
+{
+    return show(false);
 }
 
 template <typename DerivedSpecs>
