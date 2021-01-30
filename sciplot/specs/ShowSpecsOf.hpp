@@ -28,8 +28,7 @@
 // sciplot includes
 #include <sciplot/specs/Specs.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to attach visibility options to a type.
 template <typename DerivedSpecs>

@@ -34,8 +34,7 @@
 
 // sciplot includes
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to specify options for plot border.
 class BorderSpecs : public LineSpecsOf<BorderSpecs>, public DepthSpecsOf<BorderSpecs>

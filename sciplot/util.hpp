@@ -35,8 +35,7 @@
 // sciplot includes
 #include <sciplot/palettes.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 namespace internal
 {
 

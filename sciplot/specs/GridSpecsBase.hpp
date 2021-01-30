@@ -32,8 +32,7 @@
 #include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to specify options for grid lines along axis tics (major or minor).
 class GridSpecsBase : public LineSpecsOf<GridSpecsBase>, public DepthSpecsOf<GridSpecsBase>, public ShowSpecsOf<GridSpecsBase>

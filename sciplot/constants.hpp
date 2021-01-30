@@ -25,8 +25,7 @@
 
 #pragma once
 
-namespace sciplot
-{
+namespace sciplot {
 
 const auto PI = 3.14159265359;
 const auto GOLDEN_RATIO = 1.618034;

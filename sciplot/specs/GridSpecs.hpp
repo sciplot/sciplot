@@ -30,8 +30,7 @@
 #include <sciplot/specs/GridSpecsBase.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to specify options for grid.
 class GridSpecs : public GridSpecsBase

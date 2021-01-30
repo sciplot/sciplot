@@ -30,8 +30,7 @@
 #include <sciplot/specs/FontSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to attach text options to a type.
 template <typename DerivedSpecs>

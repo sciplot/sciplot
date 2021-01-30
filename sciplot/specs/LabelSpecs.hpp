@@ -29,8 +29,7 @@
 #include <sciplot/specs/Specs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 // TODO: Implement LabelSpecs
 

@@ -43,8 +43,7 @@
 #include <sciplot/specs/TicSpecs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to define multipleplots in one canvas, show them in a pop-up window or save them to a file.
 class multiplot

@@ -35,8 +35,7 @@
 // C++ includes
 #include <algorithm>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class where options for the plot function are specified.
 class PlotSpecs : public LineSpecsOf<PlotSpecs>
