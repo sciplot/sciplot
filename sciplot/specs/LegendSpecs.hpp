@@ -26,36 +26,17 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/specs/LineSpecsOf.hpp>
+#include <sciplot/default.hpp>
+#include <sciplot/specs/FrameSpecsOf.hpp>
 #include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/specs/TitleSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
-
-/// The class used to setup the specs of the legend header title.
-class LegendHeaderSpecs : public TitleSpecsOf<LegendHeaderSpecs>
-{
-  public:
-    /// Construct a default LegendHeaderSpecs object.
-    LegendHeaderSpecs();
-};
-
-/// The class used to setup the specs of the legend border lines.
-class LegendBorderSpecs : public LineSpecsOf<LegendBorderSpecs>, public ShowSpecsOf<LegendBorderSpecs>
-{
-  public:
-    /// Construct a default LegendBorderSpecs object.
-    LegendBorderSpecs();
-
-    /// Convert this LegendBorderSpecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
-};
+namespace sciplot {
 
 /// The class used to specify options for legend.
-class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSpecs>
+class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSpecs>, public TitleSpecsOf<LegendSpecs>, public FrameSpecsOf<LegendSpecs>
 {
   public:
     /// Construct a default LegendSpecs instance.
@@ -66,12 +47,6 @@ class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSp
 
     /// Set the background of the legend box to be transparent.
     auto transparent() -> LegendSpecs&;
-
-    /// Enable or disable the border surrounding the legend and return a specs object for its further setup.
-    auto border() -> LegendBorderSpecs&;
-
-    /// Set the header title of the legend and return a specs object for its further setup.
-    auto header(std::string text) -> LegendHeaderSpecs&;
 
     /// Place the legend on the inside of the plot at its left side.
     auto atLeft() -> LegendSpecs&;
@@ -136,47 +111,56 @@ class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSp
     /// Place the legend on the outside of the plot at its top-right corner.
     auto atOutsideTopRight() -> LegendSpecs&;
 
-    /// Set the width increment/decrement of the legend frame to either enlarge or reduce its width.
-    auto incrementWidth(int value) -> LegendSpecs&;
+    /// Place the legend title on the left.
+    auto titleLeft() -> LegendSpecs&;
 
-    /// Set the height increment/decrement of the legend frame to either enlarge or reduce its height.
-    auto incrementHeight(int value) -> LegendSpecs&;
+    /// Place the legend title on the center.
+    auto titleCenter() -> LegendSpecs&;
 
-    /// Set the length of the samples used to generate the symbols in the legend entries.
-    auto symbolLength(int value) -> LegendSpecs&;
+    /// Place the legend title on the right.
+    auto titleRight() -> LegendSpecs&;
 
     /// Set the legend entries to be displayed along the vertical (in columns).
-    auto verticalDisplay() -> LegendSpecs&;
+    auto displayVertical() -> LegendSpecs&;
 
     /// Set the number of rows that trigger a new column to be created in the legend (when using vertical display).
-    auto verticalMaxRows(int value) -> LegendSpecs&;
+    auto displayVerticalMaxRows(int value) -> LegendSpecs&;
 
     /// Set the legend entries to be displayed along the horizontal (in rows).
-    auto horizontalDisplay() -> LegendSpecs&;
+    auto displayHorizontal() -> LegendSpecs&;
 
     /// Set the number of columns that trigger a new row to be created in the legend (when using horizontal display).
-    auto horizontalMaxCols(int value) -> LegendSpecs&;
+    auto displayHorizontalMaxCols(int value) -> LegendSpecs&;
 
     /// Set the labels in the legend entries to appear before their corresponding symbols (on the left).
-    auto labelsBeforeSymbols() -> LegendSpecs&;
+    auto displayLabelsBeforeSymbols() -> LegendSpecs&;
 
     /// Set the labels in the legend entries to appear after their corresponding symbols (on the right).
-    auto labelsAfterSymbols() -> LegendSpecs&;
+    auto displayLabelsAfterSymbols() -> LegendSpecs&;
 
     /// Set the legend labels to be left justified.
-    auto labelsLeftJustify() -> LegendSpecs&;
+    auto displayJustifyLeft() -> LegendSpecs&;
 
     /// Set the legend labels to be right justified.
-    auto labelsRightJustify() -> LegendSpecs&;
+    auto displayJustifyRight() -> LegendSpecs&;
 
     /// Set the legend entries to be displayed in the order from first to last.
-    auto startFromFirst() -> LegendSpecs&;
+    auto displayStartFromFirst() -> LegendSpecs&;
 
     /// Set the legend entries to be displayed in the order from last to first.
-    auto startFromLast() -> LegendSpecs&;
+    auto displayStartFromLast() -> LegendSpecs&;
 
     /// Set the spacing between the titles in the legend.
-    auto spacing(int value) -> LegendSpecs&;
+    auto displaySpacing(int value) -> LegendSpecs&;
+
+    /// Set the width increment/decrement of the legend frame to either enlarge or reduce its width.
+    auto displayExpandWidthBy(int value) -> LegendSpecs&;
+
+    /// Set the height increment/decrement of the legend frame to either enlarge or reduce its height.
+    auto displayExpandHeightBy(int value) -> LegendSpecs&;
+
+    /// Set the length of the samples used to generate the symbols in the legend entries.
+    auto displaySymbolLength(int value) -> LegendSpecs&;
 
     /// Convert this LegendSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -200,11 +184,8 @@ class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSp
     /// The justification mode of the labels in the legend (Left or Right gnuplot options).
     std::string m_justification;
 
-    /// The specs of the surrounding border of the legend.
-    LegendBorderSpecs m_border;
-
-    /// The title of the label.
-    LegendHeaderSpecs m_header;
+    /// The location of the legend title (left, center, right).
+    std::string m_title_loc = "left";
 
     /// The width increment of the legend frame.
     int m_width_increment;
@@ -228,17 +209,20 @@ class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSp
 LegendSpecs::LegendSpecs()
 {
     atTopRight();
-    transparent();
     fontName(internal::DEFAULT_LEGEND_FONTNAME);
     fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
-    incrementWidth(0.0);
-    incrementHeight(0.0);
-    symbolLength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
-    spacing(internal::DEFAULT_LEGEND_SPACING);
-    verticalDisplay();
-    labelsAfterSymbols();
-    labelsLeftJustify();
-    startFromFirst();
+    title("");
+    titleFontName(internal::DEFAULT_LEGEND_FONTNAME);
+    titleFontSize(internal::DEFAULT_LEGEND_FONTSIZE);
+    displayExpandWidthBy(0.0);
+    displayExpandHeightBy(0.0);
+    displaySymbolLength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
+    displaySpacing(internal::DEFAULT_LEGEND_SPACING);
+    displayVertical();
+    displayLabelsAfterSymbols();
+    displayJustifyLeft();
+    displayStartFromFirst();
+    transparent();
 }
 
 auto LegendSpecs::opaque() -> LegendSpecs&
@@ -251,17 +235,6 @@ auto LegendSpecs::transparent() -> LegendSpecs&
 {
     m_opaque = "noopaque";
     return *this;
-}
-
-auto LegendSpecs::border() -> LegendBorderSpecs&
-{
-    return m_border;
-}
-
-auto LegendSpecs::header(std::string text) -> LegendHeaderSpecs&
-{
-    m_header.text(text);
-    return m_header;
 }
 
 auto LegendSpecs::atLeft() -> LegendSpecs&
@@ -390,99 +363,121 @@ auto LegendSpecs::atOutsideTopRight() -> LegendSpecs&
     return *this;
 }
 
-auto LegendSpecs::incrementWidth(int value) -> LegendSpecs&
+auto LegendSpecs::titleLeft() -> LegendSpecs&
 {
-    m_width_increment = value;
+    m_title_loc = "left";
     return *this;
 }
 
-auto LegendSpecs::incrementHeight(int value) -> LegendSpecs&
+auto LegendSpecs::titleCenter() -> LegendSpecs&
 {
-    m_height_increment = value;
+    m_title_loc = "center";
     return *this;
 }
 
-auto LegendSpecs::symbolLength(int value) -> LegendSpecs&
+auto LegendSpecs::titleRight() -> LegendSpecs&
 {
-    m_samplen = value;
+    m_title_loc = "right";
     return *this;
 }
 
-auto LegendSpecs::verticalDisplay() -> LegendSpecs&
+auto LegendSpecs::displayVertical() -> LegendSpecs&
 {
     m_alignment = "vertical";
     return *this;
 }
 
-auto LegendSpecs::verticalMaxRows(int value) -> LegendSpecs&
+auto LegendSpecs::displayVerticalMaxRows(int value) -> LegendSpecs&
 {
     m_maxrows = internal::str(value);
     return *this;
 }
 
-auto LegendSpecs::horizontalDisplay() -> LegendSpecs&
+auto LegendSpecs::displayHorizontal() -> LegendSpecs&
 {
     m_alignment = "horizontal";
     return *this;
 }
 
-auto LegendSpecs::horizontalMaxCols(int value) -> LegendSpecs&
+auto LegendSpecs::displayHorizontalMaxCols(int value) -> LegendSpecs&
 {
     m_maxcols = internal::str(value);
     return *this;
 }
 
-auto LegendSpecs::labelsBeforeSymbols() -> LegendSpecs&
+auto LegendSpecs::displayLabelsBeforeSymbols() -> LegendSpecs&
 {
     m_reverse = "noreverse";
     return *this;
 }
 
-auto LegendSpecs::labelsAfterSymbols() -> LegendSpecs&
+auto LegendSpecs::displayLabelsAfterSymbols() -> LegendSpecs&
 {
     m_reverse = "reverse";
     return *this;
 }
 
-auto LegendSpecs::labelsLeftJustify() -> LegendSpecs&
+auto LegendSpecs::displayJustifyLeft() -> LegendSpecs&
 {
     m_justification = "Left";
     return *this;
 }
 
-auto LegendSpecs::labelsRightJustify() -> LegendSpecs&
+auto LegendSpecs::displayJustifyRight() -> LegendSpecs&
 {
     m_justification = "Right";
     return *this;
 }
 
-auto LegendSpecs::startFromFirst() -> LegendSpecs&
+auto LegendSpecs::displayStartFromFirst() -> LegendSpecs&
 {
     m_invert = "noinvert";
     return *this;
 }
 
-auto LegendSpecs::startFromLast() -> LegendSpecs&
+auto LegendSpecs::displayStartFromLast() -> LegendSpecs&
 {
     m_invert = "invert";
     return *this;
 }
 
-auto LegendSpecs::spacing(int value) -> LegendSpecs&
+auto LegendSpecs::displaySpacing(int value) -> LegendSpecs&
 {
     m_spacing = value;
     return *this;
 }
 
+auto LegendSpecs::displayExpandWidthBy(int value) -> LegendSpecs&
+{
+    m_width_increment = value;
+    return *this;
+}
+
+auto LegendSpecs::displayExpandHeightBy(int value) -> LegendSpecs&
+{
+    m_height_increment = value;
+    return *this;
+}
+
+auto LegendSpecs::displaySymbolLength(int value) -> LegendSpecs&
+{
+    m_samplen = value;
+    return *this;
+}
+
 auto LegendSpecs::repr() const -> std::string
 {
-    if (ShowSpecsOf<LegendSpecs>::repr() == "no")
+    const auto show = ShowSpecsOf<LegendSpecs>::repr();
+    if(show == "no")
         return "unset legend";
+
+    auto titlespecs = TitleSpecsOf<LegendSpecs>::repr();
+    if(titlespecs.size())
+        titlespecs += " " + m_title_loc; // attach left|center|right to title (e.g. title 'Legend' right)
 
     std::stringstream ss;
     ss << "set key ";
     ss << m_placement << " " << m_opaque << " ";
-    ss << m_border << " ";
     ss << m_alignment << " ";
     ss << m_justification << " ";
     ss << m_invert << " ";
@@ -492,36 +487,11 @@ auto LegendSpecs::repr() const -> std::string
     ss << "samplen " << m_samplen << " ";
     ss << "spacing " << m_spacing << " ";
     ss << TextSpecsOf<LegendSpecs>::repr() << " ";
-    ss << "title " << m_header << " ";
+    ss << titlespecs << " ";
+    ss << FrameSpecsOf<LegendSpecs>::repr() << " ";
     ss << "maxrows " << m_maxrows << " ";
     ss << "maxcols " << m_maxcols << " ";
     return internal::removeExtraWhitespaces(ss.str());
-}
-
-LegendHeaderSpecs::LegendHeaderSpecs()
-{
-    text("");
-    fontName(internal::DEFAULT_LEGEND_FONTNAME);
-    fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
-}
-
-LegendBorderSpecs::LegendBorderSpecs()
-{
-    show(internal::DEFAULT_LEGEND_BORDER_SHOW);
-    lineColor(internal::DEFAULT_LEGEND_LINECOLOR);
-    lineType(internal::DEFAULT_LEGEND_LINETYPE);
-    lineWidth(internal::DEFAULT_LEGEND_LINEWIDTH);
-    lineColor(internal::DEFAULT_LEGEND_LINECOLOR);
-}
-
-auto LegendBorderSpecs::repr() const -> std::string
-{
-    if (ShowSpecsOf<LegendBorderSpecs>::repr() == "no")
-        return "nobox";
-
-    std::stringstream ss;
-    ss << "box " << LineSpecsOf<LegendBorderSpecs>::repr();
-    return ss.str();
 }
 
 } // namespace sciplot

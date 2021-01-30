@@ -28,124 +28,152 @@
 // sciplot includes
 #include <sciplot/default.hpp>
 #include <sciplot/specs/TextSpecsOf.hpp>
+#include <sciplot/specs/OffsetSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
-/// The class used to specify options for titles.
+/// The class used to attach title options to a type.
 template <typename DerivedSpecs>
-class TitleSpecsOf : public TextSpecsOf<DerivedSpecs>
+class TitleSpecsOf : virtual public Specs<DerivedSpecs>
 {
   public:
     /// Construct a default TitleSpecsOf instance.
     TitleSpecsOf();
 
     /// Set the text of the title.
-    auto text(std::string title) -> DerivedSpecs&;
+    auto title(std::string title) -> DerivedSpecs&;
 
     /// Shift the title element along the x direction by given number of characters (can be fraction).
-    auto shiftAlongX(double chars) -> DerivedSpecs&;
+    auto titleShiftAlongX(double chars) -> DerivedSpecs&;
 
     /// Shift the title element along the y direction by given number of characters (can be fraction).
-    auto shiftAlongY(double chars) -> DerivedSpecs&;
+    auto titleShiftAlongY(double chars) -> DerivedSpecs&;
 
     /// Shift the title element along the x direction within the graph coordinate system.
-    auto shiftAlongGraphX(double val) -> DerivedSpecs&;
+    auto titleShiftAlongGraphX(double val) -> DerivedSpecs&;
 
     /// Shift the title element along the y direction within the graph coordinate system.
-    auto shiftAlongGraphY(double val) -> DerivedSpecs&;
+    auto titleShiftAlongGraphY(double val) -> DerivedSpecs&;
 
     /// Shift the title element along the x direction within the screen coordinate system.
-    auto shiftAlongScreenX(double val) -> DerivedSpecs&;
+    auto titleShiftAlongScreenX(double val) -> DerivedSpecs&;
 
     /// Shift the title element along the y direction within the screen coordinate system.
-    auto shiftAlongScreenY(double val) -> DerivedSpecs&;
+    auto titleShiftAlongScreenY(double val) -> DerivedSpecs&;
+
+    /// Set the color of the title text (e.g., `"blue"`, `"#404040"`)
+    auto titleTextColor(std::string color) -> DerivedSpecs&;
+
+    /// Set the font name of the title text (e.g., Helvetica, Georgia, Times).
+    auto titleFontName(std::string name) -> DerivedSpecs&;
+
+    /// Set the font point size of the title text (e.g., 10, 12, 16).
+    auto titleFontSize(int size) -> DerivedSpecs&;
 
     /// Convert this TitleSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
   private:
-    /// The title word.
+    /// The text of the title.
     std::string m_title;
 
-    /// The rotation command to rotate the label around.
-    std::string m_rotate;
+    /// The text options for the title.
+    TextSpecs m_text_specs;
 
-    /// The offset of the title element along x direction.
-    std::string xoffset = "0";
-
-    /// The offset of the title element along y direction.
-    std::string yoffset = "0";
+    /// The offset options for the title.
+    OffsetSpecs m_offset_specs;
 };
+
+/// The class used to specify title options.
+class TitleSpecs : public TitleSpecsOf<TitleSpecs> {};
 
 template <typename DerivedSpecs>
 TitleSpecsOf<DerivedSpecs>::TitleSpecsOf()
 {
-    text("");
+    title("");
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::text(std::string title) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::title(std::string title) -> DerivedSpecs&
 {
     m_title = "'" + title + "'";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::shiftAlongX(double chars) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::titleShiftAlongX(double chars) -> DerivedSpecs&
 {
-    xoffset = internal::str(chars);
+    m_offset_specs.shiftAlongX(chars);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::shiftAlongY(double chars) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::titleShiftAlongY(double chars) -> DerivedSpecs&
 {
-    yoffset = internal::str(chars);
+    m_offset_specs.shiftAlongY(chars);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::shiftAlongGraphX(double val) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::titleShiftAlongGraphX(double val) -> DerivedSpecs&
 {
-    xoffset = "graph " + internal::str(val);
+    m_offset_specs.shiftAlongGraphX(val);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::shiftAlongGraphY(double val) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::titleShiftAlongGraphY(double val) -> DerivedSpecs&
 {
-    yoffset = "graph " + internal::str(val);
+    m_offset_specs.shiftAlongGraphY(val);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::shiftAlongScreenX(double val) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::titleShiftAlongScreenX(double val) -> DerivedSpecs&
 {
-    xoffset = "screen " + internal::str(val);
+    m_offset_specs.shiftAlongScreenX(val);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
-auto TitleSpecsOf<DerivedSpecs>::shiftAlongScreenY(double val) -> DerivedSpecs&
+auto TitleSpecsOf<DerivedSpecs>::titleShiftAlongScreenY(double val) -> DerivedSpecs&
 {
-    yoffset = "screen " + internal::str(val);
+    m_offset_specs.shiftAlongScreenY(val);
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto TitleSpecsOf<DerivedSpecs>::titleTextColor(std::string color) -> DerivedSpecs&
+{
+    m_text_specs.textColor(color);
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto TitleSpecsOf<DerivedSpecs>::titleFontName(std::string name) -> DerivedSpecs&
+{
+    m_text_specs.fontName(name);
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
+auto TitleSpecsOf<DerivedSpecs>::titleFontSize(int size) -> DerivedSpecs&
+{
+    m_text_specs.fontSize(size);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto TitleSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
-    std::string offset;
-
-    if(xoffset != "0" || yoffset != "0")
-        offset = "offset " + xoffset + ", " + yoffset;
+    if(m_title == "''")
+        return "";
 
     std::stringstream ss;
-    ss << m_title << " " << TextSpecsOf<DerivedSpecs>::repr() << " ";
-    ss << gnuplot::optionStr(m_rotate);
-    ss << gnuplot::optionStr(offset);
+    ss << "title " << m_title << " ";
+    ss << m_text_specs.repr() << " ";
+    ss << m_offset_specs.repr();
     return internal::removeExtraWhitespaces(ss.str());
 }
 

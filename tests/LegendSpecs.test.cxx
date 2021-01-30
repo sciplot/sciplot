@@ -35,28 +35,42 @@ TEST_CASE("LegendSpecs", "[specs]")
     auto legend = LegendSpecs();
 
     CHECK( legend.repr() ==
-        "set key inside right top noopaque nobox vertical Left "
+        "set key inside right top noopaque vertical Left "
         "noinvert reverse width 0 height 0 samplen 4 spacing 1 "
-        "enhanced textcolor '#404040' font 'Georgia,10' title '' "
-        "enhanced textcolor '#404040' font 'Georgia,10' maxrows auto maxcols auto" );
+        "enhanced textcolor '#404040' font 'Georgia,10' "
+        "nobox maxrows auto maxcols auto");
 
     legend.atOutsideBottomRight();
     legend.opaque();
-    legend.border().show().lineColor("purple").lineType(3).lineWidth(4);
-    legend.horizontalDisplay();
-    legend.horizontalMaxCols(5);
-    legend.symbolLength(7);
-    legend.incrementHeight(11);
-    legend.incrementWidth(13);
-    legend.startFromLast();
-    legend.labelsAfterSymbols();
-    legend.labelsRightJustify();
-    legend.header("Hello").fontName("Arial").fontSize(17).textColor("blue");
+
+    // Customize frame
+    legend.frameShow();
+    legend.frameLineColor("purple");
+    legend.frameLineType(3);
+    legend.frameLineWidth(4);
+
+    // Customize display of labels and symbols
+    legend.displayHorizontal();
+    legend.displayHorizontalMaxCols(5);
+    legend.displaySymbolLength(7);
+    legend.displayExpandHeightBy(11);
+    legend.displayExpandWidthBy(13);
+    legend.displayStartFromLast();
+    legend.displayLabelsAfterSymbols();
+    legend.displayJustifyRight();
+
+    // Customize title
+    legend.title("Hello");
+    legend.titleFontName("Arial");
+    legend.titleFontSize(17);
+    legend.titleTextColor("blue");
+    legend.titleLeft();
     legend.textColor("red").fontName("Times").fontSize(19);
 
     CHECK( legend.repr() ==
-        "set key bmargin right opaque box linetype 3 linewidth 4 linecolor 'purple' "
-        "horizontal Right invert reverse width 13 height 11 samplen 7 spacing 1 "
-        "enhanced textcolor 'red' font 'Times,19' title 'Hello' enhanced "
-        "textcolor 'blue' font 'Arial,17' maxrows auto maxcols 5" );
+        "set key bmargin right opaque horizontal Right invert "
+        "reverse width 13 height 11 samplen 7 spacing 1 enhanced "
+        "textcolor 'red' font 'Times,19' title 'Hello' enhanced "
+        "textcolor 'blue' font 'Arial,17' left box linetype 3 "
+        "linewidth 4 linecolor 'purple' maxrows auto maxcols 5");
 }
