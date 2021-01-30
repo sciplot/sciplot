@@ -30,18 +30,23 @@
 #include <sciplot/specs/ShowSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test ShowSpecsOf below!
-struct SomeElement : ShowSpecsOf<SomeElement> {};
-
-TEST_CASE("ShowSpecsOf", "[specs]")
+TEST_CASE("ShowSpecs", "[specs]")
 {
-    auto defaultelem = SomeElement();
+    auto defaultvisibility = ShowSpecs();
 
-    auto elem = SomeElement();
+    auto visibility = ShowSpecs();
 
-    CHECK( elem.repr() == defaultelem.repr() );
+    CHECK( visibility.repr() == defaultvisibility.repr() );
 
-    elem.show(false);
+    visibility.show(false);
 
-    CHECK( elem.repr() == "no");
+    CHECK( visibility.repr() == "no");
+
+    visibility.show();
+
+    CHECK( visibility.repr() == "");
+
+    visibility.hide();
+
+    CHECK( visibility.repr() == "no");
 }
