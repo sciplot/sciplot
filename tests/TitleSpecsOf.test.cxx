@@ -30,38 +30,35 @@
 #include <sciplot/specs/TitleSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test TitleSpecsOf below!
-struct SomeObject : TitleSpecsOf<SomeObject> {};
-
-TEST_CASE("TitleSpecsOf", "[specs]")
+TEST_CASE("TitleSpecs", "[specs]")
 {
-    auto obj = SomeObject();
+    auto specs = TitleSpecs();
 
-    obj.title("Hello");
+    specs.title("Hello");
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12'");
 
-    obj.titleShiftAlongX(1);
+    specs.titleShiftAlongX(1);
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 0");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 0");
 
-    obj.titleShiftAlongY(2);
+    specs.titleShiftAlongY(2);
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 2");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 2");
 
-    obj.titleShiftAlongGraphX(0.3);
+    specs.titleShiftAlongGraphX(0.3);
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, 2");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, 2");
 
-    obj.titleShiftAlongGraphY(0.4);
+    specs.titleShiftAlongGraphY(0.4);
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, graph 0.4");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, graph 0.4");
 
-    obj.titleShiftAlongScreenX(0.5);
+    specs.titleShiftAlongScreenX(0.5);
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, graph 0.4");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, graph 0.4");
 
-    obj.titleShiftAlongScreenY(0.6);
+    specs.titleShiftAlongScreenY(0.6);
 
-    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, screen 0.6");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, screen 0.6");
 }
