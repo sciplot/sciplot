@@ -30,10 +30,9 @@
 #include <sciplot/specs/Specs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
-/// The specifications for a line plot.
+/// The class used to attach line options to a type.
 template <typename DerivedSpecs>
 class LineSpecsOf : virtual public Specs<DerivedSpecs>
 {
@@ -75,6 +74,9 @@ class LineSpecsOf : virtual public Specs<DerivedSpecs>
     /// The dash type of the underlying line object (e.g., "dt 2").
     std::string m_dashtype;
 };
+
+/// The class used to specify line options.
+class LineSpecs : public LineSpecsOf<LineSpecs> {};
 
 template <typename DerivedSpecs>
 LineSpecsOf<DerivedSpecs>::LineSpecsOf()

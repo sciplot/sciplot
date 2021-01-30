@@ -37,31 +37,31 @@ TEST_CASE("TitleSpecsOf", "[specs]")
 {
     auto obj = SomeObject();
 
-    obj.text("Hello");
+    obj.title("Hello");
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12'");
 
-    obj.shiftAlongX(1);
+    obj.titleShiftAlongX(1);
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 0");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 0");
 
-    obj.shiftAlongY(2);
+    obj.titleShiftAlongY(2);
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 2");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 2");
 
-    obj.shiftAlongGraphX(0.3);
+    obj.titleShiftAlongGraphX(0.3);
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, 2");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, 2");
 
-    obj.shiftAlongGraphY(0.4);
+    obj.titleShiftAlongGraphY(0.4);
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, graph 0.4");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, graph 0.4");
 
-    obj.shiftAlongScreenX(0.5);
+    obj.titleShiftAlongScreenX(0.5);
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, graph 0.4");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, graph 0.4");
 
-    obj.shiftAlongScreenY(0.6);
+    obj.titleShiftAlongScreenY(0.6);
 
-    CHECK( obj.repr() == "'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, screen 0.6");
+    CHECK( obj.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, screen 0.6");
 }
