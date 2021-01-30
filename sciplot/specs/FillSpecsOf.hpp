@@ -30,8 +30,7 @@
 #include <sciplot/specs/Specs.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The color or pattern fill specifications for a plot element.
 template <typename DerivedSpecs>

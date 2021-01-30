@@ -30,8 +30,7 @@
 #include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to specify options for tics.
 class TicSpecs : public TextSpecsOf<TicSpecs>

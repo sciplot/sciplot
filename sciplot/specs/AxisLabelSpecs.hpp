@@ -30,8 +30,7 @@
 #include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The specifications for an axis label (e.g., xlabel, ylabel, etc.)
 class AxisLabelSpecs : public TextSpecsOf<AxisLabelSpecs>

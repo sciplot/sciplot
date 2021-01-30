@@ -28,8 +28,7 @@
 // sciplot includes
 #include <sciplot/specs/Specs.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// The class used to specify options for front or back placement of plot elements..
 template <typename DerivedSpecs>

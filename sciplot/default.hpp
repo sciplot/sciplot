@@ -29,8 +29,7 @@
 #include <sciplot/constants.hpp>
 #include <sciplot/enums.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 namespace internal
 {
 

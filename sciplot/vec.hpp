@@ -30,8 +30,7 @@
 #include <functional>
 #include <valarray>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// A convenient type alias for std::valarray<double>
 using vec = std::valarray<double>;

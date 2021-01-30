@@ -29,8 +29,7 @@
 #include <map>
 #include <string>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// Gnuplot color palettes for sciplot adapted from https://github.com/Gnuplotting/gnuplot-palettes
 const std::map<std::string, std::string> palettes = {

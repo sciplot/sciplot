@@ -28,8 +28,7 @@
 // C++ includes
 #include <string>
 
-namespace sciplot
-{
+namespace sciplot {
 
 /// All gnuplot style options for plotting data
 enum class plotstyle
