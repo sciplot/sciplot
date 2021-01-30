@@ -30,15 +30,12 @@
 #include <sciplot/specs/LineSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test LineSpecsOf below!
-struct SomeLine : LineSpecsOf<SomeLine> {};
-
-TEST_CASE("LineSpecsOf", "[specs]")
+TEST_CASE("LineSpecs", "[specs]")
 {
-    auto defaultline = SomeLine();
+    auto defaultline = LineSpecs();
     defaultline.lineWidth(internal::DEFAULT_LINEWIDTH);
 
-    auto line = SomeLine();
+    auto line = LineSpecs();
 
     CHECK( line.repr() == defaultline.repr() );
 
