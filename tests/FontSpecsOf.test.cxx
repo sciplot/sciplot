@@ -30,22 +30,19 @@
 #include <sciplot/specs/FontSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test FontSpecsOf below!
-struct SomeText : FontSpecsOf<SomeText> {};
-
-TEST_CASE("FontSpecsOf", "[specs]")
+TEST_CASE("FontSpecs", "[specs]")
 {
-    auto defaulttext = SomeText();
+    auto defaultfont = FontSpecs();
 
-    defaulttext.fontName(internal::DEFAULT_FONTNAME);
-    defaulttext.fontSize(internal::DEFAULT_FONTSIZE);
+    defaultfont.fontName(internal::DEFAULT_FONTNAME);
+    defaultfont.fontSize(internal::DEFAULT_FONTSIZE);
 
-    auto text = SomeText();
+    auto font = FontSpecs();
 
-    CHECK( text.repr() == defaulttext.repr() );
+    CHECK( font.repr() == defaultfont.repr() );
 
-    text.fontName("Arial");
-    text.fontSize(14);
+    font.fontName("Arial");
+    font.fontSize(14);
 
-    CHECK( text.repr() == "font 'Arial,14'");
+    CHECK( font.repr() == "font 'Arial,14'");
 }
