@@ -30,10 +30,9 @@
 #include <sciplot/util.hpp>
 #include <sciplot/specs/Specs.hpp>
 
-namespace sciplot
-{
+namespace sciplot {
 
-/// The class used to specify font options for a text element in the plot.
+/// The class used to attach font options to a type.
 template <typename DerivedSpecs>
 class FontSpecsOf : virtual public internal::Specs<DerivedSpecs>
 {
@@ -57,6 +56,9 @@ class FontSpecsOf : virtual public internal::Specs<DerivedSpecs>
     /// The point size of the font.
     std::size_t m_fontsize;
 };
+
+/// The class used to specify font options.
+class FontSpecs : public FontSpecsOf<FontSpecs> {};
 
 template <typename DerivedSpecs>
 FontSpecsOf<DerivedSpecs>::FontSpecsOf()
