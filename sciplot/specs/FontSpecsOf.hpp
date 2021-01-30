@@ -34,7 +34,7 @@ namespace sciplot {
 
 /// The class used to attach font options to a type.
 template <typename DerivedSpecs>
-class FontSpecsOf : virtual public internal::Specs<DerivedSpecs>
+class FontSpecsOf : virtual public Specs<DerivedSpecs>
 {
   public:
     /// Construct a default FontSpecsOf instance.

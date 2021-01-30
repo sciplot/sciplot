@@ -28,10 +28,7 @@
 // C++ includes
 #include <string>
 
-namespace sciplot
-{
-namespace internal // TODO: Remove Specs from internal namespace.
-{
+namespace sciplot {
 
 /// The base class for other specs classes (e.g., LineSpecsOf, PlotSpecs, BorderSpecs, etc.)
 template <typename DerivedSpecs>
@@ -61,5 +58,4 @@ auto operator<<(std::ostream& stream, const Specs<DerivedSpecs>& obj) -> std::os
     return stream << obj.repr();
 }
 
-} // namespace internal
 } // namespace sciplot

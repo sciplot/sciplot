@@ -35,7 +35,7 @@ namespace sciplot
 
 /// The color or pattern fill specifications for a plot element.
 template <typename DerivedSpecs>
-class FillSpecsOf : virtual public internal::Specs<DerivedSpecs>
+class FillSpecsOf : virtual public Specs<DerivedSpecs>
 {
   public:
     /// Construct a default FillSpecsOf instance.

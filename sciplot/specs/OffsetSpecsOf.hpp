@@ -34,7 +34,7 @@ namespace sciplot {
 
 /// The class used to attach offset options to a type.
 template <typename DerivedSpecs>
-class OffsetSpecsOf : virtual public internal::Specs<DerivedSpecs>
+class OffsetSpecsOf : virtual public Specs<DerivedSpecs>
 {
   public:
     /// Construct a default OffsetSpecsOf instance.
