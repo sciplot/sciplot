@@ -30,12 +30,9 @@
 #include <sciplot/specs/TextSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test TextSpecsOf below!
-struct SomeText : TextSpecsOf<SomeText> {};
-
-TEST_CASE("TextSpecsOf", "[specs]")
+TEST_CASE("TextSpecs", "[specs]")
 {
-    auto text = SomeText();
+    auto text = TextSpecs();
 
     CHECK( text.repr() == "enhanced textcolor '#404040' font 'Georgia,12'");
 

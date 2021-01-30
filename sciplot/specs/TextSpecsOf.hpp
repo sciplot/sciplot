@@ -33,7 +33,7 @@
 namespace sciplot
 {
 
-/// The class used to specify text options for plot elements with text.
+/// The class used to attach text options to a type.
 template <typename DerivedSpecs>
 class TextSpecsOf : public FontSpecsOf<DerivedSpecs>
 {
@@ -61,6 +61,9 @@ class TextSpecsOf : public FontSpecsOf<DerivedSpecs>
     /// The enhanced mode of the text (enhanced or noenhanced)
     std::string m_enhanced;
 };
+
+/// The class used to specify text options.
+class TextSpecs : public TextSpecsOf<TextSpecs> {};
 
 template <typename DerivedSpecs>
 TextSpecsOf<DerivedSpecs>::TextSpecsOf()
