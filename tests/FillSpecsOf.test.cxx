@@ -30,59 +30,56 @@
 #include <sciplot/specs/FillSpecsOf.hpp>
 using namespace sciplot;
 
-// This construction is needed to test FillSpecsOf below!
-struct SomeBox : FillSpecsOf<SomeBox> {};
-
-TEST_CASE("FillSpecsOf", "[specs]")
+TEST_CASE("FillSpecs", "[specs]")
 {
-    auto defaultbox = SomeBox();
-    defaultbox.fillSolid();
-    defaultbox.fillIntensity(internal::DEFAULT_FILL_INTENSITY);
-    defaultbox.fillTransparent(internal::DEFAULT_FILL_TRANSPARENCY);
-    defaultbox.borderLineWidth(internal::DEFAULT_FILL_BORDER_LINEWIDTH);
-    defaultbox.borderHide();
+    auto default_fillspecs = FillSpecs();
+    default_fillspecs.fillSolid();
+    default_fillspecs.fillIntensity(internal::DEFAULT_FILL_INTENSITY);
+    default_fillspecs.fillTransparent(internal::DEFAULT_FILL_TRANSPARENCY);
+    default_fillspecs.borderLineWidth(internal::DEFAULT_FILL_BORDER_LINEWIDTH);
+    default_fillspecs.borderHide();
 
-    auto box = SomeBox();
+    auto fillspecs = FillSpecs();
 
-    CHECK( box.repr() == defaultbox.repr() );
-    CHECK( box.repr() == "fillstyle solid 1 noborder");
+    CHECK( fillspecs.repr() == default_fillspecs.repr() );
+    CHECK( fillspecs.repr() == "fillstyle solid 1 noborder");
 
-    box.borderShow();
-    box.borderLineColor("red");
+    fillspecs.borderShow();
+    fillspecs.borderLineColor("red");
 
-    CHECK( box.repr() == "fillstyle solid 1 border linecolor 'red' linewidth 2");
+    CHECK( fillspecs.repr() == "fillstyle solid 1 border linecolor 'red' linewidth 2");
 
-    box.borderLineColor("blue");
-    box.borderLineWidth(7);
+    fillspecs.borderLineColor("blue");
+    fillspecs.borderLineWidth(7);
 
-    CHECK( box.repr() == "fillstyle solid 1 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillstyle solid 1 border linecolor 'blue' linewidth 7");
 
-    box.fillColor("pink");
+    fillspecs.fillColor("pink");
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle solid 1 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 1 border linecolor 'blue' linewidth 7");
 
-    box.fillIntensity(0.7);
+    fillspecs.fillIntensity(0.7);
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle solid 0.7 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 0.7 border linecolor 'blue' linewidth 7");
 
-    box.fillIntensity(1.7);
+    fillspecs.fillIntensity(1.7);
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle solid 1 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 1 border linecolor 'blue' linewidth 7");
 
-    box.fillIntensity(-0.2);
+    fillspecs.fillIntensity(-0.2);
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle solid 0 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 0 border linecolor 'blue' linewidth 7");
 
-    box.fillTransparent();
+    fillspecs.fillTransparent();
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle transparent solid 0 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle transparent solid 0 border linecolor 'blue' linewidth 7");
 
-    box.fillPattern(3);
+    fillspecs.fillPattern(3);
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle transparent pattern 3 border linecolor 'blue' linewidth 7");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle transparent pattern 3 border linecolor 'blue' linewidth 7");
 
-    box.fillTransparent(false);
-    box.borderHide();
+    fillspecs.fillTransparent(false);
+    fillspecs.borderHide();
 
-    CHECK( box.repr() == "fillcolor 'pink' fillstyle pattern 3 noborder");
+    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle pattern 3 noborder");
 }

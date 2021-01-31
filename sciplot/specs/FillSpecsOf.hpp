@@ -32,7 +32,7 @@
 
 namespace sciplot {
 
-/// The color or pattern fill specifications for a plot element.
+/// The class used to attach color or pattern fill options to a type.
 template <typename DerivedSpecs>
 class FillSpecsOf : virtual public Specs<DerivedSpecs>
 {
@@ -98,6 +98,9 @@ class FillSpecsOf : virtual public Specs<DerivedSpecs>
     /// The border show status of the underlying object.
     bool m_bordershow;
 };
+
+/// The class used to specify color or pattern fill options.
+class FillSpecs : public FillSpecsOf<FillSpecs> {};
 
 template <typename DerivedSpecs>
 FillSpecsOf<DerivedSpecs>::FillSpecsOf()
