@@ -69,5 +69,10 @@ const auto DEFAULT_LEGEND_FONTSIZE = 10;
 const auto DEFAULT_LEGEND_SPACING = 1;
 const auto DEFAULT_LEGEND_SAMPLE_LENGTH = 4;
 
+const auto DEFAULT_TICS_MIRROR = false;
+const auto DEFAULT_TICS_ROTATE = false;
+const auto DEFAULT_TICS_SCALE_MAJOR_BY = 0.50;
+const auto DEFAULT_TICS_SCALE_MINOR_BY = 0.25;
+
 } // namespace internal
 } // namespace sciplot
