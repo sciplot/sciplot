@@ -129,6 +129,8 @@ TEST_CASE("AxisTicsSpecs", "[specs]")
     xtics.increment(0.1);
     CHECK_NOTHROW( xtics.repr() ); // methods start, increment and end have been called - OK!
 
+    CHECK_THROWS( AxisTicsSpecs("") ); // constructor AxisTicsSpecs has been called with empty string
+
     xtics.hide();
     CHECK( xtics.repr() == "unset xtics" );
 }
