@@ -79,4 +79,10 @@ TEST_CASE("TicsSpecs", "[specs]")
 
     tics.scaleMinorBy(7.9);
     CHECK( tics.repr() == "set tics border mirror back out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+
+    tics.format("%4.2f");
+    CHECK( tics.repr() == "set tics border mirror back out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' '%4.2f'");
+
+    tics.hide();
+    CHECK( tics.repr() == "unset tics" );
 }

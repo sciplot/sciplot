@@ -28,13 +28,14 @@
 // sciplot includes
 #include <sciplot/default.hpp>
 #include <sciplot/specs/OffsetSpecsOf.hpp>
+#include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
 
 /// The class used to specify options for tics.
-class TicsSpecs : public TextSpecsOf<TicsSpecs>, public OffsetSpecsOf<TicsSpecs>
+class TicsSpecs : public TextSpecsOf<TicsSpecs>, public OffsetSpecsOf<TicsSpecs>, public ShowSpecsOf<TicsSpecs>
 {
   public:
     /// Construct a default TicsSpecs instance.
@@ -76,8 +77,14 @@ class TicsSpecs : public TextSpecsOf<TicsSpecs>, public OffsetSpecsOf<TicsSpecs>
     /// Set the scale for the minor tics.
     auto scaleMinorBy(double value) -> TicsSpecs&;
 
+    /// Set the format of the tics using a format expression (`"%.2f"`)
+    auto format(std::string fmt) -> TicsSpecs&;
+
     /// Convert this TicsSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
+
+    /// Convert this TicsSpecs object into a gnuplot formatted string.
+    auto repr(std::string axis) const -> std::string;
 
   private:
     /// The option indicating if tics are displayed along axis or border.
@@ -94,6 +101,9 @@ class TicsSpecs : public TextSpecsOf<TicsSpecs>, public OffsetSpecsOf<TicsSpecs>
 
     /// The place where the tics are displayed (in or out).
     std::string m_inout;
+
+    /// The format expression for formatting the display of the tics.
+    std::string m_format;
 
     /// The scale of the major tics.
     double m_scalemajor = 1.0;
@@ -184,10 +194,25 @@ auto TicsSpecs::scaleMinorBy(double value) -> TicsSpecs&
     return *this;
 }
 
+auto TicsSpecs::format(std::string fmt) -> TicsSpecs&
+{
+    m_format = "'" + fmt + "'";
+    return *this;
+}
+
 auto TicsSpecs::repr() const -> std::string
 {
+    return repr("");
+}
+
+auto TicsSpecs::repr(std::string axis) const -> std::string
+{
+    const auto show = ShowSpecsOf<TicsSpecs>::repr();
+    if(show == "no")
+        return "unset tics";
+
     std::stringstream ss;
-    ss << "set tics" << " ";
+    ss << "set " + axis + "tics" << " ";
     ss << m_along << " ";
     ss << m_mirror << " ";
     ss << m_depth << " ";
@@ -195,7 +220,8 @@ auto TicsSpecs::repr() const -> std::string
     ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
     ss << m_rotate << " ";
     ss << OffsetSpecsOf<TicsSpecs>::repr() << " ";
-    ss << TextSpecsOf<TicsSpecs>::repr();
+    ss << TextSpecsOf<TicsSpecs>::repr() << " ";
+    ss << m_format;
     return internal::removeExtraWhitespaces(ss.str());
 }
 
