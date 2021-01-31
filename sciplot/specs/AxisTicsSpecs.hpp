@@ -160,6 +160,9 @@ class AxisTicsSpecs : public TextSpecsOf<AxisTicsSpecs>, public OffsetSpecsOf<Ax
 AxisTicsSpecs::AxisTicsSpecs(std::string axis)
 : m_axis(axis)
 {
+    if(axis.empty())
+        throw std::runtime_error("You have provided an empty string "
+            "in `axis` argument of constructor AxisTicsSpecs(axis).");
     alongBorder();
     mirror(internal::DEFAULT_TICS_MIRROR);
     outsideGraph();
