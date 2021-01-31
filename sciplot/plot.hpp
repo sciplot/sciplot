@@ -40,7 +40,7 @@
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PlotSpecs.hpp>
-#include <sciplot/specs/TicSpecs.hpp>
+#include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
@@ -94,13 +94,13 @@ class plot
     auto grid() -> GridSpecs& { return m_GridSpecs; }
 
     /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics() -> TicSpecs& { return m_tics; }
+    auto tics() -> TicsSpecs& { return m_tics; }
 
     /// Set the xtics of the plot and return a reference to the corresponding specs object.
-    auto xtics() -> TicSpecs& { return m_xtics; }
+    auto xtics() -> TicsSpecs& { return m_xtics; }
 
     /// Set the ytics of the plot and return a reference to the corresponding specs object.
-    auto ytics() -> TicSpecs& { return m_ytics; }
+    auto ytics() -> TicsSpecs& { return m_ytics; }
 
     /// Set the legend of the plot and return a reference to the corresponding specs object.
     auto legend() -> LegendSpecs& { return m_legend; }
@@ -188,13 +188,13 @@ class plot
     GridSpecs m_GridSpecs;
 
     /// The specs of the tics of the plot
-    TicSpecs m_tics;
+    TicsSpecs m_tics;
 
     /// The specs of the xtics of the plot
-    TicSpecs m_xtics = TicSpecs(ticaxis::x);
+    TicsSpecs m_xtics = TicsSpecs(ticaxis::x);
 
     /// The specs of the ytics of the plot
-    TicSpecs m_ytics = TicSpecs(ticaxis::y);
+    TicsSpecs m_ytics = TicsSpecs(ticaxis::y);
 
     /// The legend specs of the plot
     LegendSpecs m_legend;
