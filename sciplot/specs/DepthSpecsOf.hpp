@@ -30,7 +30,7 @@
 
 namespace sciplot {
 
-/// The class used to specify options for front or back placement of plot elements..
+/// The class used to attach depth options to a type.
 template <typename DerivedSpecs>
 class DepthSpecsOf : virtual public Specs<DerivedSpecs>
 {
@@ -56,6 +56,9 @@ class DepthSpecsOf : virtual public Specs<DerivedSpecs>
     /// The depth of the underlying plot element (front or back) if applicable.
     std::string m_depth;
 };
+
+/// The class used to specify depth options.
+class DepthSpecs : public DepthSpecsOf<DepthSpecs> {};
 
 template <typename DerivedSpecs>
 DepthSpecsOf<DerivedSpecs>::DepthSpecsOf()
