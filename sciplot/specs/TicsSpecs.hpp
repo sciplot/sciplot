@@ -112,7 +112,7 @@ class TicsSpecs : public TextSpecsOf<TicsSpecs>, public OffsetSpecsOf<TicsSpecs>
     double m_scaleminor = 1.0;
 };
 
-TicsSpecs::TicsSpecs()
+inline TicsSpecs::TicsSpecs()
 {
     alongBorder();
     mirror(internal::DEFAULT_TICS_MIRROR);
@@ -123,89 +123,89 @@ TicsSpecs::TicsSpecs()
     scaleMinorBy(internal::DEFAULT_TICS_SCALE_MINOR_BY);
 }
 
-auto TicsSpecs::alongAxis() -> TicsSpecs&
+inline auto TicsSpecs::alongAxis() -> TicsSpecs&
 {
     m_along = "axis";
     return *this;
 }
 
-auto TicsSpecs::alongBorder() -> TicsSpecs&
+inline auto TicsSpecs::alongBorder() -> TicsSpecs&
 {
     m_along = "border";
     return *this;
 }
 
-auto TicsSpecs::mirror(bool value) -> TicsSpecs&
+inline auto TicsSpecs::mirror(bool value) -> TicsSpecs&
 {
     m_mirror = value ? "mirror" : "nomirror";
     return *this;
 }
 
-auto TicsSpecs::rotate(bool value) -> TicsSpecs&
+inline auto TicsSpecs::rotate(bool value) -> TicsSpecs&
 {
     m_rotate = value ? "rotate" : "norotate";
     return *this;
 }
 
-auto TicsSpecs::rotateBy(double degrees) -> TicsSpecs&
+inline auto TicsSpecs::rotateBy(double degrees) -> TicsSpecs&
 {
     m_rotate = "rotate by " + internal::str(degrees);
     return *this;
 }
 
-auto TicsSpecs::stackFront() -> TicsSpecs&
+inline auto TicsSpecs::stackFront() -> TicsSpecs&
 {
     m_depth = "front";
     return *this;
 }
 
-auto TicsSpecs::stackBack() -> TicsSpecs&
+inline auto TicsSpecs::stackBack() -> TicsSpecs&
 {
     m_depth = "back";
     return *this;
 }
 
-auto TicsSpecs::insideGraph() -> TicsSpecs&
+inline auto TicsSpecs::insideGraph() -> TicsSpecs&
 {
     m_inout = "in";
     return *this;
 }
 
-auto TicsSpecs::outsideGraph() -> TicsSpecs&
+inline auto TicsSpecs::outsideGraph() -> TicsSpecs&
 {
     m_inout = "out";
     return *this;
 }
 
-auto TicsSpecs::scaleBy(double value) -> TicsSpecs&
+inline auto TicsSpecs::scaleBy(double value) -> TicsSpecs&
 {
     return scaleMajorBy(value);
 }
 
-auto TicsSpecs::scaleMajorBy(double value) -> TicsSpecs&
+inline auto TicsSpecs::scaleMajorBy(double value) -> TicsSpecs&
 {
     m_scalemajor = value;
     return *this;
 }
 
-auto TicsSpecs::scaleMinorBy(double value) -> TicsSpecs&
+inline auto TicsSpecs::scaleMinorBy(double value) -> TicsSpecs&
 {
     m_scaleminor = value;
     return *this;
 }
 
-auto TicsSpecs::format(std::string fmt) -> TicsSpecs&
+inline auto TicsSpecs::format(std::string fmt) -> TicsSpecs&
 {
     m_format = "'" + fmt + "'";
     return *this;
 }
 
-auto TicsSpecs::repr() const -> std::string
+inline auto TicsSpecs::repr() const -> std::string
 {
     return repr("");
 }
 
-auto TicsSpecs::repr(std::string axis) const -> std::string
+inline auto TicsSpecs::repr(std::string axis) const -> std::string
 {
     const auto show = ShowSpecsOf<TicsSpecs>::repr();
     if(show == "no")
