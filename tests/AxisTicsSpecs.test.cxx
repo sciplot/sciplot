@@ -128,4 +128,7 @@ TEST_CASE("AxisTicsSpecs", "[specs]")
     xtics.end(2.0);
     xtics.increment(0.1);
     CHECK_NOTHROW( xtics.repr() ); // methods start, increment and end have been called - OK!
+
+    xtics.hide();
+    CHECK( xtics.repr() == "unset xtics" );
 }

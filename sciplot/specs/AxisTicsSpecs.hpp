@@ -31,13 +31,14 @@
 // sciplot includes
 #include <sciplot/default.hpp>
 #include <sciplot/specs/OffsetSpecsOf.hpp>
+#include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/specs/TextSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
 
 /// The class used to specify options for tics.
-class AxisTicsSpecs : public TextSpecsOf<AxisTicsSpecs>, public OffsetSpecsOf<AxisTicsSpecs>
+class AxisTicsSpecs : public TextSpecsOf<AxisTicsSpecs>, public OffsetSpecsOf<AxisTicsSpecs>, public ShowSpecsOf<AxisTicsSpecs>
 {
   public:
     /// Construct a default AxisTicsSpecs instance.
@@ -332,6 +333,10 @@ auto AxisTicsSpecs::add(const std::vector<double>& values, const std::vector<std
 
 auto AxisTicsSpecs::repr() const -> std::string
 {
+    const auto show = ShowSpecsOf<AxisTicsSpecs>::repr();
+    if(show == "no")
+        return "unset " + m_axis + "tics";
+
     if(m_start.size() && m_increment.empty())
         throw std::runtime_error("You have called method AxisTicsSpecs::start but not AxisTicsSpecs::increment.");
     if(m_end.size() && m_increment.empty())
