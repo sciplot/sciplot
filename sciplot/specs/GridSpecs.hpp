@@ -110,14 +110,14 @@ class GridSpecs : public GridSpecsBase
     std::vector<GridSpecsBase> m_gridticsspecs;
 };
 
-GridSpecs::GridSpecs()
+inline GridSpecs::GridSpecs()
 : GridSpecsBase("", true)
 {
     show(false);
     back();
 }
 
-auto GridSpecs::repr() const -> std::string
+inline auto GridSpecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << GridSpecsBase::repr();
