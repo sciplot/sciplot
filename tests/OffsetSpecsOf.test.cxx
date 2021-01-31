@@ -30,7 +30,7 @@
 #include <sciplot/specs/OffsetSpecsOf.hpp>
 using namespace sciplot;
 
-TEST_CASE("OffsetSpecsOf", "[specs]")
+TEST_CASE("OffsetSpecs", "[specs]")
 {
     auto offset = OffsetSpecs();
 
