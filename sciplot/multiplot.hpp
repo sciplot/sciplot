@@ -40,7 +40,7 @@
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PlotSpecs.hpp>
-#include <sciplot/specs/TicSpecs.hpp>
+#include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {

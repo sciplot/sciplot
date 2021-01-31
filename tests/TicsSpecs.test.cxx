@@ -27,7 +27,6 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/specs/GridSpecs.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
 using namespace sciplot;
 
