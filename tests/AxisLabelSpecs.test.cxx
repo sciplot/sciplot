@@ -43,10 +43,10 @@ TEST_CASE("AxisLabelSpecs", "[specs]")
 
     CHECK( axislabel.repr() == basestr);
 
-    axislabel.rotateByAngle(67);
+    axislabel.rotateBy(67);
     CHECK( axislabel.repr() == basestr + " rotate by 67");
 
-    axislabel.rotateByAngle(90);
+    axislabel.rotateBy(90);
     CHECK( axislabel.repr() == basestr + " rotate by 90");
 
     axislabel.rotateAxisParallel();
