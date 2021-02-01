@@ -32,16 +32,29 @@ using namespace sciplot;
 
 TEST_CASE("LegendSpecs", "[specs]")
 {
+    auto default_legend = LegendSpecs();
+    default_legend.atTopRight();
+    default_legend.fontName(internal::DEFAULT_LEGEND_FONTNAME);
+    default_legend.fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
+    default_legend.title("");
+    default_legend.titleFontName(internal::DEFAULT_LEGEND_FONTNAME);
+    default_legend.titleFontSize(internal::DEFAULT_LEGEND_FONTSIZE);
+    default_legend.displayExpandWidthBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_WIDTH);
+    default_legend.displayExpandHeightBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_HEIGHT);
+    default_legend.displaySymbolLength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
+    default_legend.displaySpacing(internal::DEFAULT_LEGEND_SPACING);
+    default_legend.displayVertical();
+    default_legend.displayLabelsAfterSymbols();
+    default_legend.displayJustifyLeft();
+    default_legend.displayStartFromFirst();
+    default_legend.opaque();
+
     auto legend = LegendSpecs();
 
-    CHECK( legend.repr() ==
-        "set key inside right top noopaque vertical Left "
-        "noinvert reverse width 0 height 0 samplen 4 spacing 1 "
-        "enhanced textcolor '#404040' font 'Georgia,10' "
-        "nobox maxrows auto maxcols auto");
+    CHECK( legend.repr() == default_legend.repr() );
 
     legend.atOutsideBottomRight();
-    legend.opaque();
+    legend.transparent();
 
     // Customize frame
     legend.frameShow();
@@ -68,7 +81,7 @@ TEST_CASE("LegendSpecs", "[specs]")
     legend.textColor("red").fontName("Times").fontSize(19);
 
     CHECK( legend.repr() ==
-        "set key bmargin right opaque horizontal Right invert "
+        "set key bmargin right noopaque horizontal Right invert "
         "reverse width 13 height 11 samplen 7 spacing 1 enhanced "
         "textcolor 'red' font 'Times,19' title 'Hello' enhanced "
         "textcolor 'blue' font 'Arial,17' left box linetype 3 "
