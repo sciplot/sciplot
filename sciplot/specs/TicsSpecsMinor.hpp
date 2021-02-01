@@ -25,62 +25,69 @@
 
 #pragma once
 
+// C++ includes
+#include <vector>
+
 // sciplot includes
 #include <sciplot/default.hpp>
-#include <sciplot/specs/TicsSpecsBaseOf.hpp>
+#include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
 
-/// The class used to specify options for tics.
-class TicsSpecs : public TicsSpecsBaseOf<TicsSpecs>
+/// The class used to specify options for minor tics of a specific axis.
+class TicsSpecsMinor : public ShowSpecsOf<TicsSpecsMinor>
 {
   public:
-    /// Construct a default TicsSpecs instance.
-    TicsSpecs();
+    /// Construct a default TicsSpecsMinor instance.
+    TicsSpecsMinor(std::string axis);
 
-    /// Set the tics to be displayed on the front of all plot elements.
-    auto stackFront() -> TicsSpecs&;
+    /// Set the number of minor tics between major tics to be identified automatically.
+    auto automatic() -> TicsSpecsMinor&;
 
-    /// Set the tics to be displayed on the back of all plot elements.
-    auto stackBack() -> TicsSpecs&;
+    /// Set the number of minor tics between major tics.
+    auto number(int value) -> TicsSpecsMinor&;
 
-    /// Convert this TicsSpecs object into a gnuplot formatted string.
+    /// Convert this TicsSpecsMinor object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
   private:
-    /// The depth where the tics are displayed (back or front).
-    std::string m_depth;
+    /// The name of the axis associated with these tics.
+    const std::string m_axis;
+
+    /// The frequency of minor tics between major tics (number of minor tics = frequency - 1).
+    std::string m_frequency;
 };
 
-inline TicsSpecs::TicsSpecs()
-: TicsSpecsBaseOf<TicsSpecs>()
+inline TicsSpecsMinor::TicsSpecsMinor(std::string axis)
+: m_axis(axis)
 {
-    stackFront();
+    if(axis.empty())
+        throw std::runtime_error("You have provided an empty string "
+            "in `axis` argument of constructor TicsSpecsMinor(axis).");
 }
 
-inline auto TicsSpecs::stackFront() -> TicsSpecs&
+inline auto TicsSpecsMinor::automatic() -> TicsSpecsMinor&
 {
-    m_depth = "front";
+    m_frequency = "";
     return *this;
 }
 
-inline auto TicsSpecs::stackBack() -> TicsSpecs&
+inline auto TicsSpecsMinor::number(int value) -> TicsSpecsMinor&
 {
-    m_depth = "back";
+    value = std::max(value, 0);
+    m_frequency = internal::str(value + 1);
     return *this;
 }
 
-inline auto TicsSpecs::repr() const -> std::string
+inline auto TicsSpecsMinor::repr() const -> std::string
 {
-    const auto baserepr = TicsSpecsBaseOf<TicsSpecs>::repr();
-
     if(isHidden())
-        return baserepr;
+        return "unset m" + m_axis + "tics";
 
     std::stringstream ss;
-    ss << baserepr << " ";
-    ss << m_depth;
+    ss << "set m" << m_axis << "tics" << " ";
+    ss << m_frequency;
     return internal::removeExtraWhitespaces(ss.str());
 }
 
