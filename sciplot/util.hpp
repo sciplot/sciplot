@@ -185,7 +185,7 @@ inline auto optionValueStr(std::string option, std::string value) -> std::string
 
 /// Return the formatted string for a `command value` pair (e.g., "set xlabel 'Time'")
 /// Note that if value is empty, then the command is not needed and an empty string is returned.
-inline auto commandvaluestr(std::string cmd, std::string value) -> std::string
+inline auto commandValueStr(std::string cmd, std::string value) -> std::string
 {
     return value.size() ? (cmd + " " + value + "\n") : "";
 }
