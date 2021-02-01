@@ -45,43 +45,43 @@ TEST_CASE("TicsSpecs", "[specs]")
     CHECK( tics.repr() == default_tics.repr() );
 
     tics.alongAxis();
-    CHECK( tics.repr() == "set tics axis nomirror front out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics axis nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.alongBorder();
-    CHECK( tics.repr() == "set tics border nomirror front out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.mirror();
-    CHECK( tics.repr() == "set tics border mirror front out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.insideGraph();
-    CHECK( tics.repr() == "set tics border mirror front in scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror in scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.outsideGraph();
-    CHECK( tics.repr() == "set tics border mirror front out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 0.5,0.25 norotate enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.rotate();
-    CHECK( tics.repr() == "set tics border mirror front out scale 0.5,0.25 rotate enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 0.5,0.25 rotate enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.rotateBy(42);
-    CHECK( tics.repr() == "set tics border mirror front out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.stackFront();
-    CHECK( tics.repr() == "set tics border mirror front out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' front");
 
     tics.stackBack();
-    CHECK( tics.repr() == "set tics border mirror back out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' back");
 
     tics.scaleBy(1.2);
-    CHECK( tics.repr() == "set tics border mirror back out scale 1.2,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 1.2,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' back");
 
     tics.scaleMajorBy(5.6);
-    CHECK( tics.repr() == "set tics border mirror back out scale 5.6,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 5.6,0.25 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' back");
 
     tics.scaleMinorBy(7.9);
-    CHECK( tics.repr() == "set tics border mirror back out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( tics.repr() == "set tics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' back");
 
     tics.format("%4.2f");
-    CHECK( tics.repr() == "set tics border mirror back out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' '%4.2f'");
+    CHECK( tics.repr() == "set tics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Georgia,12' '%4.2f' back");
 
     tics.hide();
     CHECK( tics.repr() == "unset tics" );

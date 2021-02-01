@@ -23,65 +23,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+// Catch includes
+#include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/default.hpp>
-#include <sciplot/specs/TicsSpecsBaseOf.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/specs/TicsSpecsMinor.hpp>
+using namespace sciplot;
 
-namespace sciplot {
-
-/// The class used to specify options for tics.
-class TicsSpecs : public TicsSpecsBaseOf<TicsSpecs>
+TEST_CASE("TicsSpecsMinor", "[specs]")
 {
-  public:
-    /// Construct a default TicsSpecs instance.
-    TicsSpecs();
+    auto xtics = TicsSpecsMinor("x");
 
-    /// Set the tics to be displayed on the front of all plot elements.
-    auto stackFront() -> TicsSpecs&;
+    CHECK( xtics.repr() == "set mxtics");
 
-    /// Set the tics to be displayed on the back of all plot elements.
-    auto stackBack() -> TicsSpecs&;
+    xtics.number(5);
+    CHECK( xtics.repr() == "set mxtics 6");
 
-    /// Convert this TicsSpecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    xtics.automatic();
+    CHECK( xtics.repr() == "set mxtics");
 
-  private:
-    /// The depth where the tics are displayed (back or front).
-    std::string m_depth;
-};
+    xtics.hide();
+    CHECK( xtics.repr() == "unset mxtics");
 
-inline TicsSpecs::TicsSpecs()
-: TicsSpecsBaseOf<TicsSpecs>()
-{
-    stackFront();
+    CHECK_THROWS( TicsSpecsMinor("") ); // constructor TicsSpecsMinor has been called with empty string
 }
-
-inline auto TicsSpecs::stackFront() -> TicsSpecs&
-{
-    m_depth = "front";
-    return *this;
-}
-
-inline auto TicsSpecs::stackBack() -> TicsSpecs&
-{
-    m_depth = "back";
-    return *this;
-}
-
-inline auto TicsSpecs::repr() const -> std::string
-{
-    const auto baserepr = TicsSpecsBaseOf<TicsSpecs>::repr();
-
-    if(isHidden())
-        return baserepr;
-
-    std::stringstream ss;
-    ss << baserepr << " ";
-    ss << m_depth;
-    return internal::removeExtraWhitespaces(ss.str());
-}
-
-} // namespace sciplot

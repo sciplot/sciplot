@@ -29,51 +29,54 @@
 #include <vector>
 
 // sciplot includes
-#include <sciplot/specs/TicsSpecs.hpp>
+#include <sciplot/specs/TicsSpecsBaseOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
 
-/// The class used to specify options for tics of a specific axis.
-class AxisTicsSpecs : public TicsSpecs
+/// The class used to specify options for major tics of a specific axis.
+class TicsSpecsMajor : public TicsSpecsBaseOf<TicsSpecsMajor>
 {
   public:
-    /// Construct a default AxisTicsSpecs instance.
-    AxisTicsSpecs(std::string axis);
+    /// Construct a default TicsSpecsMajor instance.
+    TicsSpecsMajor(std::string axis);
 
-    /// Set the values of the tics to be identified automatically or not.
-    auto automatic() -> AxisTicsSpecs&;
+    /// Set the values of the tics to be identified automatically.
+    auto automatic() -> TicsSpecsMajor&;
 
     /// Set the start value for the tics (you must also call method @ref increment).
-    auto start(double value) -> AxisTicsSpecs&;
+    auto start(double value) -> TicsSpecsMajor&;
 
     /// Set the increment for the tics (start and end values determined automatically).
-    auto increment(double value) -> AxisTicsSpecs&;
+    auto increment(double value) -> TicsSpecsMajor&;
 
     /// Set the end value for the tics (you must also call methods @ref start and  @ref increment).
-    auto end(double value) -> AxisTicsSpecs&;
+    auto end(double value) -> TicsSpecsMajor&;
 
     /// Set the start, increment and end values of the tics.
-    auto interval(double start, double increment, double end) -> AxisTicsSpecs&;
+    auto interval(double start, double increment, double end) -> TicsSpecsMajor&;
 
     /// Set the values of the tics that should be displayed.
-    auto at(const std::vector<double>& values) -> AxisTicsSpecs&;
+    auto at(const std::vector<double>& values) -> TicsSpecsMajor&;
 
     /// Set the labels that should be displayed on given tic values.
-    auto at(const std::vector<double>& values, const std::vector<std::string>& labels) -> AxisTicsSpecs&;
+    auto at(const std::vector<double>& values, const std::vector<std::string>& labels) -> TicsSpecsMajor&;
 
     /// Add more tics to be displayed with given tic values.
-    auto add(const std::vector<double>& values) -> AxisTicsSpecs&;
+    auto add(const std::vector<double>& values) -> TicsSpecsMajor&;
 
     /// Add more tics to be displayed with given tic values and corresponding labels.
-    auto add(const std::vector<double>& values, const std::vector<std::string>& labels) -> AxisTicsSpecs&;
+    auto add(const std::vector<double>& values, const std::vector<std::string>& labels) -> TicsSpecsMajor&;
 
-    /// Convert this AxisTicsSpecs object into a gnuplot formatted string.
+    /// Set log scale for the tics.
+    auto logscale(bool value=true) -> TicsSpecsMajor&;
+
+    /// Convert this TicsSpecsMajor object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
   private:
     /// The name of the axis associated with these tics.
-    std::string m_axis;
+    const std::string m_axis;
 
     /// The start value for the tics.
     std::string m_start;
@@ -89,17 +92,20 @@ class AxisTicsSpecs : public TicsSpecs
 
     /// The extra values/labels of the tics to be displayed.
     std::string m_add;
+
+    /// The log scale option for the tics.
+    std::string m_logscale;
 };
 
-inline AxisTicsSpecs::AxisTicsSpecs(std::string axis)
-: TicsSpecs(), m_axis(axis)
+inline TicsSpecsMajor::TicsSpecsMajor(std::string axis)
+: TicsSpecsBaseOf<TicsSpecsMajor>(), m_axis(axis)
 {
     if(axis.empty())
         throw std::runtime_error("You have provided an empty string "
-            "in `axis` argument of constructor AxisTicsSpecs(axis).");
+            "in `axis` argument of constructor TicsSpecsMajor(axis).");
 }
 
-inline auto AxisTicsSpecs::automatic() -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::automatic() -> TicsSpecsMajor&
 {
     // clear strings related to tics values/labels
     m_start = "";
@@ -109,38 +115,38 @@ inline auto AxisTicsSpecs::automatic() -> AxisTicsSpecs&
     return *this;
 }
 
-inline auto AxisTicsSpecs::start(double value) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::start(double value) -> TicsSpecsMajor&
 {
     m_start = internal::str(value) + ", ";
     m_at = m_start + m_increment + m_end;
     return *this;
 }
 
-inline auto AxisTicsSpecs::increment(double value) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::increment(double value) -> TicsSpecsMajor&
 {
     m_increment = internal::str(value);
     m_at = m_start + m_increment + m_end;
     return *this;
 }
 
-inline auto AxisTicsSpecs::end(double value) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::end(double value) -> TicsSpecsMajor&
 {
     m_end = ", " + internal::str(value);
     m_at = m_start + m_increment + m_end;
     return *this;
 }
 
-inline auto AxisTicsSpecs::interval(double start, double increment, double end) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::interval(double start, double increment, double end) -> TicsSpecsMajor&
 {
-    if(increment <= 0.0) throw std::runtime_error("The `increment` argument in method AxisTicsSpecs::interval must be positive.");
-    if(end <= start) throw std::runtime_error("The `end` argument in method AxisTicsSpecs::interval must be greater than `start`.");
+    if(increment <= 0.0) throw std::runtime_error("The `increment` argument in method TicsSpecsMajor::interval must be positive.");
+    if(end <= start) throw std::runtime_error("The `end` argument in method TicsSpecsMajor::interval must be greater than `start`.");
     std::stringstream ss;
     ss << start << ", " << increment << ", " << end;
     m_at = ss.str();
     return *this;
 }
 
-inline auto AxisTicsSpecs::at(const std::vector<double>& values) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::at(const std::vector<double>& values) -> TicsSpecsMajor&
 {
     std::stringstream ss;
     ss << "(";
@@ -151,7 +157,7 @@ inline auto AxisTicsSpecs::at(const std::vector<double>& values) -> AxisTicsSpec
     return *this;
 }
 
-inline auto AxisTicsSpecs::at(const std::vector<double>& values, const std::vector<std::string>& labels) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::at(const std::vector<double>& values, const std::vector<std::string>& labels) -> TicsSpecsMajor&
 {
     std::stringstream ss;
     ss << "(";
@@ -162,7 +168,7 @@ inline auto AxisTicsSpecs::at(const std::vector<double>& values, const std::vect
     return *this;
 }
 
-inline auto AxisTicsSpecs::add(const std::vector<double>& values) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::add(const std::vector<double>& values) -> TicsSpecsMajor&
 {
     std::stringstream ss;
     ss << "add (";
@@ -173,7 +179,7 @@ inline auto AxisTicsSpecs::add(const std::vector<double>& values) -> AxisTicsSpe
     return *this;
 }
 
-inline auto AxisTicsSpecs::add(const std::vector<double>& values, const std::vector<std::string>& labels) -> AxisTicsSpecs&
+inline auto TicsSpecsMajor::add(const std::vector<double>& values, const std::vector<std::string>& labels) -> TicsSpecsMajor&
 {
     std::stringstream ss;
     ss << "add (";
@@ -184,23 +190,31 @@ inline auto AxisTicsSpecs::add(const std::vector<double>& values, const std::vec
     return *this;
 }
 
-inline auto AxisTicsSpecs::repr() const -> std::string
+inline auto TicsSpecsMajor::logscale(bool value) -> TicsSpecsMajor&
 {
-    const auto show = ShowSpecsOf<TicsSpecs>::repr();
-    if(show == "no")
-        return "unset " + m_axis + "tics";
+    m_logscale = value ? "logscale" : "";
+    return *this;
+}
+
+inline auto TicsSpecsMajor::repr() const -> std::string
+{
+    const auto baserepr = TicsSpecsBaseOf<TicsSpecsMajor>::repr(m_axis);
+
+    if(isHidden())
+        return baserepr;
 
     if(m_start.size() && m_increment.empty())
-        throw std::runtime_error("You have called method AxisTicsSpecs::start but not AxisTicsSpecs::increment.");
+        throw std::runtime_error("You have called method TicsSpecsMajor::start but not TicsSpecsMajor::increment.");
     if(m_end.size() && m_increment.empty())
-        throw std::runtime_error("You have called method AxisTicsSpecs::end but not AxisTicsSpecs::increment.");
+        throw std::runtime_error("You have called method TicsSpecsMajor::end but not TicsSpecsMajor::increment.");
     if(m_end.size() && m_start.empty())
-        throw std::runtime_error("You have called method AxisTicsSpecs::end but not AxisTicsSpecs::start.");
+        throw std::runtime_error("You have called method TicsSpecsMajor::end but not TicsSpecsMajor::start.");
 
     std::stringstream ss;
-    ss << TicsSpecs::repr(m_axis) << " ";
+    ss << baserepr << " ";
     ss << m_at << " ";
     ss << m_add << " ";
+    ss << m_logscale << " ";
     return internal::removeExtraWhitespaces(ss.str());
 }
 
