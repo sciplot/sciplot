@@ -214,15 +214,15 @@ LegendSpecs::LegendSpecs()
     title("");
     titleFontName(internal::DEFAULT_LEGEND_FONTNAME);
     titleFontSize(internal::DEFAULT_LEGEND_FONTSIZE);
-    displayExpandWidthBy(0.0);
-    displayExpandHeightBy(0.0);
+    displayExpandWidthBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_WIDTH);
+    displayExpandHeightBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_HEIGHT);
     displaySymbolLength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
     displaySpacing(internal::DEFAULT_LEGEND_SPACING);
     displayVertical();
     displayLabelsAfterSymbols();
     displayJustifyLeft();
     displayStartFromFirst();
-    transparent();
+    opaque();
 }
 
 auto LegendSpecs::opaque() -> LegendSpecs&
