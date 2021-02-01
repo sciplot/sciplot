@@ -34,7 +34,7 @@ namespace sciplot {
 template <typename DerivedSpecs>
 class ShowSpecsOf : virtual public Specs<DerivedSpecs>
 {
-  public:
+public:
     /// Construct a default ShowSpecsOf instance.
     ShowSpecsOf();
 
@@ -44,10 +44,13 @@ class ShowSpecsOf : virtual public Specs<DerivedSpecs>
     /// Set the visibility status of the plot element as hidden.
     auto hide() -> DerivedSpecs&;
 
+    /// Return true if the underlying plot element is hidden.
+    auto isHidden() const -> bool;
+
     /// Convert this ShowSpecsOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-  private:
+private:
     /// The boolean flag that indicates if the plot element is shown or not.
     bool m_show;
 };
@@ -72,6 +75,12 @@ template <typename DerivedSpecs>
 auto ShowSpecsOf<DerivedSpecs>::hide() -> DerivedSpecs&
 {
     return show(false);
+}
+
+template <typename DerivedSpecs>
+auto ShowSpecsOf<DerivedSpecs>::isHidden() const -> bool
+{
+    return !m_show;
 }
 
 template <typename DerivedSpecs>
