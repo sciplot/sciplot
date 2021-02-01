@@ -17,6 +17,8 @@ option(SCIPLOT_BUILD_TESTS "Build tests" ON)
 
 if(SCIPLOT_BUILD_EXAMPLES)
     add_subdirectory(examples)
+else()
+    add_subdirectory(examples EXCLUDE_FROM_ALL)
 endif()
 
 if(SCIPLOT_BUILD_TESTS)
