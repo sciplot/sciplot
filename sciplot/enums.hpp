@@ -63,33 +63,6 @@ enum class plotstyle
     pm3d,
 };
 
-/// All gnuplot options for tick axes
-enum class ticaxis
-{
-    all,
-    x,
-    y,
-    z,
-    x2,
-    y2,
-    cb
-};
-
-/// All gnuplot style options filling the areas of plot data
-enum class fillstyle
-{
-    empty,
-    solid,
-    pattern
-};
-
-/// All gnuplot box width type options
-enum class boxwidthtype
-{
-    automatic,
-    relative,
-    absolute
-};
 
 /// Multiplot layout grow direction
 enum class growdirectiontype
@@ -152,45 +125,6 @@ inline auto plotstylestr(plotstyle value) -> std::string
         case plotstyle::rgbimage: return "rgbimage";
         case plotstyle::pm3d: return "pm3d";
         default: return "lines";
-    }
-}
-
-/// Return a string for a given enum value of type `ticaxis`
-inline auto ticaxisstr(ticaxis value) -> std::string
-{
-    switch (value)
-    {
-        case ticaxis::x: return "xtics";
-        case ticaxis::y: return "ytics";
-        case ticaxis::z: return "ztics";
-        case ticaxis::x2: return "x2tics";
-        case ticaxis::y2: return "y2tics";
-        case ticaxis::cb: return "cbtics";
-        default: return "tics";
-    }
-}
-
-/// Return a string for a given enum value of type `fillstyle`
-inline auto fillstylestr(fillstyle value) -> std::string
-{
-    switch (value)
-    {
-        case fillstyle::empty: return "empty";
-        case fillstyle::solid: return "solid";
-        case fillstyle::pattern: return "pattern";
-        default: return "empty";
-    }
-}
-
-/// Return a string for a given enum value of type `boxwidth`
-inline auto boxwidthtypestr(boxwidthtype value) -> std::string
-{
-    switch (value)
-    {
-        case boxwidthtype::automatic: return "";
-        case boxwidthtype::relative: return "relative";
-        case boxwidthtype::absolute: return "absolute";
-        default: return "";
     }
 }
 
