@@ -60,26 +60,26 @@ inline auto str() -> std::string
     return {};
 }
 
-/// Trim the string from start
-inline auto trimleft(std::string str) -> std::string
+/// Remove from the beginning of the string the given character (by default, space).
+inline auto trimleft(std::string str, unsigned char character=' ') -> std::string
 {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(),
-        [](unsigned char ch) { return !std::isspace(ch); }));
+        [&](unsigned char ch) { return ch != character; }));
     return str;
 }
 
-/// Trim the string from end
-inline auto trimright(std::string str) -> std::string
+/// Remove from the end of the string the given character (by default, space).
+inline auto trimright(std::string str, unsigned char character=' ') -> std::string
 {
     str.erase(std::find_if(str.rbegin(), str.rend(),
-        [](unsigned char ch) { return !std::isspace(ch); }).base(), str.end());
+        [&](unsigned char ch) { return ch != character; }).base(), str.end());
     return str;
 }
 
 /// Trim the string from both ends
-inline auto trim(std::string str) -> std::string
+inline auto trim(std::string str, unsigned char character=' ') -> std::string
 {
-    return trimleft(trimright(str));
+    return trimleft(trimright(str, character), character);
 }
 
 /// Remove extra spaces from a string (e.g., `"abc  acb   xy s "` becomes `"abc acb xy s "`).
