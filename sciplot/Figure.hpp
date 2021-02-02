@@ -74,15 +74,26 @@ class Figure
     /// Set the y-range of the plot.
     auto yrange(double min, double max) -> void;
 
+    /// Set the default width of boxes in plots containing boxes (in absolute mode).
+    /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
+    auto boxWidthAbsolute(double val) -> void;
+
+    /// Set the default width of boxes in plots containing boxes (in relative mode).
+    /// In relative mode, a unit width is equivalent to setting the boxes side by side.
+    auto boxWidthRelative(double val) -> void;
+
     /// Set the border of the plot and return a reference to the corresponding specs object.
     auto border() -> BorderSpecs&;
 
     /// Set the grid of the plot and return a reference to the corresponding specs object.
     auto grid() -> GridSpecs&;
 
+    //======================================================================
+    // METHODS FOR CUSTOMIZATION OF TICS
+    //======================================================================
+
     /// Set the tics of the plot and return a reference to the corresponding specs object.
     auto tics() -> TicsSpecs&;
-
 
     /// Return the specifications of the grid lines along major xtics on the bottom axis.
     auto xtics() -> TicsSpecsMajor& { return xticsMajorBottom(); }
@@ -132,10 +143,73 @@ class Figure
     /// Return the specifications of the grid lines along minor rtics.
     auto rticsMinor() -> TicsSpecsMinor& { return m_rtics_minor; }
 
+    //======================================================================
+    // METHODS FOR DRAWING PLOT ELEMENTS
+    //======================================================================
+
+    /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
+    auto draw(std::string what) -> PlotSpecs&;
+
+    /// Plot two vectors of data and return a reference to the corresponding specs object.
+    /// Will write all data to a plot<N>.dat file.
+    template <typename X, typename Y>
+    auto draw(const X& x, const Y& y) -> PlotSpecs&;
 
 
+    // drawBoxes()                // boxes
+    // drawBoxesWithErrorBarsY()  // boxerrorbars
 
+    // drawLines()                // lines
+    // drawLinesWithPoints()      // linespoints
+    // drawLinesWithErrorBarsX()  // xerrorlines
+    // drawLinesWithErrorBarsY()  // yerrorlines
+    // drawLinesWithErrorBarsXY() // xyerrorlines
+    // drawLinesFilled()          // filledcurves
 
+    // drawCurve()                // lines
+    // drawCurveWithPoints()      // linespoints
+    // drawCurveWithErrorBarsX()  // xerrorlines
+    // drawCurveWithErrorBarsY()  // yerrorlines
+    // drawCurveWithErrorBarsXY() // xyerrorlines
+    // drawCurveFilled()          // filledcurves
+
+    // drawErrorBarsX()  // xerrorbars
+    // drawErrorBarsY()  // yerrorbars
+    // drawErrorBarsXY() // xyerrorbars
+
+    // drawSteps() // steps
+    // drawStepsChangeFirstX() // steps
+    // drawStepsChangeFirstY() // fsteps
+    // drawStepsHistogram() // histeps
+    // drawStepsFilled() // fillsteps
+
+    // drawDots()  // dots
+    // drawVectors()  // vectors
+    // drawPoints()  // points
+    // drawImpulses()  // impulses
+    // drawLabels()  // labels
+    // drawFinanceBars()  // financebars
+    // drawArrows()  // arrows
+    // drawParallelAxes()  // parallelaxes
+    // drawEllipses()  // ellipses
+    // drawHistograms()  // histograms
+    // drawCandlesticks()  // candlesticks
+    // drawCircles()  // circles
+
+    // Not supported yet in this release
+    // boxplot
+    // boxxyerror
+    // rgbalpha
+    // image
+    // rgbimage
+    // pm3d
+    // polygons
+    // isosurface
+    // zerrorfill
+
+    //======================================================================
+    // MISCElLANEOUS METHODS
+    //======================================================================
 
     /// Set the legend of the plot and return a reference to the corresponding specs object.
     auto legend() -> LegendSpecs&;
@@ -145,14 +219,6 @@ class Figure
 
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
     auto gnuplot(std::string command) -> void;
-
-    /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
-    auto draw(std::string what) -> PlotSpecs&;
-
-    /// Plot two vectors of data and return a reference to the corresponding specs object.
-    /// Will write all data to a plot<N>.dat file.
-    template <typename X, typename Y>
-    auto draw(const X& x, const Y& y) -> PlotSpecs&;
 
     /// Write the current plot data to the data file.
     auto saveplotdata() const -> void;
@@ -181,12 +247,6 @@ class Figure
 
     /// Delete all files used to store plot data or scripts.
     auto cleanup() const -> void;
-
-    /// Set the width of boxes if plot style / Plot::with() is "boxes", "boxerrorbars", "candelsticks" or "histograms".
-    /// The default box width type is "automatic", which makes the boxes touch. For "relative", "width" specifies
-    /// a fraction of that automatic value. With "absolute", "width" specifies an absolute size on the x-axis.
-    /// This setting will be applied to all plot draw() calls after this.
-    auto boxwidth(boxwidthtype widthtype = boxwidthtype::automatic, float width = 1.0F) -> void;
 
   private:
     static std::size_t m_counter;          ///< Counter of how many plot / singleplot objects have been instanciated in the application
@@ -222,8 +282,8 @@ class Figure
     AxisLabelSpecs m_ylabel;               ///< The label of the y-axis
     AxisLabelSpecs m_zlabel;               ///< The label of the z-axis
     AxisLabelSpecs m_rlabel;               ///< The label of the r-axis
-    std::string m_boxwidth;                ///< Boxes width type if plot style is "boxes", "boxerrorbars", "candelsticks" or "histograms and relative or absolute box width value.
-    std::vector<PlotSpecs> m_PlotSpecs;    ///< The plot specs for each call to gnuplot plot function
+    std::string m_boxwidth;                ///< The default width of boxes in plots containing boxes without given widths.
+    std::vector<PlotSpecs> m_plotspecs;    ///< The plot specs for each call to gnuplot plot function
     std::vector<std::string> m_customcmds; ///< The strings containing gnuplot custom commands
 };
 // Initialize the counter of plot objects
@@ -250,18 +310,24 @@ Figure::Figure()
   m_zlabel("z"),
   m_rlabel("r")
 {
-    m_xtics_major_bottom.show();
-    m_xtics_major_top.hide();
-    m_xtics_minor_bottom.show();
-    m_xtics_minor_top.hide();
-    m_ytics_major_left.show();
-    m_ytics_major_right.hide();
-    m_ytics_minor_left.show();
-    m_ytics_minor_right.hide();
-    m_ztics_major.hide();
-    m_ztics_minor.hide();
-    m_rtics_major.hide();
-    m_rtics_minor.hide();
+    // Show only major and minor xtics and ytics
+    xticsMajorBottom().show();
+    xticsMinorBottom().show();
+    yticsMajorLeft().show();
+    yticsMinorLeft().show();
+
+    // Hide all other tics
+    xticsMajorTop().hide();
+    xticsMinorTop().hide();
+    yticsMajorRight().hide();
+    yticsMinorRight().hide();
+    zticsMajor().hide();
+    zticsMinor().hide();
+    rticsMajor().hide();
+    rticsMinor().hide();
+
+    // Set all other default options
+    boxWidthRelative(internal::DEFAULT_FIGURE_BOXWIDTH_RELATIVE);
 }
 
 auto Figure::palette(std::string name) -> void
@@ -297,6 +363,16 @@ auto Figure::yrange(double min, double max) -> void
     m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
 }
 
+auto Figure::boxWidthAbsolute(double val) -> void
+{
+    m_boxwidth = internal::str(val) + " absolute";
+}
+
+auto Figure::boxWidthRelative(double val) -> void
+{
+    m_boxwidth = internal::str(val) + " relative";
+}
+
 auto Figure::border() -> BorderSpecs&
 {
     return m_border;
@@ -312,31 +388,16 @@ auto Figure::tics() -> TicsSpecs&
     return m_tics;
 }
 
-auto Figure::legend() -> LegendSpecs&
-{
-    return m_legend;
-}
-
-auto Figure::samples(std::size_t value) -> void
-{
-    m_samples = internal::str(value);
-}
-
-auto Figure::gnuplot(std::string command) -> void
-{
-    m_customcmds.push_back(command);
-}
-
 auto Figure::draw(std::string what) -> PlotSpecs&
 {
     // Save the draw arguments for this x,y data
-    m_PlotSpecs.emplace_back(what);
+    m_plotspecs.emplace_back(what);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
-    m_PlotSpecs.back().lineStyle(m_PlotSpecs.size());
+    m_plotspecs.back().lineStyle(m_plotspecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
-    return m_PlotSpecs.back();
+    return m_plotspecs.back();
 }
 
 template <typename X, typename Y>
@@ -351,6 +412,21 @@ auto Figure::draw(const X& x, const Y& y) -> PlotSpecs&
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
     return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++));
+}
+
+auto Figure::legend() -> LegendSpecs&
+{
+    return m_legend;
+}
+
+auto Figure::samples(std::size_t value) -> void
+{
+    m_samples = internal::str(value);
+}
+
+auto Figure::gnuplot(std::string command) -> void
+{
+    m_customcmds.push_back(command);
 }
 
 auto Figure::repr() const -> std::string
@@ -405,9 +481,9 @@ auto Figure::repr() const -> std::string
     script << "plot ";
 
     // Write plot commands and style per plot
-    const auto n = m_PlotSpecs.size();
+    const auto n = m_plotspecs.size();
     for (std::size_t i = 0; i < n; ++i)
-        script << m_PlotSpecs[i] << (i < n - 1 ? ", " : "");
+        script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
 
     // Add an empty line at the end
     script << std::endl;
@@ -514,14 +590,6 @@ auto Figure::autoclean(bool enable) -> void
 {
     m_autoclean = enable;
 }
-
-
-
-auto Figure::boxwidth(boxwidthtype widthtype, float width) -> void
-{
-    m_boxwidth = internal::str(width) + " " + gnuplot::boxwidthtypestr(widthtype);
-}
-
 
 auto Figure::cleanup() const -> void
 {
