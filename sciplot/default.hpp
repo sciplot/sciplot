@@ -35,6 +35,7 @@ namespace internal
 
 const auto DEFAULT_FIGURE_HEIGHT = 200; // this is equivalent to 6 inches if 1 in = 72 points
 const auto DEFAULT_FIGURE_WIDTH = DEFAULT_FIGURE_HEIGHT * GOLDEN_RATIO;
+const auto DEFAULT_FIGURE_BOXWIDTH_RELATIVE = 0.9;
 
 const auto DEFAULT_PALETTE = "dark2";
 
@@ -44,7 +45,9 @@ const auto DEFAULT_FONTSIZE = 12;
 const auto DEFAULT_TEXTCOLOR = "#404040";
 
 const auto DEFAULT_PLOTSTYLE = plotstyle::lines; // TODO: Check if DEFAULT_PLOTSTYLE is needed.
+
 const auto DEFAULT_LINEWIDTH = 2;
+const auto DEFAULT_POINTSIZE = 2;
 
 const auto DEFAULT_FILL_INTENSITY = 1.0;
 const auto DEFAULT_FILL_TRANSPARENCY = false;
