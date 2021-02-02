@@ -29,6 +29,7 @@
 #include <sciplot/constants.hpp>
 #include <sciplot/default.hpp>
 #include <sciplot/enums.hpp>
+#include <sciplot/Figure.hpp>
 #include <sciplot/multiplot.hpp>
 #include <sciplot/palettes.hpp>
 #include <sciplot/plot.hpp>
