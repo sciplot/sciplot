@@ -190,7 +190,9 @@ public:
     /// Construct a DrawSpecsWithLineProps instance.
     explicit DrawSpecsWithLineProps(std::string datafile, std::string plotstyle)
     : DrawSpecsOf<DrawSpecsWithLineProps>(datafile, plotstyle)
-    {}
+    {
+        lineWidth(internal::DEFAULT_LINEWIDTH);
+    }
 
     /// Convert this DrawSpecsWithLineProps object into a gnuplot formatted string.
     auto repr() const -> std::string

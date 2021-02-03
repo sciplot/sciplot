@@ -38,10 +38,15 @@ TEST_CASE("DrawSpecsWithLineProps", "[specs]")
     auto specs = DrawSpecsWithLineProps("file.dat", "lines");
     CHECK( specs.repr() == default_specs.repr() );
 
-    specs.lineWidth(3);
-    specs.lineColor("orange");
     specs.xcolumn(1);
     specs.ycolumn("City");
+
+    CHECK( specs.repr() ==
+        "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "
+        "with lines linewidth 2" );
+
+    specs.lineWidth(3);
+    specs.lineColor("orange");
 
     CHECK( specs.repr() ==
         "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "

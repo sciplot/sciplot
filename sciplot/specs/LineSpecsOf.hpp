@@ -81,53 +81,52 @@ class LineSpecs : public LineSpecsOf<LineSpecs> {};
 template <typename DerivedSpecs>
 LineSpecsOf<DerivedSpecs>::LineSpecsOf()
 {
-    lineWidth(internal::DEFAULT_LINEWIDTH);
 }
 
 template <typename DerivedSpecs>
 auto LineSpecsOf<DerivedSpecs>::lineStyle(int value) -> DerivedSpecs&
 {
-    m_linestyle = internal::str(value);
+    m_linestyle = "linestyle " + internal::str(value);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto LineSpecsOf<DerivedSpecs>::lineType(int value) -> DerivedSpecs&
 {
-    m_linetype = internal::str(value);
+    m_linetype = "linetype " + internal::str(value);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto LineSpecsOf<DerivedSpecs>::lineWidth(int value) -> DerivedSpecs&
 {
-    m_linewidth = internal::str(value);
+    m_linewidth = "linewidth " + internal::str(value);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto LineSpecsOf<DerivedSpecs>::lineColor(std::string value) -> DerivedSpecs&
 {
-    m_linecolor = "'" + value + "'";
+    m_linecolor = "linecolor '" + value + "'";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto LineSpecsOf<DerivedSpecs>::dashType(int value) -> DerivedSpecs&
 {
-    m_dashtype = internal::str(value);
+    m_dashtype = "dashtype " + internal::str(value);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto LineSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
-    std::stringstream ss;
-    ss << gnuplot::optionValueStr("linestyle", m_linestyle);
-    ss << gnuplot::optionValueStr("linetype", m_linetype);
-    ss << gnuplot::optionValueStr("linewidth", m_linewidth);
-    ss << gnuplot::optionValueStr("linecolor", m_linecolor);
-    ss << gnuplot::optionValueStr("dashtype", m_dashtype);
+    std::stringstream ss; // ensure it remains empty if no line style option has been given!
+    ss << m_linestyle << " ";
+    ss << m_linetype << " ";
+    ss << m_linewidth << " ";
+    ss << m_linecolor << " ";
+    ss << m_dashtype << " ";
     return internal::removeExtraWhitespaces(ss.str());
 }
 
