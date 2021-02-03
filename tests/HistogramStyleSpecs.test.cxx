@@ -27,12 +27,12 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/specs/HistogramSpecs.hpp>
+#include <sciplot/specs/HistogramStyleSpecs.hpp>
 using namespace sciplot;
 
-TEST_CASE("HistogramSpecsWithLineProps", "[specs]")
+TEST_CASE("HistogramStyleSpecs", "[specs]")
 {
-    auto specs = HistogramSpecs();
+    auto specs = HistogramStyleSpecs();
 
     CHECK( specs.repr() == "set style histogram" );
 
