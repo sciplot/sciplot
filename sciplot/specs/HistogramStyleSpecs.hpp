@@ -32,34 +32,34 @@
 namespace sciplot {
 
 /// The class used to specify histogram style options.
-class HistogramSpecs : virtual public Specs<HistogramSpecs>
+class HistogramStyleSpecs : virtual public Specs<HistogramStyleSpecs>
 {
   public:
-    /// Construct a default HistogramSpecs instance.
-    HistogramSpecs();
+    /// Construct a default HistogramStyleSpecs instance.
+    HistogramStyleSpecs();
 
     /// Set the histogram style to be clustered.
-    auto clustered() -> HistogramSpecs&;
+    auto clustered() -> HistogramStyleSpecs&;
 
     /// Set the histogram style to be clustered with a given gap size.
-    auto clusteredWithGap(double value) -> HistogramSpecs&;
+    auto clusteredWithGap(double value) -> HistogramStyleSpecs&;
 
     /// Set the histogram style to be stacked with groups formed using data along rows.
-    auto rowStacked() -> HistogramSpecs&;
+    auto rowStacked() -> HistogramStyleSpecs&;
 
     /// Set the histogram style to be stacked with groups formed using data along columns.
-    auto columnStacked() -> HistogramSpecs&;
+    auto columnStacked() -> HistogramStyleSpecs&;
 
     /// Set the histogram style to be with error bars.
-    auto errorBars() -> HistogramSpecs&;
+    auto errorBars() -> HistogramStyleSpecs&;
 
     /// Set the histogram style to be with error bars and also set its gap size.
-    auto errorBarsWithGap(double value) -> HistogramSpecs&;
+    auto errorBarsWithGap(double value) -> HistogramStyleSpecs&;
 
     /// Set the histogram style to be with error bars and also set its line width.
-    auto errorBarsWithLineWidth(double value) -> HistogramSpecs&;
+    auto errorBarsWithLineWidth(double value) -> HistogramStyleSpecs&;
 
-    /// Convert this HistogramSpecs object into a gnuplot formatted string.
+    /// Convert this HistogramStyleSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
   private:
@@ -76,56 +76,56 @@ class HistogramSpecs : virtual public Specs<HistogramSpecs>
     std::string m_linewidth;
 };
 
-HistogramSpecs::HistogramSpecs()
+HistogramStyleSpecs::HistogramStyleSpecs()
 {
 }
 
-auto HistogramSpecs::clustered() -> HistogramSpecs&
+auto HistogramStyleSpecs::clustered() -> HistogramStyleSpecs&
 {
     m_type = "clustered";
     return *this;
 }
 
-auto HistogramSpecs::clusteredWithGap(double value) -> HistogramSpecs&
+auto HistogramStyleSpecs::clusteredWithGap(double value) -> HistogramStyleSpecs&
 {
     m_type = "clustered";
     m_gap_clustered = "gap " + internal::str(value);
     return *this;
 }
 
-auto HistogramSpecs::rowStacked() -> HistogramSpecs&
+auto HistogramStyleSpecs::rowStacked() -> HistogramStyleSpecs&
 {
     m_type = "rowstacked";
     return *this;
 }
 
-auto HistogramSpecs::columnStacked() -> HistogramSpecs&
+auto HistogramStyleSpecs::columnStacked() -> HistogramStyleSpecs&
 {
     m_type = "columnstacked";
     return *this;
 }
 
-auto HistogramSpecs::errorBars() -> HistogramSpecs&
+auto HistogramStyleSpecs::errorBars() -> HistogramStyleSpecs&
 {
     m_type = "errorbars";
     return *this;
 }
 
-auto HistogramSpecs::errorBarsWithGap(double value) -> HistogramSpecs&
+auto HistogramStyleSpecs::errorBarsWithGap(double value) -> HistogramStyleSpecs&
 {
     m_type = "errorbars";
     m_gap_errorbars = "gap " + internal::str(value);
     return *this;
 }
 
-auto HistogramSpecs::errorBarsWithLineWidth(double value) -> HistogramSpecs&
+auto HistogramStyleSpecs::errorBarsWithLineWidth(double value) -> HistogramStyleSpecs&
 {
     m_type = "errorbars";
     m_linewidth = "linewidth " + internal::str(value);
     return *this;
 }
 
-auto HistogramSpecs::repr() const -> std::string
+auto HistogramStyleSpecs::repr() const -> std::string
 {
     const auto supports_gap = (m_type == "clustered" || m_type == "errorbars");
     const auto supports_linewidth = (m_type == "errorbars");
