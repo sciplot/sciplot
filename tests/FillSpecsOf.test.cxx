@@ -32,54 +32,58 @@ using namespace sciplot;
 
 TEST_CASE("FillSpecs", "[specs]")
 {
-    auto default_fillspecs = FillSpecs();
-    default_fillspecs.fillSolid();
-    default_fillspecs.fillIntensity(internal::DEFAULT_FILL_INTENSITY);
-    default_fillspecs.fillTransparent(internal::DEFAULT_FILL_TRANSPARENCY);
-    default_fillspecs.borderLineWidth(internal::DEFAULT_FILL_BORDER_LINEWIDTH);
-    default_fillspecs.borderHide();
+    auto specs = FillSpecs();
 
-    auto fillspecs = FillSpecs();
+    CHECK( specs.repr() == "" );
 
-    CHECK( fillspecs.repr() == default_fillspecs.repr() );
-    CHECK( fillspecs.repr() == "fillstyle solid 1 noborder");
+    specs.fillEmpty();
+    CHECK( specs.repr() == "fillstyle empty");
 
-    fillspecs.borderShow();
-    fillspecs.borderLineColor("red");
+    specs.fillSolid();
+    CHECK( specs.repr() == "fillstyle solid");
 
-    CHECK( fillspecs.repr() == "fillstyle solid 1 border linecolor 'red' linewidth 2");
+    specs.fillIntensity(0.83);
+    CHECK( specs.repr() == "fillstyle solid 0.83");
 
-    fillspecs.borderLineColor("blue");
-    fillspecs.borderLineWidth(7);
+    specs.fillTransparent();
+    CHECK( specs.repr() == "fillstyle transparent solid 0.83");
 
-    CHECK( fillspecs.repr() == "fillstyle solid 1 border linecolor 'blue' linewidth 7");
+    specs.fillEmpty();
+    specs.fillIntensity(0.24);
+    CHECK( specs.repr() == "fillstyle transparent solid 0.24");
 
-    fillspecs.fillColor("pink");
+    specs.fillEmpty();
+    specs.fillTransparent();
+    CHECK( specs.repr() == "fillstyle empty");
 
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 1 border linecolor 'blue' linewidth 7");
+    specs.fillPattern(23);
+    CHECK( specs.repr() == "fillstyle transparent pattern 23");
 
-    fillspecs.fillIntensity(0.7);
+    specs.fillTransparent(false);
+    CHECK( specs.repr() == "fillstyle pattern 23");
 
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 0.7 border linecolor 'blue' linewidth 7");
+    specs.fillColor("white");
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle pattern 23");
 
-    fillspecs.fillIntensity(1.7);
+    specs.borderShow();
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle pattern 23 border");
 
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 1 border linecolor 'blue' linewidth 7");
+    specs.borderLineColor("red");
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle pattern 23 border linecolor 'red'");
 
-    fillspecs.fillIntensity(-0.2);
+    specs.borderLineWidth(2);
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle pattern 23 border linecolor 'red' linewidth 2");
 
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle solid 0 border linecolor 'blue' linewidth 7");
+    specs.borderHide();
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle pattern 23 noborder");
 
-    fillspecs.fillTransparent();
+    specs.fillEmpty();
+    specs.fillIntensity(0.7);
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle solid 0.7 noborder");
 
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle transparent solid 0 border linecolor 'blue' linewidth 7");
+    specs.fillIntensity(1.7);
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle solid 1 noborder");
 
-    fillspecs.fillPattern(3);
-
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle transparent pattern 3 border linecolor 'blue' linewidth 7");
-
-    fillspecs.fillTransparent(false);
-    fillspecs.borderHide();
-
-    CHECK( fillspecs.repr() == "fillcolor 'pink' fillstyle pattern 3 noborder");
+    specs.fillIntensity(-0.2);
+    CHECK( specs.repr() == "fillcolor 'white' fillstyle solid 0 noborder");
 }
