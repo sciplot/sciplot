@@ -33,6 +33,8 @@
 #include <valarray>
 
 // sciplot includes
+#include <sciplot/constants.hpp>
+#include <sciplot/enums.hpp>
 #include <sciplot/palettes.hpp>
 
 namespace sciplot {
