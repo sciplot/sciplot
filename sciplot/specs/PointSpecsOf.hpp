@@ -68,23 +68,23 @@ PointSpecsOf<DerivedSpecs>::PointSpecsOf()
 template <typename DerivedSpecs>
 auto PointSpecsOf<DerivedSpecs>::pointType(int value) -> DerivedSpecs&
 {
-    m_pointtype = internal::str(value);
+    m_pointtype = "pointtype " + internal::str(value);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto PointSpecsOf<DerivedSpecs>::pointSize(int value) -> DerivedSpecs&
 {
-    m_pointsize = internal::str(value);
+    m_pointsize = "pointsize " + internal::str(value);
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto PointSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
-    std::stringstream ss;
-    ss << gnuplot::optionValueStr("pointtype", m_pointtype);
-    ss << gnuplot::optionValueStr("pointsize", m_pointsize);
+    std::stringstream ss; // ensure it remains empty if no point style option has been given!
+    ss << m_pointtype << " ";
+    ss << m_pointsize;
     return internal::removeExtraWhitespaces(ss.str());
 }
 
