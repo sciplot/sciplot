@@ -65,35 +65,35 @@ public:
     {}
 
     /// Set the legend label of the plotted element.
-    auto legendLabel(std::string text) -> DrawSpecsOf&
+    auto label(std::string text) -> DrawSpecsOf&
     {
         m_title = "title '" + text + "'";
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the legend label of the plotted element to be retrieved from the header of column.
-    auto legendLabelFromColumnHeader() -> DrawSpecsOf&
+    auto labelFromColumnHeader() -> DrawSpecsOf&
     {
         m_title = "title columnheader";
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the legend label of the plotted element to be retrieved from the header of a column with given index.
-    auto legendLabelFromColumnHeader(int icolumn) -> DrawSpecsOf&
+    auto labelFromColumnHeader(int icolumn) -> DrawSpecsOf&
     {
         m_title = "title columnheader(" + std::to_string(icolumn) + ")";
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the legend label of the plotted element to be ignored.
-    auto legendLabelNone() -> DrawSpecsOf&
+    auto labelNone() -> DrawSpecsOf&
     {
         m_title = "title notitle";
         return static_cast<DerivedSpecs&>(*this);
     }
 
     /// Set the legend label to be determined automatically from the plot expression.
-    auto legendLabelDefault() -> DrawSpecsOf&
+    auto labelDefault() -> DrawSpecsOf&
     {
         m_title = "";
         return static_cast<DerivedSpecs&>(*this);

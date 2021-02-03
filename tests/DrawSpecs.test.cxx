@@ -47,7 +47,7 @@ TEST_CASE("DrawSpecsWithLineProps", "[specs]")
         "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "
         "with lines linewidth 3 linecolor 'orange'" );
 
-    specs.legendLabel("SuperFig");
+    specs.label("SuperFig");
     specs.xcolumn("State");
     specs.ycolumn(7);
     specs.xtic("Country");
@@ -64,7 +64,7 @@ TEST_CASE("DrawSpecsWithPointProps", "[specs]")
 
     CHECK( specs.repr() == "'file.dat' using 0:1 with points" );
 
-    specs.legendLabelFromColumnHeader();
+    specs.labelFromColumnHeader();
     specs.pointSize(3);
     specs.pointType(7);
     specs.xcolumn(1);
@@ -74,7 +74,7 @@ TEST_CASE("DrawSpecsWithPointProps", "[specs]")
         "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "
         "title columnheader with points pointtype 7 pointsize 3" );
 
-    specs.legendLabelFromColumnHeader(13);
+    specs.labelFromColumnHeader(13);
     specs.xcolumn("State");
     specs.ycolumn(7);
     specs.xtic("Country");
