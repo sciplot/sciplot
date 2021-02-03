@@ -74,17 +74,17 @@ class FillSpecsOf : virtual public Specs<DerivedSpecs>
     auto repr() const -> std::string;
 
   private:
-    /// The fill style of the underlying object (e.g, "empty", "solid", "pattern").
-    std::string m_fillstyle;
+    /// The fill mode for the underlying object (e.g, "empty", "solid", "pattern").
+    std::string m_fillmode;
 
     /// The fill color of the underlying object.
     std::string m_fillcolor;
 
     /// The fill transparency of the underlying object (active or not).
-    bool m_transparent;
+    std::string m_transparent;
 
     /// The fill intensity of the underlying object with respect to its border color.
-    double m_density;
+    std::string m_density;
 
     /// The fill pattern number of the underlying object.
     std::string m_pattern_number;
@@ -96,7 +96,7 @@ class FillSpecsOf : virtual public Specs<DerivedSpecs>
     std::string m_borderlinewidth;
 
     /// The border show status of the underlying object.
-    bool m_bordershow;
+    std::string m_bordershow;
 };
 
 /// The class used to specify color or pattern fill options.
@@ -105,31 +105,26 @@ class FillSpecs : public FillSpecsOf<FillSpecs> {};
 template <typename DerivedSpecs>
 FillSpecsOf<DerivedSpecs>::FillSpecsOf()
 {
-    fillSolid();
-    fillIntensity(internal::DEFAULT_FILL_INTENSITY);
-    fillTransparent(internal::DEFAULT_FILL_TRANSPARENCY);
-    borderLineWidth(internal::DEFAULT_FILL_BORDER_LINEWIDTH);
-    borderHide();
 }
 
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::fillEmpty() -> DerivedSpecs&
 {
-    m_fillstyle = "empty";
+    m_fillmode = "empty";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::fillSolid() -> DerivedSpecs&
 {
-    m_fillstyle = "solid";
+    m_fillmode = "solid";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::fillPattern(int number) -> DerivedSpecs&
 {
-    m_fillstyle = "pattern";
+    m_fillmode = "pattern";
     m_pattern_number = internal::str(number);
     return static_cast<DerivedSpecs&>(*this);
 }
@@ -137,21 +132,25 @@ auto FillSpecsOf<DerivedSpecs>::fillPattern(int number) -> DerivedSpecs&
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::fillColor(std::string color) -> DerivedSpecs&
 {
-    m_fillcolor = "'" + color + "'";
+    m_fillcolor = "fillcolor '" + color + "'";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::fillIntensity(double value) -> DerivedSpecs&
 {
-    m_density = std::min(std::max(0.0, value), 1.0); // value in [0, 1]
+    value = std::min(std::max(0.0, value), 1.0); // value in [0, 1]
+    m_density = internal::str(value);
+    m_fillmode = "solid";
     return static_cast<DerivedSpecs&>(*this);
 }
 
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::fillTransparent(bool active) -> DerivedSpecs&
 {
-    m_transparent = active;
+    m_transparent = active ? "transparent" : "";
+    if(m_fillmode.empty())
+        m_fillmode = "solid";
     return static_cast<DerivedSpecs&>(*this);
 }
 
@@ -172,7 +171,7 @@ auto FillSpecsOf<DerivedSpecs>::borderLineWidth(int value) -> DerivedSpecs&
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::borderShow(bool show) -> DerivedSpecs&
 {
-    m_bordershow = show;
+    m_bordershow = show ? "yes" : "no";
     return static_cast<DerivedSpecs&>(*this);
 }
 
@@ -185,28 +184,28 @@ auto FillSpecsOf<DerivedSpecs>::borderHide() -> DerivedSpecs&
 template <typename DerivedSpecs>
 auto FillSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
-    const std::string transparent = m_transparent ? "transparent " : "";
+    std::string fillstyle; // ensure it remains empty if no fill style option has been given!
+    if(m_fillmode == "solid")
+        fillstyle = "fillstyle " + m_transparent + " solid " + m_density;
+    else if(m_fillmode == "pattern")
+        fillstyle = "fillstyle " + m_transparent + " pattern " + m_pattern_number;
+    else if(m_fillmode == "empty")
+        fillstyle = "fillstyle empty";
 
-    std::stringstream fs;
-    if(m_fillstyle == "solid")
-        fs << transparent << "solid " << m_density;
-    else if(m_fillstyle == "pattern")
-        fs << transparent << "pattern " << m_pattern_number;
-    else fs << "empty";
-
-    std::stringstream bs;
-    if(m_bordershow == true)
+    std::string borderstyle; // ensure it remains empty if no border option has been given!
+    if(m_bordershow != "")
     {
-        bs << "border" << " ";
-        bs << gnuplot::optionValueStr("linecolor", m_bordercolor);
-        bs << gnuplot::optionValueStr("linewidth", m_borderlinewidth);
+        if(m_bordershow == "yes")
+        {
+            borderstyle  = "border ";
+            borderstyle += gnuplot::optionValueStr("linecolor", m_bordercolor);
+            borderstyle += gnuplot::optionValueStr("linewidth", m_borderlinewidth);
+        }
+        else borderstyle = "noborder";
     }
-    else bs << "noborder";
 
     std::stringstream ss;
-    ss << gnuplot::optionValueStr("fillcolor", m_fillcolor);
-    ss << "fillstyle " << fs.str() << " ";
-    ss << bs.str();
+    ss << m_fillcolor << " " << fillstyle << " " << borderstyle;
 
     return internal::removeExtraWhitespaces(ss.str());
 }
