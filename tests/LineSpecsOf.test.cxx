@@ -32,23 +32,30 @@ using namespace sciplot;
 
 TEST_CASE("LineSpecs", "[specs]")
 {
-    auto defaultline = LineSpecs();
-    defaultline.lineWidth(internal::DEFAULT_LINEWIDTH);
-
     auto line = LineSpecs();
 
-    CHECK( line.repr() == defaultline.repr() );
+    CHECK( line.repr() == "" );
 
     line.lineStyle(5);
-    line.lineType(8);
+    CHECK( line.repr() == "linestyle 5" );
 
-    CHECK( line.repr() == "linestyle 5 linetype 8 linewidth 2");
+    line.lineType(8);
+    CHECK( line.repr() == "linestyle 5 linetype 8" );
+
+    line.lineWidth(2);
+    CHECK( line.repr() == "linestyle 5 linetype 8 linewidth 2" );
+
+    line.lineColor("orange");
+    CHECK( line.repr() == "linestyle 5 linetype 8 linewidth 2 linecolor 'orange'" );
+
+    line.dashType(2);
+    CHECK( line.repr() == "linestyle 5 linetype 8 linewidth 2 linecolor 'orange' dashtype 2" );
 
     line.lineStyle(11);
     line.lineType(67);
     line.lineWidth(3);
-    line.lineColor("orange");
-    line.dashType(2);
+    line.lineColor("blue");
+    line.dashType(7);
 
-    CHECK( line.repr() == "linestyle 11 linetype 67 linewidth 3 linecolor 'orange' dashtype 2");
+    CHECK( line.repr() == "linestyle 11 linetype 67 linewidth 3 linecolor 'blue' dashtype 7" );
 }
