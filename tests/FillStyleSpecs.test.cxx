@@ -32,50 +32,55 @@ using namespace sciplot;
 
 TEST_CASE("FillStyleSpecs", "[specs]")
 {
-    auto default_fillspecs = FillStyleSpecs();
-    default_fillspecs.solid();
-    default_fillspecs.intensity(internal::DEFAULT_FILL_INTENSITY);
-    default_fillspecs.transparent(internal::DEFAULT_FILL_TRANSPARENCY);
-    default_fillspecs.borderLineWidth(internal::DEFAULT_FILL_BORDER_LINEWIDTH);
-    default_fillspecs.borderHide();
+    auto specs = FillStyleSpecs();
 
-    auto fillspecs = FillStyleSpecs();
+    CHECK( specs.repr() == "" );
 
-    CHECK( fillspecs.repr() == default_fillspecs.repr() );
-    CHECK( fillspecs.repr() == "set style fill solid 1 noborder");
+    specs.empty();
+    CHECK( specs.repr() == "set style fill empty");
 
-    fillspecs.borderShow();
-    fillspecs.borderLineColor("red");
+    specs.solid();
+    CHECK( specs.repr() == "set style fill solid");
 
-    CHECK( fillspecs.repr() == "set style fill solid 1 border linecolor 'red' linewidth 2");
+    specs.intensity(0.83);
+    CHECK( specs.repr() == "set style fill solid 0.83");
 
-    fillspecs.borderLineColor("blue");
-    fillspecs.borderLineWidth(7);
+    specs.transparent();
+    CHECK( specs.repr() == "set style fill transparent solid 0.83");
 
-    CHECK( fillspecs.repr() == "set style fill solid 1 border linecolor 'blue' linewidth 7");
+    specs.empty();
+    specs.intensity(0.24);
+    CHECK( specs.repr() == "set style fill transparent solid 0.24");
 
-    fillspecs.intensity(0.7);
+    specs.empty();
+    specs.transparent();
+    CHECK( specs.repr() == "set style fill empty");
 
-    CHECK( fillspecs.repr() == "set style fill solid 0.7 border linecolor 'blue' linewidth 7");
+    specs.pattern(23);
+    CHECK( specs.repr() == "set style fill transparent pattern 23");
 
-    fillspecs.intensity(1.7);
+    specs.transparent(false);
+    CHECK( specs.repr() == "set style fill pattern 23");
 
-    CHECK( fillspecs.repr() == "set style fill solid 1 border linecolor 'blue' linewidth 7");
+    specs.borderShow();
+    CHECK( specs.repr() == "set style fill pattern 23 border");
 
-    fillspecs.intensity(-0.2);
+    specs.borderLineColor("red");
+    CHECK( specs.repr() == "set style fill pattern 23 border linecolor 'red'");
 
-    CHECK( fillspecs.repr() == "set style fill solid 0 border linecolor 'blue' linewidth 7");
+    specs.borderLineWidth(2);
+    CHECK( specs.repr() == "set style fill pattern 23 border linecolor 'red' linewidth 2");
 
-    fillspecs.transparent();
+    specs.borderHide();
+    CHECK( specs.repr() == "set style fill pattern 23 noborder");
 
-    CHECK( fillspecs.repr() == "set style fill transparent solid 0 border linecolor 'blue' linewidth 7");
+    specs.empty();
+    specs.intensity(0.7);
+    CHECK( specs.repr() == "set style fill solid 0.7 noborder");
 
-    fillspecs.pattern(3);
+    specs.intensity(1.7);
+    CHECK( specs.repr() == "set style fill solid 1 noborder");
 
-    CHECK( fillspecs.repr() == "set style fill transparent pattern 3 border linecolor 'blue' linewidth 7");
-
-    fillspecs.transparent(false);
-    fillspecs.borderHide();
-
-    CHECK( fillspecs.repr() == "set style fill pattern 3 noborder");
+    specs.intensity(-0.2);
+    CHECK( specs.repr() == "set style fill solid 0 noborder");
 }
