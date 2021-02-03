@@ -35,13 +35,16 @@
 #include <sciplot/enums.hpp>
 #include <sciplot/palettes.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
-#include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
+#include <sciplot/specs/DrawSpecs.hpp>
+#include <sciplot/specs/FillStyleSpecs.hpp>
 #include <sciplot/specs/GridSpecs.hpp>
+#include <sciplot/specs/HistogramStyleSpecs.hpp>
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PlotSpecs.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
+#include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMinor.hpp>
 #include <sciplot/util.hpp>
@@ -83,17 +86,27 @@ class Figure
     auto boxWidthRelative(double val) -> void;
 
     /// Set the border of the plot and return a reference to the corresponding specs object.
-    auto border() -> BorderSpecs&;
+    auto border() -> BorderSpecs& { return m_border; }
 
     /// Set the grid of the plot and return a reference to the corresponding specs object.
-    auto grid() -> GridSpecs&;
+    auto grid() -> GridSpecs& { return m_grid; }
+
+    //======================================================================
+    // METHODS FOR CUSTOMIZATION OF STYLES
+    //======================================================================
+
+    /// Return an object that permits fill style to be customized.
+    auto styleFill() -> FillStyleSpecs& { return m_style_fill; }
+
+    /// Return an object that permits histogram style to be customized.
+    auto styleHistogram() -> HistogramStyleSpecs& { return m_style_histogram; }
 
     //======================================================================
     // METHODS FOR CUSTOMIZATION OF TICS
     //======================================================================
 
     /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics() -> TicsSpecs&;
+    auto tics() -> TicsSpecs& { return m_tics; }
 
     /// Return the specifications of the grid lines along major xtics on the bottom axis.
     auto xtics() -> TicsSpecsMajor& { return xticsMajorBottom(); }
@@ -154,6 +167,81 @@ class Figure
     /// Will write all data to a plot<N>.dat file.
     template <typename X, typename Y>
     auto draw(const X& x, const Y& y) -> PlotSpecs&;
+
+    // template <typename X, typename Y>
+    // auto drawCurve(const X& x, const Y& y) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y>
+    // auto drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecsWithLinePointProps&;
+
+    // template <typename X, typename Y, typename XD>
+    // auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y, typename XL, typename XH>
+    // auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y, typename YD>
+    // auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y, typename YL, typename YH>
+    // auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y, typename XD, typename YD>
+    // auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
+    // auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecsWithLineProps&;
+
+    // template <typename X, typename Y>
+    // auto drawCurveFilled(const X& x, const Y& y) -> DrawSpecsWithLineProps&;
+
+
+    // drawCurve()                // lines
+    // drawCurveWithPoints()      // linespoints
+    // drawCurveWithErrorBarsX()  // xerrorlines
+    // drawCurveWithErrorBarsY()  // yerrorlines
+    // drawCurveWithErrorBarsXY() // xyerrorlines
+    // drawCurveFilled()          // filledcurves
+
+    // drawBoxes()                // boxes
+    // drawBoxesWithErrorBarsY()  // boxerrorbars
+
+    // drawLines()                // lines
+    // drawLinesWithPoints()      // linespoints
+    // drawLinesWithErrorBarsX()  // xerrorlines
+    // drawLinesWithErrorBarsY()  // yerrorlines
+    // drawLinesWithErrorBarsXY() // xyerrorlines
+    // drawLinesFilled()          // filledcurves
+
+    // drawCurve()                // lines
+    // drawCurveWithPoints()      // linespoints
+    // drawCurveWithErrorBarsX()  // xerrorlines
+    // drawCurveWithErrorBarsY()  // yerrorlines
+    // drawCurveWithErrorBarsXY() // xyerrorlines
+    // drawCurveFilled()          // filledcurves
+
+    // drawErrorBarsX()  // xerrorbars
+    // drawErrorBarsY()  // yerrorbars
+    // drawErrorBarsXY() // xyerrorbars
+
+    // drawSteps() // steps
+    // drawStepsChangeFirstX() // steps
+    // drawStepsChangeFirstY() // fsteps
+    // drawStepsHistogram() // histeps
+    // drawStepsFilled() // fillsteps
+
+    // drawDots()  // dots
+    // drawVectors()  // vectors
+    // drawPoints()  // points
+    // drawImpulses()  // impulses
+    // drawLabels()  // labels
+    // drawFinanceBars()  // financebars
+    // drawArrows()  // arrows
+    // drawParallelAxes()  // parallelaxes
+    // drawEllipses()  // ellipses
+    // drawHistograms()  // histograms
+    // drawCandlesticks()  // candlesticks
+    // drawCircles()  // circles
 
 
     // drawBoxes()                // boxes
@@ -263,19 +351,21 @@ class Figure
     std::string m_yrange;                  ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
     BorderSpecs m_border;                  ///< The border style of the plot
     GridSpecs m_grid;                      ///< The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
+    FillStyleSpecs m_style_fill;                ///< The specs for the fill style of the plot elements in the figure that can be painted.
+    HistogramStyleSpecs m_style_histogram;      ///< The specs for the histogram style of the figure.
     TicsSpecs m_tics;                      ///< The specs of the tics of the plot
-    TicsSpecsMajor m_xtics_major_bottom;    ///< The specs for the major xtics at the bottom.
-    TicsSpecsMajor m_xtics_major_top;       ///< The specs for the major xtics at the top.
-    TicsSpecsMinor m_xtics_minor_bottom;    ///< The specs for the minor xtics at the bottom.
-    TicsSpecsMinor m_xtics_minor_top;       ///< The specs for the minor xtics at the top.
-    TicsSpecsMajor m_ytics_major_left;      ///< The specs for the major ytics at the left.
-    TicsSpecsMajor m_ytics_major_right;     ///< The specs for the major ytics at the right.
-    TicsSpecsMinor m_ytics_minor_left;      ///< The specs for the minor ytics at the left.
-    TicsSpecsMinor m_ytics_minor_right;     ///< The specs for the minor ytics at the right.
-    TicsSpecsMajor m_ztics_major;           ///< The specs for the major ztics.
-    TicsSpecsMinor m_ztics_minor;           ///< The specs for the minor ztics.
-    TicsSpecsMajor m_rtics_major;           ///< The specs for the major rtics.
-    TicsSpecsMinor m_rtics_minor;           ///< The specs for the minor rtics.
+    TicsSpecsMajor m_xtics_major_bottom;   ///< The specs for the major xtics at the bottom.
+    TicsSpecsMajor m_xtics_major_top;      ///< The specs for the major xtics at the top.
+    TicsSpecsMinor m_xtics_minor_bottom;   ///< The specs for the minor xtics at the bottom.
+    TicsSpecsMinor m_xtics_minor_top;      ///< The specs for the minor xtics at the top.
+    TicsSpecsMajor m_ytics_major_left;     ///< The specs for the major ytics at the left.
+    TicsSpecsMajor m_ytics_major_right;    ///< The specs for the major ytics at the right.
+    TicsSpecsMinor m_ytics_minor_left;     ///< The specs for the minor ytics at the left.
+    TicsSpecsMinor m_ytics_minor_right;    ///< The specs for the minor ytics at the right.
+    TicsSpecsMajor m_ztics_major;          ///< The specs for the major ztics.
+    TicsSpecsMinor m_ztics_minor;          ///< The specs for the minor ztics.
+    TicsSpecsMajor m_rtics_major;          ///< The specs for the major rtics.
+    TicsSpecsMinor m_rtics_minor;          ///< The specs for the minor rtics.
     LegendSpecs m_legend;                  ///< The legend specs of the plot
     std::string m_samples;                 ///< The number of sample points for functions
     AxisLabelSpecs m_xlabel;               ///< The label of the x-axis
@@ -373,21 +463,6 @@ auto Figure::boxWidthRelative(double val) -> void
     m_boxwidth = internal::str(val) + " relative";
 }
 
-auto Figure::border() -> BorderSpecs&
-{
-    return m_border;
-}
-
-auto Figure::grid() -> GridSpecs&
-{
-    return m_grid;
-}
-
-auto Figure::tics() -> TicsSpecs&
-{
-    return m_tics;
-}
-
 auto Figure::draw(std::string what) -> PlotSpecs&
 {
     // Save the draw arguments for this x,y data
@@ -445,6 +520,8 @@ auto Figure::repr() const -> std::string
     script << m_rlabel << std::endl;
     script << m_border << std::endl;
     script << m_grid << std::endl;
+    script << m_style_fill << std::endl;
+    script << m_style_histogram << std::endl;
     script << m_tics << std::endl;
     script << m_xtics_major_bottom << std::endl;
     script << m_xtics_major_top << std::endl;
