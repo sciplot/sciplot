@@ -156,13 +156,13 @@ auto FillStyleSpecs::borderHide() -> FillStyleSpecs&
 
 auto FillStyleSpecs::repr() const -> std::string
 {
-    std::string set_style_fill; // ensure it remains empty if no fill style option has been given!
+    std::string fillstyle; // ensure it remains empty if no fill style option has been given!
     if(m_fillmode == "solid")
-        set_style_fill = "set style fill " + m_transparent + " solid " + m_density;
+        fillstyle = m_transparent + " solid " + m_density;
     else if(m_fillmode == "pattern")
-        set_style_fill = "set style fill " + m_transparent + " pattern " + m_pattern_number;
+        fillstyle = m_transparent + " pattern " + m_pattern_number;
     else if(m_fillmode == "empty")
-        set_style_fill = "set style fill empty";
+        fillstyle = "empty";
 
     std::string borderstyle; // ensure it remains empty if no border option has been given!
     if(m_bordershow != "")
@@ -176,9 +176,9 @@ auto FillStyleSpecs::repr() const -> std::string
         else borderstyle = "noborder";
     }
 
-    set_style_fill += " " + borderstyle;
+    std::string ss = "set style fill " + fillstyle + " " + borderstyle;
 
-    return internal::removeExtraWhitespaces(set_style_fill);
+    return internal::removeExtraWhitespaces(ss);
 }
 
 } // namespace sciplot
