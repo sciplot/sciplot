@@ -160,140 +160,120 @@ class Figure
     // METHODS FOR DRAWING PLOT ELEMENTS
     //======================================================================
 
-    /// Plot using a gnuplot command string and return a reference to the corresponding specs object.
-    auto draw(std::string what) -> PlotSpecs&;
+    /// Draw plot object with given style and given vectors (e.g., `fig.draw("lines", x, y)`).
+    template <typename... Vecs>
+    auto draw(std::string with, const Vecs&... vecs) -> PlotSpecs&;
 
-    /// Plot two vectors of data and return a reference to the corresponding specs object.
-    /// Will write all data to a plot<N>.dat file.
+    /// Draw plot object with given `what` expression and `with` style (e.g., `fig.draw("sin(x)*cos(x)", "linespoints")`).
+    auto draw(std::string what, std::string with) -> PlotSpecs&;
+
+    /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto draw(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawCurve(const X& x, const Y& y) -> PlotSpecs&;
 
-    // template <typename X, typename Y>
-    // auto drawCurve(const X& x, const Y& y) -> DrawSpecsWithLineProps&;
+    /// Draw a curve with points with given @p x and @p y vectors.
+    template <typename X, typename Y>
+    auto drawCurveWithPoints(const X& x, const Y& y) -> PlotSpecs&;
 
-    // template <typename X, typename Y>
-    // auto drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecsWithLinePointProps&;
+    /// Draw a curve with error bars along *x* with given @p x, @p y, and @p xdelta vectors.
+    template <typename X, typename Y, typename XD>
+    auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&;
 
-    // template <typename X, typename Y, typename XD>
-    // auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecsWithLineProps&;
+    /// Draw a curve with error bars along *x* with given @p x, @p y, @p xlow, and @p xhigh vectors.
+    template <typename X, typename Y, typename XL, typename XH>
+    auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&;
 
-    // template <typename X, typename Y, typename XL, typename XH>
-    // auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecsWithLineProps&;
+    /// Draw a curve with error bars along *y* with given @p x, @p y, and @p ydelta vectors.
+    template <typename X, typename Y, typename YD>
+    auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&;
 
-    // template <typename X, typename Y, typename YD>
-    // auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecsWithLineProps&;
+    /// Draw a curve with error bars along *y* with given @p x, @p y, @p ylow, and @p yhigh vectors.
+    template <typename X, typename Y, typename YL, typename YH>
+    auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
 
-    // template <typename X, typename Y, typename YL, typename YH>
-    // auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecsWithLineProps&;
+    /// Draw a curve with error bars along *x* and *y* with given @p x, @p y, @p xdelta, and @p ydelta vectors.
+    template <typename X, typename Y, typename XD, typename YD>
+    auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&;
 
-    // template <typename X, typename Y, typename XD, typename YD>
-    // auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecsWithLineProps&;
+    /// Draw a curve with error bars along *x* and *y* with given @p x, @p y, @p xlow, @p xhigh, @p ylow, and @p yhigh vectors.
+    template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
+    auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
 
-    // template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-    // auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecsWithLineProps&;
+    /// Draw boxes with given @p x and @p y vectors.
+    template <typename X, typename Y>
+    auto drawBoxes(const X& x, const Y& y) -> PlotSpecs&;
 
-    // template <typename X, typename Y>
-    // auto drawCurveFilled(const X& x, const Y& y) -> DrawSpecsWithLineProps&;
+    /// Draw boxes with given @p x and @p y vectors as well as the box widths @p xwidth.
+    template <typename X, typename Y, typename XW>
+    auto drawBoxes(const X& x, const Y& y, const XW& xwidth) -> PlotSpecs&;
 
+    /// Draw boxes with error bars along *y* with given @p x, @p y, @p ydelta vectors.
+    template <typename X, typename Y, typename YD>
+    auto drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> PlotSpecs&;
 
-    // drawCurve()                // lines
-    // drawCurveWithPoints()      // linespoints
-    // drawCurveWithErrorBarsX()  // xerrorlines
-    // drawCurveWithErrorBarsY()  // yerrorlines
-    // drawCurveWithErrorBarsXY() // xyerrorlines
-    // drawCurveFilled()          // filledcurves
+    /// Draw boxes with error bars along *y* with given @p x, @p y, @p ylow, and @p yhigh vectors.
+    template <typename X, typename Y, typename YL, typename YH>
+    auto drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
 
-    // drawBoxes()                // boxes
-    // drawBoxesWithErrorBarsY()  // boxerrorbars
+    /// Draw error bars along *x* with given @p x, @p y, and @p xdelta vectors.
+    template <typename X, typename Y, typename XD>
+    auto drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&;
 
-    // drawLines()                // lines
-    // drawLinesWithPoints()      // linespoints
-    // drawLinesWithErrorBarsX()  // xerrorlines
-    // drawLinesWithErrorBarsY()  // yerrorlines
-    // drawLinesWithErrorBarsXY() // xyerrorlines
-    // drawLinesFilled()          // filledcurves
+    /// Draw error bars along *x* with given @p x, @p y, @p xlow, and @p xhigh vectors.
+    template <typename X, typename Y, typename XL, typename XH>
+    auto drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&;
 
-    // drawCurve()                // lines
-    // drawCurveWithPoints()      // linespoints
-    // drawCurveWithErrorBarsX()  // xerrorlines
-    // drawCurveWithErrorBarsY()  // yerrorlines
-    // drawCurveWithErrorBarsXY() // xyerrorlines
-    // drawCurveFilled()          // filledcurves
+    /// Draw error bars along *y* with given @p x, @p y, and @p ydelta vectors.
+    template <typename X, typename Y, typename YD>
+    auto drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&;
 
-    // drawErrorBarsX()  // xerrorbars
-    // drawErrorBarsY()  // yerrorbars
-    // drawErrorBarsXY() // xyerrorbars
+    /// Draw error bars along *y* with given @p x, @p y, @p ylow, and @p yhigh vectors.
+    template <typename X, typename Y, typename YL, typename YH>
+    auto drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
 
-    // drawSteps() // steps
-    // drawStepsChangeFirstX() // steps
-    // drawStepsChangeFirstY() // fsteps
-    // drawStepsHistogram() // histeps
-    // drawStepsFilled() // fillsteps
+    /// Draw error bars along *x* and *y* with given @p x, @p y, @p xdelta, and @p ydelta vectors.
+    template <typename X, typename Y, typename XD, typename YD>
+    auto drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&;
 
-    // drawDots()  // dots
-    // drawVectors()  // vectors
-    // drawPoints()  // points
-    // drawImpulses()  // impulses
-    // drawLabels()  // labels
-    // drawFinanceBars()  // financebars
-    // drawArrows()  // arrows
-    // drawParallelAxes()  // parallelaxes
-    // drawEllipses()  // ellipses
-    // drawHistograms()  // histograms
-    // drawCandlesticks()  // candlesticks
-    // drawCircles()  // circles
+    /// Draw error bars along *x* and *y* with given @p x, @p y, @p xlow, @p xhigh, @p ylow, and @p yhigh vectors.
+    template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
+    auto drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
 
+    /// Draw steps with given @p x and @p y vectors. Identical to @ref drawStepsChangeFirstX.
+    template <typename X, typename Y>
+    auto drawSteps(const X& x, const Y& y) -> PlotSpecs&;
 
-    // drawBoxes()                // boxes
-    // drawBoxesWithErrorBarsY()  // boxerrorbars
+    /// Draw steps with given @p x and @p y vectors with steps along *x* changes first.
+    template <typename X, typename Y>
+    auto drawStepsChangeFirstX(const X& x, const Y& y) -> PlotSpecs&;
 
-    // drawLines()                // lines
-    // drawLinesWithPoints()      // linespoints
-    // drawLinesWithErrorBarsX()  // xerrorlines
-    // drawLinesWithErrorBarsY()  // yerrorlines
-    // drawLinesWithErrorBarsXY() // xyerrorlines
-    // drawLinesFilled()          // filledcurves
+    /// Draw steps with given @p x and @p y vectors with steps along *y* changes first.
+    template <typename X, typename Y>
+    auto drawStepsChangeFirstY(const X& x, const Y& y) -> PlotSpecs&;
 
-    // drawCurve()                // lines
-    // drawCurveWithPoints()      // linespoints
-    // drawCurveWithErrorBarsX()  // xerrorlines
-    // drawCurveWithErrorBarsY()  // yerrorlines
-    // drawCurveWithErrorBarsXY() // xyerrorlines
-    // drawCurveFilled()          // filledcurves
+    /// Draw steps with given @p x and @p y vectors in a histogram style
+    template <typename X, typename Y>
+    auto drawStepsHistogram(const X& x, const Y& y) -> PlotSpecs&;
 
-    // drawErrorBarsX()  // xerrorbars
-    // drawErrorBarsY()  // yerrorbars
-    // drawErrorBarsXY() // xyerrorbars
+    /// Draw steps with given @p x and @p y vectors with filled area below steps.
+    template <typename X, typename Y>
+    auto drawStepsFilled(const X& x, const Y& y) -> PlotSpecs&;
 
-    // drawSteps() // steps
-    // drawStepsChangeFirstX() // steps
-    // drawStepsChangeFirstY() // fsteps
-    // drawStepsHistogram() // histeps
-    // drawStepsFilled() // fillsteps
+    /// Draw dots with given @p x and @p y vectors.
+    template <typename X, typename Y>
+    auto drawDots(const X& x, const Y& y) -> PlotSpecs&;
 
-    // drawDots()  // dots
-    // drawVectors()  // vectors
-    // drawPoints()  // points
-    // drawImpulses()  // impulses
-    // drawLabels()  // labels
-    // drawFinanceBars()  // financebars
-    // drawArrows()  // arrows
-    // drawParallelAxes()  // parallelaxes
-    // drawEllipses()  // ellipses
-    // drawHistograms()  // histograms
-    // drawCandlesticks()  // candlesticks
-    // drawCircles()  // circles
+    /// Draw points with given @p x and @p y vectors.
+    template <typename X, typename Y>
+    auto drawPoints(const X& x, const Y& y) -> PlotSpecs&;
 
-    // Not supported yet in this release
-    // boxplot
-    // boxxyerror
-    // rgbalpha
-    // image
-    // rgbimage
-    // pm3d
-    // polygons
-    // isosurface
-    // zerrorfill
+    /// Draw impulses with given @p x and @p y vectors.
+    template <typename X, typename Y>
+    auto drawImpulses(const X& x, const Y& y) -> PlotSpecs&;
+
+    /// Draw a histogram for the given @p y vector.
+    template <typename Y>
+    auto drawHistogram(const Y& y) -> PlotSpecs&;
 
     //======================================================================
     // MISCElLANEOUS METHODS
@@ -308,9 +288,6 @@ class Figure
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
     auto gnuplot(std::string command) -> void;
 
-    /// Write the current plot data to the data file.
-    auto saveplotdata() const -> void;
-
     /// Show the plot in a pop-up window.
     /// Will remove temporary files after showing if autoclean(true) (default).
     auto show() const -> void;
@@ -323,11 +300,8 @@ class Figure
     /// Will remove temporary files after saving if autoclean(true) (default).
     auto save(std::string filename) const -> void;
 
-    /// Convert this plot object into a gnuplot formatted string.
-    auto repr() const -> std::string;
-
-
-
+    /// Write the current plot data to the data file.
+    auto savePlotData() const -> void;
 
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
@@ -335,6 +309,9 @@ class Figure
 
     /// Delete all files used to store plot data or scripts.
     auto cleanup() const -> void;
+
+    /// Convert this plot object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
   private:
     static std::size_t m_counter;          ///< Counter of how many plot / singleplot objects have been instanciated in the application
@@ -416,8 +393,15 @@ Figure::Figure()
     rticsMajor().hide();
     rticsMinor().hide();
 
+    // Default options for fill style
+    styleFill().solid();
+    styleFill().borderHide();
+
     // Set all other default options
     boxWidthRelative(internal::DEFAULT_FIGURE_BOXWIDTH_RELATIVE);
+
+    // This is needed because of how drawHistogram works. Using `with histograms` don't work as well.
+    gnuplot("set style data histogram");
 }
 
 auto Figure::palette(std::string name) -> void
@@ -463,10 +447,10 @@ auto Figure::boxWidthRelative(double val) -> void
     m_boxwidth = internal::str(val) + " relative";
 }
 
-auto Figure::draw(std::string what) -> PlotSpecs&
+auto Figure::draw(std::string what, std::string with) -> PlotSpecs&
 {
     // Save the draw arguments for this x,y data
-    m_plotspecs.emplace_back(what);
+    m_plotspecs.emplace_back(what, with);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
     m_plotspecs.back().lineStyle(m_plotspecs.size());
@@ -475,18 +459,180 @@ auto Figure::draw(std::string what) -> PlotSpecs&
     return m_plotspecs.back();
 }
 
-template <typename X, typename Y>
-auto Figure::draw(const X& x, const Y& y) -> PlotSpecs&
+template <typename... Vecs>
+auto Figure::draw(std::string with, const Vecs&... vecs) -> PlotSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
-    gnuplot::writedataset(datastream, m_numdatasets, x, y);
+    gnuplot::writedataset(datastream, m_numdatasets, vecs...);
 
     // Append new data set to existing data
     m_data += datastream.str();
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++));
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), with);
+}
+
+template <typename X, typename Y>
+auto Figure::drawCurve(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("lines", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawCurveWithPoints(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("linespoints", x, y);
+}
+
+template <typename X, typename Y, typename XD>
+auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&
+{
+    return draw("xerrorlines", x, y, xdelta);
+}
+
+template <typename X, typename Y, typename XL, typename XH>
+auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&
+{
+    return draw("xerrorlines", x, y, xlow, xhigh);
+}
+
+template <typename X, typename Y, typename YD>
+auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&
+{
+    return draw("yerrorlines", x, y, ydelta);
+}
+
+template <typename X, typename Y, typename YL, typename YH>
+auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+{
+    return draw("yerrorlines", x, y, ylow, yhigh);
+}
+
+template <typename X, typename Y, typename XD, typename YD>
+auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&
+{
+    return draw("xyerrorlines", x, y, xdelta, ydelta);
+}
+
+template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
+auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+{
+    return draw("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
+}
+
+template <typename X, typename Y>
+auto Figure::drawBoxes(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("boxes", x, y);
+}
+
+template <typename X, typename Y, typename XW>
+auto Figure::drawBoxes(const X& x, const Y& y, const XW& xwidth) -> PlotSpecs&
+{
+    return draw("boxes", x, y, xwidth);
+}
+
+template <typename X, typename Y, typename YD>
+auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> PlotSpecs&
+{
+    return draw("boxerrorbars", x, y, ydelta);
+}
+
+template <typename X, typename Y, typename YL, typename YH>
+auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+{
+    return draw("boxerrorbars", x, y, ylow, yhigh);
+}
+
+template <typename X, typename Y, typename XD>
+auto Figure::drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&
+{
+    return draw("xerrorbars", x, y, xdelta);
+}
+
+template <typename X, typename Y, typename XL, typename XH>
+auto Figure::drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&
+{
+    return draw("xerrorbars", x, y, xlow, xhigh);
+}
+
+template <typename X, typename Y, typename YD>
+auto Figure::drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&
+{
+    return draw("yerrorbars", x, y, ydelta);
+}
+
+template <typename X, typename Y, typename YL, typename YH>
+auto Figure::drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+{
+    return draw("yerrorbars", x, y, ylow, yhigh);
+}
+
+template <typename X, typename Y, typename XD, typename YD>
+auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&
+{
+    return draw("xyerrorbars", x, y, xdelta, ydelta);
+}
+
+template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
+auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+{
+    return draw("xyerrorbars", x, y, xlow, xhigh, ylow, yhigh);
+}
+
+template <typename X, typename Y>
+auto Figure::drawSteps(const X& x, const Y& y) -> PlotSpecs&
+{
+    return drawStepsChangeFirstX(x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawStepsChangeFirstX(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("steps", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawStepsChangeFirstY(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("fsteps", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawStepsHistogram(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("histeps", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawStepsFilled(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("fillsteps", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawDots(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("dots", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawPoints(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("points", x, y);
+}
+
+template <typename X, typename Y>
+auto Figure::drawImpulses(const X& x, const Y& y) -> PlotSpecs&
+{
+    return draw("impulses", x, y);
+}
+
+template <typename Y>
+auto Figure::drawHistogram(const Y& y) -> PlotSpecs&
+{
+    return draw("", y); // empty string because we rely on `set style data histograms` since relying `with histograms` is not working very well (e.g., empty key/lenged appearing in columnstacked mode).
 }
 
 auto Figure::legend() -> LegendSpecs&
@@ -502,6 +648,108 @@ auto Figure::samples(std::size_t value) -> void
 auto Figure::gnuplot(std::string command) -> void
 {
     m_customcmds.push_back(command);
+}
+
+auto Figure::show() const -> void
+{
+    // Open script file and truncate it
+    std::ofstream script(m_scriptfilename);
+
+    // Add palette info. Use default palette if the user hasn't set one
+    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+
+    // Add terminal info
+    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
+    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
+    std::string size = gnuplot::sizestr(width, height, false);
+    gnuplot::showterminalcmd(script, size);
+
+    // Add the plot commands
+    script << repr();
+
+    // Add an empty line at the end and close the script to avoid crashes with gnuplot
+    script << std::endl;
+    script.close();
+
+    // save plot data to a file
+    savePlotData();
+
+    // Show the plot
+    gnuplot::runscript(m_scriptfilename, true);
+
+    // remove the temporary files if user wants to
+    if(m_autoclean)
+    {
+        cleanup();
+    }
+}
+
+auto Figure::save(std::string filename) const -> void
+{
+    // Clean the file name to prevent errors
+    auto cleanedfilename = gnuplot::cleanpath(filename);
+
+    // Get extension from file name
+    auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
+
+    // Open script file
+    std::ofstream script(m_scriptfilename);
+
+    // Add palette info. Use default palette if the user hasn't set one
+    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+
+    // Add terminal info
+    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
+    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
+    std::string size = gnuplot::sizestr(width, height, extension == "pdf");
+    gnuplot::saveterminalcmd(script, extension, size);
+
+    // Add output command
+    gnuplot::outputcmd(script, cleanedfilename);
+
+    // Add the plot commands
+    script << repr();
+
+    // Unset the output
+    script << std::endl;
+    script << "set output";
+
+    // Add an empty line at the end and close the script to avoid crashes with gnuplot
+    script << std::endl;
+    script.close();
+
+    // save plot data to a file
+    savePlotData();
+
+    // Save the plot as a file
+    gnuplot::runscript(m_scriptfilename, false);
+
+    // remove the temporary files if user wants to
+    if (m_autoclean)
+    {
+        cleanup();
+    }
+}
+
+auto Figure::savePlotData() const -> void
+{
+    // Open data file, truncate it and write all current plot data to it
+    if(!m_data.empty())
+    {
+        std::ofstream data(m_datafilename);
+        data << m_data;
+    }
+}
+
+auto Figure::autoclean(bool enable) -> void
+{
+    m_autoclean = enable;
+}
+
+auto Figure::cleanup() const -> void
+{
+    std::remove(m_scriptfilename.c_str());
+    std::remove(m_datafilename.c_str());
 }
 
 auto Figure::repr() const -> std::string
@@ -565,113 +813,6 @@ auto Figure::repr() const -> std::string
     // Add an empty line at the end
     script << std::endl;
     return script.str();
-}
-
-auto Figure::saveplotdata() const -> void
-{
-    // Open data file, truncate it and write all current plot data to it
-    if (!m_data.empty())
-    {
-        std::ofstream data(m_datafilename);
-        data << m_data;
-    }
-}
-
-auto Figure::show() const -> void
-{
-    // Open script file and truncate it
-    std::ofstream script(m_scriptfilename);
-
-    // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
-
-    // Add terminal info
-    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
-    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
-    std::string size = gnuplot::sizestr(width, height, false);
-    gnuplot::showterminalcmd(script, size);
-
-    // Add the plot commands
-    script << repr();
-
-    // Add an empty line at the end and close the script to avoid crashes with gnuplot
-    script << std::endl;
-    script.close();
-
-    // save plot data to a file
-    saveplotdata();
-
-    // Show the plot
-    gnuplot::runscript(m_scriptfilename, true);
-
-    // remove the temporary files if user wants to
-    if (m_autoclean)
-    {
-        cleanup();
-    }
-}
-
-auto Figure::save(std::string filename) const -> void
-{
-    // Clean the file name to prevent errors
-    auto cleanedfilename = gnuplot::cleanpath(filename);
-
-    // Get extension from file name
-    auto extension = cleanedfilename.substr(cleanedfilename.rfind(".") + 1);
-
-    // Open script file
-    std::ofstream script(m_scriptfilename);
-
-    // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
-
-    // Add terminal info
-    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
-    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
-    std::string size = gnuplot::sizestr(width, height, extension == "pdf");
-    gnuplot::saveterminalcmd(script, extension, size);
-
-    // Add output command
-    gnuplot::outputcmd(script, cleanedfilename);
-
-    // Add the plot commands
-    script << repr();
-
-    // Unset the output
-    script << std::endl;
-    script << "set output";
-
-    // Add an empty line at the end and close the script to avoid crashes with gnuplot
-    script << std::endl;
-    script.close();
-
-    // save plot data to a file
-    saveplotdata();
-
-    // Save the plot as a file
-    gnuplot::runscript(m_scriptfilename, false);
-
-    // remove the temporary files if user wants to
-    if (m_autoclean)
-    {
-        cleanup();
-    }
-}
-
-
-
-
-
-
-auto Figure::autoclean(bool enable) -> void
-{
-    m_autoclean = enable;
-}
-
-auto Figure::cleanup() const -> void
-{
-    std::remove(m_scriptfilename.c_str());
-    std::remove(m_datafilename.c_str());
 }
 
 } // namespace sciplot
