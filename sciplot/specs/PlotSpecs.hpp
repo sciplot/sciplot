@@ -29,7 +29,9 @@
 #include <limits>
 #include <numeric>
 #include <sciplot/enums.hpp>
+#include <sciplot/specs/FillSpecsOf.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
+#include <sciplot/specs/PointSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 // C++ includes
@@ -38,7 +40,7 @@
 namespace sciplot {
 
 /// The class where options for the plot function are specified.
-class PlotSpecs : public LineSpecsOf<PlotSpecs>
+class PlotSpecs : public LineSpecsOf<PlotSpecs>, public PointSpecsOf<PlotSpecs>, public FillSpecsOf<PlotSpecs>
 {
   public:
     /// Undefine / ignore column usage value. See use().
@@ -46,7 +48,7 @@ class PlotSpecs : public LineSpecsOf<PlotSpecs>
 
     /// Construct a PlotSpecs instance.
     /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
-    PlotSpecs(std::string what);
+    PlotSpecs(std::string what, std::string with);
 
     /// Convert this PlotSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -55,13 +57,6 @@ class PlotSpecs : public LineSpecsOf<PlotSpecs>
     auto title(std::string value) -> PlotSpecs&
     {
         m_title = gnuplot::titlestr(value);
-        return *this;
-    }
-
-    /// Set the format of the plot (lines, points, linespoints).
-    auto with(plotstyle value) -> PlotSpecs&
-    {
-        m_with = gnuplot::plotstylestr(value);
         return *this;
     }
 
@@ -91,20 +86,19 @@ class PlotSpecs : public LineSpecsOf<PlotSpecs>
     /// The what to be plotted as a gnuplot formatted string (e.g., "sin(x)").
     std::string m_what;
 
-    /// The title of the plot as a gnuplot formatted string (e.g., "title 'sin(x)'").
-    std::string m_title;
-
     /// The style of the plot (lines, points, linespoints) as a gnuplot formatted string (e.g., "with linespoints").
     std::string m_with;
+
+    /// The title of the plot as a gnuplot formatted string (e.g., "title 'sin(x)'").
+    std::string m_title;
 
     /// Select which columns from the data file to use for plot data or tick labels (e.g. "using 1:xtic(2)").
     std::string m_using;
 };
 
-PlotSpecs::PlotSpecs(std::string what)
-    : m_what(what)
+PlotSpecs::PlotSpecs(std::string what, std::string with)
+: m_what(what), m_with(with)
 {
-    with(internal::DEFAULT_PLOTSTYLE);
 }
 
 auto PlotSpecs::repr() const -> std::string
@@ -114,8 +108,10 @@ auto PlotSpecs::repr() const -> std::string
     ss << gnuplot::optionValueStr("using", m_using);
     ss << gnuplot::optionValueStr("title", m_title);
     ss << gnuplot::optionValueStr("with", m_with);
-    ss << LineSpecsOf<PlotSpecs>::repr();
-    return ss.str();
+    ss << LineSpecsOf<PlotSpecs>::repr() << " ";
+    ss << PointSpecsOf<PlotSpecs>::repr() << " ";
+    ss << FillSpecsOf<PlotSpecs>::repr() << " ";
+    return internal::removeExtraWhitespaces(ss.str());
 }
 
 } // namespace sciplot
