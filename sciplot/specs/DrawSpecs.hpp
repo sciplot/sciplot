@@ -26,31 +26,13 @@
 #pragma once
 
 // sciplot includes
+#include <sciplot/misc/ColumnIndex.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PointSpecsOf.hpp>
 #include <sciplot/specs/FillSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
-
-/// Auxiliary type used in methods that accept column index using either integers or strings.
-struct ColumnIndex
-{
-    /// Construct a default ColumnIndex object.
-    ColumnIndex() {}
-
-    /// Construct a ColumnIndex object with given integer.
-    ColumnIndex(int col) : value(std::to_string(col)) {} // 1 => "1"
-
-    /// Construct a ColumnIndex object with given string.
-    ColumnIndex(std::string col) : value("'" + col + "'") {} // "Name" => "'Name'"
-
-    /// Construct a ColumnIndex object with given string.
-    ColumnIndex(const char* col) : ColumnIndex(std::string(col)) {}
-
-    /// The column index value.
-    std::string value;
-};
 
 /// The class used to attach draw options to a plot element being drawn.
 template <typename DerivedSpecs>
