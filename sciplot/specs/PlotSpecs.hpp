@@ -25,17 +25,17 @@
 
 #pragma once
 
-// sciplot includes
+// C++ includes
+#include <algorithm>
 #include <limits>
 #include <numeric>
+
+// sciplot includes
 #include <sciplot/enums.hpp>
 #include <sciplot/specs/FillSpecsOf.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PointSpecsOf.hpp>
 #include <sciplot/util.hpp>
-
-// C++ includes
-#include <algorithm>
 
 namespace sciplot {
 
@@ -53,7 +53,7 @@ class PlotSpecs : public LineSpecsOf<PlotSpecs>, public PointSpecsOf<PlotSpecs>,
     /// Convert this PlotSpecs object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
-    /// Set the title of the plot.
+    /// Set the label to be displayed for the plot object.
     auto title(std::string value) -> PlotSpecs&
     {
         m_title = gnuplot::titlestr(value);
@@ -99,6 +99,7 @@ class PlotSpecs : public LineSpecsOf<PlotSpecs>, public PointSpecsOf<PlotSpecs>,
 PlotSpecs::PlotSpecs(std::string what, std::string with)
 : m_what(what), m_with(with)
 {
+    lineWidth(internal::DEFAULT_LINEWIDTH);
 }
 
 auto PlotSpecs::repr() const -> std::string
