@@ -30,7 +30,7 @@
 
 namespace sciplot {
 
-/// The base class for other specs classes (e.g., LineSpecsOf, PlotSpecs, BorderSpecs, etc.)
+/// The base class for other specs classes (e.g., LineSpecsOf, DrawSpecs, BorderSpecs, etc.)
 template <typename DerivedSpecs>
 class Specs
 {

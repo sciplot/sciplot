@@ -42,7 +42,7 @@
 #include <sciplot/specs/HistogramStyleSpecs.hpp>
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
-#include <sciplot/specs/PlotSpecs.hpp>
+#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
@@ -162,206 +162,206 @@ class Figure
 
     /// Draw plot object with given style and given vectors (e.g., `fig.draw("lines", x, y)`).
     template <typename... Vecs>
-    auto draw(std::string with, const Vecs&... vecs) -> PlotSpecs&;
+    auto draw(std::string with, const Vecs&... vecs) -> DrawSpecs&;
 
     /// Draw plot object with given `what`, `using` and `with` expressions (e.g., `fig.draw("sin(x)*cos(x)", "", "linespoints")`,  (e.g., `fig.draw("file.dat", "1:2", "points")`)).
-    auto draw(std::string what, std::string use, std::string with) -> PlotSpecs&;
+    auto draw(std::string what, std::string use, std::string with) -> DrawSpecs&;
 
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto drawCurve(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawCurve(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw a curve with points with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto drawCurveWithPoints(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* with given @p x, @p y, and @p xdelta vectors.
     template <typename X, typename Y, typename XD>
-    auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* with given @p x, @p y, @p xlow, and @p xhigh vectors.
     template <typename X, typename Y, typename XL, typename XH>
-    auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *y* with given @p x, @p y, and @p ydelta vectors.
     template <typename X, typename Y, typename YD>
-    auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *y* with given @p x, @p y, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename YL, typename YH>
-    auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* and *y* with given @p x, @p y, @p xdelta, and @p ydelta vectors.
     template <typename X, typename Y, typename XD, typename YD>
-    auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* and *y* with given @p x, @p y, @p xlow, @p xhigh, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-    auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
 
     /// Draw boxes with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto drawBoxes(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawBoxes(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw boxes with given @p x and @p y vectors as well as the box widths @p xwidth.
     template <typename X, typename Y, typename XW>
-    auto drawBoxes(const X& x, const Y& y, const XW& xwidth) -> PlotSpecs&;
+    auto drawBoxes(const X& x, const Y& y, const XW& xwidth) -> DrawSpecs&;
 
     /// Draw boxes with error bars along *y* with given @p x, @p y, @p ydelta vectors.
     template <typename X, typename Y, typename YD>
-    auto drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> PlotSpecs&;
+    auto drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> DrawSpecs&;
 
     /// Draw boxes with error bars along *y* with given @p x, @p y, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename YL, typename YH>
-    auto drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
+    auto drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
 
     /// Draw error bars along *x* with given @p x, @p y, and @p xdelta vectors.
     template <typename X, typename Y, typename XD>
-    auto drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&;
+    auto drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&;
 
     /// Draw error bars along *x* with given @p x, @p y, @p xlow, and @p xhigh vectors.
     template <typename X, typename Y, typename XL, typename XH>
-    auto drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&;
+    auto drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&;
 
     /// Draw error bars along *y* with given @p x, @p y, and @p ydelta vectors.
     template <typename X, typename Y, typename YD>
-    auto drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&;
+    auto drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&;
 
     /// Draw error bars along *y* with given @p x, @p y, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename YL, typename YH>
-    auto drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
+    auto drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
 
     /// Draw error bars along *x* and *y* with given @p x, @p y, @p xdelta, and @p ydelta vectors.
     template <typename X, typename Y, typename XD, typename YD>
-    auto drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&;
+    auto drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&;
 
     /// Draw error bars along *x* and *y* with given @p x, @p y, @p xlow, @p xhigh, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-    auto drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&;
+    auto drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
 
     /// Draw steps with given @p x and @p y vectors. Identical to @ref drawStepsChangeFirstX.
     template <typename X, typename Y>
-    auto drawSteps(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawSteps(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw steps with given @p x and @p y vectors with steps along *x* changes first.
     template <typename X, typename Y>
-    auto drawStepsChangeFirstX(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw steps with given @p x and @p y vectors with steps along *y* changes first.
     template <typename X, typename Y>
-    auto drawStepsChangeFirstY(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw steps with given @p x and @p y vectors in a histogram style
     template <typename X, typename Y>
-    auto drawStepsHistogram(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw steps with given @p x and @p y vectors with filled area below steps.
     template <typename X, typename Y>
-    auto drawStepsFilled(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw dots with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto drawDots(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawDots(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw points with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto drawPoints(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawPoints(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw impulses with given @p x and @p y vectors.
     template <typename X, typename Y>
-    auto drawImpulses(const X& x, const Y& y) -> PlotSpecs&;
+    auto drawImpulses(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw a histogram for the given @p y vector.
     template <typename Y>
-    auto drawHistogram(const Y& y) -> PlotSpecs&;
+    auto drawHistogram(const Y& y) -> DrawSpecs&;
 
     //======================================================================
     // METHODS FOR DRAWING PLOT ELEMENTS USING DATA FROM LOCAL FILES
     //======================================================================
 
     /// Draw plot object with given style and given vectors (e.g., `fig.draw("lines", x, y)`).
-    auto draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> PlotSpecs&;
+    auto draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&;
 
     /// Draw a curve with given values at @p xcol and @p ycol columns in file @p fname.
-    auto drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw a curve with points with given values at @p xcol and @p ycol columns in file @p fname.
-    auto drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* with given values at @p xcol, @p ycol, and @p xdeltacol columns in file @p fname.
-    auto drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* with given values at @p xcol, @p ycol, @p xlowcol, and @p xhighcol columns in file @p fname.
-    auto drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *y* with given values at @p xcol, @p ycol, and @p ydeltacol columns in file @p fname.
-    auto drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *y* with given values at @p xcol, @p ycol, @p ylowcol, and @p yhighcol columns in file @p fname.
-    auto drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xdeltacol, and @p ydeltacol columns in file @p fname.
-    auto drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&;
 
     /// Draw a curve with error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xlowcol, @p xhighcol, @p ylowcol, and @p yhighcol columns in file @p fname.
-    auto drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+    auto drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&;
 
     /// Draw boxes with given values at @p xcol and @p ycol columns in file @p fname.
-    auto drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw boxes with given values at @p xcol and @p ycol columns in file @p fname as well as the box widths @p xwidthcol.
-    auto drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> PlotSpecs&;
+    auto drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> DrawSpecs&;
 
     /// Draw boxes with error bars along *y* with given values at @p xcol, @p ycol, @p ydeltacol columns in file @p fname.
-    auto drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&;
+    auto drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&;
 
     /// Draw boxes with error bars along *y* with given values at @p xcol, @p ycol, @p ylowcol, and @p yhighcol columns in file @p fname.
-    auto drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+    auto drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&;
 
     /// Draw error bars along *x* with given values at @p xcol, @p ycol, and @p xdeltacol columns in file @p fname.
-    auto drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&;
+    auto drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&;
 
     /// Draw error bars along *x* with given values at @p xcol, @p ycol, @p xlowcol, and @p xhighcol columns in file @p fname.
-    auto drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&;
+    auto drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&;
 
     /// Draw error bars along *y* with given values at @p xcol, @p ycol, and @p ydeltacol columns in file @p fname.
-    auto drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&;
+    auto drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&;
 
     /// Draw error bars along *y* with given values at @p xcol, @p ycol, @p ylowcol, and @p yhighcol columns in file @p fname.
-    auto drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+    auto drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&;
 
     /// Draw error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xdeltacol, and @p ydeltacol columns in file @p fname.
-    auto drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&;
+    auto drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&;
 
     /// Draw error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xlowcol, @p xhighcol, @p ylowcol, and @p yhighcol columns in file @p fname.
-    auto drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+    auto drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&;
 
     /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname. Identical to @ref drawStepsChangeFirstX.
-    auto drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname with steps along *x* changes first.
-    auto drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname with steps along *y* changes first.
-    auto drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname in a histogram style
-    auto drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname with filled area below steps.
-    auto drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw dots with given values at @p xcol and @p ycol columns in file @p fname.
-    auto drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw points with given values at @p xcol and @p ycol columns in file @p fname.
-    auto drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw impulses with given values at @p xcol and @p ycol columns in file @p fname.
-    auto drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
 
     /// Draw a histogram with given values at @p ycol column in file @p fname.
-    auto drawHistogram(std::string fname, ColumnIndex ycol) -> PlotSpecs&;
+    auto drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&;
 
     //======================================================================
     // MISCElLANEOUS METHODS
@@ -438,7 +438,7 @@ class Figure
     AxisLabelSpecs m_zlabel;               ///< The label of the z-axis
     AxisLabelSpecs m_rlabel;               ///< The label of the r-axis
     std::string m_boxwidth;                ///< The default width of boxes in plots containing boxes without given widths.
-    std::vector<PlotSpecs> m_plotspecs;    ///< The plot specs for each call to gnuplot plot function
+    std::vector<DrawSpecs> m_DrawSpecs;    ///< The plot specs for each call to gnuplot plot function
     std::vector<std::string> m_customcmds; ///< The strings containing gnuplot custom commands
 };
 // Initialize the counter of plot objects
@@ -539,20 +539,20 @@ auto Figure::boxWidthRelative(double val) -> void
 // METHODS FOR DRAWING PLOT ELEMENTS
 //======================================================================
 
-auto Figure::draw(std::string what, std::string use, std::string with) -> PlotSpecs&
+auto Figure::draw(std::string what, std::string use, std::string with) -> DrawSpecs&
 {
     // Save the draw arguments for this x,y data
-    m_plotspecs.emplace_back(what, use, with);
+    m_DrawSpecs.emplace_back(what, use, with);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
-    m_plotspecs.back().lineStyle(m_plotspecs.size());
+    m_DrawSpecs.back().lineStyle(m_DrawSpecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
-    return m_plotspecs.back();
+    return m_DrawSpecs.back();
 }
 
 template <typename... Vecs>
-auto Figure::draw(std::string with, const Vecs&... vecs) -> PlotSpecs&
+auto Figure::draw(std::string with, const Vecs&... vecs) -> DrawSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
@@ -566,163 +566,163 @@ auto Figure::draw(std::string with, const Vecs&... vecs) -> PlotSpecs&
 }
 
 template <typename X, typename Y>
-auto Figure::drawCurve(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawCurve(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("lines", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawCurveWithPoints(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("linespoints", x, y);
 }
 
 template <typename X, typename Y, typename XD>
-auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
 {
     return draw("xerrorlines", x, y, xdelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH>
-auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
 {
     return draw("xerrorlines", x, y, xlow, xhigh);
 }
 
 template <typename X, typename Y, typename YD>
-auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
 {
     return draw("yerrorlines", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
-auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return draw("yerrorlines", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD, typename YD>
-auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
 {
     return draw("xyerrorlines", x, y, xdelta, ydelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return draw("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
 }
 
 template <typename X, typename Y>
-auto Figure::drawBoxes(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawBoxes(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("boxes", x, y);
 }
 
 template <typename X, typename Y, typename XW>
-auto Figure::drawBoxes(const X& x, const Y& y, const XW& xwidth) -> PlotSpecs&
+auto Figure::drawBoxes(const X& x, const Y& y, const XW& xwidth) -> DrawSpecs&
 {
     return draw("boxes", x, y, xwidth);
 }
 
 template <typename X, typename Y, typename YD>
-auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> PlotSpecs&
+auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> DrawSpecs&
 {
     return draw("boxerrorbars", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
-auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return draw("boxerrorbars", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD>
-auto Figure::drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> PlotSpecs&
+auto Figure::drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
 {
     return draw("xerrorbars", x, y, xdelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH>
-auto Figure::drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> PlotSpecs&
+auto Figure::drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
 {
     return draw("xerrorbars", x, y, xlow, xhigh);
 }
 
 template <typename X, typename Y, typename YD>
-auto Figure::drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> PlotSpecs&
+auto Figure::drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
 {
     return draw("yerrorbars", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
-auto Figure::drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+auto Figure::drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return draw("yerrorbars", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD, typename YD>
-auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> PlotSpecs&
+auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
 {
     return draw("xyerrorbars", x, y, xdelta, ydelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> PlotSpecs&
+auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return draw("xyerrorbars", x, y, xlow, xhigh, ylow, yhigh);
 }
 
 template <typename X, typename Y>
-auto Figure::drawSteps(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawSteps(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawStepsChangeFirstX(x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsChangeFirstX(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("steps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsChangeFirstY(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("fsteps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsHistogram(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("histeps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsFilled(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("fillsteps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawDots(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawDots(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("dots", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawPoints(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawPoints(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("points", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawImpulses(const X& x, const Y& y) -> PlotSpecs&
+auto Figure::drawImpulses(const X& x, const Y& y) -> DrawSpecs&
 {
     return draw("impulses", x, y);
 }
 
 template <typename Y>
-auto Figure::drawHistogram(const Y& y) -> PlotSpecs&
+auto Figure::drawHistogram(const Y& y) -> DrawSpecs&
 {
     return draw("", y); // empty string because we rely on `set style data histograms` since relying `with histograms` is not working very well (e.g., empty key/lenged appearing in columnstacked mode).
 }
@@ -731,7 +731,7 @@ auto Figure::drawHistogram(const Y& y) -> PlotSpecs&
 // METHODS FOR DRAWING PLOT ELEMENTS USING DATA FROM LOCAL FILES
 //======================================================================
 
-auto Figure::draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> PlotSpecs&
+auto Figure::draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
 {
     std::string use;
     for(auto col : cols)
@@ -741,137 +741,137 @@ auto Figure::draw(std::string fname, std::string with, const std::vector<ColumnI
     return draw(what, use, with); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
 }
 
-auto Figure::drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "lines", {xcol, ycol});
 }
 
-auto Figure::drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "linespoints", {xcol, ycol});
 }
 
-auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
 {
     return draw(fname, "xerrorlines", {xcol, ycol, xdeltacol});
 }
 
-auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
 {
     return draw(fname, "xerrorlines", {xcol, ycol, xlowcol, xhighcol});
 }
 
-auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return draw(fname, "yerrorlines", {xcol, ycol, ydeltacol});
 }
 
-auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return draw(fname, "yerrorlines", {xcol, ycol, ylowcol, yhighcol});
 }
 
-auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return draw(fname, "xyerrorlines", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
-auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return draw(fname, "xyerrorlines", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
-auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "boxes", {xcol, ycol});
 }
 
-auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> PlotSpecs&
+auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> DrawSpecs&
 {
     return draw(fname, "boxes", {xcol, ycol, xwidthcol});
 }
 
-auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
+auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return draw(fname, "boxerrorbars", {xcol, ycol, ydeltacol});
 }
 
-auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return draw(fname, "boxerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
-auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&
+auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
 {
     return draw(fname, "xerrorbars", {xcol, ycol, xdeltacol});
 }
 
-auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&
+auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
 {
     return draw(fname, "xerrorbars", {xcol, ycol, xlowcol, xhighcol});
 }
 
-auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
+auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return draw(fname, "yerrorbars", {xcol, ycol, ydeltacol});
 }
 
-auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return draw(fname, "yerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
-auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&
+auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return draw(fname, "xyerrorbars", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
-auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return draw(fname, "xyerrorbars", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
-auto Figure::drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "steps", {xcol, ycol});
 }
 
-auto Figure::drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "steps", {xcol, ycol});
 }
 
-auto Figure::drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "fsteps", {xcol, ycol});
 }
 
-auto Figure::drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "histeps", {xcol, ycol});
 }
 
-auto Figure::drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "fillsteps", {xcol, ycol});
 }
 
-auto Figure::drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "dots", {xcol, ycol});
 }
 
-auto Figure::drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "points", {xcol, ycol});
 }
 
-auto Figure::drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "impulses", {xcol, ycol});
 }
 
-auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> PlotSpecs&
+auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&
 {
     return draw(fname, "", {ycol});
 }
@@ -1051,9 +1051,9 @@ auto Figure::repr() const -> std::string
     script << "plot \\\n"; // use `\` to have a plot command in each individual line!
 
     // Write plot commands and style per plot
-    const auto n = m_plotspecs.size();
+    const auto n = m_DrawSpecs.size();
     for(std::size_t i = 0; i < n; ++i)
-        script << "    " << m_plotspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
+        script << "    " << m_DrawSpecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
 
     // Add an empty line at the end
     script << std::endl;
