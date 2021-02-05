@@ -164,8 +164,8 @@ class Figure
     template <typename... Vecs>
     auto draw(std::string with, const Vecs&... vecs) -> PlotSpecs&;
 
-    /// Draw plot object with given `what` expression and `with` style (e.g., `fig.draw("sin(x)*cos(x)", "linespoints")`).
-    auto draw(std::string what, std::string with) -> PlotSpecs&;
+    /// Draw plot object with given `what`, `using` and `with` expressions (e.g., `fig.draw("sin(x)*cos(x)", "", "linespoints")`,  (e.g., `fig.draw("file.dat", "1:2", "points")`)).
+    auto draw(std::string what, std::string use, std::string with) -> PlotSpecs&;
 
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -539,10 +539,10 @@ auto Figure::boxWidthRelative(double val) -> void
 // METHODS FOR DRAWING PLOT ELEMENTS
 //======================================================================
 
-auto Figure::draw(std::string what, std::string with) -> PlotSpecs&
+auto Figure::draw(std::string what, std::string use, std::string with) -> PlotSpecs&
 {
     // Save the draw arguments for this x,y data
-    m_plotspecs.emplace_back(what, with);
+    m_plotspecs.emplace_back(what, use, with);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
     m_plotspecs.back().lineStyle(m_plotspecs.size());
@@ -734,144 +734,146 @@ auto Figure::drawHistogram(const Y& y) -> PlotSpecs&
 auto Figure::draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> PlotSpecs&
 {
     std::string use;
-    /// TODO COmplete this function.
-    std::string what;
-    draw(what, with);
+    for(auto col : cols)
+        use += col.value + ":"; // e.g., "1:4:5:7:" (where 1 is x, 4 is y, 5 is ylow and 7 is yhigh for a yerrorlines plot)
+    use = internal::trimright(use, ':'); // e.g., "1:4:5:7:" => "1:4:5:7"
+    std::string what = "'" + fname + "'"; // e.g., "'myfile.dat'"
+    return draw(what, use, with); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
 }
 
 auto Figure::drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "lines", xcol, ycol);
+    return draw(fname, "lines", {xcol, ycol});
 }
 
 auto Figure::drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "linespoints", xcol, ycol);
+    return draw(fname, "linespoints", {xcol, ycol});
 }
 
 auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&
 {
-    return draw(fname, "xerrorlines", xcol, ycol, xdeltacol);
+    return draw(fname, "xerrorlines", {xcol, ycol, xdeltacol});
 }
 
 auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&
 {
-    return draw(fname, "xerrorlines", xcol, ycol, xlowcol, xhighcol);
+    return draw(fname, "xerrorlines", {xcol, ycol, xlowcol, xhighcol});
 }
 
 auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
 {
-    return draw(fname, "yerrorlines", xcol, ycol, ydeltacol);
+    return draw(fname, "yerrorlines", {xcol, ycol, ydeltacol});
 }
 
 auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
 {
-    return draw(fname, "yerrorlines", xcol, ycol, ylowcol, yhighcol);
+    return draw(fname, "yerrorlines", {xcol, ycol, ylowcol, yhighcol});
 }
 
 auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&
 {
-    return draw(fname, "xyerrorlines", xcol, ycol, xdeltacol, ydeltacol);
+    return draw(fname, "xyerrorlines", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
 auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
 {
-    return draw(fname, "xyerrorlines", xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol);
+    return draw(fname, "xyerrorlines", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
 auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "boxes", xcol, ycol);
+    return draw(fname, "boxes", {xcol, ycol});
 }
 
 auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> PlotSpecs&
 {
-    return draw(fname, "boxes", xcol, ycol, xwidthcol);
+    return draw(fname, "boxes", {xcol, ycol, xwidthcol});
 }
 
 auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
 {
-    return draw(fname, "boxerrorbars", xcol, ycol, ydeltacol);
+    return draw(fname, "boxerrorbars", {xcol, ycol, ydeltacol});
 }
 
 auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
 {
-    return draw(fname, "boxerrorbars", xcol, ycol, ylowcol, yhighcol);
+    return draw(fname, "boxerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
 auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&
 {
-    return draw(fname, "xerrorbars", xcol, ycol, xdeltacol);
+    return draw(fname, "xerrorbars", {xcol, ycol, xdeltacol});
 }
 
 auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&
 {
-    return draw(fname, "xerrorbars", xcol, ycol, xlowcol, xhighcol);
+    return draw(fname, "xerrorbars", {xcol, ycol, xlowcol, xhighcol});
 }
 
 auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
 {
-    return draw(fname, "yerrorbars", xcol, ycol, ydeltacol);
+    return draw(fname, "yerrorbars", {xcol, ycol, ydeltacol});
 }
 
 auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
 {
-    return draw(fname, "yerrorbars", xcol, ycol, ylowcol, yhighcol);
+    return draw(fname, "yerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
 auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&
 {
-    return draw(fname, "xyerrorbars", xcol, ycol, xdeltacol, ydeltacol);
+    return draw(fname, "xyerrorbars", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
 auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
 {
-    return draw(fname, "xyerrorbars", xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol);
+    return draw(fname, "xyerrorbars", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
 auto Figure::drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return drawStepsChangeFirstX(fname, xcol, ycol);
+    return draw(fname, "steps", {xcol, ycol});
 }
 
 auto Figure::drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "steps", xcol, ycol);
+    return draw(fname, "steps", {xcol, ycol});
 }
 
 auto Figure::drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "fsteps", xcol, ycol);
+    return draw(fname, "fsteps", {xcol, ycol});
 }
 
 auto Figure::drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "histeps", xcol, ycol);
+    return draw(fname, "histeps", {xcol, ycol});
 }
 
 auto Figure::drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "fillsteps", xcol, ycol);
+    return draw(fname, "fillsteps", {xcol, ycol});
 }
 
 auto Figure::drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "dots", xcol, ycol);
+    return draw(fname, "dots", {xcol, ycol});
 }
 
 auto Figure::drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "points", xcol, ycol);
+    return draw(fname, "points", {xcol, ycol});
 }
 
 auto Figure::drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "impulses", xcol, ycol);
+    return draw(fname, "impulses", {xcol, ycol});
 }
 
 auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> PlotSpecs&
 {
-    return draw(fname, "", ycol);
+    return draw(fname, "", {ycol});
 }
 
 //======================================================================
@@ -1036,7 +1038,7 @@ auto Figure::repr() const -> std::string
         script << "#==============================================================================" << std::endl;
         script << "# CUSTOM EXPLICIT GNUPLOT COMMANDS" << std::endl;
         script << "#==============================================================================" << std::endl;
-        for (const auto& c : m_customcmds)
+        for(const auto& c : m_customcmds)
         {
             script << c << std::endl;
         }
@@ -1046,12 +1048,12 @@ auto Figure::repr() const -> std::string
     script << "#==============================================================================" << std::endl;
     script << "# PLOT COMMANDS" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << "plot ";
+    script << "plot \\\n"; // use `\` to have a plot command in each individual line!
 
     // Write plot commands and style per plot
     const auto n = m_plotspecs.size();
-    for (std::size_t i = 0; i < n; ++i)
-        script << m_plotspecs[i] << (i < n - 1 ? ", " : "");
+    for(std::size_t i = 0; i < n; ++i)
+        script << "    " << m_plotspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
 
     // Add an empty line at the end
     script << std::endl;
