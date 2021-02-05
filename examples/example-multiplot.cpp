@@ -32,32 +32,27 @@ int main(int argc, char** argv)
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     const vec x = linspace(0.0, 5.0, 200);
 
-    // Create 4 different plots
-    plot p0;
-    p0.draw(x, std::sin(x)).title("sin(x)");
-    p0.draw(x, std::cos(x)).title("cos(x)");
-    plot p1;
-    p1.draw(x, std::cos(x)).title("cos(x)");
-    plot p2;
-    p2.draw(x, std::tan(x)).title("tan(x)");
-    plot p3;
-    p3.draw(x, std::sqrt(x)).title("sqrt(x)");
+    // Create 4 different figures
+    Figure fig0;
+    fig0.drawCurve(x, std::sin(x)).label("sin(x)");
+    fig0.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // Create multiplot to add the plots, set title, palette and 2x2 layout
-    multiplot mp;
-    mp.title("Example - Multiplot");
-    mp.palette("dark2");
-    mp.layout(2, 2);
+    Figure fig1;
+    fig1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // Fill up columns of the multiplot first and grow layout upwards (default is rowsfirst downwards)
-    mp.fillorder(fillordertype::columnsfirst).growdirection(growdirectiontype::upwards);
+    Figure fig2;
+    fig2.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    // Add plots to multiplot
-    mp.add(p0).add(p1).add(p2).add(p3);
+    Figure fig3;
+    fig3.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
 
-    // Show the multiplot in a pop-up window
-    mp.show();
+    // Use the previous figures as sub-figures in a larger 2x2 figure.
+    Figures fig = {{ fig0, fig1 },
+                   { fig2, fig3 }};
+
+    fig.title("Trigonometric Functions");
+    fig.palette("dark2");
 
     // Save the plot to a PDF file
-    mp.save("example-multiplot.pdf");
+    fig.save("example-multiplot.pdf");
 }

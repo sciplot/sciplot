@@ -38,7 +38,7 @@ class Figures
 {
   public:
     /// Construct a Figures object with given figures.
-    // Figures(const std::initializer_list<std::initializer_list<Figure>>& figs);
+    Figures(const std::initializer_list<std::initializer_list<Figure>>& figs);
 
     /// Construct a Figures object with given figures.
     Figures(const std::vector<std::vector<Figure>>& figs);
@@ -119,6 +119,19 @@ class Figures
 
 // Initialize the counter of plot objects
 std::size_t Figures::m_counter = 0;
+
+Figures::Figures(const std::initializer_list<std::initializer_list<Figure>>& figs)
+: m_id(m_counter++),
+  m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
+{
+    m_layoutrows = figs.size();
+    m_layoutcols = 1;
+    for(const auto& row : figs)
+        m_layoutcols = std::max(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
+
+    for(const auto& row : figs)
+        m_figures.emplace_back(row.begin(), row.end());
+}
 
 Figures::Figures(const std::vector<std::vector<Figure>>& figs)
 : m_id(m_counter++),

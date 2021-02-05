@@ -416,8 +416,8 @@ class Figure
     std::string m_yrange;                  ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
     BorderSpecs m_border;                  ///< The border style of the plot
     GridSpecs m_grid;                      ///< The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
-    FillStyleSpecs m_style_fill;                ///< The specs for the fill style of the plot elements in the figure that can be painted.
-    HistogramStyleSpecs m_style_histogram;      ///< The specs for the histogram style of the figure.
+    FillStyleSpecs m_style_fill;           ///< The specs for the fill style of the plot elements in the figure that can be painted.
+    HistogramStyleSpecs m_style_histogram; ///< The specs for the histogram style of the figure.
     TicsSpecs m_tics;                      ///< The specs of the tics of the plot
     TicsSpecsMajor m_xtics_major_bottom;   ///< The specs for the major xtics at the bottom.
     TicsSpecsMajor m_xtics_major_top;      ///< The specs for the major xtics at the top.
@@ -441,6 +441,7 @@ class Figure
     std::vector<DrawSpecs> m_DrawSpecs;    ///< The plot specs for each call to gnuplot plot function
     std::vector<std::string> m_customcmds; ///< The strings containing gnuplot custom commands
 };
+
 // Initialize the counter of plot objects
 std::size_t Figure::m_counter = 0;
 
