@@ -30,62 +30,34 @@
 #include <sciplot/specs/DrawSpecs.hpp>
 using namespace sciplot;
 
-TEST_CASE("DrawSpecsWithLineProps", "[specs]")
+TEST_CASE("DrawSpecs", "[specs]")
 {
-    auto default_specs = DrawSpecsWithLineProps("file.dat", "lines");
-    default_specs.lineWidth(internal::DEFAULT_LINEWIDTH);
+    auto specs = DrawSpecs("'file.dat'", "1:2", "lines");
 
-    auto specs = DrawSpecsWithLineProps("file.dat", "lines");
-    CHECK( specs.repr() == default_specs.repr() );
+    CHECK( specs.repr() == "'file.dat' using 1:2 with lines linewidth 2" );
 
-    specs.xcolumn(1);
-    specs.ycolumn("City");
+    specs.label("SuperData");
+    CHECK( specs.repr() == "'file.dat' using 1:2 title 'SuperData' with lines linewidth 2" );
 
-    CHECK( specs.repr() ==
-        "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "
-        "with lines linewidth 2" );
+    specs.labelDefault();
+    CHECK( specs.repr() == "'file.dat' using 1:2 with lines linewidth 2" );
+
+    specs.labelFromColumnHeader();
+    CHECK( specs.repr() == "'file.dat' using 1:2 title columnheader with lines linewidth 2" );
+
+    specs.labelFromColumnHeader(3);
+    CHECK( specs.repr() == "'file.dat' using 1:2 title columnheader(3) with lines linewidth 2" );
+
+    specs.label("OnlyData");
+    CHECK( specs.repr() == "'file.dat' using 1:2 title 'OnlyData' with lines linewidth 2" );
 
     specs.lineWidth(3);
     specs.lineColor("orange");
+    CHECK( specs.repr() == "'file.dat' using 1:2 title 'OnlyData' with lines linewidth 3 linecolor 'orange'" );
 
-    CHECK( specs.repr() ==
-        "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "
-        "with lines linewidth 3 linecolor 'orange'" );
+    specs.ytics(9);
+    CHECK( specs.repr() == "'file.dat' using 1:2:ytic(stringcolumn(9)) title 'OnlyData' with lines linewidth 3 linecolor 'orange'" );
 
-    specs.label("SuperFig");
-    specs.xcolumn("State");
-    specs.ycolumn(7);
-    specs.xtic("Country");
-    specs.ytic(9);
-
-    CHECK( specs.repr() ==
-        "'file.dat' using 'State':7:xtic(stringcolumn('Country')):ytic(stringcolumn(9)) "
-        "title 'SuperFig' with lines linewidth 3 linecolor 'orange'" );
-}
-
-TEST_CASE("DrawSpecsWithPointProps", "[specs]")
-{
-    auto specs = DrawSpecsWithPointProps("file.dat", "points");
-
-    CHECK( specs.repr() == "'file.dat' using 0:1 with points" );
-
-    specs.labelFromColumnHeader();
-    specs.pointSize(3);
-    specs.pointType(7);
-    specs.xcolumn(1);
-    specs.ycolumn("City");
-
-    CHECK( specs.repr() ==
-        "'file.dat' using 1:'City':xtic(stringcolumn(1)):ytic(stringcolumn('City')) "
-        "title columnheader with points pointtype 7 pointsize 3" );
-
-    specs.labelFromColumnHeader(13);
-    specs.xcolumn("State");
-    specs.ycolumn(7);
-    specs.xtic("Country");
-    specs.ytic(9);
-
-    CHECK( specs.repr() ==
-        "'file.dat' using 'State':7:xtic(stringcolumn('Country')):ytic(stringcolumn(9)) "
-        "title columnheader(13) with points pointtype 7 pointsize 3" );
+    specs.xtics("Country");
+    CHECK( specs.repr() == "'file.dat' using 1:2:xtic(stringcolumn('Country')):ytic(stringcolumn(9)) title 'OnlyData' with lines linewidth 3 linecolor 'orange'" );
 }

@@ -27,206 +27,59 @@
 
 // sciplot includes
 #include <sciplot/misc/ColumnIndex.hpp>
+#include <sciplot/specs/FillSpecsOf.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PointSpecsOf.hpp>
-#include <sciplot/specs/FillSpecsOf.hpp>
 #include <sciplot/util.hpp>
 
 namespace sciplot {
 
-/// The class used to attach draw options to a plot element being drawn.
-template <typename DerivedSpecs>
-class DrawSpecsOf : virtual public Specs<DerivedSpecs>
+/// The class where options for the plotted element can be specified.
+class DrawSpecs : public LineSpecsOf<DrawSpecs>, public PointSpecsOf<DrawSpecs>, public FillSpecsOf<DrawSpecs>
 {
-public:
-    /// Construct a DrawSpecsOf instance.
-    /// @param datafile The path to the file containing the data to be plotted.
-    /// @param plotstyle The plot style to be used for the draw operation (e.g., "lines", "points", "histograms", "dots", etc.).
-    explicit DrawSpecsOf(std::string datafile, std::string plotstyle)
-    : m_datafile(datafile), m_plotstyle(plotstyle)
-    {}
+  public:
+    /// Construct a DrawSpecs instance.
+    /// @param what The string representing `what` to be plot (e.g., "'filename'", "sin(x)")
+    /// @param use The string representing the `using` expression (e.g., "using 1:2", "using 4:6:8:9")
+    /// @param with The string representing the `with plotstyle` expression (e.g., "lines", "linespoints", "dots")
+    DrawSpecs(std::string what, std::string use, std::string with);
 
     /// Set the legend label of the plotted element.
-    auto label(std::string text) -> DrawSpecsOf&
-    {
-        m_title = "title '" + text + "'";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto label(std::string text) -> DrawSpecs&;
 
     /// Set the legend label of the plotted element to be retrieved from the header of column.
-    auto labelFromColumnHeader() -> DrawSpecsOf&
-    {
-        m_title = "title columnheader";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto labelFromColumnHeader() -> DrawSpecs&;
 
     /// Set the legend label of the plotted element to be retrieved from the header of a column with given index.
-    auto labelFromColumnHeader(int icolumn) -> DrawSpecsOf&
-    {
-        m_title = "title columnheader(" + std::to_string(icolumn) + ")";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto labelFromColumnHeader(int icolumn) -> DrawSpecs&;
 
     /// Set the legend label of the plotted element to be ignored.
-    auto labelNone() -> DrawSpecsOf&
-    {
-        m_title = "title notitle";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto labelNone() -> DrawSpecs&;
 
     /// Set the legend label to be determined automatically from the plot expression.
-    auto labelDefault() -> DrawSpecsOf&
-    {
-        m_title = "";
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    auto labelDefault() -> DrawSpecs&;
 
-    /// Set the format of the plot (lines, points, linespoints).
-    auto with(std::string value) -> DrawSpecsOf&
-    {
-        m_with = value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    /// Set the column in the data file containing the tic labels for *x* axis.
+    auto xtics(ColumnIndex icol) -> DrawSpecs&;
 
-    /// Set the column in the data file containing the `x` values.
-    auto x(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_xcol = icol.value; // an integer string such as "1" or a column name such as "'Name'"
-        if(m_xtic.empty())
-            xtic(icol);
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    /// Set the column in the data file containing the tic labels for *y* axis.
+    auto ytics(ColumnIndex icol) -> DrawSpecs&;
 
-    /// Set the column in the data file containing the `y` values.
-    auto y(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_ycol = icol.value; // an integer string such as "1" or a column name such as "'Name'"
-        if(m_ytic.empty())
-            ytic(icol);
-        return static_cast<DerivedSpecs&>(*this);
-    }
+    /// Convert this DrawSpecs object into a gnuplot formatted string.
+    auto repr() const -> std::string;
 
-    /// Set the column in the data file containing the `xdelta` values (for plot styles with error bars along *x*).
-    auto xdelta(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_xdeltacol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
+  private:
+    /// The string representing `what` to be plot (e.g., "'filename'", "sin(x)").
+    std::string m_what;
 
-    /// Set the column in the data file containing the `xlow` values (for plot styles with error bars along *x*).
-    auto xlow(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_xlowcol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Set the column in the data file containing the `xhigh` values (for plot styles with error bars along *x*).
-    auto xhigh(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_xhighcol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Set the column in the data file containing the `ydelta` values (for plot styles with error bars along *y*).
-    auto ydelta(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_ydeltacol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Set the column in the data file containing the `ylow` values (for plot styles with error bars along *y*).
-    auto ylow(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_ylowcol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Set the column in the data file containing the `yhigh` values (for plot styles with error bars along *y*).
-    auto yhigh(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_yhighcol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Set the column in the data file containing the `xwidth` values (for box plot styles with box widths ).
-    auto xwidth(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_xwidthcol = icol.value;
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// The column in the data file containing the x tic labels.
-    auto xtic(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_xtic = "xtic(stringcolumn(" + icol.value + "))"; // xtic(stringcolumn(1)) or xtic(stringcolumn('Name'))
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// The column in the data file containing the y tic labels.
-    auto ytic(ColumnIndex icol) -> DerivedSpecs&
-    {
-        m_ytic = "ytic(stringcolumn(" + icol.value + "))"; // ytic(stringcolumn(1)) or ytic(stringcolumn('Name'))
-        return static_cast<DerivedSpecs&>(*this);
-    }
-
-    /// Convert this DrawSpecsOf object into a gnuplot formatted string.
-    auto repr() const -> std::string
-    {
-        std::string using_expr = "using " +
-            m_xcol + ":" + m_ycol + ":" + m_xtic + ":" + m_ytic;
-
-        using_expr = internal::trimright(using_expr, ':'); // remove any leading `:` in string `using_expr`
-
-        std::stringstream ss;
-        ss << "'" << m_datafile << "'" << " ";
-        ss << using_expr << " ";
-        ss << m_title << " ";
-        ss << "with " << m_plotstyle << " ";
-        return internal::removeExtraWhitespaces(ss.str());
-    }
-
-protected:
-    /// The path to the file containing the data to be plotted.
-    std::string m_datafile;
-
-    /// The plot style to be used for the draw operation (e.g., "lines", "points", "histograms", "dots", etc.).
-    std::string m_plotstyle;
-
-    /// The title (i.e., legend label) of the plotted element as a gnuplot formatted string (e.g., "title 'sin(x)'").
-    std::string m_title;
-
-    /// The style of the plot (lines, points, linespoints) as a gnuplot formatted string (e.g., "with linespoints").
-    std::string m_with;
-
-    /// Select which columns from the data file to use for plot data or tick labels (e.g. "using 1:xtic(2)").
+    /// The string representing the `using` expression (e.g., "using 1:2", "using 4:6:8:9").
     std::string m_using;
 
-    /// The column in the data file containing the `x` values.
-    std::string m_xcol = "0";
+    /// The string representing the `with plotstyle` expression (e.g., "lines", "linespoints", "dots").
+    std::string m_with;
 
-    /// The column in the data file containing the `y` values.
-    std::string m_ycol = "1";
-
-    /// The column in the data file containing the `xdelta` values (for plot styles with error bars along x).
-    std::string m_xdeltacol;
-
-    /// The column in the data file containing the `xlow` values (for plot styles with error bars along x).
-    std::string m_xlowcol;
-
-    /// The column in the data file containing the `xhigh` values (for plot styles with error bars along x).
-    std::string m_xhighcol;
-
-    /// The column in the data file containing the `ydelta` values (for plot styles with error bars along y).
-    std::string m_ydeltacol;
-
-    /// The column in the data file containing the `ylow` values (for plot styles with error bars along y).
-    std::string m_ylowcol;
-
-    /// The column in the data file containing the `yhigh` values (for plot styles with error bars along y).
-    std::string m_yhighcol;
-
-    /// The column in the data file containing the `xwidth` values (for box plot styles with box widths ).
-    std::string m_xwidthcol;
+    /// The title of the plot as a gnuplot formatted string (e.g., "title 'sin(x)'").
+    std::string m_title;
 
     /// The column in the data file containing the x tic labels.
     std::string m_xtic;
@@ -235,84 +88,69 @@ protected:
     std::string m_ytic;
 };
 
-/// The class used to specify options to a plot element being drawn that has line properties.
-class DrawSpecsWithLineProps : public DrawSpecsOf<DrawSpecsWithLineProps>, public LineSpecsOf<DrawSpecsWithLineProps>
+inline DrawSpecs::DrawSpecs(std::string what, std::string use, std::string with)
+: m_what(what), m_using(use), m_with(with)
 {
-public:
-    /// Construct a DrawSpecsWithLineProps instance.
-    explicit DrawSpecsWithLineProps(std::string datafile, std::string plotstyle)
-    : DrawSpecsOf<DrawSpecsWithLineProps>(datafile, plotstyle)
-    {
-        lineWidth(internal::DEFAULT_LINEWIDTH);
-    }
+    lineWidth(internal::DEFAULT_LINEWIDTH);
+}
 
-    /// Convert this DrawSpecsWithLineProps object into a gnuplot formatted string.
-    auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << DrawSpecsOf<DrawSpecsWithLineProps>::repr() << " ";
-        ss << LineSpecsOf<DrawSpecsWithLineProps>::repr();
-        return internal::removeExtraWhitespaces(ss.str());
-    }
-};
-
-/// The class used to specify options to a plot element being drawn that has point properties.
-class DrawSpecsWithPointProps : public DrawSpecsOf<DrawSpecsWithPointProps>, public PointSpecsOf<DrawSpecsWithPointProps>
+inline auto DrawSpecs::label(std::string text) -> DrawSpecs&
 {
-public:
-    /// Construct a DrawSpecsWithPointProps instance.
-    explicit DrawSpecsWithPointProps(std::string datafile, std::string plotstyle)
-    : DrawSpecsOf<DrawSpecsWithPointProps>(datafile, plotstyle)
-    {}
+    m_title = "'" + text + "'";
+    return *this;
+}
 
-    /// Convert this DrawSpecsWithPointProps object into a gnuplot formatted string.
-    auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << DrawSpecsOf<DrawSpecsWithPointProps>::repr() << " ";
-        ss << PointSpecsOf<DrawSpecsWithPointProps>::repr();
-        return internal::removeExtraWhitespaces(ss.str());
-    }
-};
-
-/// The class used to specify options to a plot element being drawn that has line and point properties.
-class DrawSpecsWithLinePointProps : public DrawSpecsOf<DrawSpecsWithLinePointProps>, public LineSpecsOf<DrawSpecsWithLinePointProps>, public PointSpecsOf<DrawSpecsWithLinePointProps>
+inline auto DrawSpecs::labelFromColumnHeader() -> DrawSpecs&
 {
-public:
-    /// Construct a DrawSpecsWithLinePointProps instance.
-    explicit DrawSpecsWithLinePointProps(std::string datafile, std::string plotstyle)
-    : DrawSpecsOf<DrawSpecsWithLinePointProps>(datafile, plotstyle)
-    {}
+    m_title = "columnheader";
+    return *this;
+}
 
-    /// Convert this DrawSpecsWithLinePointProps object into a gnuplot formatted string.
-    auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << DrawSpecsOf<DrawSpecsWithLinePointProps>::repr() << " ";
-        ss << LineSpecsOf<DrawSpecsWithLinePointProps>::repr() << " ";
-        ss << PointSpecsOf<DrawSpecsWithLinePointProps>::repr();
-        return internal::removeExtraWhitespaces(ss.str());
-    }
-};
-
-/// The class used to specify options to a plot element being drawn that has line and fill properties.
-class DrawSpecsWithLineFillProps : public DrawSpecsOf<DrawSpecsWithLineFillProps>, public LineSpecsOf<DrawSpecsWithLineFillProps>, public FillSpecsOf<DrawSpecsWithLineFillProps>
+inline auto DrawSpecs::labelFromColumnHeader(int icolumn) -> DrawSpecs&
 {
-public:
-    /// Construct a DrawSpecsWithLineFillProps instance.
-    explicit DrawSpecsWithLineFillProps(std::string datafile, std::string plotstyle)
-    : DrawSpecsOf<DrawSpecsWithLineFillProps>(datafile, plotstyle)
-    {}
+    m_title = "columnheader(" + std::to_string(icolumn) + ")";
+    return *this;
+}
 
-    /// Convert this DrawSpecsWithLineFillProps object into a gnuplot formatted string.
-    auto repr() const -> std::string
-    {
-        std::stringstream ss;
-        ss << DrawSpecsOf<DrawSpecsWithLineFillProps>::repr() << " ";
-        ss << LineSpecsOf<DrawSpecsWithLineFillProps>::repr() << " ";
-        ss << FillSpecsOf<DrawSpecsWithLineFillProps>::repr();
-        return internal::removeExtraWhitespaces(ss.str());
-    }
-};
+inline auto DrawSpecs::labelNone() -> DrawSpecs&
+{
+    m_title = "notitle";
+    return *this;
+}
+
+inline auto DrawSpecs::labelDefault() -> DrawSpecs&
+{
+    m_title = "";
+    return *this;
+}
+
+inline auto DrawSpecs::xtics(ColumnIndex icol) -> DrawSpecs&
+{
+    m_xtic = "xtic(stringcolumn(" + icol.value + "))"; // xtic(stringcolumn(1)) or xtic(stringcolumn('Name'))
+    return *this;
+}
+
+inline auto DrawSpecs::ytics(ColumnIndex icol) -> DrawSpecs&
+{
+    m_ytic = "ytic(stringcolumn(" + icol.value + "))"; // ytic(stringcolumn(1)) or ytic(stringcolumn('Name'))
+    return *this;
+}
+
+inline auto DrawSpecs::repr() const -> std::string
+{
+    std::string use = m_using;
+    if(m_xtic.size()) use += ":" + m_xtic;
+    if(m_ytic.size()) use += ":" + m_ytic;
+
+    std::stringstream ss;
+    ss << m_what << " ";
+    ss << gnuplot::optionValueStr("using", use);
+    ss << gnuplot::optionValueStr("title", m_title);
+    ss << gnuplot::optionValueStr("with", m_with);
+    ss << LineSpecsOf<DrawSpecs>::repr() << " ";
+    ss << PointSpecsOf<DrawSpecs>::repr() << " ";
+    ss << FillSpecsOf<DrawSpecs>::repr() << " ";
+    return internal::removeExtraWhitespaces(ss.str());
+}
 
 } // namespace sciplot
