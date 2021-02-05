@@ -30,21 +30,61 @@ using namespace sciplot;
 int main(int argc, char** argv)
 {
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
-    const vec x = linspace(0.0, 5.0, 200);
+    const vec x = linspace(0.0, 5.0, 8);
 
-    // Create a plot object
-    plot plt;
+    // Create a figure
+    Figure fig;
+    fig.autoclean(false);
 
     // Change its palette
-    plt.palette("dark2");
+    fig.palette("dark2");
+
+    fig.samples(200);
+
+    // fig.styleFill().borderHide();
 
     // Plot two functions
-    plt.draw(x, std::sin(x)).title("sin(x)");
-    plt.draw(x, std::cos(x)).title("cos(x)");
+    // fig.draw("exp(-x)*sin(x*10)", "").label("exp(-x)·sin(x*10)").lineColor("gold");
+    // fig.draw("'+' using ($1):(sin($1)):(sin($1)**2)", "filledcurves").label("exp(-x)·sin(x*10)").lineColor("gold");
+    // fig.drawCurve(x, std::sin(x)).label("sin(x)");
+    // fig.drawHistogram(std::cos(x)).label("cos(x)");
+    // fig.drawHistogram(std::sin(x)).label("sin(x)");
+    fig.drawCurve("test2.dat", 1, 2).label("A");
+    // fig.drawCurveWithErrorBarsXY("test2.dat", 1, 2, 7, 8, 5, 6).label("B");
+    // fig.drawCurveWithErrorBarsXY("test2.dat", "x", "y", "xlow", "xhigh", "ylow", "yhigh").label("B").xtics("name");
 
     // Show the plot in a pop-up window
-    plt.show();
+    // fig.show();
 
     // Save the plot to a PDF file
-    plt.save("example-sincos-functions.pdf");
+    fig.save("example-sincos-functions.pdf");
 }
+
+
+// // sciplot includes
+// #include <sciplot/sciplot.hpp>
+// using namespace sciplot;
+
+// int main(int argc, char** argv)
+// {
+//     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+//     const vec x = linspace(0.0, 5.0, 200);
+
+//     // Create a plot object
+//     plot plt;
+
+//     plt.autoclean(false);
+
+//     // Change its palette
+//     plt.palette("dark2");
+
+//     // Plot two functions
+//     plt.draw(x, std::sin(x)).label("sin(x)");
+//     plt.draw(x, std::cos(x)).label("cos(x)");
+
+//     // Show the plot in a pop-up window
+//     plt.show();
+
+//     // Save the plot to a PDF file
+//     plt.save("example-sincos-functions.pdf");
+// }
