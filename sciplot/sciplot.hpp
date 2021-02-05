@@ -30,8 +30,9 @@
 #include <sciplot/default.hpp>
 #include <sciplot/enums.hpp>
 #include <sciplot/Figure.hpp>
-#include <sciplot/multiplot.hpp>
+#include <sciplot/Figures.hpp>
+// #include <sciplot/multiplot.hpp>
 #include <sciplot/palettes.hpp>
-#include <sciplot/plot.hpp>
+// #include <sciplot/plot.hpp>
 #include <sciplot/util.hpp>
 #include <sciplot/vec.hpp>
