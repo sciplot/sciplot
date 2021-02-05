@@ -276,6 +276,94 @@ class Figure
     auto drawHistogram(const Y& y) -> PlotSpecs&;
 
     //======================================================================
+    // METHODS FOR DRAWING PLOT ELEMENTS USING DATA FROM LOCAL FILES
+    //======================================================================
+
+    /// Draw plot object with given style and given vectors (e.g., `fig.draw("lines", x, y)`).
+    auto draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> PlotSpecs&;
+
+    /// Draw a curve with given values at @p xcol and @p ycol columns in file @p fname.
+    auto drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw a curve with points with given values at @p xcol and @p ycol columns in file @p fname.
+    auto drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw a curve with error bars along *x* with given values at @p xcol, @p ycol, and @p xdeltacol columns in file @p fname.
+    auto drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&;
+
+    /// Draw a curve with error bars along *x* with given values at @p xcol, @p ycol, @p xlowcol, and @p xhighcol columns in file @p fname.
+    auto drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&;
+
+    /// Draw a curve with error bars along *y* with given values at @p xcol, @p ycol, and @p ydeltacol columns in file @p fname.
+    auto drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&;
+
+    /// Draw a curve with error bars along *y* with given values at @p xcol, @p ycol, @p ylowcol, and @p yhighcol columns in file @p fname.
+    auto drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+
+    /// Draw a curve with error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xdeltacol, and @p ydeltacol columns in file @p fname.
+    auto drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&;
+
+    /// Draw a curve with error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xlowcol, @p xhighcol, @p ylowcol, and @p yhighcol columns in file @p fname.
+    auto drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+
+    /// Draw boxes with given values at @p xcol and @p ycol columns in file @p fname.
+    auto drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw boxes with given values at @p xcol and @p ycol columns in file @p fname as well as the box widths @p xwidthcol.
+    auto drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> PlotSpecs&;
+
+    /// Draw boxes with error bars along *y* with given values at @p xcol, @p ycol, @p ydeltacol columns in file @p fname.
+    auto drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&;
+
+    /// Draw boxes with error bars along *y* with given values at @p xcol, @p ycol, @p ylowcol, and @p yhighcol columns in file @p fname.
+    auto drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+
+    /// Draw error bars along *x* with given values at @p xcol, @p ycol, and @p xdeltacol columns in file @p fname.
+    auto drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&;
+
+    /// Draw error bars along *x* with given values at @p xcol, @p ycol, @p xlowcol, and @p xhighcol columns in file @p fname.
+    auto drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&;
+
+    /// Draw error bars along *y* with given values at @p xcol, @p ycol, and @p ydeltacol columns in file @p fname.
+    auto drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&;
+
+    /// Draw error bars along *y* with given values at @p xcol, @p ycol, @p ylowcol, and @p yhighcol columns in file @p fname.
+    auto drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+
+    /// Draw error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xdeltacol, and @p ydeltacol columns in file @p fname.
+    auto drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&;
+
+    /// Draw error bars along *x* and *y* with given values at @p xcol, @p ycol, @p xlowcol, @p xhighcol, @p ylowcol, and @p yhighcol columns in file @p fname.
+    auto drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&;
+
+    /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname. Identical to @ref drawStepsChangeFirstX.
+    auto drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname with steps along *x* changes first.
+    auto drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname with steps along *y* changes first.
+    auto drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname in a histogram style
+    auto drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw steps with given values at @p xcol and @p ycol columns in file @p fname with filled area below steps.
+    auto drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw dots with given values at @p xcol and @p ycol columns in file @p fname.
+    auto drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw points with given values at @p xcol and @p ycol columns in file @p fname.
+    auto drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw impulses with given values at @p xcol and @p ycol columns in file @p fname.
+    auto drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&;
+
+    /// Draw a histogram with given values at @p ycol column in file @p fname.
+    auto drawHistogram(std::string fname, ColumnIndex ycol) -> PlotSpecs&;
+
+    //======================================================================
     // MISCElLANEOUS METHODS
     //======================================================================
 
@@ -446,6 +534,10 @@ auto Figure::boxWidthRelative(double val) -> void
 {
     m_boxwidth = internal::str(val) + " relative";
 }
+
+//======================================================================
+// METHODS FOR DRAWING PLOT ELEMENTS
+//======================================================================
 
 auto Figure::draw(std::string what, std::string with) -> PlotSpecs&
 {
@@ -634,6 +726,157 @@ auto Figure::drawHistogram(const Y& y) -> PlotSpecs&
 {
     return draw("", y); // empty string because we rely on `set style data histograms` since relying `with histograms` is not working very well (e.g., empty key/lenged appearing in columnstacked mode).
 }
+
+//======================================================================
+// METHODS FOR DRAWING PLOT ELEMENTS USING DATA FROM LOCAL FILES
+//======================================================================
+
+auto Figure::draw(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> PlotSpecs&
+{
+    std::string use;
+    /// TODO COmplete this function.
+    std::string what;
+    draw(what, with);
+}
+
+auto Figure::drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "lines", xcol, ycol);
+}
+
+auto Figure::drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "linespoints", xcol, ycol);
+}
+
+auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&
+{
+    return draw(fname, "xerrorlines", xcol, ycol, xdeltacol);
+}
+
+auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&
+{
+    return draw(fname, "xerrorlines", xcol, ycol, xlowcol, xhighcol);
+}
+
+auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
+{
+    return draw(fname, "yerrorlines", xcol, ycol, ydeltacol);
+}
+
+auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+{
+    return draw(fname, "yerrorlines", xcol, ycol, ylowcol, yhighcol);
+}
+
+auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&
+{
+    return draw(fname, "xyerrorlines", xcol, ycol, xdeltacol, ydeltacol);
+}
+
+auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+{
+    return draw(fname, "xyerrorlines", xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol);
+}
+
+auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "boxes", xcol, ycol);
+}
+
+auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> PlotSpecs&
+{
+    return draw(fname, "boxes", xcol, ycol, xwidthcol);
+}
+
+auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
+{
+    return draw(fname, "boxerrorbars", xcol, ycol, ydeltacol);
+}
+
+auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+{
+    return draw(fname, "boxerrorbars", xcol, ycol, ylowcol, yhighcol);
+}
+
+auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> PlotSpecs&
+{
+    return draw(fname, "xerrorbars", xcol, ycol, xdeltacol);
+}
+
+auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> PlotSpecs&
+{
+    return draw(fname, "xerrorbars", xcol, ycol, xlowcol, xhighcol);
+}
+
+auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> PlotSpecs&
+{
+    return draw(fname, "yerrorbars", xcol, ycol, ydeltacol);
+}
+
+auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+{
+    return draw(fname, "yerrorbars", xcol, ycol, ylowcol, yhighcol);
+}
+
+auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> PlotSpecs&
+{
+    return draw(fname, "xyerrorbars", xcol, ycol, xdeltacol, ydeltacol);
+}
+
+auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> PlotSpecs&
+{
+    return draw(fname, "xyerrorbars", xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol);
+}
+
+auto Figure::drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return drawStepsChangeFirstX(fname, xcol, ycol);
+}
+
+auto Figure::drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "steps", xcol, ycol);
+}
+
+auto Figure::drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "fsteps", xcol, ycol);
+}
+
+auto Figure::drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "histeps", xcol, ycol);
+}
+
+auto Figure::drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "fillsteps", xcol, ycol);
+}
+
+auto Figure::drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "dots", xcol, ycol);
+}
+
+auto Figure::drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "points", xcol, ycol);
+}
+
+auto Figure::drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "impulses", xcol, ycol);
+}
+
+auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> PlotSpecs&
+{
+    return draw(fname, "", ycol);
+}
+
+//======================================================================
+// MISCElLANEOUS METHODS
+//======================================================================
 
 auto Figure::legend() -> LegendSpecs&
 {
