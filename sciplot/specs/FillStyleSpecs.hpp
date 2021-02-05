@@ -176,6 +176,9 @@ auto FillStyleSpecs::repr() const -> std::string
         else borderstyle = "noborder";
     }
 
+    if(fillstyle.empty() && borderstyle.empty())
+        return "";
+
     std::string ss = "set style fill " + fillstyle + " " + borderstyle;
 
     return internal::removeExtraWhitespaces(ss);
