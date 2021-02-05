@@ -88,8 +88,8 @@ public:
         return static_cast<DerivedSpecs&>(*this);
     }
 
-    /// The column in the data file containing the x values.
-    auto xcolumn(ColumnIndex icol) -> DerivedSpecs&
+    /// Set the column in the data file containing the `x` values.
+    auto x(ColumnIndex icol) -> DerivedSpecs&
     {
         m_xcol = icol.value; // an integer string such as "1" or a column name such as "'Name'"
         if(m_xtic.empty())
@@ -97,12 +97,61 @@ public:
         return static_cast<DerivedSpecs&>(*this);
     }
 
-    /// The column in the data file containing the y values.
-    auto ycolumn(ColumnIndex icol) -> DerivedSpecs&
+    /// Set the column in the data file containing the `y` values.
+    auto y(ColumnIndex icol) -> DerivedSpecs&
     {
         m_ycol = icol.value; // an integer string such as "1" or a column name such as "'Name'"
         if(m_ytic.empty())
             ytic(icol);
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `xdelta` values (for plot styles with error bars along *x*).
+    auto xdelta(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_xdeltacol = icol.value;
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `xlow` values (for plot styles with error bars along *x*).
+    auto xlow(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_xlowcol = icol.value;
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `xhigh` values (for plot styles with error bars along *x*).
+    auto xhigh(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_xhighcol = icol.value;
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `ydelta` values (for plot styles with error bars along *y*).
+    auto ydelta(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_ydeltacol = icol.value;
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `ylow` values (for plot styles with error bars along *y*).
+    auto ylow(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_ylowcol = icol.value;
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `yhigh` values (for plot styles with error bars along *y*).
+    auto yhigh(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_yhighcol = icol.value;
+        return static_cast<DerivedSpecs&>(*this);
+    }
+
+    /// Set the column in the data file containing the `xwidth` values (for box plot styles with box widths ).
+    auto xwidth(ColumnIndex icol) -> DerivedSpecs&
+    {
+        m_xwidthcol = icol.value;
         return static_cast<DerivedSpecs&>(*this);
     }
 
@@ -152,17 +201,38 @@ protected:
     /// Select which columns from the data file to use for plot data or tick labels (e.g. "using 1:xtic(2)").
     std::string m_using;
 
-    /// The column in the data file containing the x values.
+    /// The column in the data file containing the `x` values.
     std::string m_xcol = "0";
 
-    /// The column in the data file containing the y values.
+    /// The column in the data file containing the `y` values.
     std::string m_ycol = "1";
 
+    /// The column in the data file containing the `xdelta` values (for plot styles with error bars along x).
+    std::string m_xdeltacol;
+
+    /// The column in the data file containing the `xlow` values (for plot styles with error bars along x).
+    std::string m_xlowcol;
+
+    /// The column in the data file containing the `xhigh` values (for plot styles with error bars along x).
+    std::string m_xhighcol;
+
+    /// The column in the data file containing the `ydelta` values (for plot styles with error bars along y).
+    std::string m_ydeltacol;
+
+    /// The column in the data file containing the `ylow` values (for plot styles with error bars along y).
+    std::string m_ylowcol;
+
+    /// The column in the data file containing the `yhigh` values (for plot styles with error bars along y).
+    std::string m_yhighcol;
+
+    /// The column in the data file containing the `xwidth` values (for box plot styles with box widths ).
+    std::string m_xwidthcol;
+
     /// The column in the data file containing the x tic labels.
-    std::string m_xtic = "";
+    std::string m_xtic;
 
     /// The column in the data file containing the y tic labels.
-    std::string m_ytic = "";
+    std::string m_ytic;
 };
 
 /// The class used to specify options to a plot element being drawn that has line properties.
