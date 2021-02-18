@@ -164,8 +164,8 @@ class Figure
     auto draw(std::string what, std::string use, std::string with) -> DrawSpecs&;
 
     /// Draw plot object with given style and given vectors (e.g., `fig.draw("lines", x, y)`).
-    template <typename... Vecs>
-    auto drawWithVecs(std::string with, const Vecs&... vecs) -> DrawSpecs&;
+    template <typename X, typename... Vecs>
+    auto drawWithVecs(std::string with, const X&, const Vecs&... vecs) -> DrawSpecs&;
 
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -438,7 +438,7 @@ class Figure
     AxisLabelSpecs m_zlabel;               ///< The label of the z-axis
     AxisLabelSpecs m_rlabel;               ///< The label of the r-axis
     std::string m_boxwidth;                ///< The default width of boxes in plots containing boxes without given widths.
-    std::vector<DrawSpecs> m_DrawSpecs;    ///< The plot specs for each call to gnuplot plot function
+    std::vector<DrawSpecs> m_drawspecs;    ///< The plot specs for each call to gnuplot plot function
     std::vector<std::string> m_customcmds; ///< The strings containing gnuplot custom commands
 };
 
@@ -543,27 +543,39 @@ auto Figure::boxWidthRelative(double val) -> void
 auto Figure::draw(std::string what, std::string use, std::string with) -> DrawSpecs&
 {
     // Save the draw arguments for this x,y data
-    m_DrawSpecs.emplace_back(what, use, with);
+    m_drawspecs.emplace_back(what, use, with);
 
     // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
-    m_DrawSpecs.back().lineStyle(m_DrawSpecs.size());
+    m_drawspecs.back().lineStyle(m_drawspecs.size());
 
     // Return the just created drawing object in case the user wants to customize it
-    return m_DrawSpecs.back();
+    return m_drawspecs.back();
 }
 
-template <typename... Vecs>
-auto Figure::drawWithVecs(std::string with, const Vecs&... vecs) -> DrawSpecs&
+template <typename X, typename... Vecs>
+auto Figure::drawWithVecs(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
-    gnuplot::writedataset(datastream, m_numdatasets, vecs...);
+    gnuplot::writedataset(datastream, m_numdatasets, x, vecs...);
+
+    // Set the using string to "" if X is not vector of strings.
+    // Otherwise, x contain xtics strings. Set the `using` string
+    // so that these are properly used as xtics.
+    std::string use;
+    if constexpr(internal::isStringVector<X>) {
+        const auto nvecs = sizeof...(Vecs);
+        use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
+        for(auto i = 2; i <= nvecs + 1; ++i)
+            use += std::to_string(i) + ":"; // this constructs 0:2:3:4:
+        use += "xtic(1)"; // this terminates the string with 0:2:3:4:xtic(1), and thus column 1 is used for the xtics
+    }
 
     // Append new data set to existing data
     m_data += datastream.str();
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), "", with);
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with);
 }
 
 template <typename X, typename Y>
@@ -1052,9 +1064,9 @@ auto Figure::repr() const -> std::string
     script << "plot \\\n"; // use `\` to have a plot command in each individual line!
 
     // Write plot commands and style per plot
-    const auto n = m_DrawSpecs.size();
+    const auto n = m_drawspecs.size();
     for(std::size_t i = 0; i < n; ++i)
-        script << "    " << m_DrawSpecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
+        script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
 
     // Add an empty line at the end
     script << std::endl;
