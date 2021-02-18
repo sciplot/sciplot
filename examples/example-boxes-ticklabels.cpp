@@ -29,32 +29,37 @@ using namespace sciplot;
 
 int main(int argc, char** argv)
 {
-    // Create a vector with strings as x-axis tick labels
-    std::vector<std::string> x = {"strings", "as", "tick", "labels"};
+    // Create a vector with the xtic labels for the boxes
+    Strings names = {"John", "Peter", "Thomas", "Marta"};
 
-    // Create a vector with y values
-    std::vector<float> y = {4, 2, 5, 1};
+    // Create a vector with the y values for the boxes
+    Vec ages = {44, 27, 35, 20};
+
+    // Create a vector with the xwidth values for the boxes
+    Vec experiences = {0.8, 0.4, 0.7, 0.9};
 
     // Create a Figure object
     Figure fig;
 
-    // Set the legend
-    fig.legend().title("Example - Plotting boxes");
+    // Set the legend to the top left corner of the figure
+    fig.legend().atTopLeft();
 
-    // Set the x and y labels
-    fig.xlabel("x");
-    fig.ylabel("y");
+    // Set the y label and its range
+    fig.ylabel("Age");
+    fig.yrange(0.0, 50);
 
-    // Rotate tick labels on x-axis by 90°
-    fig.xtics().rotate();
-
-    // Add values to plot.
-    fig.drawBoxes(x, y)
+    // Plot the boxes using y values.
+    fig.drawBoxes(names, ages, experiences)
         .fillSolid()
-        .fillColor("orange");
+        .fillColor("pink")
+        .fillIntensity(0.5)
+        .borderShow()
+        .labelNone();
 
     // Adjust the relative width of the boxes
     fig.boxWidthRelative(0.75);
+
+    fig.autoclean(false);
 
     // Show the figure in a pop-up window
     fig.show();
