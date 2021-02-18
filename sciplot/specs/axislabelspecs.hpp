@@ -39,10 +39,18 @@ class axislabelspecs : public titlespecs<axislabelspecs>
 {
   public:
     /// Construct a default axislabelspecs instance.
-    axislabelspecs(std::string axis);
+    axislabelspecs(std::string axis) : m_axis(axis){};
 
     /// Convert this axislabelspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      std::stringstream ss;
+      ss << "set " + m_axis + "label ";
+      ss << titlespecs<axislabelspecs>::repr();
+      ss << gnuplot::optionvaluestr("rotate", m_rotate);
+      return ss.str();
+    }
+
 
     /// Set the axis label parallel to its corresponding axis.
     auto axisparallel() -> axislabelspecs&
@@ -58,19 +66,5 @@ class axislabelspecs : public titlespecs<axislabelspecs>
     /// The rotation command to rotate the label around.
     std::string m_rotate;
 };
-
-axislabelspecs::axislabelspecs(std::string axis)
-    : m_axis(axis)
-{
-}
-
-auto axislabelspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << "set " + m_axis + "label ";
-    ss << titlespecs<axislabelspecs>::repr();
-    ss << gnuplot::optionvaluestr("rotate", m_rotate);
-    return ss.str();
-}
 
 } // namespace sciplot

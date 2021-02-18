@@ -38,10 +38,32 @@ class ticspecs : public textspecs<ticspecs>
 {
   public:
     /// Construct a default ticspecs instance.
-    ticspecs(ticaxis axis = ticaxis::all);
+    ticspecs(ticaxis axis = ticaxis::all) : m_axis(axis)
+    {
+      front();
+      outside();
+      mirror(false);
+      rotate(false);
+      scalemajor(0.50);
+      scaleminor(0.25);
+    }
 
     /// Convert this ticspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      std::stringstream ss;
+      ss << "set " << gnuplot::ticaxisstr(m_axis) << " " << m_mirror << " ";
+      // only "tics" support the front / back parameters
+      if (m_axis == ticaxis::all)
+      {
+        ss << m_depth << " ";
+      }
+      ss << m_inout << " ";
+      ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
+      ss << m_rotate << " ";
+      ss << textspecs<ticspecs>::repr();
+      return ss.str();
+    }
 
     /// Set the tics to be mirrored on the oposing axes if `true`.
     auto mirror(bool value = true) -> ticspecs&
@@ -132,31 +154,8 @@ class ticspecs : public textspecs<ticspecs>
     double m_scaleminor;
 };
 
-ticspecs::ticspecs(ticaxis axis)
-    : m_axis(axis)
-{
-    front();
-    outside();
-    mirror(false);
-    rotate(false);
-    scalemajor(0.50);
-    scaleminor(0.25);
-}
 
-auto ticspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << "set " << gnuplot::ticaxisstr(m_axis) << " " << m_mirror << " ";
-    // only "tics" support the front / back parameters
-    if (m_axis == ticaxis::all)
-    {
-        ss << m_depth << " ";
-    }
-    ss << m_inout << " ";
-    ss << "scale " << m_scalemajor << "," << m_scaleminor << " ";
-    ss << m_rotate << " ";
-    ss << textspecs<ticspecs>::repr();
-    return ss.str();
-}
+
+
 
 } // namespace sciplot

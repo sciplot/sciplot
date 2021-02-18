@@ -39,7 +39,7 @@ namespace internal
 
 /// Return a string for a given index
 template <typename T>
-auto str(const T& i) -> std::string
+inline auto str(const T& i) -> std::string
 {
     return std::to_string(i);
 }
@@ -150,16 +150,16 @@ inline auto commandvaluestr(std::string cmd, std::string value) -> std::string
 }
 
 /// Return the formatted string for a size pair (x,y) in either as pixels or as inches (asinches == true).
-auto sizestr(std::size_t width, std::size_t height, bool asinches) -> std::string
+inline auto sizestr(std::size_t width, std::size_t height, bool asinches) -> std::string
 {
     return asinches ? (internal::str(width * POINT_TO_INCHES) + "in," + internal::str(height * POINT_TO_INCHES) + "in") : (internal::str(width) + "," + internal::str(height));
 }
 
 /// Return the correct gnuplot string command for given rgb color (e.g., "#FF00FF")
-auto rgb(std::string color) -> std::string { return "rgb '" + color + "'"; }
+inline auto rgb(std::string color) -> std::string { return "rgb '" + color + "'"; }
 
 /// Return the correct gnuplot string command for given rgb color as hex number (e.g., 0xFF00FF)
-auto rgb(int hexcolor) -> std::string { return "rgb " + internal::str(hexcolor); }
+inline auto rgb(int hexcolor) -> std::string { return "rgb " + internal::str(hexcolor); }
 
 /// The struct where static angle methods are defined.
 struct angle
@@ -193,7 +193,7 @@ auto writedataset(std::ostream& out, std::size_t index, const Args&... args) -> 
 }
 
 /// Auxiliary function to write palette data for a selected palette ot start of plot script
-auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
+inline auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# GNUPLOT-palette (" << palette << ")" << std::endl;
@@ -205,7 +205,7 @@ auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
 }
 
 /// Auxiliary function to write terminal commands for showing a plot from a script file
-auto showterminalcmd(std::ostream& out, const std::string& size) -> std::ostream&
+inline auto showterminalcmd(std::ostream& out, const std::string& size) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
@@ -222,7 +222,7 @@ auto showterminalcmd(std::ostream& out, const std::string& size) -> std::ostream
 }
 
 /// Auxiliary function to write terminal commands for saving a plot from a script file
-auto saveterminalcmd(std::ostream& out, const std::string& extension, const std::string& size) -> std::ostream&
+inline auto saveterminalcmd(std::ostream& out, const std::string& extension, const std::string& size) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
@@ -232,7 +232,7 @@ auto saveterminalcmd(std::ostream& out, const std::string& extension, const std:
 }
 
 /// Auxiliary function to set the output command to make GNUplot output plots to a file
-auto outputcmd(std::ostream& out, const std::string& filename) -> std::ostream&
+inline auto outputcmd(std::ostream& out, const std::string& filename) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# OUTPUT" << std::endl;
@@ -242,7 +242,7 @@ auto outputcmd(std::ostream& out, const std::string& filename) -> std::ostream&
 }
 
 /// Auxiliary function to write multiplot commands to a script file
-auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, fillordertype fillorder, growdirectiontype growdir, const std::string& title) -> std::ostream&
+inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, fillordertype fillorder, growdirectiontype growdir, const std::string& title) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# MULTIPLOT" << std::endl;
@@ -265,7 +265,7 @@ auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, fill
 /// Auxiliary function to run gnuplot to show or save a script file
 // persistent == true: for show commands. show the file using GNUplot until the window is closed
 // persistent == false: for save commands. close gnuplot immediately
-auto runscript(const std::string& scriptfilename, bool persistent) -> bool
+inline auto runscript(const std::string& scriptfilename, bool persistent) -> bool
 {
     std::string command = persistent ? "gnuplot -persistent " : "gnuplot ";
     command += "\"" + scriptfilename + "\"";
@@ -274,7 +274,7 @@ auto runscript(const std::string& scriptfilename, bool persistent) -> bool
 
 /// Auxiliary function to escape a output path so it can be used for GNUplot.
 /// Removes every character from invalidchars from the path.
-auto cleanpath(const std::string& path) -> std::string
+inline auto cleanpath(const std::string& path) -> std::string
 {
     const std::string invalidchars = ":*?!\"<>|";
     std::string result = path;

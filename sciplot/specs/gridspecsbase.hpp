@@ -38,10 +38,36 @@ class gridspecsbase : public linespecs<gridspecsbase>
 {
   public:
     /// Construct a default gridspecsbase instance.
-    gridspecsbase(std::string tics = "", bool majortics = true);
+    gridspecsbase(std::string tics, bool majortics)
+        : m_tics(tics), m_majortics(majortics)
+    {
+      show(false);
+      back();
+      linecolor(internal::DEFAULT_GRID_LINECOLOR);
+      linewidth(internal::DEFAULT_GRID_LINEWIDTH);
+      linetype(internal::DEFAULT_GRID_LINETYPE);
+      dashtype(internal::DEFAULT_GRID_DASHTYPE);
+    }
 
     /// Convert this gridspecsbase object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto gridspecsbase::repr() const -> std::string
+    {
+      if (m_tics.empty() && !m_show)
+        return "unset grid";
+
+      if (m_tics.size() && !m_show)
+        return "set grid no" + m_tics;
+
+      std::stringstream ss;
+      ss << "set grid ";
+      ss << gnuplot::optionstr(m_tics);
+      ss << gnuplot::optionstr(m_depth);
+      if (m_majortics)
+        ss << linespecs<gridspecsbase>::repr();
+      else
+        ss << ", " + linespecs<gridspecsbase>::repr(); // For minor tics, the preceding comma is needed
+      return ss.str();
+    }
 
     /// Set the active state of the grid lines along the specified axis tics.
     auto show(bool value = true) -> gridspecsbase&
@@ -85,34 +111,5 @@ class gridspecsbase : public linespecs<gridspecsbase>
     std::string m_depth;
 };
 
-gridspecsbase::gridspecsbase(std::string tics, bool majortics)
-    : m_tics(tics), m_majortics(majortics)
-{
-    show(false);
-    back();
-    linecolor(internal::DEFAULT_GRID_LINECOLOR);
-    linewidth(internal::DEFAULT_GRID_LINEWIDTH);
-    linetype(internal::DEFAULT_GRID_LINETYPE);
-    dashtype(internal::DEFAULT_GRID_DASHTYPE);
-}
-
-auto gridspecsbase::repr() const -> std::string
-{
-    if (m_tics.empty() && !m_show)
-        return "unset grid";
-
-    if (m_tics.size() && !m_show)
-        return "set grid no" + m_tics;
-
-    std::stringstream ss;
-    ss << "set grid ";
-    ss << gnuplot::optionstr(m_tics);
-    ss << gnuplot::optionstr(m_depth);
-    if (m_majortics)
-        ss << linespecs<gridspecsbase>::repr();
-    else
-        ss << ", " + linespecs<gridspecsbase>::repr(); // For minor tics, the preceding comma is needed
-    return ss.str();
-}
 
 } // namespace sciplot

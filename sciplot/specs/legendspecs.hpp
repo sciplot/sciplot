@@ -41,7 +41,12 @@ class legendheaderspecs : public titlespecs<legendheaderspecs>
 {
   public:
     /// Construct a default legendheaderspecs object.
-    legendheaderspecs();
+    legendheaderspecs()
+    {
+      text("");
+      fontname(internal::DEFAULT_LEGEND_FONTNAME);
+      fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
+    }
 };
 
 /// The class used to setup the specs of the legend border lines.
@@ -49,10 +54,25 @@ class legendborderspecs : public linespecs<legendborderspecs>, public showspecs<
 {
   public:
     /// Construct a default legendborderspecs object.
-    legendborderspecs();
+    legendborderspecs()
+    {
+      show(false);
+      linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
+      linetype(internal::DEFAULT_LEGEND_LINETYPE);
+      linewidth(internal::DEFAULT_LEGEND_LINEWIDTH);
+      linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
+    }
 
     /// Convert this legendborderspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      if (showspecs<legendborderspecs>::repr() == "no")
+        return "nobox";
+
+      std::stringstream ss;
+      ss << "box " << linespecs<legendborderspecs>::repr();
+      return ss.str();
+    }
 };
 
 /// The class used to setup the specs of the legend border lines.
@@ -60,10 +80,20 @@ class legendtitlesspecs : public virtual internal::specs<legendtitlesspecs>
 {
   public:
     /// Construct a default legendtitlesspecs object.
-    legendtitlesspecs();
+    legendtitlesspecs()
+    {
+      vertical();
+      rightsideleftjustified();
+      startfromfirst();
+    }
 
     /// Convert this legendborderspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      std::stringstream ss;
+      ss << m_alignment << " " << m_justification << " " << m_invert << " " << m_reverse;
+      return ss.str();
+    }
 
     /// Set the titles to be displayed along the vertical, one on top of each other.
     auto vertical() -> legendtitlesspecs&
@@ -156,10 +186,38 @@ class legendspecs : public textspecs<legendspecs>, public showspecs<legendspecs>
 {
   public:
     /// Construct a default legendspecs instance.
-    legendspecs();
+    legendspecs()
+    {
+      inside();
+      opaque();
+      fontname(internal::DEFAULT_LEGEND_FONTNAME);
+      fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
+      addtowidth(0.0);
+      addtoheight(0.0);
+      samplelength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
+      spacing(internal::DEFAULT_LEGEND_SPACING);
+    }
 
     /// Convert this legendspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      if (showspecs<legendspecs>::repr() == "no")
+        return "unset legend";
+
+      std::stringstream ss;
+      ss << "set key ";
+      ss << m_placement << " " << m_opaque << " ";
+      ss << m_border << " " << m_titles << " ";
+      ss << "width " << m_width << " ";
+      ss << "height " << m_height << " ";
+      ss << "samplen " << m_samplen << " ";
+      ss << "spacing " << m_spacing << " ";
+      ss << textspecs<legendspecs>::repr() << " ";
+      ss << "title " << m_header;
+      ss << "maxrows " << m_maxrows << " ";
+      ss << "maxcols " << m_maxcols << " ";
+      return ss.str();
+    }
 
     /// Set the legend to be displayed inside the graph's border.
     auto inside() -> legendspecs&
@@ -272,76 +330,6 @@ class legendspecs : public textspecs<legendspecs>, public showspecs<legendspecs>
     std::string m_maxcols = "auto";
 };
 
-legendspecs::legendspecs()
-{
-    inside();
-    opaque();
-    fontname(internal::DEFAULT_LEGEND_FONTNAME);
-    fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
-    addtowidth(0.0);
-    addtoheight(0.0);
-    samplelength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
-    spacing(internal::DEFAULT_LEGEND_SPACING);
-}
 
-auto legendspecs::repr() const -> std::string
-{
-    if (showspecs<legendspecs>::repr() == "no")
-        return "unset legend";
-
-    std::stringstream ss;
-    ss << "set key ";
-    ss << m_placement << " " << m_opaque << " ";
-    ss << m_border << " " << m_titles << " ";
-    ss << "width " << m_width << " ";
-    ss << "height " << m_height << " ";
-    ss << "samplen " << m_samplen << " ";
-    ss << "spacing " << m_spacing << " ";
-    ss << textspecs<legendspecs>::repr() << " ";
-    ss << "title " << m_header;
-    ss << "maxrows " << m_maxrows << " ";
-    ss << "maxcols " << m_maxcols << " ";
-    return ss.str();
-}
-
-legendheaderspecs::legendheaderspecs()
-{
-    text("");
-    fontname(internal::DEFAULT_LEGEND_FONTNAME);
-    fontsize(internal::DEFAULT_LEGEND_FONTSIZE);
-}
-
-legendborderspecs::legendborderspecs()
-{
-    show(false);
-    linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
-    linetype(internal::DEFAULT_LEGEND_LINETYPE);
-    linewidth(internal::DEFAULT_LEGEND_LINEWIDTH);
-    linecolor(internal::DEFAULT_LEGEND_LINECOLOR);
-}
-
-auto legendborderspecs::repr() const -> std::string
-{
-    if (showspecs<legendborderspecs>::repr() == "no")
-        return "nobox";
-
-    std::stringstream ss;
-    ss << "box " << linespecs<legendborderspecs>::repr();
-    return ss.str();
-}
-
-legendtitlesspecs::legendtitlesspecs()
-{
-    vertical();
-    rightsideleftjustified();
-    startfromfirst();
-}
-
-auto legendtitlesspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << m_alignment << " " << m_justification << " " << m_invert << " " << m_reverse;
-    return ss.str();
-}
 
 } // namespace sciplot

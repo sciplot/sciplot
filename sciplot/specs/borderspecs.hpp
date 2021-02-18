@@ -41,10 +41,24 @@ class borderspecs : public linespecs<borderspecs>
 {
   public:
     /// Construct a default border instance.
-    borderspecs();
+    borderspecs(){
+      left();
+      bottom();
+      linecolor(internal::DEFAULT_TEXTCOLOR);
+      linetype(internal::DEFAULT_BORDER_LINETYPE);
+      linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
+      linecolor(internal::DEFAULT_BORDER_LINECOLOR);
+      front();
+    }
 
     /// Convert this borderspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      std::stringstream ss;
+      ss << "set border " << m_encoding.to_ulong() << " " << m_depth << " ";
+      ss << linespecs<borderspecs>::repr();
+      return ss.str();
+    }
 
     /// Remove all border edges from a 2d or 3d plot.
     auto clear() -> borderspecs&
@@ -206,23 +220,5 @@ class borderspecs : public linespecs<borderspecs>
     std::string m_depth;
 };
 
-borderspecs::borderspecs()
-{
-    left();
-    bottom();
-    linecolor(internal::DEFAULT_TEXTCOLOR);
-    linetype(internal::DEFAULT_BORDER_LINETYPE);
-    linewidth(internal::DEFAULT_BORDER_LINEWIDTH);
-    linecolor(internal::DEFAULT_BORDER_LINECOLOR);
-    front();
-}
-
-auto borderspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << "set border " << m_encoding.to_ulong() << " " << m_depth << " ";
-    ss << linespecs<borderspecs>::repr();
-    return ss.str();
-}
 
 } // namespace sciplot

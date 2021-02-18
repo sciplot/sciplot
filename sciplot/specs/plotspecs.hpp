@@ -47,10 +47,22 @@ class plotspecs : public linespecs<plotspecs>
 
     /// Construct a plotspecs instance.
     /// @param what A string representing what to be plot (e.g., "'filename' u 1:2", "sin(x)", etc.)
-    plotspecs(std::string what);
+    plotspecs(std::string what) : m_what(what)
+    {
+      with(internal::DEFAULT_PLOTSTYLE);
+    }
 
     /// Convert this plotspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      std::stringstream ss;
+      ss << m_what << " ";
+      ss << gnuplot::optionvaluestr("using", m_using);
+      ss << gnuplot::optionvaluestr("title", m_title);
+      ss << gnuplot::optionvaluestr("with", m_with);
+      ss << linespecs<plotspecs>::repr();
+      return ss.str();
+    }
 
     /// Set the title of the plot.
     auto title(std::string value) -> plotspecs&
@@ -102,21 +114,8 @@ class plotspecs : public linespecs<plotspecs>
     std::string m_using;
 };
 
-plotspecs::plotspecs(std::string what)
-    : m_what(what)
-{
-    with(internal::DEFAULT_PLOTSTYLE);
-}
 
-auto plotspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << m_what << " ";
-    ss << gnuplot::optionvaluestr("using", m_using);
-    ss << gnuplot::optionvaluestr("title", m_title);
-    ss << gnuplot::optionvaluestr("with", m_with);
-    ss << linespecs<plotspecs>::repr();
-    return ss.str();
-}
+
+
 
 } // namespace sciplot

@@ -38,10 +38,21 @@ class gridspecs : public gridspecsbase
 {
   public:
     /// Construct a default gridspecs instance.
-    gridspecs();
+    gridspecs() : gridspecsbase("", true)
+    {
+      back();
+    }
 
     /// Convert this gridspecs object into a gnuplot formatted string.
-    auto repr() const -> std::string;
+    auto repr() const -> std::string
+    {
+      std::stringstream ss;
+      ss << gridspecsbase::repr();
+      for (auto specs : m_gridticsspecs)
+        ss << '\n'
+           << specs.repr();
+      return ss.str();
+    }
 
     /// Return a grid specification object for configuring grid lines along major xtics.
     auto xtics() -> gridspecsbase& { return _gridmajor("xtics"); }
@@ -98,21 +109,5 @@ class gridspecs : public gridspecsbase
     /// The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
     std::vector<gridspecsbase> m_gridticsspecs;
 };
-
-gridspecs::gridspecs()
-    : gridspecsbase("", true)
-{
-    back();
-}
-
-auto gridspecs::repr() const -> std::string
-{
-    std::stringstream ss;
-    ss << gridspecsbase::repr();
-    for (auto specs : m_gridticsspecs)
-        ss << '\n'
-           << specs.repr();
-    return ss.str();
-}
 
 } // namespace sciplot
