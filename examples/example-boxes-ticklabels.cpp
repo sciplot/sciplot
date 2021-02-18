@@ -35,37 +35,30 @@ int main(int argc, char** argv)
     // Create a vector with y values
     std::vector<float> y = {4, 2, 5, 1};
 
-    // Create a sciplot::plot object
-    plot plt;
+    // Create a Figure object
+    Figure fig;
 
-    // Set a plot legend
-    plt.legend().header("Example - Plotting boxes");
+    // Set the legend
+    fig.legend().title("Example - Plotting boxes");
 
     // Set the x and y labels
-    plt.xlabel("x");
-    plt.ylabel("y");
+    fig.xlabel("x");
+    fig.ylabel("y");
 
     // Rotate tick labels on x-axis by 90°
-    plt.xtics().rotate();
+    fig.xtics().rotate();
 
     // Add values to plot. This returns a plotspect object to set up various aspects of the plot
-    auto& specs = plt.draw(x, y);
-
-    // set empty title to remove plot legend entry
-    specs.title("");
-
-    // plot y values from data column 2, and the x-axis ticks from column 1 (columns start at 1)
-    specs.use(DrawSpecs::USE_AUTO, 2, DrawSpecs::USE_AUTO, 1);
-
-    // makes sure we plot boxes with a solid fill style
-    specs.with(sciplot::plotstyle::boxes).fillStyle(sciplot::fillstyle::solid);
+    fig.drawBoxes(x, y)
+        .fillSolid()
+        .fillColor("orange");
 
     // Adjust the relative width of the boxes
-    plt.boxwidth(sciplot::boxwidthtype::relative, 0.75F);
+    fig.boxWidthRelative(0.75);
 
-    // Show the plot in a pop-up window
-    plt.show();
+    // Show the figure in a pop-up window
+    fig.show();
 
-    // Save the plot to a PDF file
-    plt.save("example-boxes-ticklabels.pdf");
+    // Save the figure to a PDF file
+    fig.save("example-boxes-ticklabels.pdf");
 }

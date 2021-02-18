@@ -53,6 +53,6 @@ int main(int argc, char** argv)
     fig.title("Trigonometric Functions");
     fig.palette("dark2");
 
-    // Save the plot to a PDF file
+    // Save the figure to a PDF file
     fig.save("example-multiplot.pdf");
 }

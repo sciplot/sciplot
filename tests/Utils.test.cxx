@@ -27,51 +27,17 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/plot.hpp>
+#include <sciplot/util.hpp>
 using namespace sciplot;
 
 TEST_CASE("plotting tests", "[plot]")
 {
-    SECTION("########## AUXILIARY FUNCTIONS ##########")
-    {
-        REQUIRE(gnuplot::titlestr("Something") == "'Something'");
-        REQUIRE(gnuplot::titlestr("columnheader") == "columnheader");
+    CHECK(gnuplot::titlestr("Something") == "'Something'");
+    CHECK(gnuplot::titlestr("columnheader") == "columnheader");
 
-        REQUIRE(gnuplot::optionValueStr("title", "'sin(x)'") == "title 'sin(x)' ");
-        REQUIRE(gnuplot::optionValueStr("ls", "") == "");
-    }
+    CHECK(gnuplot::optionValueStr("title", "'sin(x)'") == "title 'sin(x)' ");
+    CHECK(gnuplot::optionValueStr("ls", "") == "");
 
-    plot plt;
-
-    std::vector<double> x = {1, 2, 3, 4, 5, 6};
-    std::vector<double> y = {1, 2, 2, 3, 3, 4};
-
-    plt.palette("dark2");
-    plt.xlabel("Temperature [K]");
-    plt.ylabel("Amount [mol]");
-    //    plt.legend().maxrows(2);
-    //    plt.legend().maxcols(2);
-    //    plt.gnuplot("set mxtics 4");
-    //    plt.legend().box().show(false);
-    //    plt.legend().title("{/:Bold Legend}").fontsize(10);
-    //    plt.grid("xtics ytics").linecolor(rgb("#EEEEEE")).linetype(1).dashtype(5);
-
-    //    plt.gnuplot("unset grid");
-
-    //    plt.border().clear().left().top().behind();
-
-    //    plt.legend().titles().leftsiderightjustified();
-
-    plt.xrange(0, 3);
-    for (auto i = 1; i <= 7; ++i)
-        plt.draw(std::to_string(i) + " * sin(x)").title("line_" + std::to_string(i)).dashType(i);
-
-    plt.show();
-    plt.save("xy.svg");
-}
-
-TEST_CASE("output escaping", "[plot]")
-{
     CHECK(gnuplot::cleanpath("build/:*?!\"<>|xy.svg") == "build/xy.svg");
     CHECK(gnuplot::cleanpath("build:*?!\"<>|/xy.svg") == "build/xy.svg");
     CHECK(gnuplot::cleanpath("build:*?!\"<>|/xy:*?!\"<>|.svg") == "build/xy.svg");

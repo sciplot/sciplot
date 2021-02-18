@@ -376,11 +376,11 @@ class Figure
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
     auto gnuplot(std::string command) -> void;
 
-    /// Show the plot in a pop-up window.
+    /// Show the figure in a pop-up window.
     /// Will remove temporary files after showing if autoclean(true) (default).
     auto show() const -> void;
 
-    /// Save the plot in a file, with its extension defining the figure format.
+    /// Save the figure in a file, with its extension defining the figure format.
     /// The extension of the file name determines the format of the figure.
     /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
     /// Thus, to save a plot in `png` format, choose a file name with a `.png`
@@ -920,7 +920,7 @@ auto Figure::show() const -> void
     // save plot data to a file
     savePlotData();
 
-    // Show the plot
+    // Show the figure
     gnuplot::runscript(m_scriptfilename, true);
 
     // remove the temporary files if user wants to
@@ -967,7 +967,7 @@ auto Figure::save(std::string filename) const -> void
     // save plot data to a file
     savePlotData();
 
-    // Save the plot as a file
+    // Save the figure as a file
     gnuplot::runscript(m_scriptfilename, false);
 
     // remove the temporary files if user wants to
