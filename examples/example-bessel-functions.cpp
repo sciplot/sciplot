@@ -41,25 +41,25 @@ const std::vector<double> J6 = {0.000000000000000000e+00,  3.637561407399986847e
 
 int main(int argc, char** argv)
 {
-    // Create a sciplot::plot object
-    plot plt;
+    // Create a Figure object
+    Figure fig;
 
     // Set the x and y labels
-    plt.xlabel("x");
-    plt.ylabel("J_v(x)");
+    fig.xlabel("x");
+    fig.ylabel("J_v(x)");
 
     // Plot the Bessel functions
-    plt.draw(x, J0).title("J_0");
-    plt.draw(x, J1).title("J_1");
-    plt.draw(x, J2).title("J_2");
-    plt.draw(x, J3).title("J_3");
-    plt.draw(x, J4).title("J_4");
-    plt.draw(x, J5).title("J_5");
-    plt.draw(x, J6).title("J_6");
+    fig.drawCurve(x, J0).label("J_0");
+    fig.drawCurve(x, J1).label("J_1");
+    fig.drawCurve(x, J2).label("J_2");
+    fig.drawCurve(x, J3).label("J_3");
+    fig.drawCurve(x, J4).label("J_4");
+    fig.drawCurve(x, J5).label("J_5");
+    fig.drawCurve(x, J6).label("J_6");
 
-    // Show the plot in a popup window
-    plt.show();
+    // Show the figure in a popup window
+    fig.show();
 
-    // Save the plot to a PDF file
-    plt.save("example-bessel-functions.pdf");
+    // Save the figure to a PDF file
+    fig.save("example-bessel-functions.pdf");
 }

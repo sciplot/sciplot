@@ -35,37 +35,36 @@ int main(int argc, char** argv)
     // Create a vector with y values
     std::vector<float> y = {-4, 2, 5, -3};
 
-    // Create a sciplot::plot object
-    plot plt;
+    // Create a Figure object
+    Figure fig;
 
-    // Set a plot legend
-    plt.legend().header("Example - Using strings as tick labels");
+    // Set the legend
+    fig.legend()
+        .title("Example - Using strings as tick labels")
+        .atOutsideRightTop();
 
     // Set the x and y labels
-    plt.xlabel("x");
-    plt.ylabel("y");
+    fig.xlabel("x");
+    fig.ylabel("y");
 
     // Set the y range
-    plt.yrange(-5, 5);
+    fig.yrange(-5, 5);
 
     // Add values to plot
-    auto& specs = plt.draw(x, y);
-
-    // makes sure we plot boxes
-    specs.with(sciplot::plotstyle::boxes);
-
-    // and set the fill style to a solid fill, half-transparent
-    specs.fillStyle(sciplot::fillstyle::solid, 0.5F);
-
-    // Set a proper title for the plot
-    specs.title("Plot title");
+    fig.drawBoxes(x, y)
+        .fillSolid()
+        .fillColor("green")
+        .fillIntensity(0.5)
+        .borderLineColor("orange")
+        .borderLineWidth(1.0)
+        ;
 
     // Adjust the relative width of the boxes
-    plt.boxwidth(sciplot::boxwidthtype::relative, 0.75F);
+    fig.boxWidthRelative(0.75);
 
-    // Show the plot in a pop-up window
-    plt.show();
+    // Show the figure in a pop-up window
+    fig.show();
 
-    // Save the plot to a PDF file
-    plt.save("example-boxes.pdf");
+    // Save the figure to a PDF file
+    fig.save("example-boxes.pdf");
 }

@@ -15,28 +15,28 @@ Here is an example of **sciplot** in action:
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-int main()
+int main(int argc, char** argv)
 {
     // Create values for your x-axis
     const vec x = linspace(0.0, 5.0, 100);
 
-    // Create a plot object
-    plot plt;
+    // Create a Figure object
+    Figure fig;
 
-    // Set its palette
-    plt.palette("set2");
+    // Set color palette
+    fig.palette("set2");
 
-    // Draw a sine graph putting x on the x- and sin(x) on the y-axis
-    plt.draw(x, std::sin(x)).title("sin(x)").linewidth(8);
+    // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
+    fig.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
 
-    // Draw a cosine graph putting x on the x- and cos(x) on the y-axis
-    plt.draw(x, std::cos(x)).title("cos(x)").linewidth(8);
+    // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
+    fig.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
 
-    // Show the plot
-    plt.show();
+    // Show the figure in a popup window
+    fig.show();
 
-    // Save the plot to a PDF file
-    plt.save("figure.pdf");
+    // Save the figure to a PDF file
+    fig.save("example-trigonometric-functions.pdf");
 }
 ```
 

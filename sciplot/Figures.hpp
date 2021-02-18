@@ -60,11 +60,11 @@ class Figures
     /// Write the current plot data of all plots to the data file(s).
     auto saveplotdata() const -> void;
 
-    /// Show the plot in a pop-up window.
+    /// Show the figure in a pop-up window.
     /// Will remove temporary files after showing if autoclean(true) (default).
     auto show() const -> void;
 
-    /// Save the plot in a file, with its extension defining the figure format.
+    /// Save the figure in a file, with its extension defining the figure format.
     /// The extension of the file name determines the format of the figure.
     /// The supported figure formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
     /// Thus, to save a plot in `png` format, choose a file name with a `.png`
@@ -210,7 +210,7 @@ auto Figures::show() const -> void
     // save plot data to file(s)
     saveplotdata();
 
-    // Show the plot
+    // Show the figure
     gnuplot::runscript(m_scriptfilename, true);
 
     // remove the temporary files if user wants to
@@ -271,7 +271,7 @@ auto Figures::save(const std::string& filename) const -> void
     // save plot data to file(s)
     saveplotdata();
 
-    // Save the plot as a file
+    // Save the figure as a file
     gnuplot::runscript(m_scriptfilename, false);
 
     // remove the temporary files if user wants to
