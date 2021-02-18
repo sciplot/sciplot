@@ -50,10 +50,13 @@ int main(int argc, char** argv)
 
     // Add values to plot
     auto& specs = plt.draw(x, y);
+
     // makes sure we plot boxes
     specs.with(sciplot::plotstyle::boxes);
+
     // and set the fill style to a solid fill, half-transparent
     specs.fillstyle(sciplot::fillstyle::solid, 0.5F);
+
     // Set a proper title for the plot
     specs.title("Plot title");
 
@@ -63,6 +66,6 @@ int main(int argc, char** argv)
     // Show the plot in a pop-up window
     plt.show();
 
-    // Save the plot to a pdf file
-    plt.save("example-boxes-ticklabels.pdf");
+    // Save the plot to a PDF file
+    plt.save("example-boxes.pdf");
 }

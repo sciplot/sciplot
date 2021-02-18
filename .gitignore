@@ -4,8 +4,12 @@
 # Visual Studio Code directory
 .vscode/
 
-# Build dir
+# Build directories
 build/
+*-build-*/
+
+# JetBrains related files
+.idea/
 
 # Eclipse related files
 /.cproject
@@ -28,6 +32,12 @@ build/
 *.dylib
 *.dll
 
+# Conda files to be ignored
+environment.yml
+
+# Python files to be ignored
+__pycache__
+
 # Fortran module files
 *.mod
 *.smod
@@ -43,5 +53,5 @@ build/
 *.out
 *.app
 
-.idea/
-cmake-build-debug/
+# Mkdocs
+site/*

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# This file will be copied by cmake to the root of the build directory.
+# Execute `update-docs-img-tutorials` from that directory to produce updated
+# SVG figures in the directory `docs/img/tutorials`. These figures are converted
+# from the PDF figures created by the examples in the `examples` directory.
+
+bindir=@CMAKE_BINARY_DIR@
+sourcedir=@CMAKE_SOURCE_DIR@
+
+cd $bindir
+mkdir -p tmp/images
+cd tmp/images
+rm -rf *
+
+for f in ../../examples/example-*; do echo Executing $f && ./$f; done
+
+for f in *.pdf; do echo Converting $f to svg && pdf2svg $f ${f%.*}.svg; done
+
+echo Copying all svg files to $sourcedir/docs/img/tutorials
+cp *.svg $sourcedir/docs/img/tutorials

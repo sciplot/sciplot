@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 
     // Show the multiplot in a pop-up window
     mp.show();
-    // Save the multiplot to files
+
+    // Save the plot to a PDF file
     mp.save("example-multiplot.pdf");
-    mp.save("example-multiplot.svg");
 }
