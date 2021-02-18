@@ -39,9 +39,7 @@ int main(int argc, char** argv)
     Figure fig;
 
     // Set the legend
-    fig.legend()
-        .title("Example - Using strings as tick labels")
-        .atOutsideRightTop();
+    fig.legend().hide();
 
     // Set the x and y labels
     fig.xlabel("x");
@@ -54,10 +52,7 @@ int main(int argc, char** argv)
     fig.drawBoxes(x, y)
         .fillSolid()
         .fillColor("green")
-        .fillIntensity(0.5)
-        .borderLineColor("orange")
-        .borderLineWidth(1.0)
-        ;
+        .fillIntensity(0.5);
 
     // Adjust the relative width of the boxes
     fig.boxWidthRelative(0.75);
