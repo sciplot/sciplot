@@ -38,8 +38,7 @@
 #include <sciplot/Palettes.hpp>
 
 namespace sciplot {
-namespace internal
-{
+namespace internal {
 
 /// Return a string for a given value of a generic type.
 template <typename T>
@@ -113,39 +112,36 @@ auto minsize(const VectorType& v, const Args&... args) -> std::size_t
     return std::min(v.size(), minsize(args...));
 }
 
-/// Auxiliary function to write a vector into a line of an ostream object
-/// This version is called for std::vector<std::string> and escapes strings
-template <typename VectorType>
-typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v)
-{
-    out << "\"" << v[i] << "\""
-        << "\n";
-    return out;
-}
+/// Check if type @p T is `std::string`.
+template <typename T>
+constexpr auto isString = std::is_same_v<std::decay_t<T>, std::string>;
 
-/// Auxiliary function to write a vector into a line of an ostream object
-template <typename VectorType>
-typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v)
+/// Check if type @p T is `std::string`.
+template <typename V>
+constexpr auto isStringVector = isString<decltype(std::declval<V>()[0])>;
+
+/// Auxiliary function that returns `" + val + "` if `val` is string, otherwise `val` itself.
+template <typename T>
+auto escapeIfNeeded(const T& val)
 {
-    out << v[i] << "\n";
-    return out;
+    if constexpr (isString<T>)
+        return "\"" + val + "\"";
+    else return val;
 }
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object
-/// This version is called for std::vector<std::string> and escapes strings
-template <typename VectorType, typename... Args>
-typename std::enable_if<std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args&... args)
+template <typename VectorType>
+auto writeline(std::ostream& out, std::size_t i, const VectorType& v) -> std::ostream&
 {
-    out << "\"" << v[i] << "\" ";
-    writeline(out, i, args...);
+    out << escapeIfNeeded(v[i]) << '\n';
     return out;
 }
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object
 template <typename VectorType, typename... Args>
-typename std::enable_if<!std::is_same<VectorType, std::vector<std::string>>::value, std::ostream&>::type writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args&... args)
+auto writeline(std::ostream& out, std::size_t i, const VectorType& v, const Args&... args) -> std::ostream&
 {
-    out << v[i] << " ";
+    out << escapeIfNeeded(v[i]) << " ";
     writeline(out, i, args...);
     return out;
 }
