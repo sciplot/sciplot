@@ -33,7 +33,7 @@
 namespace sciplot {
 
 /// A convenient type alias for std::valarray<double>
-using vec = std::valarray<double>;
+using Vec = std::valarray<double>;
 
 /// Return an array with uniform incrementes from a given initial value to a final one
 template <typename T0, typename T1, typename U = double>
@@ -44,19 +44,5 @@ auto linspace(T0 x0, T1 x1, std::size_t numintervals) -> std::valarray<U>
         result[i] = x0 + i * (x1 - x0) / static_cast<U>(numintervals);
     return result;
 }
-
-///// Convenient multiplication operator overload to permit mixing of integral types (e.g., int) with valarray of floating point types.
-//template<typename T, typename U = double, typename std::enable_if<std::is_integral<T>::value>::type...>
-//auto operator*(T val, const std::valarray<U>& array) -> decltype(static_cast<U>(val) * array)
-//{
-//    return static_cast<U>(val) * array;
-//}
-//
-///// Convenient multiplication operator overload to permit mixing of integral types (e.g., int) with valarray of floating point types.
-//template<typename T, typename U = double, typename std::enable_if<std::is_integral<T>::value>::type...>
-//auto operator*(const std::valarray<U>& array, T val) -> decltype(static_cast<U>(val) * array)
-//{
-//    return static_cast<U>(val) * array;
-//}
 
 } // namespace sciplot

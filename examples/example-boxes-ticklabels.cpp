@@ -48,7 +48,7 @@ int main(int argc, char** argv)
     // Rotate tick labels on x-axis by 90°
     fig.xtics().rotate();
 
-    // Add values to plot. This returns a plotspect object to set up various aspects of the plot
+    // Add values to plot.
     fig.drawBoxes(x, y)
         .fillSolid()
         .fillColor("orange");

@@ -27,7 +27,7 @@
 
 // sciplot includes
 #include <sciplot/specs/Specs.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/Utils.hpp>
 
 namespace sciplot {
 

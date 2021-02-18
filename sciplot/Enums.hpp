@@ -23,30 +23,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// sciplot includes
-#include <sciplot/sciplot.hpp>
-using namespace sciplot;
+#pragma once
 
-int main(int argc, char** argv)
+namespace sciplot {
+
+/// The extension formats supported by sciplot when saving a figure to a file.
+enum class Extension
 {
-    // Create values for your x-axis
-    const Vec x = linspace(0.0, 5.0, 100);
+    emf,
+    png,
+    svg,
+    pdf,
+    eps
+};
 
-    // Create a Figure object
-    Figure fig;
-
-    // Set color palette
-    fig.palette("set2");
-
-    // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
-    fig.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
-
-    // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    fig.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
-
-    // Show the figure in a popup window
-    fig.show();
-
-    // Save the figure to a PDF file
-    fig.save("example-trigonometric-functions.pdf");
-}
+} // namespace sciplot

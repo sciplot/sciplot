@@ -27,7 +27,7 @@ for filename in filenames:
     file = open(join(palettesdir, filename), 'r')
     palettes.append((filename[:-4], file.read()))
 
-# Open the sciplot/palettes.hpp file
+# Open the sciplot/Palettes.hpp file
 palettes_hpp = open(join(plotdir, 'palettes.hpp'), 'w')
 
 # Print the header part of the palettes.hpp file

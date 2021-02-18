@@ -27,7 +27,7 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/misc/ColumnIndex.hpp>
+#include <sciplot/ColumnIndex.hpp>
 using namespace sciplot;
 
 TEST_CASE("ColumnIndex", "[specs]")

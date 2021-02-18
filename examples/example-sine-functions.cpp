@@ -30,7 +30,7 @@ using namespace sciplot;
 int main(int argc, char** argv)
 {
     // Create a vector with values from 0 to pi divived into 200 uniform intervals for the x-axis
-    const vec x = linspace(0.0, PI, 200);
+    const Vec x = linspace(0.0, PI, 200);
 
     // Create a Figure object
     Figure fig;

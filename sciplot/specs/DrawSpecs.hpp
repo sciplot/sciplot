@@ -26,11 +26,11 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/misc/ColumnIndex.hpp>
+#include <sciplot/ColumnIndex.hpp>
 #include <sciplot/specs/FillSpecsOf.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PointSpecsOf.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/Utils.hpp>
 
 namespace sciplot {
 
