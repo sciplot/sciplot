@@ -3,7 +3,7 @@ using namespace sciplot;
 
 int main(int argc, char** argv)
 {
-    const vec x = linspace(0.0, PI, 200);
+    const Vec x = linspace(0.0, PI, 200);
 
     Figure fig;
 

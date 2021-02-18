@@ -27,10 +27,10 @@
 
 // C++ includes
 #include <bitset>
-#include <sciplot/default.hpp>
+#include <sciplot/Default.hpp>
 #include <sciplot/specs/DepthSpecsOf.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/Utils.hpp>
 
 // sciplot includes
 

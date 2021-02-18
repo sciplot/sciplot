@@ -33,9 +33,9 @@
 #include <valarray>
 
 // sciplot includes
-#include <sciplot/constants.hpp>
-#include <sciplot/enums.hpp>
-#include <sciplot/palettes.hpp>
+#include <sciplot/Constants.hpp>
+#include <sciplot/Enums.hpp>
+#include <sciplot/Palettes.hpp>
 
 namespace sciplot {
 namespace internal
@@ -285,7 +285,7 @@ inline auto outputcmd(std::ostream& out, const std::string& filename) -> std::os
 }
 
 /// Auxiliary function to write multiplot commands to a script file
-inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, fillordertype fillorder, growdirectiontype growdir, const std::string& title) -> std::ostream&
+inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, const std::string& title) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# MULTIPLOT" << std::endl;
@@ -295,9 +295,9 @@ inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t column
     {
         out << " layout " << rows << "," << columns;
     }
-    out << " " << fillordertypestr(fillorder);
-    out << " " << growdirectiontypestr(growdir);
-    if (!title.empty())
+    out << " " << "rowsfirst";
+    out << " " << "downwards";
+    if(!title.empty())
     {
         out << " title \"" << title << "\"";
     }

@@ -30,10 +30,10 @@
 #include <vector>
 
 // sciplot includes
-#include <sciplot/constants.hpp>
-#include <sciplot/default.hpp>
-#include <sciplot/enums.hpp>
-#include <sciplot/palettes.hpp>
+#include <sciplot/Constants.hpp>
+#include <sciplot/Default.hpp>
+#include <sciplot/Enums.hpp>
+#include <sciplot/Palettes.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
@@ -47,7 +47,7 @@
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMinor.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/Utils.hpp>
 
 namespace sciplot {
 

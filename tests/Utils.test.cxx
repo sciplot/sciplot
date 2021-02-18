@@ -27,7 +27,7 @@
 #include <tests/catch.hpp>
 
 // sciplot includes
-#include <sciplot/util.hpp>
+#include <sciplot/Utils.hpp>
 using namespace sciplot;
 
 TEST_CASE("plotting tests", "[plot]")

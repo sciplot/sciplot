@@ -101,12 +101,6 @@ class Figures
     /// The number of columns in the figures layout
     std::size_t m_layoutcols = 0;
 
-    /// Order in which the layout will be filled
-    fillordertype m_fillorder = fillordertype::rowsfirst;
-
-    /// Direction in which the layout will grow
-    growdirectiontype m_growdirection = growdirectiontype::downwards;
-
     /// The title of the plot
     std::string m_title;
 
@@ -190,7 +184,7 @@ auto Figures::show() const -> void
     gnuplot::showterminalcmd(script, size);
 
     // Add multiplot commands
-    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_fillorder, m_growdirection, m_title);
+    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
 
     // // Add the plot commands
     // for(const auto& p : m_figures)
@@ -244,7 +238,7 @@ auto Figures::save(const std::string& filename) const -> void
     gnuplot::outputcmd(script, cleanedfilename);
 
     // Add multiplot commands
-    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_fillorder, m_growdirection, m_title);
+    gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
 
     // // Add the plot commands
     // for(const auto& p : m_figures)

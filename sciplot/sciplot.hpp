@@ -26,11 +26,11 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/constants.hpp>
-#include <sciplot/default.hpp>
-#include <sciplot/enums.hpp>
+#include <sciplot/Constants.hpp>
+#include <sciplot/Default.hpp>
+#include <sciplot/Enums.hpp>
 #include <sciplot/Figure.hpp>
 #include <sciplot/Figures.hpp>
-#include <sciplot/palettes.hpp>
-#include <sciplot/util.hpp>
-#include <sciplot/vec.hpp>
+#include <sciplot/Palettes.hpp>
+#include <sciplot/Utils.hpp>
+#include <sciplot/Vec.hpp>

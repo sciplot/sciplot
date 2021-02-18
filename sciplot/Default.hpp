@@ -26,8 +26,8 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/constants.hpp>
-#include <sciplot/enums.hpp>
+#include <sciplot/Constants.hpp>
+#include <sciplot/Enums.hpp>
 
 namespace sciplot {
 namespace internal
@@ -43,8 +43,6 @@ const auto DEFAULT_FONTNAME = "Georgia";
 const auto DEFAULT_FONTSIZE = 12;
 
 const auto DEFAULT_TEXTCOLOR = "#404040";
-
-const auto DEFAULT_PLOTSTYLE = plotstyle::lines; // TODO: Check if DEFAULT_PLOTSTYLE is needed.
 
 const auto DEFAULT_LINEWIDTH = 2;
 const auto DEFAULT_POINTSIZE = 2;

@@ -46,7 +46,7 @@ After compiling and executing this C++ application, the following figure should 
     <img src="art/example-sincos.svg" width=60%;" title="sincos">
 </p>
 
-Do you want to change the colors? Simple - just use the `plot::palette` method to set your preferred color palette. For example, `plot::palette("parula")` sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palettes and their names can be found [here][gnuplot-palettes]. Many thanks to [Anna Schneider][AnnaSchneider] for this incredible work of art!
+Do you want to change the colors? Simple - just use the `Figure::palette` method to set your preferred color palette. For example, `Figure::palette("parula")` sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme. All available color palettes and their names can be found [here][gnuplot-palettes]. Many thanks to [Anna Schneider][AnnaSchneider] for this incredible work of art!
 
 For more examples, see the [examples](./examples) directory. If you need information about specific gnuplot functions, see the gnuplot [documentation](http://www.gnuplot.info/documentation.html).
 

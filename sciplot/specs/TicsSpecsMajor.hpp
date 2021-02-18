@@ -30,7 +30,7 @@
 
 // sciplot includes
 #include <sciplot/specs/TicsSpecsBaseOf.hpp>
-#include <sciplot/util.hpp>
+#include <sciplot/Utils.hpp>
 
 namespace sciplot {
 

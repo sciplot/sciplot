@@ -15,25 +15,25 @@ using namespace sciplot;
 int main(int argc, char** argv)
 {
     // Create values for your x-axis
-    const vec x = linspace(0.0, 5.0, 100);
+    const Vec x = linspace(0.0, 5.0, 100);
 
     // Create a Figure object
-    plot plt;
+    Figure fig;
 
     // Set color palette
-    plt.palette("set2");
+    fig.palette("set2");
 
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
-    plt.drawCurve(x, std::sin(x)).title("sin(x)").linewidth(4);
+    fig.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
 
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    plt.drawCurve(x, std::cos(x)).title("cos(x)").linewidth(4);
+    fig.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
 
     // Show the figure in a popup window
-    plt.show();
+    fig.show();
 
     // Save the figure to a PDF file
-    plt.save("figure.pdf");
+    fig.save("figure.pdf");
 }
 ```
 
@@ -43,7 +43,7 @@ After compiling and executing this C++ application, the following figure (`figur
 
 Do you want to change the colors?
 
-Simple - just use method `plot::palette` to set your preferred color palette. For example, using `plt.palette("parula")` in the previous code sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme and produces the following figure:
+Simple - just use method `Figure::palette` to set your preferred color palette. For example, using `plt.palette("parula")` in the previous code sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme and produces the following figure:
 
 ![Plotting sin(x) and cos(x)](img/home/demo-figure-palette-parula.svg){: loading=lazy }
 
