@@ -15,7 +15,7 @@ using namespace sciplot;
 int main(int argc, char** argv)
 {
     // Create values for your x-axis
-    const Vec x = linspace(0.0, 5.0, 100);
+    Vec x = linspace(0.0, 5.0, 100);
 
     // Create a Figure object
     Figure fig;
