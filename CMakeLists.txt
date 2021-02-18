@@ -8,7 +8,7 @@ project(sciplot VERSION 0.1.0
     DESCRIPTION "A modern C++ scientific plotting library powered by gnuplot"
     HOMEPAGE_URL "https://github.com/sciplot")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 include(cmake_install_generation.cmake)
 
