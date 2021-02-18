@@ -96,19 +96,19 @@ inline DrawSpecs::DrawSpecs(std::string what, std::string use, std::string with)
 
 inline auto DrawSpecs::label(std::string text) -> DrawSpecs&
 {
-    m_title = "'" + text + "'";
+    m_title = "title '" + text + "'";
     return *this;
 }
 
 inline auto DrawSpecs::labelFromColumnHeader() -> DrawSpecs&
 {
-    m_title = "columnheader";
+    m_title = "title columnheader";
     return *this;
 }
 
 inline auto DrawSpecs::labelFromColumnHeader(int icolumn) -> DrawSpecs&
 {
-    m_title = "columnheader(" + std::to_string(icolumn) + ")";
+    m_title = "title columnheader(" + std::to_string(icolumn) + ")";
     return *this;
 }
 
@@ -145,7 +145,7 @@ inline auto DrawSpecs::repr() const -> std::string
     std::stringstream ss;
     ss << m_what << " ";
     ss << gnuplot::optionValueStr("using", use);
-    ss << gnuplot::optionValueStr("title", m_title);
+    ss << m_title << " ";
     ss << gnuplot::optionValueStr("with", m_with);
     ss << LineSpecsOf<DrawSpecs>::repr() << " ";
     ss << PointSpecsOf<DrawSpecs>::repr() << " ";
