@@ -469,7 +469,7 @@ auto LegendSpecs::repr() const -> std::string
 {
     const auto show = ShowSpecsOf<LegendSpecs>::repr();
     if(show == "no")
-        return "unset legend";
+        return "unset key";
 
     auto titlespecs = TitleSpecsOf<LegendSpecs>::repr();
     if(titlespecs.size())
