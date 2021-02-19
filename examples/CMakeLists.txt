@@ -1,5 +1,5 @@
 # Collect all cpp files in the current directory
-file(GLOB_RECURSE CPPFILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
+file(GLOB CPPFILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.cpp)
 
 # For each cpp file, generate an executable target
 foreach(CPPFILE ${CPPFILES})
