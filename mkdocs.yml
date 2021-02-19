@@ -19,11 +19,15 @@ theme:
     accent: 'pink'
   favicon: 'img/logo.png'
 
+# Path where the markdown files are
+docs_dir: 'docs'
+
 # Navigation
 nav:
   - Home: index.md
   - Installation: installation.md
   - Tutorials: tutorials.md
+  - API: api.md
   - FAQ: faq.md
   - About: about.md
 
@@ -57,7 +61,9 @@ markdown_extensions:
 # Plugins
 plugins:
   - search
-  - macros
+  - macros:
+      module_name: mkdocs-macros
+
 
 # Macros
 extra:

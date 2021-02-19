@@ -48,25 +48,25 @@
 #       - name: Installing Dependencies
 #         shell: powershell
 #         run: |
-#           conda activate reaktoro
+#           conda activate sciplot
 #           cmake -P deps/install
-#       - name: Configuring Reaktoro
+#       - name: Configuring sciplot
 #         shell: powershell
 #         run: |
-#           conda activate reaktoro
+#           conda activate sciplot
 #           cmake -S . -B .build
-#       - name: Building Reaktoro
+#       - name: Building sciplot
 #         shell: powershell
 #         run: |
-#           conda activate reaktoro
+#           conda activate sciplot
 #           cmake --build .build --config ${{ env.configuration }}
-#       - name: Installing Reaktoro
+#       - name: Installing sciplot
 #         shell: powershell
 #         run: |
-#           conda activate reaktoro
+#           conda activate sciplot
 #           cmake --build .build --config ${{ env.configuration }} --target install
-#       - name: Testing Reaktoro
+#       - name: Testing sciplot
 #         shell: powershell
 #         run: |
-#           conda activate reaktoro
+#           conda activate sciplot
 #           cmake --build .build --config ${{ env.configuration }} --target tests
