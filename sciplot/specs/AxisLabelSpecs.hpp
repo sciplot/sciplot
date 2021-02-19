@@ -65,36 +65,36 @@ class AxisLabelSpecs : public TextSpecsOf<AxisLabelSpecs>
     std::string m_rotate;
 };
 
-AxisLabelSpecs::AxisLabelSpecs(std::string axis)
+inline AxisLabelSpecs::AxisLabelSpecs(std::string axis)
 : m_axis(axis)
 {
 }
 
-auto AxisLabelSpecs::text(std::string text) -> AxisLabelSpecs&
+inline auto AxisLabelSpecs::text(std::string text) -> AxisLabelSpecs&
 {
     m_text = "'" + text + "'";
     return *this;
 }
 
-auto AxisLabelSpecs::rotateBy(int degrees) -> AxisLabelSpecs&
+inline auto AxisLabelSpecs::rotateBy(int degrees) -> AxisLabelSpecs&
 {
     m_rotate = "rotate by " + std::to_string(degrees);
     return *this;
 }
 
-auto AxisLabelSpecs::rotateAxisParallel() -> AxisLabelSpecs&
+inline auto AxisLabelSpecs::rotateAxisParallel() -> AxisLabelSpecs&
 {
     m_rotate = "rotate parallel";
     return *this;
 }
 
-auto AxisLabelSpecs::rotateNone() -> AxisLabelSpecs&
+inline auto AxisLabelSpecs::rotateNone() -> AxisLabelSpecs&
 {
     m_rotate = "norotate";
     return *this;
 }
 
-auto AxisLabelSpecs::repr() const -> std::string
+inline auto AxisLabelSpecs::repr() const -> std::string
 {
     if(m_text.empty() && m_rotate.empty())
         return "";

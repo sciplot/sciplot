@@ -111,7 +111,7 @@ class BorderSpecs : public LineSpecsOf<BorderSpecs>, public DepthSpecsOf<BorderS
     std::string m_depth;
 };
 
-BorderSpecs::BorderSpecs()
+inline BorderSpecs::BorderSpecs()
 {
     left();
     bottom();
@@ -121,120 +121,120 @@ BorderSpecs::BorderSpecs()
     front();
 }
 
-auto BorderSpecs::clear() -> BorderSpecs&
+inline auto BorderSpecs::clear() -> BorderSpecs&
 {
     m_encoding.reset();
     return *this;
 }
 
-auto BorderSpecs::none() -> BorderSpecs&
+inline auto BorderSpecs::none() -> BorderSpecs&
 {
     return clear();
 }
 
-auto BorderSpecs::bottom() -> BorderSpecs&
+inline auto BorderSpecs::bottom() -> BorderSpecs&
 {
     m_encoding.set(0);
     return *this;
 }
 
-auto BorderSpecs::left() -> BorderSpecs&
+inline auto BorderSpecs::left() -> BorderSpecs&
 {
     m_encoding.set(1);
     return *this;
 }
 
-auto BorderSpecs::top() -> BorderSpecs&
+inline auto BorderSpecs::top() -> BorderSpecs&
 {
     m_encoding.set(2);
     return *this;
 }
 
-auto BorderSpecs::right() -> BorderSpecs&
+inline auto BorderSpecs::right() -> BorderSpecs&
 {
     m_encoding.set(3);
     return *this;
 }
 
-auto BorderSpecs::bottomLeftFront() -> BorderSpecs&
+inline auto BorderSpecs::bottomLeftFront() -> BorderSpecs&
 {
     m_encoding.set(0);
     return *this;
 }
 
-auto BorderSpecs::bottomLeftBack() -> BorderSpecs&
+inline auto BorderSpecs::bottomLeftBack() -> BorderSpecs&
 {
     m_encoding.set(1);
     return *this;
 }
 
-auto BorderSpecs::bottomRightFront() -> BorderSpecs&
+inline auto BorderSpecs::bottomRightFront() -> BorderSpecs&
 {
     m_encoding.set(2);
     return *this;
 }
 
-auto BorderSpecs::bottomRightBack() -> BorderSpecs&
+inline auto BorderSpecs::bottomRightBack() -> BorderSpecs&
 {
     m_encoding.set(3);
     return *this;
 }
 
-auto BorderSpecs::leftVertical() -> BorderSpecs&
+inline auto BorderSpecs::leftVertical() -> BorderSpecs&
 {
     m_encoding.set(4);
     return *this;
 }
 
-auto BorderSpecs::backVertical() -> BorderSpecs&
+inline auto BorderSpecs::backVertical() -> BorderSpecs&
 {
     m_encoding.set(5);
     return *this;
 }
 
-auto BorderSpecs::rightVertical() -> BorderSpecs&
+inline auto BorderSpecs::rightVertical() -> BorderSpecs&
 {
     m_encoding.set(6);
     return *this;
 }
 
-auto BorderSpecs::frontVertical() -> BorderSpecs&
+inline auto BorderSpecs::frontVertical() -> BorderSpecs&
 {
     m_encoding.set(7);
     return *this;
 }
 
-auto BorderSpecs::topLeftBack() -> BorderSpecs&
+inline auto BorderSpecs::topLeftBack() -> BorderSpecs&
 {
     m_encoding.set(8);
     return *this;
 }
 
-auto BorderSpecs::topRightBack() -> BorderSpecs&
+inline auto BorderSpecs::topRightBack() -> BorderSpecs&
 {
     m_encoding.set(9);
     return *this;
 }
 
-auto BorderSpecs::topLeftFront() -> BorderSpecs&
+inline auto BorderSpecs::topLeftFront() -> BorderSpecs&
 {
     m_encoding.set(10);
     return *this;
 }
 
-auto BorderSpecs::topRightFront() -> BorderSpecs&
+inline auto BorderSpecs::topRightFront() -> BorderSpecs&
 {
     m_encoding.set(11);
     return *this;
 }
 
-auto BorderSpecs::polar() -> BorderSpecs&
+inline auto BorderSpecs::polar() -> BorderSpecs&
 {
     m_encoding.set(2);
     return *this;
 }
 
-auto BorderSpecs::repr() const -> std::string
+inline auto BorderSpecs::repr() const -> std::string
 {
     std::stringstream ss;
     ss << "set border " << m_encoding.to_ulong() << " ";

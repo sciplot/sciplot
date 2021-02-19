@@ -206,7 +206,7 @@ class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSp
     std::string m_maxcols = "auto";
 };
 
-LegendSpecs::LegendSpecs()
+inline LegendSpecs::LegendSpecs()
 {
     atTopRight();
     fontName(internal::DEFAULT_LEGEND_FONTNAME);
@@ -225,247 +225,247 @@ LegendSpecs::LegendSpecs()
     opaque();
 }
 
-auto LegendSpecs::opaque() -> LegendSpecs&
+inline auto LegendSpecs::opaque() -> LegendSpecs&
 {
     m_opaque = "opaque";
     return *this;
 }
 
-auto LegendSpecs::transparent() -> LegendSpecs&
+inline auto LegendSpecs::transparent() -> LegendSpecs&
 {
     m_opaque = "noopaque";
     return *this;
 }
 
-auto LegendSpecs::atLeft() -> LegendSpecs&
+inline auto LegendSpecs::atLeft() -> LegendSpecs&
 {
     m_placement = "inside left";
     return *this;
 }
 
-auto LegendSpecs::atRight() -> LegendSpecs&
+inline auto LegendSpecs::atRight() -> LegendSpecs&
 {
     m_placement = "inside right";
     return *this;
 }
 
-auto LegendSpecs::atCenter() -> LegendSpecs&
+inline auto LegendSpecs::atCenter() -> LegendSpecs&
 {
     m_placement = "inside center";
     return *this;
 }
 
-auto LegendSpecs::atTop() -> LegendSpecs&
+inline auto LegendSpecs::atTop() -> LegendSpecs&
 {
     m_placement = "inside center top";
     return *this;
 }
 
-auto LegendSpecs::atTopLeft() -> LegendSpecs&
+inline auto LegendSpecs::atTopLeft() -> LegendSpecs&
 {
     m_placement = "inside left top";
     return *this;
 }
 
-auto LegendSpecs::atTopRight() -> LegendSpecs&
+inline auto LegendSpecs::atTopRight() -> LegendSpecs&
 {
     m_placement = "inside right top";
     return *this;
 }
 
-auto LegendSpecs::atBottom() -> LegendSpecs&
+inline auto LegendSpecs::atBottom() -> LegendSpecs&
 {
     m_placement = "inside center bottom";
     return *this;
 }
 
-auto LegendSpecs::atBottomLeft() -> LegendSpecs&
+inline auto LegendSpecs::atBottomLeft() -> LegendSpecs&
 {
     m_placement = "inside left bottom";
     return *this;
 }
 
-auto LegendSpecs::atBottomRight() -> LegendSpecs&
+inline auto LegendSpecs::atBottomRight() -> LegendSpecs&
 {
     m_placement = "inside right bottom";
     return *this;
 }
 
-auto LegendSpecs::atOutsideLeft() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideLeft() -> LegendSpecs&
 {
     m_placement = "lmargin center";
     return *this;
 }
 
-auto LegendSpecs::atOutsideLeftTop() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideLeftTop() -> LegendSpecs&
 {
     m_placement = "lmargin top";
     return *this;
 }
 
-auto LegendSpecs::atOutsideLeftBottom() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideLeftBottom() -> LegendSpecs&
 {
     m_placement = "lmargin bottom";
     return *this;
 }
 
-auto LegendSpecs::atOutsideRight() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideRight() -> LegendSpecs&
 {
     m_placement = "rmargin center";
     return *this;
 }
 
-auto LegendSpecs::atOutsideRightTop() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideRightTop() -> LegendSpecs&
 {
     m_placement = "rmargin top";
     return *this;
 }
 
-auto LegendSpecs::atOutsideRightBottom() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideRightBottom() -> LegendSpecs&
 {
     m_placement = "rmargin bottom";
     return *this;
 }
 
-auto LegendSpecs::atOutsideBottom() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideBottom() -> LegendSpecs&
 {
     m_placement = "bmargin center";
     return *this;
 }
 
-auto LegendSpecs::atOutsideBottomLeft() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideBottomLeft() -> LegendSpecs&
 {
     m_placement = "bmargin left";
     return *this;
 }
 
-auto LegendSpecs::atOutsideBottomRight() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideBottomRight() -> LegendSpecs&
 {
     m_placement = "bmargin right";
     return *this;
 }
 
-auto LegendSpecs::atOutsideTop() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideTop() -> LegendSpecs&
 {
     m_placement = "tmargin center";
     return *this;
 }
 
-auto LegendSpecs::atOutsideTopLeft() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideTopLeft() -> LegendSpecs&
 {
     m_placement = "tmargin left";
     return *this;
 }
 
-auto LegendSpecs::atOutsideTopRight() -> LegendSpecs&
+inline auto LegendSpecs::atOutsideTopRight() -> LegendSpecs&
 {
     m_placement = "tmargin right";
     return *this;
 }
 
-auto LegendSpecs::titleLeft() -> LegendSpecs&
+inline auto LegendSpecs::titleLeft() -> LegendSpecs&
 {
     m_title_loc = "left";
     return *this;
 }
 
-auto LegendSpecs::titleCenter() -> LegendSpecs&
+inline auto LegendSpecs::titleCenter() -> LegendSpecs&
 {
     m_title_loc = "center";
     return *this;
 }
 
-auto LegendSpecs::titleRight() -> LegendSpecs&
+inline auto LegendSpecs::titleRight() -> LegendSpecs&
 {
     m_title_loc = "right";
     return *this;
 }
 
-auto LegendSpecs::displayVertical() -> LegendSpecs&
+inline auto LegendSpecs::displayVertical() -> LegendSpecs&
 {
     m_alignment = "vertical";
     return *this;
 }
 
-auto LegendSpecs::displayVerticalMaxRows(int value) -> LegendSpecs&
+inline auto LegendSpecs::displayVerticalMaxRows(int value) -> LegendSpecs&
 {
     m_maxrows = internal::str(value);
     return *this;
 }
 
-auto LegendSpecs::displayHorizontal() -> LegendSpecs&
+inline auto LegendSpecs::displayHorizontal() -> LegendSpecs&
 {
     m_alignment = "horizontal";
     return *this;
 }
 
-auto LegendSpecs::displayHorizontalMaxCols(int value) -> LegendSpecs&
+inline auto LegendSpecs::displayHorizontalMaxCols(int value) -> LegendSpecs&
 {
     m_maxcols = internal::str(value);
     return *this;
 }
 
-auto LegendSpecs::displayLabelsBeforeSymbols() -> LegendSpecs&
+inline auto LegendSpecs::displayLabelsBeforeSymbols() -> LegendSpecs&
 {
     m_reverse = "noreverse";
     return *this;
 }
 
-auto LegendSpecs::displayLabelsAfterSymbols() -> LegendSpecs&
+inline auto LegendSpecs::displayLabelsAfterSymbols() -> LegendSpecs&
 {
     m_reverse = "reverse";
     return *this;
 }
 
-auto LegendSpecs::displayJustifyLeft() -> LegendSpecs&
+inline auto LegendSpecs::displayJustifyLeft() -> LegendSpecs&
 {
     m_justification = "Left";
     return *this;
 }
 
-auto LegendSpecs::displayJustifyRight() -> LegendSpecs&
+inline auto LegendSpecs::displayJustifyRight() -> LegendSpecs&
 {
     m_justification = "Right";
     return *this;
 }
 
-auto LegendSpecs::displayStartFromFirst() -> LegendSpecs&
+inline auto LegendSpecs::displayStartFromFirst() -> LegendSpecs&
 {
     m_invert = "noinvert";
     return *this;
 }
 
-auto LegendSpecs::displayStartFromLast() -> LegendSpecs&
+inline auto LegendSpecs::displayStartFromLast() -> LegendSpecs&
 {
     m_invert = "invert";
     return *this;
 }
 
-auto LegendSpecs::displaySpacing(int value) -> LegendSpecs&
+inline auto LegendSpecs::displaySpacing(int value) -> LegendSpecs&
 {
     m_spacing = value;
     return *this;
 }
 
-auto LegendSpecs::displayExpandWidthBy(int value) -> LegendSpecs&
+inline auto LegendSpecs::displayExpandWidthBy(int value) -> LegendSpecs&
 {
     m_width_increment = value;
     return *this;
 }
 
-auto LegendSpecs::displayExpandHeightBy(int value) -> LegendSpecs&
+inline auto LegendSpecs::displayExpandHeightBy(int value) -> LegendSpecs&
 {
     m_height_increment = value;
     return *this;
 }
 
-auto LegendSpecs::displaySymbolLength(int value) -> LegendSpecs&
+inline auto LegendSpecs::displaySymbolLength(int value) -> LegendSpecs&
 {
     m_samplen = value;
     return *this;
 }
 
-auto LegendSpecs::repr() const -> std::string
+inline auto LegendSpecs::repr() const -> std::string
 {
     const auto show = ShowSpecsOf<LegendSpecs>::repr();
     if(show == "no")
