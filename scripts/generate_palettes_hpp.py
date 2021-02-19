@@ -11,7 +11,7 @@ os.system('git submodule update --init')
 rootdir = up(up(sys.argv[0]))
 
 # The directory where gnuplot-palettes are downloaded
-palettesdir = join(rootdir, 'gnuplot-palettes')
+palettesdir = join(rootdir, 'deps/gnuplot-palettes')
 
 # The directory of the library sciplot (source dir)
 plotdir = join(rootdir, 'sciplot')
@@ -28,10 +28,13 @@ for filename in filenames:
     palettes.append((filename[:-4], file.read()))
 
 # Open the sciplot/Palettes.hpp file
-palettes_hpp = open(join(plotdir, 'palettes.hpp'), 'w')
+palettes_hpp = open(join(plotdir, 'Palettes.hpp'), 'w')
 
-# Print the header part of the palettes.hpp file
-print >>palettes_hpp, \
+# Ensure the print commands below end up writing in the Palettes.hpp file
+sys.stdout = palettes_hpp
+
+# Print the header part of the Palettes.hpp file
+print(
 """// sciplot - a modern C++ scientific plotting library powered by gnuplot
 // https://github.com/sciplot/sciplot
 //
@@ -65,19 +68,19 @@ print >>palettes_hpp, \
 
 namespace sciplot {
 
-/// Gnuplot color palettes for sciplot adapted from https://github.com/Gnuplotting/gnuplot-palettes"""
+/// Gnuplot color palettes for sciplot adapted from https://github.com/Gnuplotting/gnuplot-palettes""")
 
 # Print the std::map with keys equal to palette names and values as the pal file contents
-print >>palettes_hpp, 'const std::map<std::string, std::string> palettes = {'
+print('const std::map<std::string, std::string> palettes = {')
 
 for (key, value) in palettes:
     key = repr(key).replace("'", '"')
     value = repr(value).replace('"', '')
     value = '"{0}"'.format(value)
-    print >>palettes_hpp, "    {{ {0}, {1} }},".format(key, value)
+    print("    {{ {0}, {1} }},".format(key, value))
 
-print >>palettes_hpp, '};'
+print('};')
 
 # Print the closing brace of namespace sciplot
-print >>palettes_hpp
-print >>palettes_hpp, '} // namespace sciplot'
+print()
+print('} // namespace sciplot')
