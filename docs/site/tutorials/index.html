@@ -1,0 +1,848 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="sciplot documentation.">
+      
+      
+      
+        <meta name="author" content="Allan leal">
+      
+      
+        <link rel="canonical" href="https://sciplot.github.io/tutorials/">
+      
+      <link rel="shortcut icon" href="../img/logo.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.6">
+    
+    
+      
+        <title>Tutorials - sciplot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../css/extra.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="pink">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorials" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://sciplot.github.io" title="sciplot" class="md-header-nav__button md-logo" aria-label="sciplot">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            sciplot
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Tutorials
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/sciplot/sciplot/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sciplot/sciplot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://sciplot.github.io" title="sciplot" class="md-nav__button md-logo" aria-label="sciplot">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    sciplot
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/sciplot/sciplot/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sciplot/sciplot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Tutorials
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-sine-functions" class="md-nav__link">
+    Plotting sine functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-bessel-functions" class="md-nav__link">
+    Plotting Bessel functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-multiple-plots" class="md-nav__link">
+    Plotting multiple plots
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ploting-trigonometric-functions" class="md-nav__link">
+    Ploting trigonometric functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-boxes" class="md-nav__link">
+    Plotting boxes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-boxes-with-custom-tick-labels" class="md-nav__link">
+    Plotting boxes with custom tick labels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-cmake-based-projects" class="md-nav__link">
+    Integration with CMake-based projects
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-sine-functions" class="md-nav__link">
+    Plotting sine functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-bessel-functions" class="md-nav__link">
+    Plotting Bessel functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-multiple-plots" class="md-nav__link">
+    Plotting multiple plots
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ploting-trigonometric-functions" class="md-nav__link">
+    Ploting trigonometric functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-boxes" class="md-nav__link">
+    Plotting boxes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-boxes-with-custom-tick-labels" class="md-nav__link">
+    Plotting boxes with custom tick labels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-cmake-based-projects" class="md-nav__link">
+    Integration with CMake-based projects
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/sciplot/sciplot/edit/master/docs/tutorials.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="tutorials">Tutorials<a class="headerlink" href="#tutorials" title="Permanent link">&para;</a></h1>
+<p>Check below for a series of examples on how to use <span style="font-family:'Comfortaa'">sciplot</span>. If you like
+<span style="font-family:'Comfortaa'">sciplot</span>, please consider helping with more examples!</p>
+<h2 id="plotting-sine-functions">Plotting sine functions<a class="headerlink" href="#plotting-sine-functions" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create a vector with values from 0 to pi divived into 200 uniform intervals for the x-axis</span>
+    <span class="n">Vec</span> <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">PI</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+    <span class="c1">// Create a Figure object</span>
+    <span class="n">Figure</span> <span class="n">fig</span><span class="p">;</span>
+
+    <span class="c1">// Set the x and y labels</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Set the x and y ranges</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">xrange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">PI</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">yrange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">);</span>
+
+    <span class="c1">// Plot i*sin(x) from i = 1 to i = 6</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;⋅sin(x)&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Show the figure in a pop-up window</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="c1">// Save the figure to a PDF file</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;example-sine-functions.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="" loading="lazy" src="/img/tutorials/example-sine-functions.svg" /></p>
+<h2 id="plotting-bessel-functions">Plotting Bessel functions<a class="headerlink" href="#plotting-bessel-functions" title="Permanent link">&para;</a></h2>
+<p>We will skip the introduction to Bessel functions, which can be read in this
+<a href="https://en.wikipedia.org/wiki/Bessel_function">Wikipedia article</a> and go
+straight to plotting them! This example assumes that they have already been
+pre-computed and stored in <code>std::vector</code> objects (see below).</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="c1">/// The x coordinates used to evaluate the Bessel functions of first kind from 0th to 6th order.</span>
+<span class="n">Vec</span> <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.32</span><span class="p">,</span> <span class="mf">0.48</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">1.28</span><span class="p">,</span> <span class="mf">1.44</span><span class="p">,</span> <span class="mf">1.60</span><span class="p">,</span> <span class="mf">1.76</span><span class="p">,</span> <span class="mf">1.92</span><span class="p">,</span> <span class="mf">2.08</span><span class="p">,</span> <span class="mf">2.24</span><span class="p">,</span> <span class="mf">2.40</span><span class="p">,</span> <span class="mf">2.56</span><span class="p">,</span> <span class="mf">2.72</span><span class="p">,</span> <span class="mf">2.88</span><span class="p">,</span> <span class="mf">3.04</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">,</span> <span class="mf">3.36</span><span class="p">,</span> <span class="mf">3.52</span><span class="p">,</span> <span class="mf">3.68</span><span class="p">,</span> <span class="mf">3.84</span><span class="p">,</span> <span class="mf">4.00</span><span class="p">,</span> <span class="mf">4.16</span><span class="p">,</span> <span class="mf">4.32</span><span class="p">,</span> <span class="mf">4.48</span><span class="p">,</span> <span class="mf">4.64</span><span class="p">,</span> <span class="mf">4.80</span><span class="p">,</span> <span class="mf">4.96</span><span class="p">,</span> <span class="mf">5.12</span><span class="p">,</span> <span class="mf">5.28</span><span class="p">,</span> <span class="mf">5.44</span><span class="p">,</span> <span class="mf">5.60</span><span class="p">,</span> <span class="mf">5.76</span><span class="p">,</span> <span class="mf">5.92</span><span class="p">,</span> <span class="mf">6.08</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">,</span> <span class="mf">6.40</span><span class="p">,</span> <span class="mf">6.56</span><span class="p">,</span> <span class="mf">6.72</span><span class="p">,</span> <span class="mf">6.88</span><span class="p">,</span> <span class="mf">7.04</span><span class="p">,</span> <span class="mf">7.20</span><span class="p">,</span> <span class="mf">7.36</span><span class="p">,</span> <span class="mf">7.52</span><span class="p">,</span> <span class="mf">7.68</span><span class="p">,</span> <span class="mf">7.84</span><span class="p">,</span> <span class="mf">8.00</span><span class="p">,</span> <span class="mf">8.16</span><span class="p">,</span> <span class="mf">8.32</span><span class="p">,</span> <span class="mf">8.48</span><span class="p">,</span> <span class="mf">8.64</span><span class="p">,</span> <span class="mf">8.80</span><span class="p">,</span> <span class="mf">8.96</span><span class="p">,</span> <span class="mf">9.12</span><span class="p">,</span> <span class="mf">9.28</span><span class="p">,</span> <span class="mf">9.44</span><span class="p">,</span> <span class="mf">9.60</span><span class="p">,</span> <span class="mf">9.76</span><span class="p">,</span> <span class="mf">9.92</span><span class="p">,</span> <span class="mf">10.08</span><span class="p">,</span> <span class="mf">10.24</span><span class="p">,</span> <span class="mf">10.40</span><span class="p">,</span> <span class="mf">10.56</span><span class="p">,</span> <span class="mf">10.72</span><span class="p">,</span> <span class="mf">10.88</span><span class="p">,</span> <span class="mf">11.04</span><span class="p">,</span> <span class="mf">11.20</span><span class="p">,</span> <span class="mf">11.36</span><span class="p">,</span> <span class="mf">11.52</span><span class="p">,</span> <span class="mf">11.68</span><span class="p">,</span> <span class="mf">11.84</span><span class="p">,</span> <span class="mf">12.00</span><span class="p">,</span> <span class="mf">12.16</span><span class="p">,</span> <span class="mf">12.32</span><span class="p">,</span> <span class="mf">12.48</span><span class="p">,</span> <span class="mf">12.64</span><span class="p">,</span> <span class="mf">12.80</span><span class="p">,</span> <span class="mf">12.96</span><span class="p">,</span> <span class="mf">13.12</span><span class="p">,</span> <span class="mf">13.28</span><span class="p">,</span> <span class="mf">13.44</span><span class="p">,</span> <span class="mf">13.60</span><span class="p">,</span> <span class="mf">13.76</span><span class="p">,</span> <span class="mf">13.92</span><span class="p">,</span> <span class="mf">14.08</span><span class="p">,</span> <span class="mf">14.24</span><span class="p">,</span> <span class="mf">14.40</span><span class="p">,</span> <span class="mf">14.56</span><span class="p">,</span> <span class="mf">14.72</span><span class="p">,</span> <span class="mf">14.88</span><span class="p">,</span> <span class="mf">15.04</span><span class="p">,</span> <span class="mf">15.20</span><span class="p">,</span> <span class="mf">15.36</span><span class="p">,</span> <span class="mf">15.52</span><span class="p">,</span> <span class="mf">15.68</span><span class="p">,</span> <span class="mf">15.84</span><span class="p">,</span> <span class="mf">16.00</span><span class="p">};</span>
+
+<span class="c1">/// The evaluation of the Bessel functions at the previous x coordinates.</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J0</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">9.936102327211342455e-01</span><span class="p">,</span>  <span class="mf">9.745633747111134282e-01</span><span class="p">,</span>  <span class="mf">9.432241506503378226e-01</span><span class="p">,</span>  <span class="mf">9.001918039460019560e-01</span><span class="p">,</span>  <span class="mf">8.462873527504801707e-01</span><span class="p">,</span>  <span class="mf">7.825361488125408549e-01</span><span class="p">,</span>  <span class="mf">7.101461285204617724e-01</span><span class="p">,</span>  <span class="mf">6.304822412235855378e-01</span><span class="p">,</span>  <span class="mf">5.450376245098231820e-01</span><span class="p">,</span>  <span class="mf">4.554021676393806839e-01</span><span class="p">,</span>  <span class="mf">3.632291611632363360e-01</span><span class="p">,</span>  <span class="mf">2.702007716058131281e-01</span><span class="p">,</span>  <span class="mf">1.779931040548034527e-01</span><span class="p">,</span>  <span class="mf">8.824162206109108231e-02</span><span class="p">,</span>  <span class="mf">2.507683297243825174e-03</span><span class="p">,</span> <span class="mf">-7.775307874953449327e-02</span><span class="p">,</span> <span class="mf">-1.512198414689265302e-01</span><span class="p">,</span> <span class="mf">-2.167325227611207050e-01</span><span class="p">,</span> <span class="mf">-2.733140023179435052e-01</span><span class="p">,</span> <span class="mf">-3.201881696571229896e-01</span><span class="p">,</span> <span class="mf">-3.567934306311790760e-01</span><span class="p">,</span> <span class="mf">-3.827914086958546513e-01</span><span class="p">,</span> <span class="mf">-3.980706872880427349e-01</span><span class="p">,</span> <span class="mf">-4.027455526643344830e-01</span><span class="p">,</span> <span class="mf">-3.971498098638474583e-01</span><span class="p">,</span> <span class="mf">-3.818258554608895960e-01</span><span class="p">,</span> <span class="mf">-3.575092969065711279e-01</span><span class="p">,</span> <span class="mf">-3.251095070901190431e-01</span><span class="p">,</span> <span class="mf">-2.856865920278469639e-01</span><span class="p">,</span> <span class="mf">-2.404253272911834327e-01</span><span class="p">,</span> <span class="mf">-1.906066831755050817e-01</span><span class="p">,</span> <span class="mf">-1.375776082691220203e-01</span><span class="p">,</span> <span class="mf">-8.271977493890782240e-02</span><span class="p">,</span> <span class="mf">-2.741800761350903295e-02</span><span class="p">,</span>  <span class="mf">2.697088468511476406e-02</span><span class="p">,</span>  <span class="mf">7.914816624230103237e-02</span><span class="p">,</span>  <span class="mf">1.279014500109916519e-01</span><span class="p">,</span>  <span class="mf">1.721305651588151964e-01</span><span class="p">,</span>  <span class="mf">2.108704533615528287e-01</span><span class="p">,</span>  <span class="mf">2.433106048234065788e-01</span><span class="p">,</span>  <span class="mf">2.688106301815360033e-01</span><span class="p">,</span>  <span class="mf">2.869116583113798247e-01</span><span class="p">,</span>  <span class="mf">2.973433503241693088e-01</span><span class="p">,</span>  <span class="mf">3.000264243354708871e-01</span><span class="p">,</span>  <span class="mf">2.950706914009578741e-01</span><span class="p">,</span>  <span class="mf">2.827687078602996729e-01</span><span class="p">,</span>  <span class="mf">2.635852507390633592e-01</span><span class="p">,</span>  <span class="mf">2.381429184667438748e-01</span><span class="p">,</span>  <span class="mf">2.072042467649886643e-01</span><span class="p">,</span>  <span class="mf">1.716508071375539013e-01</span><span class="p">,</span>  <span class="mf">1.324598211982369600e-01</span><span class="p">,</span>  <span class="mf">9.067887664279165871e-02</span><span class="p">,</span>  <span class="mf">4.739936886869831195e-02</span><span class="p">,</span>  <span class="mf">3.729315285999294967e-03</span><span class="p">,</span> <span class="mf">-3.923380317654204946e-02</span><span class="p">,</span> <span class="mf">-8.042952702812998511e-02</span><span class="p">,</span> <span class="mf">-1.188596067515189786e-01</span><span class="p">,</span> <span class="mf">-1.536113100959331235e-01</span><span class="p">,</span> <span class="mf">-1.838783149377158088e-01</span><span class="p">,</span> <span class="mf">-2.089787183688724403e-01</span><span class="p">,</span> <span class="mf">-2.283697671071412139e-01</span><span class="p">,</span> <span class="mf">-2.416589974631566662e-01</span><span class="p">,</span> <span class="mf">-2.486115628809831002e-01</span><span class="p">,</span> <span class="mf">-2.491536212747517409e-01</span><span class="p">,</span> <span class="mf">-2.433717507142071912e-01</span><span class="p">,</span> <span class="mf">-2.315084581305014710e-01</span><span class="p">,</span> <span class="mf">-2.139539393088958630e-01</span><span class="p">,</span> <span class="mf">-1.912343372745207160e-01</span><span class="p">,</span> <span class="mf">-1.639968281608026879e-01</span><span class="p">,</span> <span class="mf">-1.329919368595744722e-01</span><span class="p">,</span> <span class="mf">-9.905354749644508516e-02</span><span class="p">,</span> <span class="mf">-6.307712463054845897e-02</span><span class="p">,</span> <span class="mf">-2.599669891908107031e-02</span><span class="p">,</span>  <span class="mf">1.123880498680778113e-02</span><span class="p">,</span>  <span class="mf">4.768931079683363938e-02</span><span class="p">,</span>  <span class="mf">8.244682030235099546e-02</span><span class="p">,</span>  <span class="mf">1.146575663556245184e-01</span><span class="p">,</span>  <span class="mf">1.435425573394158993e-01</span><span class="p">,</span>  <span class="mf">1.684160263528610424e-01</span><span class="p">,</span>  <span class="mf">1.887013547806833669e-01</span><span class="p">,</span>  <span class="mf">2.039441063239981478e-01</span><span class="p">,</span>  <span class="mf">2.138218822441483036e-01</span><span class="p">,</span>  <span class="mf">2.181507896104400435e-01</span><span class="p">,</span>  <span class="mf">2.168883997121466289e-01</span><span class="p">,</span>  <span class="mf">2.101331613692484779e-01</span><span class="p">,</span>  <span class="mf">1.981203214925236766e-01</span><span class="p">,</span>  <span class="mf">1.812144907554882334e-01</span><span class="p">,</span>  <span class="mf">1.598990735705112243e-01</span><span class="p">,</span>  <span class="mf">1.347628567502398289e-01</span><span class="p">,</span>  <span class="mf">1.064841184903417837e-01</span><span class="p">,</span>  <span class="mf">7.581267704609752356e-02</span><span class="p">,</span>  <span class="mf">4.355034535534538231e-02</span><span class="p">,</span>  <span class="mf">1.053029282226344322e-02</span><span class="p">,</span> <span class="mf">-2.240416223963804035e-02</span><span class="p">,</span> <span class="mf">-5.442079684403915152e-02</span><span class="p">,</span> <span class="mf">-8.471923566100394987e-02</span><span class="p">,</span> <span class="mf">-1.125506999538566089e-01</span><span class="p">,</span> <span class="mf">-1.372362712386958894e-01</span><span class="p">,</span> <span class="mf">-1.581832290465066404e-01</span><span class="p">,</span> <span class="mf">-1.748990739836292219e-01</span><span class="p">};</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J1</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">7.974427292107769127e-02</span><span class="p">,</span>  <span class="mf">1.579607195158227728e-01</span><span class="p">,</span>  <span class="mf">2.331540376105754875e-01</span><span class="p">,</span>  <span class="mf">3.038932463489217861e-01</span><span class="p">,</span>  <span class="mf">3.688420460941699286e-01</span><span class="p">,</span>  <span class="mf">4.267870638325514387e-01</span><span class="p">,</span>  <span class="mf">4.766633554260069072e-01</span><span class="p">,</span>  <span class="mf">5.175765990614300538e-01</span><span class="p">,</span>  <span class="mf">5.488214901791829137e-01</span><span class="p">,</span>  <span class="mf">5.698959352616804752e-01</span><span class="p">,</span>  <span class="mf">5.805107380872188694e-01</span><span class="p">,</span>  <span class="mf">5.805945751578127645e-01</span><span class="p">,</span>  <span class="mf">5.702941645870439613e-01</span><span class="p">,</span>  <span class="mf">5.499696422778881377e-01</span><span class="p">,</span>  <span class="mf">5.201852681819310042e-01</span><span class="p">,</span>  <span class="mf">4.816956912792456080e-01</span><span class="p">,</span>  <span class="mf">4.354281021988859468e-01</span><span class="p">,</span>  <span class="mf">3.824606947954961589e-01</span><span class="p">,</span>  <span class="mf">3.239979403797176305e-01</span><span class="p">,</span>  <span class="mf">2.613432487805046889e-01</span><span class="p">,</span>  <span class="mf">1.958696473915640113e-01</span><span class="p">,</span>  <span class="mf">1.289891515383607412e-01</span><span class="p">,</span>  <span class="mf">6.212152596372564478e-02</span><span class="p">,</span> <span class="mf">-3.336852592055256778e-03</span><span class="p">,</span> <span class="mf">-6.604332802354924425e-02</span><span class="p">,</span> <span class="mf">-1.247378115447640018e-01</span><span class="p">,</span> <span class="mf">-1.782694994576819736e-01</span><span class="p">,</span> <span class="mf">-2.256208719293136822e-01</span><span class="p">,</span> <span class="mf">-2.659284489960774822e-01</span><span class="p">,</span> <span class="mf">-2.984998580995578132e-01</span><span class="p">,</span> <span class="mf">-3.228268554524583167e-01</span><span class="p">,</span> <span class="mf">-3.385940393305315044e-01</span><span class="p">,</span> <span class="mf">-3.456830947031249712e-01</span><span class="p">,</span> <span class="mf">-3.441725130491267159e-01</span><span class="p">,</span> <span class="mf">-3.343328362910072959e-01</span><span class="p">,</span> <span class="mf">-3.166175770477659412e-01</span><span class="p">,</span> <span class="mf">-2.916500664427175149e-01</span><span class="p">,</span> <span class="mf">-2.602065732007244336e-01</span><span class="p">,</span> <span class="mf">-2.231961215939915477e-01</span><span class="p">,</span> <span class="mf">-1.816375090241832413e-01</span><span class="p">,</span> <span class="mf">-1.366340850003721352e-01</span><span class="p">,</span> <span class="mf">-8.934690062514449860e-02</span><span class="p">,</span> <span class="mf">-4.096687040311361439e-02</span><span class="p">,</span>  <span class="mf">7.313394441734941132e-03</span><span class="p">,</span>  <span class="mf">5.432742022236682761e-02</span><span class="p">,</span>  <span class="mf">9.896172554932844423e-02</span><span class="p">,</span>  <span class="mf">1.401810785219362587e-01</span><span class="p">,</span>  <span class="mf">1.770515816300098910e-01</span><span class="p">,</span>  <span class="mf">2.087610662315214360e-01</span><span class="p">,</span>  <span class="mf">2.346363468539146846e-01</span><span class="p">,</span>  <span class="mf">2.541569640391036500e-01</span><span class="p">,</span>  <span class="mf">2.669651310770672081e-01</span><span class="p">,</span>  <span class="mf">2.728716926309137647e-01</span><span class="p">,</span>  <span class="mf">2.718579996968898405e-01</span><span class="p">,</span>  <span class="mf">2.640737032396775485e-01</span><span class="p">,</span>  <span class="mf">2.498305658502283644e-01</span><span class="p">,</span>  <span class="mf">2.295924845806760206e-01</span><span class="p">,</span>  <span class="mf">2.039620065007019534e-01</span><span class="p">,</span>  <span class="mf">1.736636994188235639e-01</span><span class="p">,</span>  <span class="mf">1.395248117406856225e-01</span><span class="p">,</span>  <span class="mf">1.024537159523842694e-01</span><span class="p">,</span>  <span class="mf">6.341667835371410378e-02</span><span class="p">,</span>  <span class="mf">2.341353236442240970e-02</span><span class="p">,</span> <span class="mf">-1.654714674283729037e-02</span><span class="p">,</span> <span class="mf">-5.547276184899811724e-02</span><span class="p">,</span> <span class="mf">-9.241071350049503974e-02</span><span class="p">,</span> <span class="mf">-1.264711465503575716e-01</span><span class="p">,</span> <span class="mf">-1.568478880039847756e-01</span><span class="p">,</span> <span class="mf">-1.828370892035179607e-01</span><span class="p">,</span> <span class="mf">-2.038531458647006578e-01</span><span class="p">,</span> <span class="mf">-2.194415396320996969e-01</span><span class="p">,</span> <span class="mf">-2.292883229675148071e-01</span><span class="p">,</span> <span class="mf">-2.332260533764702604e-01</span><span class="p">,</span> <span class="mf">-2.312360711206125075e-01</span><span class="p">,</span> <span class="mf">-2.234471044906274628e-01</span><span class="p">,</span> <span class="mf">-2.101302762283630554e-01</span><span class="p">,</span> <span class="mf">-1.916906716174709702e-01</span><span class="p">,</span> <span class="mf">-1.686557110169812634e-01</span><span class="p">,</span> <span class="mf">-1.416606452284784323e-01</span><span class="p">,</span> <span class="mf">-1.114315592776024683e-01</span><span class="p">,</span> <span class="mf">-7.876632738513783538e-02</span><span class="p">,</span> <span class="mf">-4.451400778780157524e-02</span><span class="p">,</span> <span class="mf">-9.553199614912674664e-03</span><span class="p">,</span>  <span class="mf">2.523009548582650502e-02</span><span class="p">,</span>  <span class="mf">5.896455724873755216e-02</span><span class="p">,</span>  <span class="mf">9.081503298081045061e-02</span><span class="p">,</span>  <span class="mf">1.200029025496036905e-01</span><span class="p">,</span>  <span class="mf">1.458248310840943029e-01</span><span class="p">,</span>  <span class="mf">1.676694624846479797e-01</span><span class="p">,</span>  <span class="mf">1.850316616145775972e-01</span><span class="p">,</span>  <span class="mf">1.975239769911860399e-01</span><span class="p">,</span>  <span class="mf">2.048850672671956863e-01</span><span class="p">,</span>  <span class="mf">2.069849119801216997e-01</span><span class="p">,</span>  <span class="mf">2.038267080060865988e-01</span><span class="p">,</span>  <span class="mf">1.955454358660210501e-01</span><span class="p">,</span>  <span class="mf">1.824031624476773472e-01</span><span class="p">,</span>  <span class="mf">1.647812268000417579e-01</span><span class="p">,</span>  <span class="mf">1.431695314727947643e-01</span><span class="p">,</span>  <span class="mf">1.181532315769018987e-01</span><span class="p">,</span>  <span class="mf">9.039717566130427151e-02</span><span class="p">};</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J2</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">3.193178792337117867e-03</span><span class="p">,</span>  <span class="mf">1.269112226277925408e-02</span><span class="p">,</span>  <span class="mf">2.825100606039337298e-02</span><span class="p">,</span>  <span class="mf">4.947459089437857699e-02</span><span class="p">,</span>  <span class="mf">7.581776248494473402e-02</span><span class="p">,</span>  <span class="mf">1.066035675052747211e-01</span><span class="p">,</span>  <span class="mf">1.410384347402646177e-01</span><span class="p">,</span>  <span class="mf">1.782311948098989907e-01</span><span class="p">,</span>  <span class="mf">2.172144451834864265e-01</span><span class="p">,</span>  <span class="mf">2.569677514377197713e-01</span><span class="p">,</span>  <span class="mf">2.964421321176944346e-01</span><span class="p">,</span>  <span class="mf">3.345852441835749924e-01</span><span class="p">,</span>  <span class="mf">3.703666695865849290e-01</span><span class="p">,</span>  <span class="mf">4.028027014013088603e-01</span><span class="p">,</span>  <span class="mf">4.309800401876986986e-01</span><span class="p">,</span>  <span class="mf">4.540778375614452078e-01</span><span class="p">,</span>  <span class="mf">4.713875636739897623e-01</span><span class="p">,</span>  <span class="mf">4.823302274802151457e-01</span><span class="p">,</span>  <span class="mf">4.864705420414418002e-01</span><span class="p">,</span>  <span class="mf">4.835277001449385104e-01</span><span class="p">,</span>  <span class="mf">4.733825064594910925e-01</span><span class="p">,</span>  <span class="mf">4.560806993426504974e-01</span><span class="p">,</span>  <span class="mf">4.318323861813719300e-01</span><span class="p">,</span>  <span class="mf">4.010076086059723988e-01</span><span class="p">,</span>  <span class="mf">3.641281458520728154e-01</span><span class="p">,</span>  <span class="mf">3.218557537566761328e-01</span><span class="p">,</span>  <span class="mf">2.749771212317183577e-01</span><span class="p">,</span>  <span class="mf">2.243859035502468735e-01</span><span class="p">,</span>  <span class="mf">1.710622605640204352e-01</span><span class="p">,</span>  <span class="mf">1.160503864163676957e-01</span><span class="p">,</span>  <span class="mf">6.043456404144929850e-02</span><span class="p">,</span>  <span class="mf">5.314311655633137572e-03</span><span class="p">,</span> <span class="mf">-4.822079123651831084e-02</span><span class="p">,</span> <span class="mf">-9.911600453690519452e-02</span><span class="p">,</span> <span class="mf">-1.463754690747602061e-01</span><span class="p">,</span> <span class="mf">-1.890848249394419534e-01</span><span class="p">,</span> <span class="mf">-2.264318778632611051e-01</span><span class="p">,</span> <span class="mf">-2.577248326590534933e-01</span><span class="p">,</span> <span class="mf">-2.824076718211654957e-01</span><span class="p">,</span> <span class="mf">-3.000723263934638174e-01</span><span class="p">,</span> <span class="mf">-3.104673634133567894e-01</span><span class="p">,</span> <span class="mf">-3.135029977831489956e-01</span><span class="p">,</span> <span class="mf">-3.092523242785628068e-01</span><span class="p">,</span> <span class="mf">-2.979487554599780097e-01</span><span class="p">,</span> <span class="mf">-2.799797413391893475e-01</span><span class="p">,</span> <span class="mf">-2.558769346131995470e-01</span><span class="p">,</span> <span class="mf">-2.263030490045058463e-01</span><span class="p">,</span> <span class="mf">-1.920357357505954876e-01</span><span class="p">,</span> <span class="mf">-1.539488727263352286e-01</span><span class="p">,</span> <span class="mf">-1.129917204240752371e-01</span><span class="p">,</span> <span class="mf">-7.016644765924098803e-02</span><span class="p">,</span> <span class="mf">-2.650456628772741852e-02</span><span class="p">,</span>  <span class="mf">1.695716241217757117e-02</span><span class="p">,</span>  <span class="mf">5.920077723642890033e-02</span><span class="p">,</span>  <span class="mf">9.925055391283239825e-02</span><span class="p">,</span>  <span class="mf">1.361952783339845374e-01</span><span class="p">,</span>  <span class="mf">1.692088358262286152e-01</span><span class="p">,</span>  <span class="mf">1.975686390831533634e-01</span><span class="p">,</span>  <span class="mf">2.206714715942462157e-01</span><span class="p">,</span>  <span class="mf">2.380463874815152703e-01</span><span class="p">,</span>  <span class="mf">2.493643810318101339e-01</span><span class="p">,</span>  <span class="mf">2.544446180989861084e-01</span><span class="p">,</span>  <span class="mf">2.532571050167811699e-01</span><span class="p">,</span>  <span class="mf">2.459217566765413421e-01</span><span class="p">,</span>  <span class="mf">2.327039118970921638e-01</span><span class="p">,</span>  <span class="mf">2.140064290584380302e-01</span><span class="p">,</span>  <span class="mf">1.903585761465157178e-01</span><span class="p">,</span>  <span class="mf">1.624020049208470262e-01</span><span class="p">,</span>  <span class="mf">1.308741670732088691e-01</span><span class="p">,</span>  <span class="mf">9.658958938373506109e-02</span><span class="p">,</span>  <span class="mf">6.041947361755427987e-02</span><span class="p">,</span>  <span class="mf">2.327012411535491279e-02</span><span class="p">,</span> <span class="mf">-1.393926912483506309e-02</span><span class="p">,</span> <span class="mf">-5.029895213555989758e-02</span><span class="p">,</span> <span class="mf">-8.493049487860487856e-02</span><span class="p">,</span> <span class="mf">-1.170077209978054589e-01</span><span class="p">,</span> <span class="mf">-1.457761818779412244e-01</span><span class="p">,</span> <span class="mf">-1.705707161562398100e-01</span><span class="p">,</span> <span class="mf">-1.908306854080000226e-01</span><span class="p">,</span> <span class="mf">-2.061125359178087590e-01</span><span class="p">,</span> <span class="mf">-2.160994037599761886e-01</span><span class="p">,</span> <span class="mf">-2.206075541630204973e-01</span><span class="p">,</span> <span class="mf">-2.195895244922040079e-01</span><span class="p">,</span> <span class="mf">-2.131339212172319864e-01</span><span class="p">,</span> <span class="mf">-2.014619029503164904e-01</span><span class="p">,</span> <span class="mf">-1.849204620476384564e-01</span><span class="p">,</span> <span class="mf">-1.639726944121543961e-01</span><span class="p">,</span> <span class="mf">-1.391853191551569169e-01</span><span class="p">,</span> <span class="mf">-1.112137749405982534e-01</span><span class="p">,</span> <span class="mf">-8.078527659942821848e-02</span><span class="p">,</span> <span class="mf">-4.868026262423132133e-02</span><span class="p">,</span> <span class="mf">-1.571270034621553846e-02</span><span class="p">,</span>  <span class="mf">1.729025986323678293e-02</span><span class="p">,</span>  <span class="mf">4.950877766597934493e-02</span><span class="p">,</span>  <span class="mf">8.015045945798929261e-02</span><span class="p">,</span>  <span class="mf">1.084696474380452691e-01</span><span class="p">,</span>  <span class="mf">1.337853941291197446e-01</span><span class="p">,</span>  <span class="mf">1.554976910694094994e-01</span><span class="p">,</span>  <span class="mf">1.731015663668225568e-01</span><span class="p">,</span>  <span class="mf">1.861987209412922506e-01</span><span class="p">};</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J3</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">8.519688735027151048e-05</span><span class="p">,</span>  <span class="mf">6.783087689179150958e-04</span><span class="p">,</span>  <span class="mf">2.271012892702670670e-03</span><span class="p">,</span>  <span class="mf">5.322946740944365165e-03</span><span class="p">,</span>  <span class="mf">1.024676633055360449e-02</span><span class="p">,</span>  <span class="mf">1.739446743942656484e-02</span><span class="p">,</span>  <span class="mf">2.704534007493814007e-02</span><span class="p">,</span>  <span class="mf">3.939588471950435100e-02</span><span class="p">,</span>  <span class="mf">5.455196866383484056e-02</span><span class="p">,</span>  <span class="mf">7.252344333261900866e-02</span><span class="p">,</span>  <span class="mf">9.322138036208633960e-02</span><span class="p">,</span>  <span class="mf">1.164580168913019603e-01</span><span class="p">,</span>  <span class="mf">1.419494307717730497e-01</span><span class="p">,</span>  <span class="mf">1.693208959387348944e-01</span><span class="p">,</span>  <span class="mf">1.981147987975668545e-01</span><span class="p">,</span>  <span class="mf">2.278009299105124841e-01</span><span class="p">,</span>  <span class="mf">2.577889032040401318e-01</span><span class="p">,</span>  <span class="mf">2.874423989270246116e-01</span><span class="p">,</span>  <span class="mf">3.160948780958638960e-01</span><span class="p">,</span>  <span class="mf">3.430663764006682270e-01</span><span class="p">,</span>  <span class="mf">3.676809555364015103e-01</span><span class="p">,</span>  <span class="mf">3.892843704419243767e-01</span><span class="p">,</span>  <span class="mf">4.072615024942872197e-01</span><span class="p">,</span>  <span class="mf">4.210531115566097937e-01</span><span class="p">,</span>  <span class="mf">4.301714738756219347e-01</span><span class="p">,</span>  <span class="mf">4.342144978492603058e-01</span><span class="p">,</span>  <span class="mf">4.328779450426063491e-01</span><span class="p">,</span>  <span class="mf">4.259654286706055504e-01</span><span class="p">,</span>  <span class="mf">4.133959149995433680e-01</span><span class="p">,</span>  <span class="mf">3.952085134465308514e-01</span><span class="p">,</span>  <span class="mf">3.715644070987883518e-01</span><span class="p">,</span>  <span class="mf">3.427458453114948789e-01</span><span class="p">,</span>  <span class="mf">3.091521922512171505e-01</span><span class="p">,</span>  <span class="mf">2.712930979484611260e-01</span><span class="p">,</span>  <span class="mf">2.297789298090357202e-01</span><span class="p">,</span>  <span class="mf">1.853086708398201665e-01</span><span class="p">,</span>  <span class="mf">1.386555543729464657e-01</span><span class="p">,</span>  <span class="mf">9.065076224082081746e-02</span><span class="p">,</span>  <span class="mf">4.216556273427012058e-02</span><span class="p">,</span> <span class="mf">-5.907694971731636789e-03</span><span class="p">,</span> <span class="mf">-5.267528293460151112e-02</span><span class="p">,</span> <span class="mf">-9.726202662672990551e-02</span><span class="p">,</span> <span class="mf">-1.388309925495391783e-01</span><span class="p">,</span> <span class="mf">-1.766024600439951853e-01</span><span class="p">,</span> <span class="mf">-2.098717209663609196e-01</span><span class="p">,</span> <span class="mf">-2.380252769695455906e-01</span><span class="p">,</span> <span class="mf">-2.605550407583755446e-01</span><span class="p">,</span> <span class="mf">-2.770701940001116803e-01</span><span class="p">,</span> <span class="mf">-2.873064094592435169e-01</span><span class="p">,</span> <span class="mf">-2.911322070659522754e-01</span><span class="p">,</span> <span class="mf">-2.885522815191237100e-01</span><span class="p">,</span> <span class="mf">-2.797077110230900554e-01</span><span class="p">,</span> <span class="mf">-2.648730311157356798e-01</span><span class="p">,</span> <span class="mf">-2.444502324578023966e-01</span><span class="p">,</span> <span class="mf">-2.189598150974809976e-01</span><span class="p">,</span> <span class="mf">-1.890291023082709965e-01</span><span class="p">,</span> <span class="mf">-1.553780829025055710e-01</span><span class="p">,</span> <span class="mf">-1.188031103441703207e-01</span><span class="p">,</span> <span class="mf">-8.015883857380397270e-02</span><span class="p">,</span> <span class="mf">-4.033881695672091733e-02</span><span class="p">,</span> <span class="mf">-2.551991360686349910e-04</span><span class="p">,</span>  <span class="mf">3.918195797652224144e-02</span><span class="p">,</span>  <span class="mf">7.708531883271296792e-02</span><span class="p">,</span>  <span class="mf">1.126103329446112578e-01</span><span class="p">,</span>  <span class="mf">1.449742664248027946e-01</span><span class="p">,</span>  <span class="mf">1.734737548105094451e-01</span><span class="p">,</span>  <span class="mf">1.975004660080126595e-01</span><span class="p">,</span>  <span class="mf">2.165545074601785136e-01</span><span class="p">,</span>  <span class="mf">2.302552656793182551e-01</span><span class="p">,</span>  <span class="mf">2.383494277874631528e-01</span><span class="p">,</span>  <span class="mf">2.407160021734920663e-01</span><span class="p">,</span>  <span class="mf">2.373682271742352523e-01</span><span class="p">,</span>  <span class="mf">2.284523310734445367e-01</span><span class="p">,</span>  <span class="mf">2.142431818856260495e-01</span><span class="p">,</span>  <span class="mf">1.951369395310925126e-01</span><span class="p">,</span>  <span class="mf">1.716408943211902294e-01</span><span class="p">,</span>  <span class="mf">1.443607424363212155e-01</span><span class="p">,</span>  <span class="mf">1.139856096848531203e-01</span><span class="p">,</span>  <span class="mf">8.127118782088350868e-02</span><span class="p">,</span>  <span class="mf">4.702139180328721718e-02</span><span class="p">,</span>  <span class="mf">1.206898054563900792e-02</span><span class="p">,</span> <span class="mf">-2.274439287165589893e-02</span><span class="p">,</span> <span class="mf">-5.658822342490780338e-02</span><span class="p">,</span> <span class="mf">-8.866281013381221987e-02</span><span class="p">,</span> <span class="mf">-1.182180581164777033e-01</span><span class="p">,</span> <span class="mf">-1.445709812504727965e-01</span><span class="p">,</span> <span class="mf">-1.671214928979238845e-01</span><span class="p">,</span> <span class="mf">-1.853661149349911663e-01</span><span class="p">,</span> <span class="mf">-1.989092869061643287e-01</span><span class="p">,</span> <span class="mf">-2.074720162255298817e-01</span><span class="p">,</span> <span class="mf">-2.108976755143265047e-01</span><span class="p">,</span> <span class="mf">-2.091548227960585982e-01</span><span class="p">,</span> <span class="mf">-2.023369926620472992e-01</span><span class="p">,</span> <span class="mf">-1.906594799034325161e-01</span><span class="p">,</span> <span class="mf">-1.744532096928659570e-01</span><span class="p">,</span> <span class="mf">-1.541558584273530486e-01</span><span class="p">,</span> <span class="mf">-1.303004551172789183e-01</span><span class="p">,</span> <span class="mf">-1.035017531387616985e-01</span><span class="p">,</span> <span class="mf">-7.444071481760326792e-02</span><span class="p">,</span> <span class="mf">-4.384749542598120192e-02</span><span class="p">};</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J4</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">1.704483298062775014e-06</span><span class="p">,</span>  <span class="mf">2.716715443164670636e-05</span><span class="p">,</span>  <span class="mf">1.366550983900052211e-04</span><span class="p">,</span>  <span class="mf">4.280348019748087072e-04</span><span class="p">,</span>  <span class="mf">1.032984994207302451e-03</span><span class="p">,</span>  <span class="mf">2.111853991141337313e-03</span><span class="p">,</span>  <span class="mf">3.847315661189678552e-03</span><span class="p">,</span>  <span class="mf">6.437014812777689353e-03</span><span class="p">,</span>  <span class="mf">1.008542424915877603e-02</span><span class="p">,</span>  <span class="mf">1.499516105960151634e-02</span><span class="p">,</span>  <span class="mf">2.135802820760002510e-02</span><span class="p">,</span>  <span class="mf">2.934605860174360759e-02</span><span class="p">,</span>  <span class="mf">3.910284225506809042e-02</span><span class="p">,</span>  <span class="mf">5.073541272030240162e-02</span><span class="p">,</span>  <span class="mf">6.430695680621832666e-02</span><span class="p">,</span>  <span class="mf">7.983059191631831919e-02</span><span class="p">,</span>  <span class="mf">9.726442868786328022e-02</span><span class="p">,</span>  <span class="mf">1.165081036177527951e-01</span><span class="p">,</span>  <span class="mf">1.374009278846053672e-01</span><span class="p">,</span>  <span class="mf">1.597217556063144639e-01</span><span class="p">,</span>  <span class="mf">1.831906284269401164e-01</span><span class="p">,</span>  <span class="mf">2.074722048197202851e-01</span><span class="p">,</span>  <span class="mf">2.321809331027920309e-01</span><span class="p">,</span>  <span class="mf">2.568878782012304351e-01</span><span class="p">,</span>  <span class="mf">2.811290649613600312e-01</span><span class="p">,</span>  <span class="mf">3.044151566028336364e-01</span><span class="p">,</span>  <span class="mf">3.262422468830124545e-01</span><span class="p">,</span>  <span class="mf">3.461035098478855154e-01</span><span class="p">,</span>  <span class="mf">3.635014226250443126e-01</span><span class="p">,</span>  <span class="mf">3.779602553917958963e-01</span><span class="p">,</span>  <span class="mf">3.890385090619237762e-01</span><span class="p">,</span>  <span class="mf">3.963409758187749765e-01</span><span class="p">,</span>  <span class="mf">3.995301006129015065e-01</span><span class="p">,</span>  <span class="mf">3.983363331565314414e-01</span><span class="p">,</span>  <span class="mf">3.925671795844413170e-01</span><span class="p">,</span>  <span class="mf">3.821146903975878861e-01</span><span class="p">,</span>  <span class="mf">3.669611559439500681e-01</span><span class="p">,</span>  <span class="mf">3.471828217124951488e-01</span><span class="p">,</span>  <span class="mf">3.229514821425790716e-01</span><span class="p">,</span>  <span class="mf">2.945338623574654258e-01</span><span class="p">,</span>  <span class="mf">2.622887509731724465e-01</span><span class="p">,</span>  <span class="mf">2.266619025807115884e-01</span><span class="p">,</span>  <span class="mf">1.881787842644297715e-01</span><span class="p">,</span>  <span class="mf">1.474352951952093704e-01</span><span class="p">,</span>  <span class="mf">1.050866405338885534e-01</span><span class="p">,</span>  <span class="mf">6.183458925759174885e-02</span><span class="p">,</span>  <span class="mf">1.841338882495084997e-02</span><span class="p">,</span> <span class="mf">-2.442535331199180426e-02</span><span class="p">,</span> <span class="mf">-6.592848145165723650e-02</span><span class="p">,</span> <span class="mf">-1.053574348753889556e-01</span><span class="p">,</span> <span class="mf">-1.420043475754088069e-01</span><span class="p">,</span> <span class="mf">-1.752077253154624981e-01</span><span class="p">,</span> <span class="mf">-2.043673259374622075e-01</span><span class="p">,</span> <span class="mf">-2.289578831099027545e-01</span><span class="p">,</span> <span class="mf">-2.485413369338421719e-01</span><span class="p">,</span> <span class="mf">-2.627772664868445740e-01</span><span class="p">,</span> <span class="mf">-2.714312587884033512e-01</span><span class="p">,</span> <span class="mf">-2.743809949091255973e-01</span><span class="p">,</span> <span class="mf">-2.716198859420029810e-01</span><span class="p">,</span> <span class="mf">-2.632581480794658479e-01</span><span class="p">,</span> <span class="mf">-2.495212657466064354e-01</span><span class="p">,</span> <span class="mf">-2.307458531938315627e-01</span><span class="p">,</span> <span class="mf">-2.073729866639758279e-01</span><span class="p">,</span> <span class="mf">-1.799391397168081941e-01</span><span class="p">,</span> <span class="mf">-1.490649120366290270e-01</span><span class="p">,</span> <span class="mf">-1.154417956433758524e-01</span><span class="p">,</span> <span class="mf">-7.981727054501611129e-02</span><span class="p">,</span> <span class="mf">-4.297856330677799624e-02</span><span class="p">,</span> <span class="mf">-5.735435725753339035e-03</span><span class="p">,</span>  <span class="mf">3.109760407383447070e-02</span><span class="p">,</span>  <span class="mf">6.671925992478308642e-02</span><span class="p">,</span>  <span class="mf">1.003591608712259275e-01</span><span class="p">,</span>  <span class="mf">1.312949186488647779e-01</span><span class="p">,</span>  <span class="mf">1.588681321451676787e-01</span><span class="p">,</span>  <span class="mf">1.824989646441511348e-01</span><span class="p">,</span>  <span class="mf">2.016989517483927519e-01</span><span class="p">,</span>  <span class="mf">2.160817382592664926e-01</span><span class="p">,</span>  <span class="mf">2.253714900431884327e-01</span><span class="p">,</span>  <span class="mf">2.294087808925965866e-01</span><span class="p">,</span>  <span class="mf">2.281538133255996692e-01</span><span class="p">,</span>  <span class="mf">2.216868947533275902e-01</span><span class="p">,</span>  <span class="mf">2.102061549839095989e-01</span><span class="p">,</span>  <span class="mf">1.940225560773360114e-01</span><span class="p">,</span>  <span class="mf">1.735523095503515301e-01</span><span class="p">,</span>  <span class="mf">1.493068773106939751e-01</span><span class="p">,</span>  <span class="mf">1.218807899907462244e-01</span><span class="p">,</span>  <span class="mf">9.193756816304927970e-02</span><span class="p">,</span>  <span class="mf">6.019407699535954392e-02</span><span class="p">,</span>  <span class="mf">2.740368214305707525e-02</span><span class="p">,</span> <span class="mf">-5.661396827875905813e-03</span><span class="p">,</span> <span class="mf">-3.822812014266144254e-02</span><span class="p">,</span> <span class="mf">-6.954062416304747363e-02</span><span class="p">,</span> <span class="mf">-9.887775690438488363e-02</span><span class="p">,</span> <span class="mf">-1.255697403934125378e-01</span><span class="p">,</span> <span class="mf">-1.490135685472784854e-01</span><span class="p">,</span> <span class="mf">-1.686867796362300775e-01</span><span class="p">,</span> <span class="mf">-1.841592814167275494e-01</span><span class="p">,</span> <span class="mf">-1.951029537500581224e-01</span><span class="p">,</span> <span class="mf">-2.012988068280359144e-01</span><span class="p">,</span> <span class="mf">-2.026415317260352178e-01</span><span class="p">};</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J5</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">2.727755286725624990e-08</span><span class="p">,</span>  <span class="mf">8.700918732527827913e-07</span><span class="p">,</span>  <span class="mf">6.572080464084812992e-06</span><span class="p">,</span>  <span class="mf">2.748828374074567337e-05</span><span class="p">,</span>  <span class="mf">8.308361151942142192e-05</span><span class="p">,</span>  <span class="mf">2.043158200845798323e-04</span><span class="p">,</span>  <span class="mf">4.354860764167111319e-04</span><span class="p">,</span>  <span class="mf">8.354578603562065869e-04</span><span class="p">,</span>  <span class="mf">1.478166053713934067e-03</span><span class="p">,</span>  <span class="mf">2.452361965388557847e-03</span><span class="p">,</span>  <span class="mf">3.860566036095576352e-03</span><span class="p">,</span>  <span class="mf">5.817227282629795770e-03</span><span class="p">,</span>  <span class="mf">8.446116363104253302e-03</span><span class="p">,</span>  <span class="mf">1.187700663377370090e-02</span><span class="p">,</span>  <span class="mf">1.624172388982765905e-02</span><span class="p">,</span>  <span class="mf">2.166966982798228247e-02</span><span class="p">,</span>  <span class="mf">2.828294587791084155e-02</span><span class="p">,</span>  <span class="mf">3.619122223339998196e-02</span><span class="p">,</span>  <span class="mf">4.548651107415020711e-02</span><span class="p">,</span>  <span class="mf">5.623801261511794658e-02</span><span class="p">,</span>  <span class="mf">6.848720738488454918e-02</span><span class="p">,</span>  <span class="mf">8.224336778471275089e-02</span><span class="p">,</span>  <span class="mf">9.747965642482592230e-02</span><span class="p">,</span>  <span class="mf">1.141299680292870988e-01</span><span class="p">,</span>  <span class="mf">1.320866560470982942e-01</span><span class="p">,</span>  <span class="mf">1.511992648484969670e-01</span><span class="p">,</span>  <span class="mf">1.712743640000094214e-01</span><span class="p">,</span>  <span class="mf">1.920765532006185050e-01</span><span class="p">,</span>  <span class="mf">2.133306757332917580e-01</span><span class="p">,</span>  <span class="mf">2.347252455397958182e-01</span><span class="p">,</span>  <span class="mf">2.559170591301210274e-01</span><span class="p">,</span>  <span class="mf">2.765369294053409699e-01</span><span class="p">,</span>  <span class="mf">2.961964450410578542e-01</span><span class="p">,</span>  <span class="mf">3.144956272817320819e-01</span><span class="p">,</span>  <span class="mf">3.310313267401660542e-01</span><span class="p">,</span>  <span class="mf">3.454061769346074007e-01</span><span class="p">,</span>  <span class="mf">3.572378996053644507e-01</span><span class="p">,</span>  <span class="mf">3.661687400124623015e-01</span><span class="p">,</span>  <span class="mf">3.718747989869850556e-01</span><span class="p">,</span>  <span class="mf">3.740750229185634268e-01</span><span class="p">,</span>  <span class="mf">3.725396133896898276e-01</span><span class="p">,</span>  <span class="mf">3.670976249371008526e-01</span><span class="p">,</span>  <span class="mf">3.576435323918994436e-01</span><span class="p">,</span>  <span class="mf">3.441425682203694825e-01</span><span class="p">,</span>  <span class="mf">3.266346548929037752e-01</span><span class="p">,</span>  <span class="mf">3.052367870321452958e-01</span><span class="p">,</span>  <span class="mf">2.801437522742807329e-01</span><span class="p">,</span>  <span class="mf">2.516271176334535786e-01</span><span class="p">,</span>  <span class="mf">2.200324487942870999e-01</span><span class="p">,</span>  <span class="mf">1.857747721905633198e-01</span><span class="p">,</span>  <span class="mf">1.493323329157817403e-01</span><span class="p">,</span>  <span class="mf">1.112387443736068682e-01</span><span class="p">,</span>  <span class="mf">7.207366702379019996e-02</span><span class="p">,</span>  <span class="mf">3.245219254122581193e-02</span><span class="p">,</span> <span class="mf">-6.986854842375531116e-03</span><span class="p">,</span> <span class="mf">-4.559345705498305673e-02</span><span class="p">,</span> <span class="mf">-8.271951252591838721e-02</span><span class="p">,</span> <span class="mf">-1.177322300947310635e-01</span><span class="p">,</span> <span class="mf">-1.500275054448426404e-01</span><span class="p">,</span> <span class="mf">-1.790429731095006249e-01</span><span class="p">,</span> <span class="mf">-2.042704285250841745e-01</span><span class="p">,</span> <span class="mf">-2.252673234554186665e-01</span><span class="p">,</span> <span class="mf">-2.416670542803128208e-01</span><span class="p">,</span> <span class="mf">-2.531877858483676524e-01</span><span class="p">,</span> <span class="mf">-2.596395833760558602e-01</span><span class="p">,</span> <span class="mf">-2.609296606009456898e-01</span><span class="p">,</span> <span class="mf">-2.570655932804127297e-01</span><span class="p">,</span> <span class="mf">-2.481563922445740866e-01</span><span class="p">,</span> <span class="mf">-2.344113785240670433e-01</span><span class="p">,</span> <span class="mf">-2.161368534490099580e-01</span><span class="p">,</span> <span class="mf">-1.937306078602645254e-01</span><span class="p">,</span> <span class="mf">-1.676743654581061838e-01</span><span class="p">,</span> <span class="mf">-1.385243046016193802e-01</span><span class="p">,</span> <span class="mf">-1.068998493551073514e-01</span><span class="p">,</span> <span class="mf">-7.347096310165841804e-02</span><span class="p">,</span> <span class="mf">-3.894421553935288605e-02</span><span class="p">,</span> <span class="mf">-4.047925384849489043e-03</span><span class="p">,</span>  <span class="mf">3.048329418898559906e-02</span><span class="p">,</span>  <span class="mf">6.392424312379783868e-02</span><span class="p">,</span>  <span class="mf">9.557474152521255872e-02</span><span class="p">,</span>  <span class="mf">1.247747816477730726e-01</span><span class="p">,</span>  <span class="mf">1.509188776179422320e-01</span><span class="p">,</span>  <span class="mf">1.734692813028210490e-01</span><span class="p">,</span>  <span class="mf">1.919677562947357530e-01</span><span class="p">,</span>  <span class="mf">2.060456330051212148e-01</span><span class="p">,</span>  <span class="mf">2.154319056636973262e-01</span><span class="p">,</span>  <span class="mf">2.199591757502510347e-01</span><span class="p">,</span>  <span class="mf">2.195672950459909012e-01</span><span class="p">,</span>  <span class="mf">2.143046139528256289e-01</span><span class="p">,</span>  <span class="mf">2.043267957655988398e-01</span><span class="p">,</span>  <span class="mf">1.898932138974795680e-01</span><span class="p">,</span>  <span class="mf">1.713610053161414848e-01</span><span class="p">,</span>  <span class="mf">1.491769083048511413e-01</span><span class="p">,</span>  <span class="mf">1.238670648005535252e-01</span><span class="p">,</span>  <span class="mf">9.602501572061412916e-02</span><span class="p">,</span>  <span class="mf">6.629816070014989127e-02</span><span class="p">,</span>  <span class="mf">3.537299046948120390e-02</span><span class="p">,</span>  <span class="mf">3.959429796895318383e-03</span><span class="p">,</span> <span class="mf">-2.722534923696033962e-02</span><span class="p">,</span> <span class="mf">-5.747327043703640004e-02</span><span class="p">};</span>
+<span class="k">const</span> <span class="n">Vec</span> <span class="n">J6</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.000000000000000000e+00</span><span class="p">,</span>  <span class="mf">3.637561407399986847e-10</span><span class="p">,</span>  <span class="mf">2.321660750278203107e-08</span><span class="p">,</span>  <span class="mf">2.632446117617594579e-07</span><span class="p">,</span>  <span class="mf">1.469631474342027998e-06</span><span class="p">,</span>  <span class="mf">5.560149785465380226e-06</span><span class="p">,</span>  <span class="mf">1.643580140636582046e-05</span><span class="p">,</span>  <span class="mf">4.095287824523976059e-05</span><span class="p">,</span>  <span class="mf">8.999972125517573186e-05</span><span class="p">,</span>  <span class="mf">1.796177905213194642e-04</span><span class="p">,</span>  <span class="mf">3.321012240769706395e-04</span><span class="p">,</span>  <span class="mf">5.770060883975714058e-04</span><span class="p">,</span>  <span class="mf">9.520001619532347239e-04</span><span class="p">,</span>  <span class="mf">1.503486413702336552e-03</span><span class="p">,</span>  <span class="mf">2.286938323330183018e-03</span><span class="p">,</span>  <span class="mf">3.366892734730254737e-03</span><span class="p">,</span>  <span class="mf">4.816555849237468684e-03</span><span class="p">,</span>  <span class="mf">6.716989980926488073e-03</span><span class="p">,</span>  <span class="mf">9.155862470441467754e-03</span><span class="p">,</span>  <span class="mf">1.222575328036240756e-02</span><span class="p">,</span>  <span class="mf">1.602203381592903417e-02</span><span class="p">,</span>  <span class="mf">2.064034593283529256e-02</span><span class="p">,</span>  <span class="mf">2.617372638685000821e-02</span><span class="p">,</span>  <span class="mf">3.270943761684361184e-02</span><span class="p">,</span>  <span class="mf">4.032558020837129914e-02</span><span class="p">,</span>  <span class="mf">4.908757515638553781e-02</span><span class="p">,</span>  <span class="mf">5.904461466759167859e-02</span><span class="p">,</span>  <span class="mf">7.022618830219450048e-02</span><span class="p">,</span>  <span class="mf">8.263879640349515443e-02</span><span class="p">,</span>  <span class="mf">9.626296473118771402e-02</span><span class="p">,</span>  <span class="mf">1.110506728161116952e-01</span><span class="p">,</span>  <span class="mf">1.269233037004171560e-01</span><span class="p">,</span>  <span class="mf">1.437702144260317727e-01</span><span class="p">,</span>  <span class="mf">1.614480149951625920e-01</span><span class="p">,</span>  <span class="mf">1.797806287584171603e-01</span><span class="p">,</span>  <span class="mf">1.985601895944265616e-01</span><span class="p">,</span>  <span class="mf">2.175488112249941430e-01</span><span class="p">,</span>  <span class="mf">2.364812420380845714e-01</span><span class="p">,</span>  <span class="mf">2.550683954132652587e-01</span><span class="p">,</span>  <span class="mf">2.730017213622046857e-01</span><span class="p">,</span>  <span class="mf">2.899583609527898731e-01</span><span class="p">,</span>  <span class="mf">3.056070011452571289e-01</span><span class="p">,</span>  <span class="mf">3.196143250042599027e-01</span><span class="p">,</span>  <span class="mf">3.316519314214705916e-01</span><span class="p">,</span>  <span class="mf">3.414035801178154639e-01</span><span class="p">,</span>  <span class="mf">3.485726023729223133e-01</span><span class="p">,</span>  <span class="mf">3.528893061665187014e-01</span><span class="p">,</span>  <span class="mf">3.541181966461671160e-01</span><span class="p">,</span>  <span class="mf">3.520648293972178378e-01</span><span class="p">,</span>  <span class="mf">3.465821151178397619e-01</span><span class="p">,</span>  <span class="mf">3.375759001135931192e-01</span><span class="p">,</span>  <span class="mf">3.250096575212197969e-01</span><span class="p">,</span>  <span class="mf">3.089081392260477066e-01</span><span class="p">,</span>  <span class="mf">2.893598578051393422e-01</span><span class="p">,</span>  <span class="mf">2.665182911437289359e-01</span><span class="p">,</span>  <span class="mf">2.406017291584154338e-01</span><span class="p">,</span>  <span class="mf">2.118917117379795489e-01</span><span class="p">,</span>  <span class="mf">1.807300389134928464e-01</span><span class="p">,</span>  <span class="mf">1.475143676518722580e-01</span><span class="p">,</span>  <span class="mf">1.126924437334831941e-01</span><span class="p">,</span>  <span class="mf">7.675505109040270391e-02</span><span class="p">,</span>  <span class="mf">4.022779389713490583e-02</span><span class="p">,</span>  <span class="mf">3.661857775062713795e-03</span><span class="p">,</span> <span class="mf">-3.237607512204877802e-02</span><span class="p">,</span> <span class="mf">-6.731455740073831462e-02</span><span class="p">,</span> <span class="mf">-1.005885335172708589e-01</span><span class="p">,</span> <span class="mf">-1.316506859863075807e-01</span><span class="p">,</span> <span class="mf">-1.599827231867121669e-01</span><span class="p">,</span> <span class="mf">-1.851063560356613902e-01</span><span class="p">,</span> <span class="mf">-2.065937114880754266e-01</span><span class="p">,</span> <span class="mf">-2.240769375104504912e-01</span><span class="p">,</span> <span class="mf">-2.372567668440300481e-01</span><span class="p">,</span> <span class="mf">-2.459098253313874993e-01</span><span class="p">,</span> <span class="mf">-2.498944945064155709e-01</span><span class="p">,</span> <span class="mf">-2.491551670734677981e-01</span><span class="p">,</span> <span class="mf">-2.437247672288664624e-01</span><span class="p">,</span> <span class="mf">-2.337254447906237376e-01</span><span class="p">,</span> <span class="mf">-2.193673919807352379e-01</span><span class="p">,</span> <span class="mf">-2.009457735456038063e-01</span><span class="p">,</span> <span class="mf">-1.788358037376932552e-01</span><span class="p">,</span> <span class="mf">-1.534860465090273351e-01</span><span class="p">,</span> <span class="mf">-1.254100570621446697e-01</span><span class="p">,</span> <span class="mf">-9.517652265316096927e-02</span><span class="p">,</span> <span class="mf">-6.339809726497079578e-02</span><span class="p">,</span> <span class="mf">-3.071915754533982926e-02</span><span class="p">,</span>  <span class="mf">2.197264604836329880e-03</span><span class="p">,</span>  <span class="mf">3.468309493926637760e-02</span><span class="p">,</span>  <span class="mf">6.607908108282066484e-02</span><span class="p">,</span>  <span class="mf">9.574860414525900032e-02</span><span class="p">,</span>  <span class="mf">1.230911310260620756e-01</span><span class="p">,</span>  <span class="mf">1.475550049984306611e-01</span><span class="p">,</span>  <span class="mf">1.686492835337874696e-01</span><span class="p">,</span>  <span class="mf">1.859543506006435809e-01</span><span class="p">,</span>  <span class="mf">1.991310554963547086e-01</span><span class="p">,</span>  <span class="mf">2.079281611384614092e-01</span><span class="p">,</span>  <span class="mf">2.121879209950509049e-01</span><span class="p">,</span>  <span class="mf">2.118496446753901641e-01</span><span class="p">,</span>  <span class="mf">2.069511567192283408e-01</span><span class="p">,</span>  <span class="mf">1.976281003042005269e-01</span><span class="p">,</span>  <span class="mf">1.841110863501568828e-01</span><span class="p">,</span>  <span class="mf">1.667207377028874504e-01</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create a Figure object</span>
+    <span class="n">Figure</span> <span class="n">fig</span><span class="p">;</span>
+
+    <span class="c1">// Set the x and y labels</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;J_v(x)&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Plot the Bessel functions</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J0</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_0&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J1</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_1&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J2</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_2&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J3</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_3&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J4</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_4&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J5</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_5&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">J6</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;J_6&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Show the figure in a popup window</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="c1">// Save the figure to a PDF file</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;example-bessel-functions.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="" loading="lazy" src="/img/tutorials/example-bessel-functions.svg" /></p>
+<h2 id="plotting-multiple-plots">Plotting multiple plots<a class="headerlink" href="#plotting-multiple-plots" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis</span>
+    <span class="n">Vec</span> <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+    <span class="c1">// Create 4 different figures</span>
+    <span class="n">Figure</span> <span class="n">fig0</span><span class="p">;</span>
+    <span class="n">fig0</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;sin(x)&quot;</span><span class="p">);</span>
+    <span class="n">fig0</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;cos(x)&quot;</span><span class="p">);</span>
+
+    <span class="n">Figure</span> <span class="n">fig1</span><span class="p">;</span>
+    <span class="n">fig1</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;cos(x)&quot;</span><span class="p">);</span>
+
+    <span class="n">Figure</span> <span class="n">fig2</span><span class="p">;</span>
+    <span class="n">fig2</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">tan</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;tan(x)&quot;</span><span class="p">);</span>
+
+    <span class="n">Figure</span> <span class="n">fig3</span><span class="p">;</span>
+    <span class="n">fig3</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;sqrt(x)&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Use the previous figures as sub-figures in a larger 2x2 figure.</span>
+    <span class="n">Figures</span> <span class="n">fig</span> <span class="o">=</span> <span class="p">{{</span> <span class="n">fig0</span><span class="p">,</span> <span class="n">fig1</span> <span class="p">},</span>
+                   <span class="p">{</span> <span class="n">fig2</span><span class="p">,</span> <span class="n">fig3</span> <span class="p">}};</span>
+
+    <span class="n">fig</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Trigonometric Functions&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">palette</span><span class="p">(</span><span class="s">&quot;dark2&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Save the figure to a PDF file</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;example-multiplot.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="" loading="lazy" src="/img/tutorials/example-multiplot.svg" /></p>
+<h2 id="ploting-trigonometric-functions">Ploting trigonometric functions<a class="headerlink" href="#ploting-trigonometric-functions" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create values for your x-axis</span>
+    <span class="n">Vec</span> <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+
+    <span class="c1">// Create a Figure object</span>
+    <span class="n">Figure</span> <span class="n">fig</span><span class="p">;</span>
+
+    <span class="c1">// Set color palette</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">palette</span><span class="p">(</span><span class="s">&quot;set2&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Draw a sine graph putting x on the x-axis and sin(x) on the y-axis</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;sin(x)&quot;</span><span class="p">).</span><span class="n">lineWidth</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+
+    <span class="c1">// Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;cos(x)&quot;</span><span class="p">).</span><span class="n">lineWidth</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+
+    <span class="c1">// Show the figure in a popup window</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="c1">// Save the figure to a PDF file</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;example-trigonometric-functions.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="" loading="lazy" src="/img/tutorials/example-sincos-functions.svg" /></p>
+<h2 id="plotting-boxes">Plotting boxes<a class="headerlink" href="#plotting-boxes" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create a vector with x-axis values</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+
+    <span class="c1">// Create a vector with y values</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="p">{</span><span class="mi">-4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">-3</span><span class="p">};</span>
+
+    <span class="c1">// Create a Figure object</span>
+    <span class="n">Figure</span> <span class="n">fig</span><span class="p">;</span>
+
+    <span class="c1">// Set the legend</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">legend</span><span class="p">().</span><span class="n">hide</span><span class="p">();</span>
+
+    <span class="c1">// Set the x and y labels</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+
+    <span class="c1">// Set the y range</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">yrange</span><span class="p">(</span><span class="mi">-5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+    <span class="c1">// Add values to plot</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawBoxes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">fillSolid</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">fillColor</span><span class="p">(</span><span class="s">&quot;green&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">fillIntensity</span><span class="p">(</span><span class="mf">0.5</span><span class="p">);</span>
+
+    <span class="c1">// Adjust the relative width of the boxes</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">boxWidthRelative</span><span class="p">(</span><span class="mf">0.75</span><span class="p">);</span>
+
+    <span class="c1">// Show the figure in a pop-up window</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="c1">// Save the figure to a PDF file</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;example-boxes.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="" loading="lazy" src="/img/tutorials/example-boxes.svg" /></p>
+<h2 id="plotting-boxes-with-custom-tick-labels">Plotting boxes with custom tick labels<a class="headerlink" href="#plotting-boxes-with-custom-tick-labels" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Create a vector with the xtic labels for the boxes</span>
+    <span class="n">Strings</span> <span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;John&quot;</span><span class="p">,</span> <span class="s">&quot;Peter&quot;</span><span class="p">,</span> <span class="s">&quot;Thomas&quot;</span><span class="p">,</span> <span class="s">&quot;Marta&quot;</span><span class="p">};</span>
+
+    <span class="c1">// Create a vector with the y values for the boxes</span>
+    <span class="n">Vec</span> <span class="n">ages</span> <span class="o">=</span> <span class="p">{</span><span class="mi">44</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">20</span><span class="p">};</span>
+
+    <span class="c1">// Create a vector with the xwidth values for the boxes</span>
+    <span class="n">Vec</span> <span class="n">experiences</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">};</span>
+
+    <span class="c1">// Create a Figure object</span>
+    <span class="n">Figure</span> <span class="n">fig</span><span class="p">;</span>
+
+    <span class="c1">// Set the legend to the top left corner of the figure</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">legend</span><span class="p">().</span><span class="n">atTopLeft</span><span class="p">();</span>
+
+    <span class="c1">// Set the y label and its range</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Age&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">yrange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+
+    <span class="c1">// Plot the boxes using y values.</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawBoxes</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">ages</span><span class="p">,</span> <span class="n">experiences</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">fillSolid</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">fillColor</span><span class="p">(</span><span class="s">&quot;pink&quot;</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">fillIntensity</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">borderShow</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">labelNone</span><span class="p">();</span>
+
+    <span class="c1">// Adjust the relative width of the boxes</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">boxWidthRelative</span><span class="p">(</span><span class="mf">0.75</span><span class="p">);</span>
+
+    <span class="n">fig</span><span class="p">.</span><span class="n">autoclean</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+
+    <span class="c1">// Show the figure in a pop-up window</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="c1">// Save the figure to a PDF file</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;example-boxes-ticklabels.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="" loading="lazy" src="/img/tutorials/example-boxes-ticklabels.svg" /></p>
+<h2 id="integration-with-cmake-based-projects">Integration with CMake-based projects<a class="headerlink" href="#integration-with-cmake-based-projects" title="Permanent link">&para;</a></h2>
+<p>Integrating <span style="font-family:'Comfortaa'">sciplot</span> in a CMake-based project is very simple as shown next.</p>
+<p>Let's assume our CMake-based project consists of two files: <code>main.cpp</code> and
+<code>CMakeLists.txt</code>, whose contents are shown below:</p>
+<hr />
+<p><strong>main.cpp</strong>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;sciplot/sciplot.hpp&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">sciplot</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Vec</span> <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">PI</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+
+    <span class="n">Figure</span> <span class="n">fig</span><span class="p">;</span>
+
+    <span class="n">fig</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+
+    <span class="n">fig</span><span class="p">.</span><span class="n">xrange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">PI</span><span class="p">);</span>
+    <span class="n">fig</span><span class="p">.</span><span class="n">yrange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">);</span>
+
+    <span class="n">fig</span><span class="p">.</span><span class="n">drawCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;sin(x)&quot;</span><span class="p">);</span>
+
+    <span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;my-sine-plot.pdf&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>CMakeLists.txt</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.0</span><span class="p">)</span>
+
+<span class="nb">project</span><span class="p">(</span><span class="s">app</span><span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span><span class="s">sciplot</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">app</span> <span class="s">main.cpp</span><span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">app</span> <span class="s">sciplot::sciplot</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<p>In the <code>CMakeLists.txt</code> file, note the use of the command:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">find_package</span><span class="p">(</span><span class="s">sciplot</span><span class="p">)</span>
+</code></pre></div>
+<p>to find the header files of the <span style="font-family:'Comfortaa'">sciplot</span> library, and the command:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">app</span> <span class="s">sciplot::sciplot</span><span class="p">)</span>
+</code></pre></div>
+to link the executable target <code>app</code> against the <span style="font-family:'Comfortaa'">sciplot</span> library
+(<code>sciplot::sciplot</code>) using CMake's modern target-based design.</p>
+<p>To build the application, do:</p>
+<div class="highlight"><pre><span></span><code>mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
+cmake .. -DCMAKE_PREFIX_PATH<span class="o">=</span>/path/to/sciplot/install/dir
+make
+</code></pre></div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>If <span style="font-family:'Comfortaa'">sciplot</span> has been installed system-wide, then the CMake argument
+<code>CMAKE_PREFIX_PATH</code> should not be needed. Otherwise, you will need to specify
+where <span style="font-family:'Comfortaa'">sciplot</span> is installed in your machine. For example:</p>
+<div class="highlight"><pre><span></span><code>cmake .. -DCMAKE_PREFIX_PATH<span class="o">=</span><span class="nv">$HOME</span>/local
+</code></pre></div>
+<p>assuming directory <code>$HOME/local</code> is where <span style="font-family:'Comfortaa'">sciplot</span> was installed to, which
+should then contain the following directory:</p>
+<div class="highlight"><pre><span></span><code>$HOME/local/include/sciplot/
+</code></pre></div>
+<p>where the <span style="font-family:'Comfortaa'">sciplot</span> header files are located.</p>
+</div>
+<p>To execute the application, do:</p>
+<div class="highlight"><pre><span></span><code>./app
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../installation/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Installation
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../api/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                API
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018–2021 Allan Leal
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.53cc9318.min.js"></script>
+      <script src="../assets/javascripts/bundle.e9c9f54f.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: [],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
