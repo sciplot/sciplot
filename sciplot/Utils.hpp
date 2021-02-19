@@ -26,6 +26,7 @@
 #pragma once
 
 // C++ includes
+#include <algorithm>
 #include <cstdlib>
 #include <fstream>
 #include <sstream>

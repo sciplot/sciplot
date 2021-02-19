@@ -10,11 +10,15 @@ project(sciplot VERSION 0.2.0
 
 set(CMAKE_CXX_STANDARD 17)
 
-include(cmake_install_generation.cmake)
-
 option(SCIPLOT_BUILD_EXAMPLES "Build examples" ON)
 option(SCIPLOT_BUILD_TESTS "Build tests" ON)
 option(SCIPLOT_BUILD_DOCS "Build documentation" ON)
+
+# Set compile options in case of MSVC
+if(MSVC)
+    add_compile_options(/MP)  # enable parallel build
+    add_definitions("/wd4267 /wd4244")  # ignore silly warnings related to size_t/int and site_t/double conversions
+endif()
 
 if(SCIPLOT_BUILD_EXAMPLES)
     add_subdirectory(examples)
@@ -30,3 +34,4 @@ endif()
 
 add_subdirectory(scripts)
 
+include(cmake_install_generation.cmake)
