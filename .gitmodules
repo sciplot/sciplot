@@ -1,3 +1,6 @@
-[submodule "gnuplot-palettes"]
-	path = gnuplot-palettes
+[submodule "deps/doxystrap"]
+	path = deps/doxystrap
+	url = git@github.com:allanleal/doxystrap
+[submodule "deps/gnuplot-palettes"]
+	path = deps/gnuplot-palettes
 	url = git@github.com:sciplot/gnuplot-palettes
