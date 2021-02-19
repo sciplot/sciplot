@@ -112,9 +112,9 @@ class Figures
 };
 
 // Initialize the counter of plot objects
-std::size_t Figures::m_counter = 0;
+inline std::size_t Figures::m_counter = 0;
 
-Figures::Figures(const std::initializer_list<std::initializer_list<Figure>>& figs)
+inline Figures::Figures(const std::initializer_list<std::initializer_list<Figure>>& figs)
 : m_id(m_counter++),
   m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
 {
@@ -127,7 +127,7 @@ Figures::Figures(const std::initializer_list<std::initializer_list<Figure>>& fig
         m_figures.emplace_back(row.begin(), row.end());
 }
 
-Figures::Figures(const std::vector<std::vector<Figure>>& figs)
+inline Figures::Figures(const std::vector<std::vector<Figure>>& figs)
 : m_id(m_counter++),
   m_scriptfilename("multishow" + internal::str(m_id) + ".plt"),
   m_figures(figs)
@@ -138,38 +138,38 @@ Figures::Figures(const std::vector<std::vector<Figure>>& figs)
         m_layoutcols = std::max(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
 }
 
-auto Figures::autoclean(bool enable) -> void
+inline auto Figures::autoclean(bool enable) -> void
 {
     m_autoclean = enable;
 }
 
-auto Figures::palette(const std::string& name) -> Figures&
+inline auto Figures::palette(const std::string& name) -> Figures&
 {
     m_palette = name;
     return *this;
 }
 
-auto Figures::size(std::size_t width, std::size_t height) -> Figures&
+inline auto Figures::size(std::size_t width, std::size_t height) -> Figures&
 {
     m_width = width;
     m_height = height;
     return *this;
 }
 
-auto Figures::title(const std::string& title) -> Figures&
+inline auto Figures::title(const std::string& title) -> Figures&
 {
     m_title = title;
     return *this;
 }
 
-auto Figures::saveplotdata() const -> void
+inline auto Figures::saveplotdata() const -> void
 {
     for(const auto& row : m_figures)
         for(const auto& fig : row)
             fig.savePlotData();
 }
 
-auto Figures::show() const -> void
+inline auto Figures::show() const -> void
 {
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
@@ -214,7 +214,7 @@ auto Figures::show() const -> void
     }
 }
 
-auto Figures::save(const std::string& filename) const -> void
+inline auto Figures::save(const std::string& filename) const -> void
 {
     // Clean the file name to prevent errors
     auto cleanedfilename = gnuplot::cleanpath(filename);
@@ -275,7 +275,7 @@ auto Figures::save(const std::string& filename) const -> void
     }
 }
 
-auto Figures::cleanup() const -> void
+inline auto Figures::cleanup() const -> void
 {
     std::remove(m_scriptfilename.c_str());
     for(const auto& row : m_figures)

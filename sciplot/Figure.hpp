@@ -443,9 +443,9 @@ class Figure
 };
 
 // Initialize the counter of plot objects
-std::size_t Figure::m_counter = 0;
+inline std::size_t Figure::m_counter = 0;
 
-Figure::Figure()
+inline Figure::Figure()
 : m_id(m_counter++),
   m_scriptfilename("show" + internal::str(m_id) + ".plt"),
   m_datafilename("plot" + internal::str(m_id) + ".dat"),
