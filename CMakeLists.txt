@@ -6,7 +6,7 @@ include(CCache)
 
 project(sciplot VERSION 0.2.0
     DESCRIPTION "A modern C++ scientific plotting library powered by gnuplot"
-    HOMEPAGE_URL "https://github.com/sciplot")
+    HOMEPAGE_URL "https://sciplot.github.io")
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -25,15 +25,7 @@ if(SCIPLOT_BUILD_TESTS)
 endif()
 
 if(SCIPLOT_BUILD_DOCS)
-    add_subdirectory(doxygen)
-
-    # Add target "website" for building website documentation
-    add_custom_target(website
-      COMMAND mkdocs build
-      COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/doxygen/html/ ${CMAKE_SOURCE_DIR}/site/api/
-      WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
-
-    add_dependencies(website doxygen)
+    add_subdirectory(docs)
 endif()
 
 add_subdirectory(scripts)
