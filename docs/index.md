@@ -1,5 +1,7 @@
 # ![sciplot](img/logo.svg){: loading=lazy; width=100% }
 
+# ![sciplot](img/warning.svg){: loading=lazy; width=100% }
+
 <!-- # Overview -->
 
 So, you have an amazing C++ application for which you need plotting capabilities. You have searched around and discovered that the available library options for plotting in C++ are rather limited compared to other programming languages, such as Python.
