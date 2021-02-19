@@ -493,45 +493,45 @@ Figure::Figure()
     gnuplot("set style data histogram");
 }
 
-auto Figure::palette(std::string name) -> void
+inline auto Figure::palette(std::string name) -> void
 {
     m_palette = name;
 }
 
-auto Figure::size(std::size_t width, std::size_t height) -> void
+inline auto Figure::size(std::size_t width, std::size_t height) -> void
 {
     m_width = width;
     m_height = height;
 }
 
-auto Figure::xlabel(std::string label) -> AxisLabelSpecs&
+inline auto Figure::xlabel(std::string label) -> AxisLabelSpecs&
 {
     m_xlabel.text(label);
     return m_xlabel;
 }
 
-auto Figure::ylabel(std::string label) -> AxisLabelSpecs&
+inline auto Figure::ylabel(std::string label) -> AxisLabelSpecs&
 {
     m_ylabel.text(label);
     return m_ylabel;
 }
 
-auto Figure::xrange(double min, double max) -> void
+inline auto Figure::xrange(double min, double max) -> void
 {
     m_xrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
 }
 
-auto Figure::yrange(double min, double max) -> void
+inline auto Figure::yrange(double min, double max) -> void
 {
     m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
 }
 
-auto Figure::boxWidthAbsolute(double val) -> void
+inline auto Figure::boxWidthAbsolute(double val) -> void
 {
     m_boxwidth = internal::str(val) + " absolute";
 }
 
-auto Figure::boxWidthRelative(double val) -> void
+inline auto Figure::boxWidthRelative(double val) -> void
 {
     m_boxwidth = internal::str(val) + " relative";
 }
@@ -540,7 +540,7 @@ auto Figure::boxWidthRelative(double val) -> void
 // METHODS FOR DRAWING PLOT ELEMENTS
 //======================================================================
 
-auto Figure::draw(std::string what, std::string use, std::string with) -> DrawSpecs&
+inline auto Figure::draw(std::string what, std::string use, std::string with) -> DrawSpecs&
 {
     // Save the draw arguments for this x,y data
     m_drawspecs.emplace_back(what, use, with);
@@ -553,7 +553,7 @@ auto Figure::draw(std::string what, std::string use, std::string with) -> DrawSp
 }
 
 template <typename X, typename... Vecs>
-auto Figure::drawWithVecs(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
+inline auto Figure::drawWithVecs(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
@@ -579,163 +579,163 @@ auto Figure::drawWithVecs(std::string with, const X& x, const Vecs&... vecs) -> 
 }
 
 template <typename X, typename Y>
-auto Figure::drawCurve(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawCurve(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("lines", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("linespoints", x, y);
 }
 
 template <typename X, typename Y, typename XD>
-auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
 {
     return drawWithVecs("xerrorlines", x, y, xdelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH>
-auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
 {
     return drawWithVecs("xerrorlines", x, y, xlow, xhigh);
 }
 
 template <typename X, typename Y, typename YD>
-auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
 {
     return drawWithVecs("yerrorlines", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
-auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("yerrorlines", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD, typename YD>
-auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
 {
     return drawWithVecs("xyerrorlines", x, y, xdelta, ydelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
 }
 
 template <typename X, typename Y>
-auto Figure::drawBoxes(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawBoxes(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("boxes", x, y);
 }
 
 template <typename X, typename Y, typename XW>
-auto Figure::drawBoxes(const X& x, const Y& y, const XW& xwidth) -> DrawSpecs&
+inline auto Figure::drawBoxes(const X& x, const Y& y, const XW& xwidth) -> DrawSpecs&
 {
     return drawWithVecs("boxes", x, y, xwidth);
 }
 
 template <typename X, typename Y, typename YD>
-auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> DrawSpecs&
+inline auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> DrawSpecs&
 {
     return drawWithVecs("boxerrorbars", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
-auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
+inline auto Figure::drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("boxerrorbars", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD>
-auto Figure::drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
+inline auto Figure::drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
 {
     return drawWithVecs("xerrorbars", x, y, xdelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH>
-auto Figure::drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
+inline auto Figure::drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
 {
     return drawWithVecs("xerrorbars", x, y, xlow, xhigh);
 }
 
 template <typename X, typename Y, typename YD>
-auto Figure::drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
+inline auto Figure::drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
 {
     return drawWithVecs("yerrorbars", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
-auto Figure::drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
+inline auto Figure::drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("yerrorbars", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD, typename YD>
-auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
+inline auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
 {
     return drawWithVecs("xyerrorbars", x, y, xdelta, ydelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
-auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
+inline auto Figure::drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("xyerrorbars", x, y, xlow, xhigh, ylow, yhigh);
 }
 
 template <typename X, typename Y>
-auto Figure::drawSteps(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawSteps(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecsStepsChangeFirstX(x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("steps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("fsteps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("histeps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("fillsteps", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawDots(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawDots(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("dots", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawPoints(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawPoints(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("points", x, y);
 }
 
 template <typename X, typename Y>
-auto Figure::drawImpulses(const X& x, const Y& y) -> DrawSpecs&
+inline auto Figure::drawImpulses(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("impulses", x, y);
 }
 
 template <typename Y>
-auto Figure::drawHistogram(const Y& y) -> DrawSpecs&
+inline auto Figure::drawHistogram(const Y& y) -> DrawSpecs&
 {
     return drawWithVecs("", y); // empty string because we rely on `set style data histograms` since relying `with histograms` is not working very well (e.g., empty key/lenged appearing in columnstacked mode).
 }
@@ -744,7 +744,7 @@ auto Figure::drawHistogram(const Y& y) -> DrawSpecs&
 // METHODS FOR DRAWING PLOT ELEMENTS USING DATA FROM LOCAL FILES
 //======================================================================
 
-auto Figure::drawWithCols(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
+inline auto Figure::drawWithCols(std::string fname, std::string with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
 {
     std::string use;
     for(auto col : cols)
@@ -754,137 +754,137 @@ auto Figure::drawWithCols(std::string fname, std::string with, const std::vector
     return draw(what, use, with); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
 }
 
-auto Figure::drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawCurve(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "lines", {xcol, ycol});
 }
 
-auto Figure::drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawCurveWithPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "linespoints", {xcol, ycol});
 }
 
-auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xerrorlines", {xcol, ycol, xdeltacol});
 }
 
-auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xerrorlines", {xcol, ycol, xlowcol, xhighcol});
 }
 
-auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "yerrorlines", {xcol, ycol, ydeltacol});
 }
 
-auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "yerrorlines", {xcol, ycol, ylowcol, yhighcol});
 }
 
-auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xyerrorlines", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
-auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
+inline auto Figure::drawCurveWithErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xyerrorlines", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
-auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "boxes", {xcol, ycol});
 }
 
-auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> DrawSpecs&
+inline auto Figure::drawBoxes(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "boxes", {xcol, ycol, xwidthcol});
 }
 
-auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
+inline auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "boxerrorbars", {xcol, ycol, ydeltacol});
 }
 
-auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
+inline auto Figure::drawBoxesWithErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "boxerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
-auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
+inline auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xerrorbars", {xcol, ycol, xdeltacol});
 }
 
-auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
+inline auto Figure::drawErrorBarsX(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xerrorbars", {xcol, ycol, xlowcol, xhighcol});
 }
 
-auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
+inline auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "yerrorbars", {xcol, ycol, ydeltacol});
 }
 
-auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
+inline auto Figure::drawErrorBarsY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "yerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
-auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
+inline auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xyerrorbars", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
-auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
+inline auto Figure::drawErrorBarsXY(std::string fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
     return drawWithCols(fname, "xyerrorbars", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
-auto Figure::drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawSteps(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "steps", {xcol, ycol});
 }
 
-auto Figure::drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawStepsChangeFirstX(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "steps", {xcol, ycol});
 }
 
-auto Figure::drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawStepsChangeFirstY(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "fsteps", {xcol, ycol});
 }
 
-auto Figure::drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawStepsHistogram(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "histeps", {xcol, ycol});
 }
 
-auto Figure::drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawStepsFilled(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "fillsteps", {xcol, ycol});
 }
 
-auto Figure::drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawDots(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "dots", {xcol, ycol});
 }
 
-auto Figure::drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawPoints(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "points", {xcol, ycol});
 }
 
-auto Figure::drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawImpulses(std::string fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "impulses", {xcol, ycol});
 }
 
-auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&
+inline auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&
 {
     return drawWithCols(fname, "", {ycol});
 }
@@ -893,22 +893,22 @@ auto Figure::drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&
 // MISCElLANEOUS METHODS
 //======================================================================
 
-auto Figure::legend() -> LegendSpecs&
+inline auto Figure::legend() -> LegendSpecs&
 {
     return m_legend;
 }
 
-auto Figure::samples(std::size_t value) -> void
+inline auto Figure::samples(std::size_t value) -> void
 {
     m_samples = internal::str(value);
 }
 
-auto Figure::gnuplot(std::string command) -> void
+inline auto Figure::gnuplot(std::string command) -> void
 {
     m_customcmds.push_back(command);
 }
 
-auto Figure::show() const -> void
+inline auto Figure::show() const -> void
 {
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
@@ -942,7 +942,7 @@ auto Figure::show() const -> void
     }
 }
 
-auto Figure::save(std::string filename) const -> void
+inline auto Figure::save(std::string filename) const -> void
 {
     // Clean the file name to prevent errors
     auto cleanedfilename = gnuplot::cleanpath(filename);
@@ -989,7 +989,7 @@ auto Figure::save(std::string filename) const -> void
     }
 }
 
-auto Figure::savePlotData() const -> void
+inline auto Figure::savePlotData() const -> void
 {
     // Open data file, truncate it and write all current plot data to it
     if(!m_data.empty())
@@ -999,18 +999,18 @@ auto Figure::savePlotData() const -> void
     }
 }
 
-auto Figure::autoclean(bool enable) -> void
+inline auto Figure::autoclean(bool enable) -> void
 {
     m_autoclean = enable;
 }
 
-auto Figure::cleanup() const -> void
+inline auto Figure::cleanup() const -> void
 {
     std::remove(m_scriptfilename.c_str());
     std::remove(m_datafilename.c_str());
 }
 
-auto Figure::repr() const -> std::string
+inline auto Figure::repr() const -> std::string
 {
     std::stringstream script;
 

@@ -92,30 +92,30 @@ class FillStyleSpecs : virtual public Specs<FillStyleSpecs>
     std::string m_bordershow;
 };
 
-FillStyleSpecs::FillStyleSpecs()
+inline FillStyleSpecs::FillStyleSpecs()
 {
 }
 
-auto FillStyleSpecs::empty() -> FillStyleSpecs&
+inline auto FillStyleSpecs::empty() -> FillStyleSpecs&
 {
     m_fillmode = "empty";
     return *this;
 }
 
-auto FillStyleSpecs::solid() -> FillStyleSpecs&
+inline auto FillStyleSpecs::solid() -> FillStyleSpecs&
 {
     m_fillmode = "solid";
     return *this;
 }
 
-auto FillStyleSpecs::pattern(int number) -> FillStyleSpecs&
+inline auto FillStyleSpecs::pattern(int number) -> FillStyleSpecs&
 {
     m_fillmode = "pattern";
     m_pattern_number = internal::str(number);
     return *this;
 }
 
-auto FillStyleSpecs::intensity(double value) -> FillStyleSpecs&
+inline auto FillStyleSpecs::intensity(double value) -> FillStyleSpecs&
 {
     value = std::min(std::max(0.0, value), 1.0); // value in [0, 1]
     m_density = internal::str(value);
@@ -123,7 +123,7 @@ auto FillStyleSpecs::intensity(double value) -> FillStyleSpecs&
     return *this;
 }
 
-auto FillStyleSpecs::transparent(bool active) -> FillStyleSpecs&
+inline auto FillStyleSpecs::transparent(bool active) -> FillStyleSpecs&
 {
     m_transparent = active ? "transparent" : "";
     if(m_fillmode.empty())
@@ -131,30 +131,30 @@ auto FillStyleSpecs::transparent(bool active) -> FillStyleSpecs&
     return *this;
 }
 
-auto FillStyleSpecs::borderLineColor(std::string color) -> FillStyleSpecs&
+inline auto FillStyleSpecs::borderLineColor(std::string color) -> FillStyleSpecs&
 {
     m_bordercolor = "'" + color + "'";
     return *this;
 }
 
-auto FillStyleSpecs::borderLineWidth(int value) -> FillStyleSpecs&
+inline auto FillStyleSpecs::borderLineWidth(int value) -> FillStyleSpecs&
 {
     m_borderlinewidth = internal::str(value);
     return *this;
 }
 
-auto FillStyleSpecs::borderShow(bool show) -> FillStyleSpecs&
+inline auto FillStyleSpecs::borderShow(bool show) -> FillStyleSpecs&
 {
     m_bordershow = show ? "yes" : "no";
     return *this;
 }
 
-auto FillStyleSpecs::borderHide() -> FillStyleSpecs&
+inline auto FillStyleSpecs::borderHide() -> FillStyleSpecs&
 {
     return borderShow(false);
 }
 
-auto FillStyleSpecs::repr() const -> std::string
+inline auto FillStyleSpecs::repr() const -> std::string
 {
     std::string fillstyle; // ensure it remains empty if no fill style option has been given!
     if(m_fillmode == "solid")

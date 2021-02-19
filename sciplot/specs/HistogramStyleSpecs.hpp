@@ -76,56 +76,56 @@ class HistogramStyleSpecs : virtual public Specs<HistogramStyleSpecs>
     std::string m_linewidth;
 };
 
-HistogramStyleSpecs::HistogramStyleSpecs()
+inline HistogramStyleSpecs::HistogramStyleSpecs()
 {
 }
 
-auto HistogramStyleSpecs::clustered() -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::clustered() -> HistogramStyleSpecs&
 {
     m_type = "clustered";
     return *this;
 }
 
-auto HistogramStyleSpecs::clusteredWithGap(double value) -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::clusteredWithGap(double value) -> HistogramStyleSpecs&
 {
     m_type = "clustered";
     m_gap_clustered = "gap " + internal::str(value);
     return *this;
 }
 
-auto HistogramStyleSpecs::rowStacked() -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::rowStacked() -> HistogramStyleSpecs&
 {
     m_type = "rowstacked";
     return *this;
 }
 
-auto HistogramStyleSpecs::columnStacked() -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::columnStacked() -> HistogramStyleSpecs&
 {
     m_type = "columnstacked";
     return *this;
 }
 
-auto HistogramStyleSpecs::errorBars() -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::errorBars() -> HistogramStyleSpecs&
 {
     m_type = "errorbars";
     return *this;
 }
 
-auto HistogramStyleSpecs::errorBarsWithGap(double value) -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::errorBarsWithGap(double value) -> HistogramStyleSpecs&
 {
     m_type = "errorbars";
     m_gap_errorbars = "gap " + internal::str(value);
     return *this;
 }
 
-auto HistogramStyleSpecs::errorBarsWithLineWidth(double value) -> HistogramStyleSpecs&
+inline auto HistogramStyleSpecs::errorBarsWithLineWidth(double value) -> HistogramStyleSpecs&
 {
     m_type = "errorbars";
     m_linewidth = "linewidth " + internal::str(value);
     return *this;
 }
 
-auto HistogramStyleSpecs::repr() const -> std::string
+inline auto HistogramStyleSpecs::repr() const -> std::string
 {
     const auto supports_gap = (m_type == "clustered" || m_type == "errorbars");
     const auto supports_linewidth = (m_type == "errorbars");
