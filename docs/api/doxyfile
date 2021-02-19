@@ -752,7 +752,7 @@ FILE_VERSION_FILTER    =
 # DoxygenLayout.xml, doxygen will parse it automatically even if the LAYOUT_FILE
 # tag is left empty.
 
-LAYOUT_FILE            = @CMAKE_CURRENT_SOURCE_DIR@/template/layout.xml
+LAYOUT_FILE            = @CMAKE_SOURCE_DIR@/docs/api/template/layout.xml
 
 # The CITE_BIB_FILES tag can be used to specify one or more bib files containing
 # the reference definitions. This must be a list of .bib files. The .bib
@@ -762,7 +762,7 @@ LAYOUT_FILE            = @CMAKE_CURRENT_SOURCE_DIR@/template/layout.xml
 # LATEX_BIB_STYLE. To use this feature you need bibtex and perl available in the
 # search path. See also \cite for info how to create references.
 
-CITE_BIB_FILES         = @CMAKE_CURRENT_SOURCE_DIR@/bib/references.bib
+CITE_BIB_FILES         =
 
 #---------------------------------------------------------------------------
 # Configuration options related to warning and progress messages
@@ -1147,7 +1147,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            = @CMAKE_CURRENT_SOURCE_DIR@/template/header.html
+HTML_HEADER            = @CMAKE_SOURCE_DIR@/docs/api/template/header.html
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1157,7 +1157,7 @@ HTML_HEADER            = @CMAKE_CURRENT_SOURCE_DIR@/template/header.html
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            = @CMAKE_CURRENT_SOURCE_DIR@/template/footer.html
+HTML_FOOTER            = @CMAKE_SOURCE_DIR@/docs/api/template/footer.html
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1182,7 +1182,8 @@ HTML_STYLESHEET        =
 # list). For an example see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  =
+HTML_EXTRA_STYLESHEET  += @CMAKE_SOURCE_DIR@/docs/api/css/doxystrap.css
+HTML_EXTRA_STYLESHEET  += @CMAKE_SOURCE_DIR@/docs/api/css/sciplot.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1192,7 +1193,7 @@ HTML_EXTRA_STYLESHEET  =
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       =
+HTML_EXTRA_FILES       += @CMAKE_SOURCE_DIR@/docs/api/js/doxystrap.js
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to
