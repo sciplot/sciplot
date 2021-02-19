@@ -3,6 +3,10 @@
     <img src="art/sciplot-logo.svg" width=100%;" title="sciplot">
 </p>
 
+<p align="center">
+    <img src="docs/img/warning.svg" width=100%;" title="warning">
+</p>
+
 # Overview
 
 **So, you have an amazing C++ application for which you need plotting capabilities.** You have searched around and discovered that the available options for C++ plotting libraries is rather limited compared to other programming languages, such as Python, for example, which has [matplotlib].
