@@ -1,0 +1,7 @@
+<map id="DrawSpecs" name="DrawSpecs">
+<area shape="rect" id="node1" title="The class where options for the plotted element can be specified." alt="" coords="271,155,361,181"/>
+<area shape="rect" id="node2" href="$classsciplot_1_1LineSpecsOf.html" title=" " alt="" coords="5,80,195,107"/>
+<area shape="rect" id="node3" href="$classsciplot_1_1Specs.html" title=" " alt="" coords="241,5,391,32"/>
+<area shape="rect" id="node4" href="$classsciplot_1_1PointSpecsOf.html" title=" " alt="" coords="219,80,413,107"/>
+<area shape="rect" id="node5" href="$classsciplot_1_1FillSpecsOf.html" title=" " alt="" coords="438,80,621,107"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="GridSpecsBase" name="GridSpecsBase">
+<area shape="rect" id="node1" title="The class used to specify options for grid lines along axis tics (major or minor)." alt="" coords="499,56,612,83"/>
+<area shape="rect" id="node6" href="$classsciplot_1_1GridSpecs.html" title="The class used to specify options for grid." alt="" coords="660,56,743,83"/>
+<area shape="rect" id="node2" href="$classsciplot_1_1LineSpecsOf.html" title=" " alt="" coords="233,5,445,32"/>
+<area shape="rect" id="node3" href="$classsciplot_1_1Specs.html" title=" " alt="" coords="5,56,180,83"/>
+<area shape="rect" id="node4" href="$classsciplot_1_1DepthSpecsOf.html" title=" " alt="" coords="228,56,451,83"/>
+<area shape="rect" id="node5" href="$classsciplot_1_1ShowSpecsOf.html" title=" " alt="" coords="229,107,450,133"/>
+</map>
