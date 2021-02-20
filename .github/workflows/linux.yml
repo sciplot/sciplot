@@ -68,16 +68,3 @@ jobs:
         run: |
           source activate sciplot
           cmake --build .build --config ${{ env.configuration }} --target tests
-      - name: Build Website
-        shell: bash -l {0}
-        run: |
-          source activate sciplot
-          cmake --build .build --config ${{ env.configuration }} --target docs
-      - name: Deploy Website
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.ORGANIZATION_TOKEN }}
-          external_repository: sciplot/sciplot.github.io
-          publish_dir: ./.build/docs/site
-          publish_branch: master
-          commit_message: ${{ github.event.head_commit.message }}
