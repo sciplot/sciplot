@@ -60,7 +60,7 @@ jobs:
         run: |
           conda activate sciplot
           cmake --build .build --config ${{ env.configuration }} --target install
-      - name: Teste
+      - name: Test
         shell: powershell
         run: |
           conda activate sciplot
