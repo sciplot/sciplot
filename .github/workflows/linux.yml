@@ -78,6 +78,6 @@ jobs:
         with:
           personal_token: ${{ secrets.ORGANIZATION_TOKEN }}
           external_repository: sciplot/sciplot.github.io
-          publish_dir: ./build/docs/site
+          publish_dir: ./.build/docs/site
           publish_branch: master
           commit_message: ${{ github.event.head_commit.message }}
