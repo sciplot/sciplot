@@ -1,9 +1,0 @@
-<map id="TicsSpecsMajor" name="TicsSpecsMajor">
-<area shape="rect" id="node1" title="The class used to specify options for major tics of a specific axis." alt="" coords="1019,64,1135,91"/>
-<area shape="rect" id="node2" href="$classsciplot_1_1TicsSpecsBaseOf.html" title=" " alt="" coords="768,57,971,98"/>
-<area shape="rect" id="node3" href="$classsciplot_1_1TextSpecsOf.html" title=" " alt="" coords="503,5,720,32"/>
-<area shape="rect" id="node4" href="$classsciplot_1_1FontSpecsOf.html" title=" " alt="" coords="234,9,451,36"/>
-<area shape="rect" id="node5" href="$classsciplot_1_1Specs.html" title=" " alt="" coords="5,64,183,91"/>
-<area shape="rect" id="node6" href="$classsciplot_1_1OffsetSpecsOf.html" title=" " alt="" coords="520,57,703,98"/>
-<area shape="rect" id="node7" href="$classsciplot_1_1ShowSpecsOf.html" title=" " alt="" coords="231,119,455,145"/>
-</map>
