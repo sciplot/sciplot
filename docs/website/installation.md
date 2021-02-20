@@ -1,6 +1,6 @@
 # Installation
 
-{{sciplot}} is a header-only library that needs a C++14-capable compiler.
+{{sciplot}} is a header-only library that needs a C++17-capable compiler.
 
 It has no external dependencies for compiling! The only external runtime dependencies are [gnuplot-palettes] for providing color palettes (automatically handled for you) and a [gnuplot] executable.
 

@@ -32,21 +32,21 @@ int main(int argc, char** argv)
     // Create values for your x-axis
     Vec x = linspace(0.0, 5.0, 100);
 
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
     // Set color palette
-    fig.palette("set2");
+    plot.palette("set2");
 
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
-    fig.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
+    plot.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
 
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    fig.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
+    plot.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
 
-    // Show the figure in a popup window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("example-trigonometric-functions.pdf");
+    // Save the plot to a PDF file
+    plot.save("example-trigonometric-functions.pdf");
 }

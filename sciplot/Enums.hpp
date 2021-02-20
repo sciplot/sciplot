@@ -27,7 +27,7 @@
 
 namespace sciplot {
 
-/// The extension formats supported by sciplot when saving a figure to a file.
+/// The extension formats supported by sciplot when saving a plot to a file.
 enum class Extension
 {
     emf,

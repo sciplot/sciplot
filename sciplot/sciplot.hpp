@@ -30,7 +30,7 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Figure.hpp>
-#include <sciplot/Figures.hpp>
 #include <sciplot/Palettes.hpp>
+#include <sciplot/Plot.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/Vec.hpp>

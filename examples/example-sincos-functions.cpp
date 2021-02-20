@@ -36,21 +36,22 @@ int main(int argc, char** argv)
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     Vec x = linspace(0.0, 5.0, 200);
 
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
-    fig.autoclean(false);
+    // This disables the deletion of the created gnuplot script and data file.
+    plot.autoclean(false);
 
     // Change its palette
-    fig.palette("dark2");
+    plot.palette("dark2");
 
     // Plot two functions
-    fig.drawCurve(x, std::sin(x)).label("sin(x)");
-    fig.drawCurve(x, std::cos(x)).label("cos(x)");
+    plot.drawCurve(x, std::sin(x)).label("sin(x)");
+    plot.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // Show the figure in a pop-up window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("example-sincos-functions.pdf");
+    // Save the plot to a PDF file
+    plot.save("example-sincos-functions.pdf");
 }

@@ -35,31 +35,31 @@ int main(int argc, char** argv)
     // Create a vector with y values
     std::vector<float> y = {-4, 2, 5, -3};
 
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
     // Set the legend
-    fig.legend().hide();
+    plot.legend().hide();
 
     // Set the x and y labels
-    fig.xlabel("x");
-    fig.ylabel("y");
+    plot.xlabel("x");
+    plot.ylabel("y");
 
     // Set the y range
-    fig.yrange(-5, 5);
+    plot.yrange(-5, 5);
 
     // Add values to plot
-    fig.drawBoxes(x, y)
+    plot.drawBoxes(x, y)
         .fillSolid()
         .fillColor("green")
         .fillIntensity(0.5);
 
     // Adjust the relative width of the boxes
-    fig.boxWidthRelative(0.75);
+    plot.boxWidthRelative(0.75);
 
-    // Show the figure in a pop-up window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("example-boxes.pdf");
+    // Save the plot to a PDF file
+    plot.save("example-boxes.pdf");
 }
