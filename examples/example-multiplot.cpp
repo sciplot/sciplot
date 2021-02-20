@@ -32,23 +32,23 @@ int main(int argc, char** argv)
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     Vec x = linspace(0.0, 5.0, 200);
 
-    // Create 4 different figures
-    Figure fig0;
-    fig0.drawCurve(x, std::sin(x)).label("sin(x)");
-    fig0.drawCurve(x, std::cos(x)).label("cos(x)");
+    // Create 4 different plots
+    Plot plot0;
+    plot0.drawCurve(x, std::sin(x)).label("sin(x)");
+    plot0.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    Figure fig1;
-    fig1.drawCurve(x, std::cos(x)).label("cos(x)");
+    Plot plot1;
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    Figure fig2;
-    fig2.drawCurve(x, std::tan(x)).label("tan(x)");
+    Plot plot2;
+    plot2.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    Figure fig3;
-    fig3.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
+    Plot plot3;
+    plot3.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
 
-    // Use the previous figures as sub-figures in a larger 2x2 figure.
-    Figures fig = {{ fig0, fig1 },
-                   { fig2, fig3 }};
+    // Use the previous plots as sub-figures in a larger 2x2 figure.
+    Figure fig = {{ plot0, plot1 },
+                  { plot2, plot3 }};
 
     fig.title("Trigonometric Functions");
     fig.palette("dark2");

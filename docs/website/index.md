@@ -19,35 +19,35 @@ int main(int argc, char** argv)
     // Create values for your x-axis
     Vec x = linspace(0.0, 5.0, 100);
 
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
     // Set color palette
-    fig.palette("set2");
+    plot.palette("set2");
 
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
-    fig.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
+    plot.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
 
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    fig.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
+    plot.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
 
-    // Show the figure in a popup window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("figure.pdf");
+    // Save the plot to a PDF file
+    plot.save("plot.pdf");
 }
 ```
 
-After compiling and executing this C++ application, the following figure (`figure.pdf`) is produced:
+After compiling and executing this C++ application, the following plot (`plot.pdf`) is produced:
 
-![Plotting sin(x) and cos(x)](img/home/demo-figure-palette-set2.svg){: loading=lazy }
+![Plotting sin(x) and cos(x)](img/home/demo-plot-palette-set2.svg){: loading=lazy }
 
 Do you want to change the colors?
 
-Simple - just use method `Figure::palette` to set your preferred color palette. For example, using `plt.palette("parula")` in the previous code sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme and produces the following figure:
+Simple - just use method `Plot::palette` to set your preferred color palette. For example, using `plot.palette("parula")` in the previous code sets the [parula](https://www.mathworks.com/help/matlab/ref/parula.html) color scheme and produces the following plot:
 
-![Plotting sin(x) and cos(x)](img/home/demo-figure-palette-parula.svg){: loading=lazy }
+![Plotting sin(x) and cos(x)](img/home/demo-plot-palette-parula.svg){: loading=lazy }
 
 All available color palettes and their names can be found [here][gnuplot-palettes]. Many thanks to [Anna Schneider][AnnaSchneider] for this incredible work of art!
 

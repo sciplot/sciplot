@@ -38,18 +38,18 @@ int main(int argc, char** argv)
     // Create a vector with the xwidth values for the boxes
     Vec experiences = {0.8, 0.4, 0.7, 0.9};
 
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
-    // Set the legend to the top left corner of the figure
-    fig.legend().atTopLeft();
+    // Set the legend to the top left corner of the plot
+    plot.legend().atTopLeft();
 
     // Set the y label and its range
-    fig.ylabel("Age");
-    fig.yrange(0.0, 50);
+    plot.ylabel("Age");
+    plot.yrange(0.0, 50);
 
     // Plot the boxes using y values.
-    fig.drawBoxes(names, ages, experiences)
+    plot.drawBoxes(names, ages, experiences)
         .fillSolid()
         .fillColor("pink")
         .fillIntensity(0.5)
@@ -57,13 +57,13 @@ int main(int argc, char** argv)
         .labelNone();
 
     // Adjust the relative width of the boxes
-    fig.boxWidthRelative(0.75);
+    plot.boxWidthRelative(0.75);
 
-    fig.autoclean(false);
+    plot.autoclean(false);
 
-    // Show the figure in a pop-up window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("example-boxes-ticklabels.pdf");
+    // Save the plot to a PDF file
+    plot.save("example-boxes-ticklabels.pdf");
 }

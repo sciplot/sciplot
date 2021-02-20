@@ -41,25 +41,25 @@ const Vec J6 = {0.000000000000000000e+00,  3.637561407399986847e-10,  2.32166075
 
 int main(int argc, char** argv)
 {
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
     // Set the x and y labels
-    fig.xlabel("x");
-    fig.ylabel("J_v(x)");
+    plot.xlabel("x");
+    plot.ylabel("J_v(x)");
 
     // Plot the Bessel functions
-    fig.drawCurve(x, J0).label("J_0");
-    fig.drawCurve(x, J1).label("J_1");
-    fig.drawCurve(x, J2).label("J_2");
-    fig.drawCurve(x, J3).label("J_3");
-    fig.drawCurve(x, J4).label("J_4");
-    fig.drawCurve(x, J5).label("J_5");
-    fig.drawCurve(x, J6).label("J_6");
+    plot.drawCurve(x, J0).label("J_0");
+    plot.drawCurve(x, J1).label("J_1");
+    plot.drawCurve(x, J2).label("J_2");
+    plot.drawCurve(x, J3).label("J_3");
+    plot.drawCurve(x, J4).label("J_4");
+    plot.drawCurve(x, J5).label("J_5");
+    plot.drawCurve(x, J6).label("J_6");
 
-    // Show the figure in a popup window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("example-bessel-functions.pdf");
+    // Save the plot to a PDF file
+    plot.save("example-bessel-functions.pdf");
 }

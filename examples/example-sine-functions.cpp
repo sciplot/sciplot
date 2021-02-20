@@ -32,24 +32,24 @@ int main(int argc, char** argv)
     // Create a vector with values from 0 to pi divived into 200 uniform intervals for the x-axis
     Vec x = linspace(0.0, PI, 200);
 
-    // Create a Figure object
-    Figure fig;
+    // Create a Plot object
+    Plot plot;
 
     // Set the x and y labels
-    fig.xlabel("x");
-    fig.ylabel("y");
+    plot.xlabel("x");
+    plot.ylabel("y");
 
     // Set the x and y ranges
-    fig.xrange(0.0, PI);
-    fig.yrange(0.0, 6.0);
+    plot.xrange(0.0, PI);
+    plot.yrange(0.0, 6.0);
 
     // Plot i*sin(x) from i = 1 to i = 6
     for (auto i = 1; i <= 6; ++i)
-        fig.drawCurve(x, i * std::sin(x)).label(std::to_string(i) + "⋅sin(x)");
+        plot.drawCurve(x, i * std::sin(x)).label(std::to_string(i) + "⋅sin(x)");
 
-    // Show the figure in a pop-up window
-    fig.show();
+    // Show the plot in a pop-up window
+    plot.show();
 
-    // Save the figure to a PDF file
-    fig.save("example-sine-functions.pdf");
+    // Save the plot to a PDF file
+    plot.save("example-sine-functions.pdf");
 }
