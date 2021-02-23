@@ -44,9 +44,23 @@ int main(int argc, char** argv)
     // Create a Plot object
     Plot plot;
 
+    // Set the width and height of the plot in points (72 points = 1 inch)
+    plot.size(360, 200);
+
+    // Set the font name and size
+    plot.fontName("Palatino");
+    plot.fontSize(12);
+
     // Set the x and y labels
     plot.xlabel("x");
     plot.ylabel("J_v(x)");
+
+    // Set some options for the legend
+    plot.legend()
+        .atTop()
+        .fontSize(10)
+        .displayHorizontal()
+        .displayExpandWidthBy(2);
 
     // Plot the Bessel functions
     plot.drawCurve(x, J0).label("J_0");
