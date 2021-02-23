@@ -233,7 +233,7 @@ auto writedataset(std::ostream& out, std::size_t index, const Args&... args) -> 
 }
 
 /// Auxiliary function to write palette data for a selected palette ot start of plot script
-inline auto palettecmd(std::ostream& out, const std::string& palette) -> std::ostream&
+inline auto palettecmd(std::ostream& out, std::string palette) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# GNUPLOT-palette (" << palette << ")" << std::endl;
@@ -245,7 +245,7 @@ inline auto palettecmd(std::ostream& out, const std::string& palette) -> std::os
 }
 
 /// Auxiliary function to write terminal commands for showing a plot from a script file
-inline auto showterminalcmd(std::ostream& out, const std::string& size) -> std::ostream&
+inline auto showterminalcmd(std::ostream& out, std::string size, std::string font) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
@@ -256,23 +256,23 @@ inline auto showterminalcmd(std::ostream& out, const std::string& size) -> std::
     // The GNUTERM variable contains the default terminal, which we're using for the show command.
     // See: http://www.bersch.net/gnuplot-doc/unset.html
     out << "set termoption enhanced" << std::endl;
-    //out << "set termoption font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
+    if(font.size()) out << "set termoption " << font << std::endl;
     out << "set terminal GNUTERM size " << size << std::endl;
     return out;
 }
 
 /// Auxiliary function to write terminal commands for saving a plot from a script file
-inline auto saveterminalcmd(std::ostream& out, const std::string& extension, const std::string& size) -> std::ostream&
+inline auto saveterminalcmd(std::ostream& out, std::string extension, std::string size, std::string font) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
     out << "#==============================================================================" << std::endl;
-    out << "set terminal " << extension << " size " << size << " enhanced rounded" << std::endl; // font '" << DEFAULT_FONTNAME << "," << DEFAULT_FONTSIZE << "'" << std::endl;
+    out << "set terminal " << extension << " size " << size << " enhanced rounded " << font << std::endl;
     return out;
 }
 
 /// Auxiliary function to set the output command to make GNUplot output plots to a file
-inline auto outputcmd(std::ostream& out, const std::string& filename) -> std::ostream&
+inline auto outputcmd(std::ostream& out, std::string filename) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# OUTPUT" << std::endl;
@@ -282,7 +282,7 @@ inline auto outputcmd(std::ostream& out, const std::string& filename) -> std::os
 }
 
 /// Auxiliary function to write multiplot commands to a script file
-inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, const std::string& title) -> std::ostream&
+inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t columns, std::string title) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# MULTIPLOT" << std::endl;
@@ -305,7 +305,7 @@ inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t column
 /// Auxiliary function to run gnuplot to show or save a script file
 // persistent == true: for show commands. show the file using GNUplot until the window is closed
 // persistent == false: for save commands. close gnuplot immediately
-inline auto runscript(const std::string& scriptfilename, bool persistent) -> bool
+inline auto runscript(std::string scriptfilename, bool persistent) -> bool
 {
     std::string command = persistent ? "gnuplot -persistent " : "gnuplot ";
     command += "\"" + scriptfilename + "\"";
@@ -314,7 +314,7 @@ inline auto runscript(const std::string& scriptfilename, bool persistent) -> boo
 
 /// Auxiliary function to escape a output path so it can be used for GNUplot.
 /// Removes every character from invalidchars from the path.
-inline auto cleanpath(const std::string& path) -> std::string
+inline auto cleanpath(std::string path) -> std::string
 {
     const std::string invalidchars = ":*?!\"<>|";
     std::string result = path;

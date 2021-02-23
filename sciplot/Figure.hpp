@@ -54,6 +54,12 @@ class Figure
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
     auto size(std::size_t width, std::size_t height) -> Figure&;
 
+    /// Set the font name for the plots in the figure (e.g., Helvetica, Georgia, Times).
+    auto fontName(std::string name) -> void;
+
+    /// Set the font size for the plots in the figure (e.g., 10, 12, 16).
+    auto fontSize(std::size_t size) -> void;
+
     /// Set the title of the figure.
     auto title(const std::string& title) -> Figure&;
 
@@ -87,6 +93,9 @@ class Figure
 
     /// The name of the gnuplot palette to be used
     std::string m_palette;
+
+    /// The font name and size used in the plots
+    FontSpecs m_font;
 
     /// The size of the plot in x
     std::size_t m_width = 0;
@@ -155,6 +164,16 @@ inline auto Figure::size(std::size_t width, std::size_t height) -> Figure&
     return *this;
 }
 
+inline auto Figure::fontName(std::string name) -> void
+{
+    m_font.fontName(name);
+}
+
+inline auto Figure::fontSize(std::size_t size) -> void
+{
+    m_font.fontSize(size);
+}
+
 inline auto Figure::title(const std::string& title) -> Figure&
 {
     m_title = title;
@@ -180,7 +199,7 @@ inline auto Figure::show() const -> void
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
     std::string size = gnuplot::sizestr(width, height, false);
-    gnuplot::showterminalcmd(script, size);
+    gnuplot::showterminalcmd(script, size, m_font);
 
     // Add multiplot commands
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
@@ -225,7 +244,7 @@ inline auto Figure::save(const std::string& filename) const -> void
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
     std::string size = gnuplot::sizestr(width, height, extension == "pdf");
-    gnuplot::saveterminalcmd(script, extension, size);
+    gnuplot::saveterminalcmd(script, extension, size, m_font);
 
     // Add output command
     gnuplot::outputcmd(script, cleanedfilename);
