@@ -34,15 +34,15 @@ TEST_CASE("TextSpecs", "[specs]")
 {
     auto text = TextSpecs();
 
-    CHECK( text.repr() == "enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( text.repr() == "enhanced textcolor '#404040'");
 
     text.textColor("red");
 
-    CHECK( text.repr() == "enhanced textcolor 'red' font 'Georgia,12'");
+    CHECK( text.repr() == "enhanced textcolor 'red'");
 
     text.fontSize(14);
 
-    CHECK( text.repr() == "enhanced textcolor 'red' font 'Georgia,14'");
+    CHECK( text.repr() == "enhanced textcolor 'red' font ',14'");
 
     text.fontName("Arial");
 

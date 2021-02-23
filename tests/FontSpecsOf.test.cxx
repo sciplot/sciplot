@@ -32,17 +32,13 @@ using namespace sciplot;
 
 TEST_CASE("FontSpecs", "[specs]")
 {
-    auto defaultfont = FontSpecs();
-
-    defaultfont.fontName(internal::DEFAULT_FONTNAME);
-    defaultfont.fontSize(internal::DEFAULT_FONTSIZE);
-
     auto font = FontSpecs();
 
-    CHECK( font.repr() == defaultfont.repr() );
+    CHECK( font.repr() == "" );
 
     font.fontName("Arial");
-    font.fontSize(14);
+    CHECK( font.repr() == "font 'Arial,'");
 
+    font.fontSize(14);
     CHECK( font.repr() == "font 'Arial,14'");
 }
