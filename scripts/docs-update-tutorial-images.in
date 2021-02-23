@@ -17,5 +17,5 @@ for f in ../../examples/example-*; do echo Executing $f && ./$f; done
 
 for f in *.pdf; do echo Converting $f to svg && pdf2svg $f ${f%.*}.svg; done
 
-echo Copying all svg files to $sourcedir/docs/img/tutorials
-cp *.svg $sourcedir/docs/img/tutorials
+echo Copying all svg files to $sourcedir/docs/website/img/tutorials
+cp *.svg $sourcedir/docs/website/img/tutorials
