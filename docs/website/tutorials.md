@@ -7,7 +7,7 @@ Check below for a series of examples on how to use {{sciplot}}. If you like
 
 {{ inputcpp('examples/example-sine-functions.cpp', startline=26) }}
 
-![](/img/tutorials/example-sine-functions.svg){: loading=lazy }
+![](img/tutorials/example-sine-functions.svg){: loading=lazy }
 
 ## Plotting Bessel functions
 
@@ -18,31 +18,31 @@ pre-computed and stored in `std::vector` objects (see below).
 
 {{ inputcpp('examples/example-bessel-functions.cpp', startline=26) }}
 
-![](/img/tutorials/example-bessel-functions.svg){: loading=lazy }
+![](img/tutorials/example-bessel-functions.svg){: loading=lazy }
 
 ## Plotting multiple plots
 
 {{ inputcpp('examples/example-multiplot.cpp', startline=26) }}
 
-![](/img/tutorials/example-multiplot.svg){: loading=lazy }
+![](img/tutorials/example-multiplot.svg){: loading=lazy }
 
 ## Ploting trigonometric functions
 
 {{ inputcpp('examples/example-trigonometric-functions.cpp', startline=26) }}
 
-![](/img/tutorials/example-sincos-functions.svg){: loading=lazy }
+![](img/tutorials/example-sincos-functions.svg){: loading=lazy }
 
 ## Plotting boxes
 
 {{ inputcpp('examples/example-boxes.cpp', startline=26) }}
 
-![](/img/tutorials/example-boxes.svg){: loading=lazy }
+![](img/tutorials/example-boxes.svg){: loading=lazy }
 
 ## Plotting boxes with custom tick labels
 
 {{ inputcpp('examples/example-boxes-ticklabels.cpp', startline=26) }}
 
-![](/img/tutorials/example-boxes-ticklabels.svg){: loading=lazy }
+![](img/tutorials/example-boxes-ticklabels.svg){: loading=lazy }
 
 ## Integration with CMake-based projects
 
