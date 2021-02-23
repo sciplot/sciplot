@@ -35,30 +35,29 @@ TEST_CASE("TitleSpecs", "[specs]")
     auto specs = TitleSpecs();
 
     specs.title("Hello");
-
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12'");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040'");
 
     specs.titleShiftAlongX(1);
-
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 0");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' offset 1, 0");
 
     specs.titleShiftAlongY(2);
-
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset 1, 2");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' offset 1, 2");
 
     specs.titleShiftAlongGraphX(0.3);
-
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, 2");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' offset graph 0.3, 2");
 
     specs.titleShiftAlongGraphY(0.4);
-
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset graph 0.3, graph 0.4");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' offset graph 0.3, graph 0.4");
 
     specs.titleShiftAlongScreenX(0.5);
-
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, graph 0.4");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' offset screen 0.5, graph 0.4");
 
     specs.titleShiftAlongScreenY(0.6);
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' offset screen 0.5, screen 0.6");
 
-    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Georgia,12' offset screen 0.5, screen 0.6");
+    specs.titleFontName("Arial");
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Arial,' offset screen 0.5, screen 0.6");
+
+    specs.titleFontSize(13);
+    CHECK( specs.repr() == "title 'Hello' enhanced textcolor '#404040' font 'Arial,13' offset screen 0.5, screen 0.6");
 }

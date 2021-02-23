@@ -26,7 +26,6 @@
 #pragma once
 
 // sciplot includes
-#include <sciplot/Default.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/specs/Specs.hpp>
 
@@ -54,7 +53,7 @@ class FontSpecsOf : virtual public Specs<DerivedSpecs>
     std::string m_fontname;
 
     /// The point size of the font.
-    std::size_t m_fontsize;
+    std::string m_fontsize;
 };
 
 /// The class used to specify font options.
@@ -62,10 +61,7 @@ class FontSpecs : public FontSpecsOf<FontSpecs> {};
 
 template <typename DerivedSpecs>
 FontSpecsOf<DerivedSpecs>::FontSpecsOf()
-{
-    fontName(internal::DEFAULT_FONTNAME);
-    fontSize(internal::DEFAULT_FONTSIZE);
-}
+{}
 
 template <typename DerivedSpecs>
 auto FontSpecsOf<DerivedSpecs>::fontName(std::string name) -> DerivedSpecs&
@@ -77,7 +73,7 @@ auto FontSpecsOf<DerivedSpecs>::fontName(std::string name) -> DerivedSpecs&
 template <typename DerivedSpecs>
 auto FontSpecsOf<DerivedSpecs>::fontSize(std::size_t size) -> DerivedSpecs&
 {
-    m_fontsize = size;
+    m_fontsize = std::to_string(size);
     return static_cast<DerivedSpecs&>(*this);
 }
 
@@ -85,7 +81,8 @@ template <typename DerivedSpecs>
 auto FontSpecsOf<DerivedSpecs>::repr() const -> std::string
 {
     std::stringstream ss;
-    ss << "font '" << m_fontname << "," << m_fontsize << "'";
+    if(m_fontname.size() || m_fontsize.size())
+        ss << "font '" << m_fontname << "," << m_fontsize << "'";
     return ss.str();
 }
 
