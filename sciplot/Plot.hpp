@@ -37,6 +37,7 @@
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
+#include <sciplot/specs/FontSpecsOf.hpp>
 #include <sciplot/specs/FillStyleSpecs.hpp>
 #include <sciplot/specs/GridSpecs.hpp>
 #include <sciplot/specs/HistogramStyleSpecs.hpp>
@@ -64,6 +65,12 @@ class Plot
 
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
     auto size(std::size_t width, std::size_t height) -> void;
+
+    /// Set the font name for the plot (e.g., Helvetica, Georgia, Times).
+    auto fontName(std::string name) -> void;
+
+    /// Set the font size for the plot (e.g., 10, 12, 16).
+    auto fontSize(std::size_t size) -> void;
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
     auto xlabel(std::string label) -> AxisLabelSpecs&;
@@ -413,6 +420,7 @@ class Plot
     std::size_t m_numdatasets = 0;         ///< The current number of data sets in the data file
     std::string m_xrange;                  ///< The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
     std::string m_yrange;                  ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
+    FontSpecs m_font;                      ///< The font name and size in the plot
     BorderSpecs m_border;                  ///< The border style of the plot
     GridSpecs m_grid;                      ///< The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
     FillStyleSpecs m_style_fill;           ///< The specs for the fill style of the plot elements in the plot that can be painted.
@@ -501,6 +509,18 @@ inline auto Plot::size(std::size_t width, std::size_t height) -> void
 {
     m_width = width;
     m_height = height;
+}
+
+inline auto Plot::fontName(std::string name) -> void
+{
+    m_font.fontName(name);
+    m_legend.fontName(name);
+}
+
+inline auto Plot::fontSize(std::size_t size) -> void
+{
+    m_font.fontSize(size);
+    m_legend.fontSize(size);
 }
 
 inline auto Plot::xlabel(std::string label) -> AxisLabelSpecs&
@@ -919,7 +939,7 @@ inline auto Plot::show() const -> void
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
     std::string size = gnuplot::sizestr(width, height, false);
-    gnuplot::showterminalcmd(script, size);
+    gnuplot::showterminalcmd(script, size, m_font);
 
     // Add the plot commands
     script << repr();
@@ -959,7 +979,7 @@ inline auto Plot::save(std::string filename) const -> void
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
     std::string size = gnuplot::sizestr(width, height, extension == "pdf");
-    gnuplot::saveterminalcmd(script, extension, size);
+    gnuplot::saveterminalcmd(script, extension, size, m_font);
 
     // Add output command
     gnuplot::outputcmd(script, cleanedfilename);
