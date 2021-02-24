@@ -13,7 +13,8 @@ mkdir -p tmp/images
 cd tmp/images
 rm -rf *
 
-for f in ../../examples/example-*; do echo Executing $f && ./$f; done
+examplefiles=`ls ../../examples/example-*`
+for f in $examplefiles; do echo Executing $f && ./$f; done
 
 for f in *.pdf; do echo Converting $f to svg && pdf2svg $f ${f%.*}.svg; done
 
