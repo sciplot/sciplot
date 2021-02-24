@@ -15,5 +15,5 @@ add_custom_target(docs
     COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/site
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
-# Ensure target `docs-api` is build before target `docs`
-add_dependencies(docs docs-api)
+# Ensure target `docs-api` and `examples` are built before target `docs`
+add_dependencies(docs docs-api examples)
