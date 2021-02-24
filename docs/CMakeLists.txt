@@ -9,6 +9,7 @@ add_custom_target(docs-api
 # Add target `docs` for building the entire documentation
 add_custom_target(docs
     COMMAND mkdocs build
+    COMMAND bash ${CMAKE_BINARY_DIR}/scripts/docs-update-tutorial-images
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/site ${CMAKE_CURRENT_BINARY_DIR}/site
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/api/html/ ${CMAKE_CURRENT_BINARY_DIR}/site/api/
     COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/site
