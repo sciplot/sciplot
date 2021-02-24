@@ -3,6 +3,9 @@ include(GNUInstallDirs)
 # create an interface library which will contain all necessary information for compile and install
 add_library(sciplot INTERFACE)
 
+# Set sciplot compilation features to be propagated to client code.
+target_compile_features(sciplot INTERFACE cxx_std_17)
+
 target_include_directories(sciplot INTERFACE
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
