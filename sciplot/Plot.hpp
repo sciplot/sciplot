@@ -404,6 +404,10 @@ class Plot
     /// Delete all files used to store plot data or scripts.
     auto cleanup() const -> void;
 
+    /// Clear all draw and gnuplot commands.
+    /// @note This method leaves all other plot properties untouched.
+    auto clear() -> void;
+
     /// Convert this plot object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
@@ -1027,6 +1031,12 @@ inline auto Plot::cleanup() const -> void
 {
     std::remove(m_scriptfilename.c_str());
     std::remove(m_datafilename.c_str());
+}
+
+inline auto Plot::clear() -> void
+{
+    m_drawspecs.clear();
+    m_customcmds.clear();
 }
 
 inline auto Plot::repr() const -> std::string
