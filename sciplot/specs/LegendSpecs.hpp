@@ -209,11 +209,7 @@ class LegendSpecs : public TextSpecsOf<LegendSpecs>, public ShowSpecsOf<LegendSp
 inline LegendSpecs::LegendSpecs()
 {
     atTopRight();
-    fontName(internal::DEFAULT_LEGEND_FONTNAME);
-    fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
     title("");
-    titleFontName(internal::DEFAULT_LEGEND_FONTNAME);
-    titleFontSize(internal::DEFAULT_LEGEND_FONTSIZE);
     displayExpandWidthBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_WIDTH);
     displayExpandHeightBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_HEIGHT);
     displaySymbolLength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);

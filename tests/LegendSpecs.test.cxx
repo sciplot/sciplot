@@ -34,11 +34,7 @@ TEST_CASE("LegendSpecs", "[specs]")
 {
     auto default_legend = LegendSpecs();
     default_legend.atTopRight();
-    default_legend.fontName(internal::DEFAULT_LEGEND_FONTNAME);
-    default_legend.fontSize(internal::DEFAULT_LEGEND_FONTSIZE);
     default_legend.title("");
-    default_legend.titleFontName(internal::DEFAULT_LEGEND_FONTNAME);
-    default_legend.titleFontSize(internal::DEFAULT_LEGEND_FONTSIZE);
     default_legend.displayExpandWidthBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_WIDTH);
     default_legend.displayExpandHeightBy(internal::DEFAULT_LEGEND_FRAME_EXTRA_HEIGHT);
     default_legend.displaySymbolLength(internal::DEFAULT_LEGEND_SAMPLE_LENGTH);
