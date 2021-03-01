@@ -81,8 +81,14 @@ class Plot
     /// Set the x-range of the plot.
     auto xrange(double min, double max) -> void;
 
+    /// Set the x-range of the plot, enabling the use of empty values or autoscale options (e.g. "", "*")
+    auto xrange(const std::string& min, const std::string& max) -> void;
+
     /// Set the y-range of the plot.
     auto yrange(double min, double max) -> void;
+
+    /// Set the y-range of the plot, enabling the use of empty values or autoscale options (e.g. "", "*")
+    auto yrange(const std::string& min, const std::string& max) -> void;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
     /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
@@ -544,9 +550,19 @@ inline auto Plot::xrange(double min, double max) -> void
     m_xrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
 }
 
+inline auto Plot::xrange(const std::string& min, const std::string& max) -> void
+{
+    m_xrange = "[" + min + ":" + max + "]";
+}
+
 inline auto Plot::yrange(double min, double max) -> void
 {
     m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
+}
+
+inline auto Plot::yrange(const std::string& min, const std::string& max) -> void
+{
+    m_yrange = "[" + min + ":" + max + "]";
 }
 
 inline auto Plot::boxWidthAbsolute(double val) -> void
