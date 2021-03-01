@@ -34,6 +34,7 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
+#include <sciplot/StringOrDouble.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
@@ -78,11 +79,11 @@ class Plot
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
     auto ylabel(std::string label) -> AxisLabelSpecs&;
 
-    /// Set the x-range of the plot.
-    auto xrange(double min, double max) -> void;
+    /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
+    auto xrange(StringOrDouble min, StringOrDouble max) -> void;
 
-    /// Set the y-range of the plot.
-    auto yrange(double min, double max) -> void;
+    /// Set the y-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
+    auto yrange(StringOrDouble min, StringOrDouble max) -> void;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
     /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
@@ -539,14 +540,14 @@ inline auto Plot::ylabel(std::string label) -> AxisLabelSpecs&
     return m_ylabel;
 }
 
-inline auto Plot::xrange(double min, double max) -> void
+inline auto Plot::xrange(StringOrDouble min, StringOrDouble max) -> void
 {
-    m_xrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
+    m_xrange = "[" + min.value + ":" + max.value + "]";
 }
 
-inline auto Plot::yrange(double min, double max) -> void
+inline auto Plot::yrange(StringOrDouble min, StringOrDouble max) -> void
 {
-    m_yrange = "[" + internal::str(min) + ":" + internal::str(max) + "]";
+    m_yrange = "[" + min.value + ":" + max.value + "]";
 }
 
 inline auto Plot::boxWidthAbsolute(double val) -> void
