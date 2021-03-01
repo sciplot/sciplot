@@ -25,13 +25,28 @@
 
 #pragma once
 
-// sciplot includes
-#include <sciplot/Constants.hpp>
-#include <sciplot/Default.hpp>
-#include <sciplot/Enums.hpp>
-#include <sciplot/Figure.hpp>
-#include <sciplot/Palettes.hpp>
-#include <sciplot/Plot.hpp>
-#include <sciplot/StringOrDouble.hpp>
-#include <sciplot/Utils.hpp>
-#include <sciplot/Vec.hpp>
+// C++ includes
+#include <string>
+
+namespace sciplot {
+
+/// An auxiliary type used to
+struct StringOrDouble
+{
+    /// Construct a default StringOrDouble object.
+    StringOrDouble() : StringOrDouble(0.0) {}
+
+    /// Construct a StringOrDouble object with given double.
+    StringOrDouble(double val) : value(std::to_string(val)) {} // 1.0 => "1.0"
+
+    /// Construct a StringOrDouble object with given string.
+    StringOrDouble(std::string val) : value(val) {}
+
+    /// Construct a StringOrDouble object with given string.
+    StringOrDouble(const char* val) : StringOrDouble(std::string(val)) {}
+
+    /// The stored value.
+    std::string value;
+};
+
+} // namespace sciplot
