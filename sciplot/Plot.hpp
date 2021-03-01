@@ -81,13 +81,13 @@ class Plot
     /// Set the x-range of the plot.
     auto xrange(double min, double max) -> void;
 
-    /// Set the x-range of the plot, enabling the use of empty values or autoscale options (e.g. "", "*")
+    /// Set the x-range of the plot, enabling the use of empty values or autoscale options (e.g. "", "*").
     auto xrange(const std::string& min, const std::string& max) -> void;
 
     /// Set the y-range of the plot.
     auto yrange(double min, double max) -> void;
 
-    /// Set the y-range of the plot, enabling the use of empty values or autoscale options (e.g. "", "*")
+    /// Set the y-range of the plot, enabling the use of empty values or autoscale options (e.g. "", "*").
     auto yrange(const std::string& min, const std::string& max) -> void;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
