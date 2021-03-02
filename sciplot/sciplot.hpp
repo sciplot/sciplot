@@ -31,6 +31,7 @@
 #include <sciplot/Enums.hpp>
 #include <sciplot/Figure.hpp>
 #include <sciplot/Palettes.hpp>
+#include <sciplot/PlotBase.hpp>
 #include <sciplot/Plot.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
