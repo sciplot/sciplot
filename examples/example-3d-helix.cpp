@@ -23,17 +23,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+// sciplot includes
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
 // sciplot includes
-#include <sciplot/Constants.hpp>
-#include <sciplot/Default.hpp>
-#include <sciplot/Enums.hpp>
-#include <sciplot/Figure.hpp>
-#include <sciplot/Palettes.hpp>
-#include <sciplot/PlotBase.hpp>
-#include <sciplot/Plot.hpp>
-#include <sciplot/Plot3D.hpp>
-#include <sciplot/StringOrDouble.hpp>
-#include <sciplot/Utils.hpp>
-#include <sciplot/Vec.hpp>
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
+
+int main(int argc, char** argv)
+{
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+    Vec z = linspace(0.0, 100.0, 2000);
+    std::vector<double> x,y;
+    double c = 2;
+    double r = 1;
+
+    for(auto val : z){
+        x.push_back(r*cos(val/c));
+        y.push_back(r*sin(val/c));
+    }
+
+    // Create a Plot object
+    Plot3D plot;
+
+    // This disables the deletion of the created gnuplot script and data file.
+    plot.autoclean(false);
+
+    // Change its palette
+    plot.palette("dark2");
+
+    // Plot two functions
+    plot.drawCurve(x,y,z).label("helix");
+
+    // Show the plot in a pop-up window
+    plot.show();
+
+    // Save the plot to a PDF file
+    plot.save("example-sincos-functions.pdf");
+}
