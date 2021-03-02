@@ -38,10 +38,10 @@ class Figure
 {
   public:
     /// Construct a Figure object with given plots.
-    Figure(const std::initializer_list<std::initializer_list<Plot>>& plots);
+    Figure(const std::initializer_list<std::initializer_list<PlotBase*>>& plots);
 
     /// Construct a Figure object with given plots.
-    Figure(const std::vector<std::vector<Plot>>& plots);
+    Figure(const std::vector<std::vector<PlotBase*>>& plots);
 
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
@@ -116,13 +116,13 @@ class Figure
     std::string m_scriptfilename;
 
     /// All the plots that have been added to the figure
-    std::vector<std::vector<Plot>> m_plots;
+    std::vector<std::vector<PlotBase*>> m_plots;
 };
 
 // Initialize the counter of plot objects
 inline std::size_t Figure::m_counter = 0;
 
-inline Figure::Figure(const std::initializer_list<std::initializer_list<Plot>>& plots)
+inline Figure::Figure(const std::initializer_list<std::initializer_list<PlotBase *>>& plots)
 : m_id(m_counter++),
   m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
 {
@@ -135,7 +135,7 @@ inline Figure::Figure(const std::initializer_list<std::initializer_list<Plot>>& 
         m_plots.emplace_back(row.begin(), row.end());
 }
 
-inline Figure::Figure(const std::vector<std::vector<Plot>>& plots)
+inline Figure::Figure(const std::vector<std::vector<PlotBase *>>& plots)
 : m_id(m_counter++),
   m_scriptfilename("multishow" + internal::str(m_id) + ".plt"),
   m_plots(plots)
@@ -184,7 +184,7 @@ inline auto Figure::saveplotdata() const -> void
 {
     for(const auto& row : m_plots)
         for(const auto& plot : row)
-            plot.savePlotData();
+            plot->savePlotData();
 }
 
 inline auto Figure::show() const -> void
@@ -207,7 +207,7 @@ inline auto Figure::show() const -> void
     // Add the plot commands
     for(const auto& row : m_plots)
         for(const auto& plot : row)
-            script << plot.repr();
+            script << plot->repr();
 
     // Add an empty line at the end and close the script to avoid crashes with gnuplot
     script << std::endl;
@@ -255,7 +255,7 @@ inline auto Figure::save(const std::string& filename) const -> void
     // Add the plot commands
     for(const auto& row : m_plots)
         for(const auto& plot : row)
-            script << plot.repr();
+            script << plot->repr();
 
     // Close multiplot
     script << "unset multiplot" << std::endl;
@@ -286,7 +286,7 @@ inline auto Figure::cleanup() const -> void
     std::remove(m_scriptfilename.c_str());
     for(const auto& row : m_plots)
         for(const auto& plot : row)
-            plot.cleanup();
+            plot->cleanup();
 }
 
 } // namespace sciplot

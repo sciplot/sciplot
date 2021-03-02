@@ -43,15 +43,31 @@ int main(int argc, char** argv)
     Plot plot2;
     plot2.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    Plot plot3;
-    plot3.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
+    Plot3D plot3d;
+    {
+        // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+        Vec z = linspace(0.0, 100.0, 2000);
+        std::vector<double> x,y;
+        double c = 2;
+        double r = 1;
+
+        for(auto val : z){
+            x.push_back(r*cos(val/c));
+            y.push_back(r*sin(val/c));
+        }
+        // Plot two functions
+        plot3d.drawCurve(x,y,z).label("helix");
+    }
 
     // Use the previous plots as sub-figures in a larger 2x2 figure.
     Figure fig = {{ &plot0, &plot1 },
-                  { &plot2, &plot3 }};
+                  { &plot2, &plot3d }};
+
+    fig.size(1920,1080);
 
     fig.title("Trigonometric Functions");
     fig.palette("dark2");
+    fig.show();
 
     // Save the figure to a PDF file
     fig.save("example-multiplot.pdf");
