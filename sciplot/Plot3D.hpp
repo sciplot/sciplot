@@ -62,13 +62,13 @@ class Plot3D : public PlotBase
     Plot3D();
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    auto xlabel(std::string label) -> AxisLabelSpecs&;
+    auto xlabel(const std::string &label) -> AxisLabelSpecs&;
 
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    auto ylabel(std::string label) -> AxisLabelSpecs&;
+    auto ylabel(const std::string &label) -> AxisLabelSpecs&;
 
     /// Set the label of the z-axis and return a reference to the corresponding specs object.
-    auto zlabel(std::string label) -> AxisLabelSpecs&;
+    auto zlabel(const std::string &label) -> AxisLabelSpecs&;
 
     /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
     auto xrange(StringOrDouble min, StringOrDouble max) -> void;
@@ -165,37 +165,17 @@ class Plot3D : public PlotBase
     template <typename X, typename Y, typename Z>
     auto drawCurveWithPoints(const X& x, const Y& y, const Z& z) -> DrawSpecs&;
 
-    /// Draw steps with given @p x and @p y vectors. Identical to @ref drawStepsChangeFirstX.
-    template <typename X, typename Y>
-    auto drawSteps(const X& x, const Y& y) -> DrawSpecs&;
-
-    /// Draw steps with given @p x and @p y vectors with steps along *x* changes first.
-    template <typename X, typename Y>
-    auto drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&;
-
-    /// Draw steps with given @p x and @p y vectors with steps along *y* changes first.
-    template <typename X, typename Y>
-    auto drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&;
-
-    /// Draw steps with given @p x and @p y vectors in a histogram style
-    template <typename X, typename Y>
-    auto drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&;
-
-    /// Draw steps with given @p x and @p y vectors with filled area below steps.
-    template <typename X, typename Y>
-    auto drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&;
-
     /// Draw dots with given @p x and @p y vectors.
-    template <typename X, typename Y>
-    auto drawDots(const X& x, const Y& y) -> DrawSpecs&;
+    template <typename X, typename Y, typename Z>
+    auto drawDots(const X& x, const Y& y, const Z& z) -> DrawSpecs&;
 
     /// Draw points with given @p x and @p y vectors.
-    template <typename X, typename Y>
-    auto drawPoints(const X& x, const Y& y) -> DrawSpecs&;
+    template <typename X, typename Y, typename Z>
+    auto drawPoints(const X& x, const Y& y, const Z& z) -> DrawSpecs&;
 
     /// Draw impulses with given @p x and @p y vectors.
-    template <typename X, typename Y>
-    auto drawImpulses(const X& x, const Y& y) -> DrawSpecs&;
+    template <typename X, typename Y, typename Z>
+    auto drawImpulses(const X& x, const Y& y, const Z& z) -> DrawSpecs&;
 
     /// Draw a histogram for the given @p y vector.
     template <typename Y>
@@ -306,19 +286,19 @@ inline Plot3D::Plot3D()
     gnuplot("set style data histogram");
 }
 
-inline auto Plot3D::xlabel(std::string label) -> AxisLabelSpecs&
+inline auto Plot3D::xlabel(const std::string &label) -> AxisLabelSpecs&
 {
     m_xlabel.text(label);
     return m_xlabel;
 }
 
-inline auto Plot3D::ylabel(std::string label) -> AxisLabelSpecs&
+inline auto Plot3D::ylabel(const std::string &label) -> AxisLabelSpecs&
 {
     m_ylabel.text(label);
     return m_ylabel;
 }
 
-inline auto Plot3D::zlabel(std::string label) -> AxisLabelSpecs&
+inline auto Plot3D::zlabel(const std::string &label) -> AxisLabelSpecs&
 {
     m_zlabel.text(label);
     return m_zlabel;
@@ -386,58 +366,29 @@ inline auto Plot3D::drawCurve(const X& x, const Y& y, const Z& z) -> DrawSpecs&
     return drawWithVecs("lines", x, y, z);
 }
 
-    template <typename X, typename Y, typename Z>
+template <typename X, typename Y, typename Z>
 inline auto Plot3D::drawCurveWithPoints(const X& x, const Y& y, const Z& z) -> DrawSpecs&
 {
-    return drawWithVecs("linespoints", x, y);
+
+    return drawWithVecs("linespoints", x, y, z);
 }
 
-template <typename X, typename Y>
-inline auto Plot3D::drawSteps(const X& x, const Y& y) -> DrawSpecs&
+template <typename X, typename Y, typename Z>
+inline auto Plot3D::drawDots(const X& x, const Y& y, const Z& z) -> DrawSpecs&
 {
-    return drawWithVecsStepsChangeFirstX(x, y);
+    return drawWithVecs("dots", x, y, z);
 }
 
-template <typename X, typename Y>
-inline auto Plot3D::drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&
+template <typename X, typename Y, typename Z>
+inline auto Plot3D::drawPoints(const X& x, const Y& y, const Z& z) -> DrawSpecs&
 {
-    return drawWithVecs("steps", x, y);
+    return drawWithVecs("points", x, y, z);
 }
 
-template <typename X, typename Y>
-inline auto Plot3D::drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&
+template <typename X, typename Y, typename Z>
+inline auto Plot3D::drawImpulses(const X& x, const Y& y, const Z& z) -> DrawSpecs&
 {
-    return drawWithVecs("fsteps", x, y);
-}
-
-template <typename X, typename Y>
-inline auto Plot3D::drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&
-{
-    return drawWithVecs("histeps", x, y);
-}
-
-template <typename X, typename Y>
-inline auto Plot3D::drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&
-{
-    return drawWithVecs("fillsteps", x, y);
-}
-
-template <typename X, typename Y>
-inline auto Plot3D::drawDots(const X& x, const Y& y) -> DrawSpecs&
-{
-    return drawWithVecs("dots", x, y);
-}
-
-template <typename X, typename Y>
-inline auto Plot3D::drawPoints(const X& x, const Y& y) -> DrawSpecs&
-{
-    return drawWithVecs("points", x, y);
-}
-
-template <typename X, typename Y>
-inline auto Plot3D::drawImpulses(const X& x, const Y& y) -> DrawSpecs&
-{
-    return drawWithVecs("impulses", x, y);
+    return drawWithVecs("impulses", x, y, z);
 }
 
 template <typename Y>
@@ -504,6 +455,7 @@ inline auto Plot3D::repr() const -> std::string
     script << "#==============================================================================" << std::endl;
     script << gnuplot::commandValueStr("set xrange", m_xrange);
     script << gnuplot::commandValueStr("set yrange", m_yrange);
+    script << gnuplot::commandValueStr("set zrange", m_zrange);
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
     script << m_zlabel << std::endl;
