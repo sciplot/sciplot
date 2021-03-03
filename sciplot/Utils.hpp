@@ -129,7 +129,7 @@ auto escapeIfNeeded(const T& val)
 {
     if constexpr (isString<T>)
         return "\"" + val + "\"";
-    else return val;
+    else return std::isfinite(val) ? internal::str(val) : MISSING_INDICATOR;
 }
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object

@@ -835,6 +835,7 @@ inline auto Plot::repr() const -> std::string
     script << m_legend << std::endl;
     script << gnuplot::commandValueStr("set boxwidth", m_boxwidth);
     script << gnuplot::commandValueStr("set samples", m_samples);
+    script << gnuplot::commandValueStr("set datafile missing", MISSING_INDICATOR);
 
     // Add custom gnuplot commands
     if (!m_customcmds.empty())
