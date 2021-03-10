@@ -150,6 +150,10 @@ public:
     template <typename X, typename... Vecs>
     auto drawWithVecs(const std::string& with, const X&, const Vecs&... vecs) -> DrawSpecs&;
 
+    /// Draw plot object with given style and given vectors, respecting missing values declared as sciplot::NaN.
+    template <typename X, typename... Vecs>
+    auto drawBroken(std::string with, const X&, const Vecs&... vecs) -> DrawSpecs&;
+
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
     auto drawCurve(const X& x, const Y& y) -> DrawSpecs&;
@@ -478,6 +482,27 @@ inline auto Plot::drawWithVecs(const std::string& with, const X& x, const Vecs&.
             use += std::to_string(i) + ":"; // this constructs 0:2:3:4:
         use += "xtic(1)"; // this terminates the string with 0:2:3:4:xtic(1), and thus column 1 is used for the xtics
     }
+
+    // Append new data set to existing data
+    m_data += datastream.str();
+
+    // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with);
+}
+
+template <typename X, typename... Vecs>
+inline auto Plot::drawBroken(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
+{
+    // Write the given vectors x and y as a new data set to the stream
+    std::ostringstream datastream;
+    gnuplot::writedataset(datastream, m_numdatasets, x, vecs...);
+
+    std::string use;
+    const auto nvecs = sizeof...(Vecs);
+    use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
+    for(auto i = 2; i <= nvecs + 1; ++i)
+        use += "($" + std::to_string(i) + "):"; // this constructs 0:$(2):$(3):$(4):
+    use += "xtic(1)"; // this terminates the string with 0:$(2):$(3):$(4):xtic(1), and thus column 1 is used for the xtics
 
     // Append new data set to existing data
     m_data += datastream.str();
