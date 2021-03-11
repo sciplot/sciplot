@@ -47,8 +47,8 @@ int main(int argc, char** argv)
     plot3.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
 
     // Use the previous plots as sub-figures in a larger 2x2 figure.
-    Figure fig = {{ &plot0, &plot1 },
-                  { &plot2, &plot3 }};
+    Figure fig = {{ plot0, plot1 },
+                  { plot2, plot3 }};
 
     fig.title("Trigonometric Functions");
     fig.palette("dark2");

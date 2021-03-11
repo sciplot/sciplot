@@ -60,6 +60,9 @@ class PlotBase
     /// Construct a default Plot object
     PlotBase();
 
+    /// Virtual destructor to avoid memory leaks
+    virtual ~PlotBase() = default;
+
     /// Set the palette of colors for the plot.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
     auto palette(const std::string &name) -> void;

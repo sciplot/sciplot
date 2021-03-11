@@ -60,8 +60,8 @@ int main(int argc, char** argv)
     }
 
     // Use the previous plots as sub-figures in a larger 2x2 figure.
-    Figure fig = {{ &plot0, &plot1 },
-                  { &plot2, &plot3d }};
+    Figure fig = {{ plot0, plot1 },
+                  { plot2, plot3d }};
 
     fig.size(1920,1080);
 
