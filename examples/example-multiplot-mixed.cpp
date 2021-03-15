@@ -27,6 +27,44 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
+auto createHelixPlot()
+{
+    // Create a vector with values from 0 to 100 divived into 2000 uniform intervals for the z-axis
+    Vec z = linspace(0.0, 100.0, 2000);
+
+    // Construct x and y for each z so that a helix curve is defined
+    std::vector<double> x, y;
+    double c = 2;
+    double r = 1;
+
+    for(auto val : z) {
+        x.push_back(r*cos(val/c));
+        y.push_back(r*sin(val/c));
+    }
+
+    // Create the 3D plot for the helix
+    Plot3D plot;
+
+    // Draw the helix curve and set the label displayed in the legend
+    plot.drawCurve(x, y, z);
+
+    // Disable legend for this plot
+    plot.legend().hide();
+
+    // Set the x, y, z labels
+    plot.xlabel("x");
+    plot.ylabel("y");
+    plot.zlabel("z");
+
+    // Clear all borders and set the visible ones
+    plot.border().clear();
+    plot.border().bottomLeftFront();
+    plot.border().bottomRightFront();
+    plot.border().leftVertical();
+
+    return plot;
+}
+
 int main(int argc, char** argv)
 {
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
@@ -43,32 +81,18 @@ int main(int argc, char** argv)
     Plot plot2;
     plot2.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    Plot3D plot3d;
-    {
-        // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
-        Vec z = linspace(0.0, 100.0, 2000);
-        std::vector<double> x,y;
-        double c = 2;
-        double r = 1;
-
-        for(auto val : z){
-            x.push_back(r*cos(val/c));
-            y.push_back(r*sin(val/c));
-        }
-        // Plot two functions
-        plot3d.drawCurve(x,y,z).label("helix");
-    }
+    Plot3D plot3 = createHelixPlot();
 
     // Use the previous plots as sub-figures in a larger 2x2 figure.
     Figure fig = {{ plot0, plot1 },
-                  { plot2, plot3d }};
+                  { plot2, plot3 }};
 
-    fig.size(1920,1080);
+    fig.size(600, 600);
 
-    fig.title("Trigonometric Functions");
+    fig.title("Mixing 2D and 3D plots");
     fig.palette("dark2");
     fig.show();
 
     // Save the figure to a PDF file
-    fig.save("example-multiplot.pdf");
+    fig.save("example-multiplot-mixed.pdf");
 }
