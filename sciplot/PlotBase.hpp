@@ -34,21 +34,21 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
-#include <sciplot/StringOrDouble.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
-#include <sciplot/specs/FontSpecsOf.hpp>
+#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/FillStyleSpecs.hpp>
+#include <sciplot/specs/FontSpecsOf.hpp>
 #include <sciplot/specs/GridSpecs.hpp>
 #include <sciplot/specs/HistogramStyleSpecs.hpp>
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
-#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMinor.hpp>
+#include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 
 namespace sciplot {

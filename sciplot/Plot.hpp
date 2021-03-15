@@ -34,44 +34,44 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
-#include <sciplot/StringOrDouble.hpp>
+#include <sciplot/PlotBase.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
-#include <sciplot/specs/FontSpecsOf.hpp>
+#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/FillStyleSpecs.hpp>
+#include <sciplot/specs/FontSpecsOf.hpp>
 #include <sciplot/specs/GridSpecs.hpp>
 #include <sciplot/specs/HistogramStyleSpecs.hpp>
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
-#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMinor.hpp>
+#include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
-#include <sciplot/PlotBase.hpp>
 
 namespace sciplot {
 
 /// The class used to create a plot containing graphical elements.
 class Plot : public PlotBase
 {
-  public:
+public:
     /// Construct a default Plot object
     Plot();
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    auto xlabel(const std::string &label) -> AxisLabelSpecs&;
+    auto xlabel(const std::string& label) -> AxisLabelSpecs&;
 
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    auto ylabel(const std::string &label) -> AxisLabelSpecs&;
+    auto ylabel(const std::string& label) -> AxisLabelSpecs&;
 
     /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto xrange(const StringOrDouble &min, const StringOrDouble &max) -> void;
+    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
 
     /// Set the y-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto yrange(const StringOrDouble &min, const StringOrDouble &max) -> void;
+    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
     /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
@@ -147,9 +147,8 @@ class Plot : public PlotBase
     // METHODS FOR DRAWING PLOT ELEMENTS
     //======================================================================
     /// Draw plot object with given style and given vectors (e.g., `plot.draw("lines", x, y)`).
-
     template <typename X, typename... Vecs>
-    auto drawWithVecs(const std::string &with, const X&, const Vecs&... vecs) -> DrawSpecs&;
+    auto drawWithVecs(const std::string& with, const X&, const Vecs&... vecs) -> DrawSpecs&;
 
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -264,7 +263,7 @@ class Plot : public PlotBase
     //======================================================================
 
     /// Draw plot object with given style and given vectors (e.g., `plot.draw("lines", x, y)`).
-    auto drawWithCols(const std::string &fname, const std::string &with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&;
+    auto drawWithCols(const std::string& fname, const std::string& with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&;
 
     /// Draw a curve with given values at @p xcol and @p ycol columns in file @p fname.
     auto drawCurve(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&;
@@ -354,11 +353,10 @@ class Plot : public PlotBase
     /// Convert this plot object into a gnuplot formatted string.
     auto repr() const -> std::string override;
 
-  private:
+private:
 
     std::string m_xrange;                  ///< The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
     std::string m_yrange;                  ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
-
     HistogramStyleSpecs m_style_histogram; ///< The specs for the histogram style of the plot.
     TicsSpecs m_tics;                      ///< The specs of the tics of the plot
     TicsSpecsMajor m_xtics_major_bottom;   ///< The specs for the major xtics at the bottom.
@@ -426,24 +424,24 @@ inline Plot::Plot()
     gnuplot("set style data histogram");
 }
 
-inline auto Plot::xlabel(const std::string &label) -> AxisLabelSpecs&
+inline auto Plot::xlabel(const std::string& label) -> AxisLabelSpecs&
 {
     m_xlabel.text(label);
     return m_xlabel;
 }
 
-inline auto Plot::ylabel(const std::string &label) -> AxisLabelSpecs&
+inline auto Plot::ylabel(const std::string& label) -> AxisLabelSpecs&
 {
     m_ylabel.text(label);
     return m_ylabel;
 }
 
-inline auto Plot::xrange(const StringOrDouble &min, const StringOrDouble &max) -> void
+inline auto Plot::xrange(const StringOrDouble& min, const StringOrDouble& max) -> void
 {
     m_xrange = "[" + min.value + ":" + max.value + "]";
 }
 
-inline auto Plot::yrange(const StringOrDouble &min, const StringOrDouble &max) -> void
+inline auto Plot::yrange(const StringOrDouble& min, const StringOrDouble& max) -> void
 {
     m_yrange = "[" + min.value + ":" + max.value + "]";
 }
@@ -463,7 +461,7 @@ inline auto Plot::boxWidthRelative(double val) -> void
 //======================================================================
 
 template <typename X, typename... Vecs>
-inline auto Plot::drawWithVecs(const std::string &with, const X& x, const Vecs&... vecs) -> DrawSpecs&
+inline auto Plot::drawWithVecs(const std::string& with, const X& x, const Vecs&... vecs) -> DrawSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
@@ -654,7 +652,7 @@ inline auto Plot::drawHistogram(const Y& y) -> DrawSpecs&
 // METHODS FOR DRAWING PLOT ELEMENTS USING DATA FROM LOCAL FILES
 //======================================================================
 
-inline auto Plot::drawWithCols(const std::string &fname, const std::string& with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
+inline auto Plot::drawWithCols(const std::string& fname, const std::string& with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
 {
     std::string use;
     for(const auto& col : cols)

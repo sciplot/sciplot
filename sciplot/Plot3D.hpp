@@ -34,23 +34,23 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
-#include <sciplot/StringOrDouble.hpp>
+#include <sciplot/PlotBase.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
-#include <sciplot/specs/FontSpecsOf.hpp>
+#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/FillStyleSpecs.hpp>
+#include <sciplot/specs/FontSpecsOf.hpp>
 #include <sciplot/specs/GridSpecs.hpp>
 #include <sciplot/specs/HistogramStyleSpecs.hpp>
 #include <sciplot/specs/LegendSpecs.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
-#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMinor.hpp>
+#include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
-#include <sciplot/PlotBase.hpp>
 
 namespace sciplot {
 
@@ -214,11 +214,9 @@ class Plot3D : public PlotBase
     auto repr() const -> std::string override;
 
   private:
-
     std::string m_xrange;                  ///< The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
     std::string m_yrange;                  ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
     std::string m_zrange;                  ///< The z-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
-
     HistogramStyleSpecs m_style_histogram; ///< The specs for the histogram style of the plot.
     TicsSpecs m_tics;                      ///< The specs of the tics of the plot
     TicsSpecsMajor m_xtics_major_bottom;   ///< The specs for the major xtics at the bottom.
