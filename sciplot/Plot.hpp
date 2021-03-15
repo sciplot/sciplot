@@ -150,6 +150,10 @@ public:
     template <typename X, typename... Vecs>
     auto drawWithVecs(const std::string& with, const X&, const Vecs&... vecs) -> DrawSpecs&;
 
+    /// Draw plot object with given style and given vectors (e.g., `plot.draw("lines", x, y)`) that may contain NaN values.
+    template <typename X, typename... Vecs>
+    auto drawWithVecsContainingNaN(std::string with, const X&, const Vecs&... vecs) -> DrawSpecs&;
+
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
     auto drawCurve(const X& x, const Y& y) -> DrawSpecs&;
@@ -181,6 +185,14 @@ public:
     /// Draw a curve with error bars along *x* and *y* with given @p x, @p y, @p xlow, @p xhigh, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
     auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
+
+    /// Draw a curve with given @p x and @p y vectors, breaking this curve whenever NaN is found in @p x or @p y.
+    template <typename X, typename Y>
+    auto drawBrokenCurve(const X& x, const Y& y) -> DrawSpecs&;
+
+    /// Draw a curve with points with given @p x and @p y vectors, breaking this curve whenever NaN is found in @p x or @p y.
+    template <typename X, typename Y>
+    auto drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw boxes with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -486,6 +498,27 @@ inline auto Plot::drawWithVecs(const std::string& with, const X& x, const Vecs&.
     return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with);
 }
 
+template <typename X, typename... Vecs>
+inline auto Plot::drawWithVecsContainingNaN(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
+{
+    // Write the given vectors x and y as a new data set to the stream
+    std::ostringstream datastream;
+    gnuplot::writedataset(datastream, m_numdatasets, x, vecs...);
+
+    std::string use;
+    const auto nvecs = sizeof...(Vecs);
+    use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
+    for(auto i = 2; i <= nvecs + 1; ++i)
+        use += "($" + std::to_string(i) + "):"; // this constructs 0:$(2):$(3):$(4):
+    use += "xtic(1)"; // this terminates the string with 0:$(2):$(3):$(4):xtic(1), and thus column 1 is used for the xtics
+
+    // Append new data set to existing data
+    m_data += datastream.str();
+
+    // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with);
+}
+
 template <typename X, typename Y>
 inline auto Plot::drawCurve(const X& x, const Y& y) -> DrawSpecs&
 {
@@ -532,6 +565,18 @@ template <typename X, typename Y, typename XL, typename XH, typename YL, typenam
 inline auto Plot::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
+}
+
+template <typename X, typename Y>
+inline auto Plot::drawBrokenCurve(const X& x, const Y& y) -> DrawSpecs&
+{
+    return drawWithVecsContainingNaN("lines", x, y);
+}
+
+template <typename X, typename Y>
+inline auto Plot::drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
+{
+    return drawWithVecsContainingNaN("linespoints", x, y);
 }
 
 template <typename X, typename Y>
@@ -835,6 +880,7 @@ inline auto Plot::repr() const -> std::string
     script << m_legend << std::endl;
     script << gnuplot::commandValueStr("set boxwidth", m_boxwidth);
     script << gnuplot::commandValueStr("set samples", m_samples);
+    script << gnuplot::commandValueStr("set datafile missing", MISSING_INDICATOR);
 
     // Add custom gnuplot commands
     if (!m_customcmds.empty())

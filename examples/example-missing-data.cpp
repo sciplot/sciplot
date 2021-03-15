@@ -23,21 +23,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+// sciplot includes
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
-// C++ includes
-#include <limits>
-#include <string>
+int main(int argc, char** argv)
+{
+    // Create vectors with some missing y values
+    Vec x = {0, 1, 2, 3, 4, 5, 6, 7};
+    Vec y = {3.2, 7.3, NaN, 2.8, 8.9, NaN, 5.0, 1.8};
 
-namespace sciplot {
+    // Create a Plot object
+    Plot plot;
 
-const auto PI = 3.14159265359;
-const auto GOLDEN_RATIO = 1.618034;
-const auto GOLDEN_RATIO_INVERSE = 1.0 / GOLDEN_RATIO;
-const auto INCH_TO_POINTS = 72.0; // based on pdfcairo terminal conversion
-const auto POINT_TO_INCHES = 1.0 / INCH_TO_POINTS;
+    // This disables the deletion of the created gnuplot script and data file.
+    plot.autoclean(false);
 
-constexpr auto NaN = std::numeric_limits<double>::quiet_NaN(); // can be used to indicate missing values in a numeric vector
-const auto MISSING_INDICATOR = "\"?\""; // The string used to indicate missing y values.
+    // Plot the data
+    plot.drawBrokenCurveWithPoints(x, y).label("broken lines");
 
-} // namespace sciplot
+    // Save the plot to a PDF file
+    plot.save("example-missing-data.pdf");
+}
