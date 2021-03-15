@@ -150,9 +150,9 @@ public:
     template <typename X, typename... Vecs>
     auto drawWithVecs(const std::string& with, const X&, const Vecs&... vecs) -> DrawSpecs&;
 
-    /// Draw plot object with given style and given vectors, respecting missing values declared as sciplot::NaN.
+    /// Draw plot object with given style and given vectors (e.g., `plot.draw("lines", x, y)`) that may contain NaN values.
     template <typename X, typename... Vecs>
-    auto drawBroken(std::string with, const X&, const Vecs&... vecs) -> DrawSpecs&;
+    auto drawWithVecsContainingNaN(std::string with, const X&, const Vecs&... vecs) -> DrawSpecs&;
 
     /// Draw a curve with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -185,6 +185,14 @@ public:
     /// Draw a curve with error bars along *x* and *y* with given @p x, @p y, @p xlow, @p xhigh, @p ylow, and @p yhigh vectors.
     template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
     auto drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&;
+
+    /// Draw a curve with given @p x and @p y vectors, breaking this curve whenever NaN is found in @p x or @p y.
+    template <typename X, typename Y>
+    auto drawBrokenCurve(const X& x, const Y& y) -> DrawSpecs&;
+
+    /// Draw a curve with points with given @p x and @p y vectors, breaking this curve whenever NaN is found in @p x or @p y.
+    template <typename X, typename Y>
+    auto drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&;
 
     /// Draw boxes with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -491,7 +499,7 @@ inline auto Plot::drawWithVecs(const std::string& with, const X& x, const Vecs&.
 }
 
 template <typename X, typename... Vecs>
-inline auto Plot::drawBroken(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
+inline auto Plot::drawWithVecsContainingNaN(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
 {
     // Write the given vectors x and y as a new data set to the stream
     std::ostringstream datastream;
@@ -557,6 +565,18 @@ template <typename X, typename Y, typename XL, typename XH, typename YL, typenam
 inline auto Plot::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
     return drawWithVecs("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
+}
+
+template <typename X, typename Y>
+inline auto Plot::drawBrokenCurve(const X& x, const Y& y) -> DrawSpecs&
+{
+    return drawWithVecsContainingNaN("lines", x, y);
+}
+
+template <typename X, typename Y>
+inline auto Plot::drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
+{
+    return drawWithVecsContainingNaN("linespoints", x, y);
 }
 
 template <typename X, typename Y>
