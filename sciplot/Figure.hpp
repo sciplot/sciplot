@@ -35,15 +35,18 @@
 
 namespace sciplot {
 
+/// The auxiliary type to represent either a 2D or 3D plot.
+using PlotXD = std::variant<Plot, Plot3D>;
+
 /// The class used to create multiple plots in one canvas.
 class Figure
 {
   public:
     /// Construct a Figure object with given plots.
-    Figure(const std::initializer_list<std::initializer_list< std::variant<Plot, Plot3D>>>& plots);
+    Figure(const std::initializer_list<std::initializer_list<PlotXD>>& plots);
 
     /// Construct a Figure object with given plots.
-    Figure(const std::vector<std::vector<std::variant<Plot, Plot3D>>>& plots);
+    Figure(const std::vector<std::vector<PlotXD>>& plots);
 
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
@@ -118,13 +121,13 @@ class Figure
     std::string m_scriptfilename;
 
     /// All the plots that have been added to the figure
-    std::vector<std::vector<std::variant<Plot, Plot3D>>> m_plots;
+    std::vector<std::vector<PlotXD>> m_plots;
 };
 
 // Initialize the counter of plot objects
 inline std::size_t Figure::m_counter = 0;
 
-inline Figure::Figure(const std::initializer_list<std::initializer_list<std::variant<Plot, Plot3D>>>& plots)
+inline Figure::Figure(const std::initializer_list<std::initializer_list<PlotXD>>& plots)
 : m_id(m_counter++),
   m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
 {
@@ -137,7 +140,7 @@ inline Figure::Figure(const std::initializer_list<std::initializer_list<std::var
         m_plots.emplace_back(row.begin(), row.end());
 }
 
-inline Figure::Figure(const std::vector<std::vector<std::variant<Plot, Plot3D>>>& plots)
+inline Figure::Figure(const std::vector<std::vector<PlotXD>>& plots)
 : m_id(m_counter++),
   m_scriptfilename("multishow" + internal::str(m_id) + ".plt"),
   m_plots(plots)
@@ -184,11 +187,11 @@ inline auto Figure::title(const std::string& title) -> Figure&
 
 inline auto Figure::saveplotdata() const -> void
 {
-    for (const auto &row : m_plots) {
-        for (const auto &plot : row) {
-            if (auto *plot_p = std::get_if<Plot>(&plot)) {
+    for(const auto& row : m_plots) {
+        for(const auto& plot : row) {
+            if(auto *plot_p = std::get_if<Plot>(&plot)) {
                 plot_p->savePlotData();
-            } else if (auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
                 plot_p->savePlotData();
             }
         }
@@ -213,11 +216,11 @@ inline auto Figure::show() const -> void
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
 
     // Add the plot commands
-    for (const auto &row : m_plots) {
-        for (const auto &plot : row) {
-            if (auto *plot_p = std::get_if<Plot>(&plot)) {
+    for(const auto& row : m_plots) {
+        for(const auto& plot : row) {
+            if(auto *plot_p = std::get_if<Plot>(&plot)) {
                 script << plot_p->repr();
-            } else if (auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
                 script << plot_p->repr();
             }
         }
@@ -268,11 +271,11 @@ inline auto Figure::save(const std::string& filename) const -> void
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
 
     // Add the plot commands
-    for (const auto &row : m_plots) {
-        for (const auto &plot : row) {
-            if (auto *plot_p = std::get_if<Plot>(&plot)) {
+    for(const auto& row : m_plots) {
+        for(const auto& plot : row) {
+            if(auto *plot_p = std::get_if<Plot>(&plot)) {
                 script << plot_p->repr();
-            } else if (auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
                 script << plot_p->repr();
             }
         }
@@ -305,11 +308,11 @@ inline auto Figure::save(const std::string& filename) const -> void
 inline auto Figure::cleanup() const -> void
 {
     std::remove(m_scriptfilename.c_str());
-    for (const auto &row : m_plots) {
-        for (const auto &plot : row) {
-            if (auto *plot_p = std::get_if<Plot>(&plot)) {
+    for(const auto& row : m_plots) {
+        for(const auto& plot : row) {
+            if(auto *plot_p = std::get_if<Plot>(&plot)) {
                 plot_p->cleanup();
-            } else if (auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
                 plot_p->cleanup();
             }
         }
