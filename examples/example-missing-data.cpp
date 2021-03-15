@@ -39,10 +39,8 @@ int main(int argc, char** argv)
     // This disables the deletion of the created gnuplot script and data file.
     plot.autoclean(false);
 
-    // Plot the data with linespoints
-    plot.drawBroken("linespoints", x, y).label("Data");
-
-    plot.show();
+    // Plot the data
+    plot.drawBrokenCurveWithPoints(x, y).label("broken lines");
 
     // Save the plot to a PDF file
     plot.save("example-missing-data.pdf");
