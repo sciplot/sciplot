@@ -130,7 +130,7 @@ auto escapeIfNeeded(const T& val)
 {
     if constexpr (isString<T>)
         return "\"" + val + "\"";
-    else return std::isfinite(val) ? internal::str(val) : MISSING_INDICATOR;
+    else return std::isfinite(static_cast<double>(val)) ? internal::str(val) : MISSING_INDICATOR; // static_cast to avoid MSVC error C2668: 'fpclassify': ambiguous call to overloaded function
 }
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object
