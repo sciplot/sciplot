@@ -44,6 +44,18 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ![](img/tutorials/example-boxes-ticklabels.svg){: loading=lazy }
 
+## Plotting a 3D helix plot
+
+{{ inputcpp('examples/example-3d-helix.cpp', startline=26) }}
+
+![](img/tutorials/example-3d-helix.svg){: loading=lazy }
+
+## Plotting multiple mixed 2D and 3D plots
+
+{{ inputcpp('examples/example-multiplot-mixed.cpp', startline=26) }}
+
+![](img/tutorials/example-multiplot-mixed.svg){: loading=lazy }
+
 ## Integration with CMake-based projects
 
 Integrating {{sciplot}} in a CMake-based project is very simple as shown next.
