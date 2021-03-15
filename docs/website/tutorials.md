@@ -44,6 +44,12 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ![](img/tutorials/example-boxes-ticklabels.svg){: loading=lazy }
 
+## Plotting broken curves when NaN values are present
+
+{{ inputcpp('examples/example-missing-data.cpp', startline=26) }}
+
+![](img/tutorials/example-missing-data.svg){: loading=lazy }
+
 ## Integration with CMake-based projects
 
 Integrating {{sciplot}} in a CMake-based project is very simple as shown next.
