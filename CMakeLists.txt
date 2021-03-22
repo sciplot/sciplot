@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -6,7 +6,8 @@ include(CCache)
 
 project(sciplot VERSION 0.2.0
     DESCRIPTION "A modern C++ scientific plotting library powered by gnuplot"
-    HOMEPAGE_URL "https://sciplot.github.io")
+    HOMEPAGE_URL "https://sciplot.github.io"
+    LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
