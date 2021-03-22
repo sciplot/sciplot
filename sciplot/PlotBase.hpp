@@ -97,8 +97,8 @@ class PlotBase
     auto draw(const std::string& what, const std::string& use, const std::string& with) -> DrawSpecs&;
 
     /// Draw plot object using completely custom plot commands (e.g., `plot.draw('file.dat' using 1:2 with linespoints pointtype 5 linecolor rgb variable`)`.
-    /// @note This method only has an effect if custom commands are enabled.
-    /// @note It can only be combined with other custom draw commands, not with normal ones.
+    /// @note This method only has an effect if custom commands are enabled using useCustomDrawCmds(true).
+    /// @note It can only be combined with other custom draw commands, not with regular ones.
     auto drawCustom(const std::string& cmd) -> void;
 
     //======================================================================
@@ -129,6 +129,8 @@ class PlotBase
     auto savePlotData() const -> void;
 
     /// Toggle the use of custom draw commands (disabled by default).
+    /// You can set custom draw commands using drawCustom().
+    /// @note This will replace all regular draw* commands in the generated script by the strings passed in drawCustom().
     auto useCustomDrawCmds(bool enable = true) -> void;
 
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
