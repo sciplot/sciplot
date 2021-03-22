@@ -96,7 +96,7 @@ class PlotBase
     /// Draw plot object with given `what`, `using` and `with` expressions (e.g., `plot.draw("sin(x)*cos(x)", "", "linespoints")`,  (e.g., `plot.draw("file.dat", "1:2", "points")`)).
     auto draw(const std::string& what, const std::string& use, const std::string& with) -> DrawSpecs&;
 
-    /// Draw plot object using completely custom plot commands (e.g., `plot.draw('file.dat' using 1:2 with linespoints pointtype 5 palette rgb linecolor variable`)`.
+    /// Draw plot object using completely custom plot commands (e.g., `plot.draw('file.dat' using 1:2 with linespoints pointtype 5 linecolor rgb variable`)`.
     /// @note This method only has an effect if custom commands are enabled.
     /// @note It can only be combined with other custom draw commands, not with normal ones.
     auto drawCustom(const std::string& cmd) -> void;
