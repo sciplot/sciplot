@@ -497,10 +497,21 @@ inline auto Plot3D::repr() const -> std::string
     script << "#==============================================================================" << std::endl;
     script << "splot \\\n"; // use `\` to have a plot command in each individual line!
 
+    // Use either regular or custom plot commands
+    const auto & numCmds = m_usecustomdrawcmds ? m_customdrawcmds.size() : m_drawspecs.size();
+
     // Write plot commands and style per plot
-    const auto n = m_drawspecs.size();
-    for(std::size_t i = 0; i < n; ++i)
-        script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
+    for(std::size_t i = 0; i < numCmds; ++i)
+    {
+        script << "    ";
+
+        if (m_usecustomdrawcmds)
+            script << m_customdrawcmds[i];
+        else
+            script << m_drawspecs[i];
+
+        script << (i < numCmds - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
+    }
 
     // Add an empty line at the end
     script << std::endl;
