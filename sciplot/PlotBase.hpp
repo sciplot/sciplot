@@ -96,8 +96,13 @@ class PlotBase
     /// Draw plot object with given `what`, `using` and `with` expressions (e.g., `plot.draw("sin(x)*cos(x)", "", "linespoints")`,  (e.g., `plot.draw("file.dat", "1:2", "points")`)).
     auto draw(const std::string& what, const std::string& use, const std::string& with) -> DrawSpecs&;
 
+    /// Draw plot object using completely custom plot commands (e.g., `plot.draw('file.dat' using 1:2 with linespoints pointtype 5 palette rgb linecolor variable`)`.
+    /// @note This method only has an effect if custom commands are enabled.
+    /// @note It can only be combined with other custom draw commands, not with normal ones.
+    auto drawCustom(const std::string& cmd) -> void;
+
     //======================================================================
-    // MISCElLANEOUS METHODS
+    // MISCELLANEOUS METHODS
     //======================================================================
 
     /// Set the legend of the plot and return a reference to the corresponding specs object.
@@ -123,6 +128,9 @@ class PlotBase
     /// Write the current plot data to the data file.
     auto savePlotData() const -> void;
 
+    /// Toggle the use of custom draw commands (disabled by default).
+    auto useCustomDrawCmds(bool enable = true) -> void;
+
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
     auto autoclean(bool enable = true) -> void;
@@ -138,24 +146,26 @@ class PlotBase
     virtual auto repr() const -> std::string = 0;
 
   protected:
-    static std::size_t m_counter;          ///< Counter of how many plot / singleplot objects have been instanciated in the application
-    std::size_t m_id = 0;                  ///< The Plot id derived from m_counter upon construction (must be the first member due to constructor initialization order!)
-    bool m_autoclean = true;               ///< Toggle automatic cleaning of temporary files (enabled by default)
-    std::string m_palette;                 ///< The name of the gnuplot palette to be used
-    std::size_t m_width = 0;               ///< The size of the plot in x
-    std::size_t m_height = 0;              ///< The size of the plot in y
-    std::string m_scriptfilename;          ///< The name of the file where the plot commands are saved
-    std::string m_datafilename;            ///< The multi data set file where data given to plot (e.g., vectors) are saved
-    std::string m_data;                    ///< The current plot data as a string
-    std::size_t m_numdatasets = 0;         ///< The current number of data sets in the data file
-    FontSpecs m_font;                      ///< The font name and size in the plot
-    BorderSpecs m_border;                  ///< The border style of the plot
-    GridSpecs m_grid;                      ///< The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
-    FillStyleSpecs m_style_fill;           ///< The specs for the fill style of the plot elements in the plot that can be painted.
-    std::string m_samples;                 ///< The number of sample points for functions
-    LegendSpecs m_legend;                  ///< The legend specs of the plot
-    std::vector<DrawSpecs> m_drawspecs;    ///< The plot specs for each call to gnuplot plot function
-    std::vector<std::string> m_customcmds; ///< The strings containing gnuplot custom commands
+    static std::size_t m_counter;              ///< Counter of how many plot / singleplot objects have been instanciated in the application
+    std::size_t m_id = 0;                      ///< The Plot id derived from m_counter upon construction (must be the first member due to constructor initialization order!)
+    bool m_autoclean = true;                   ///< Toggle automatic cleaning of temporary files (enabled by default)
+    std::string m_palette;                     ///< The name of the gnuplot palette to be used
+    std::size_t m_width = 0;                   ///< The size of the plot in x
+    std::size_t m_height = 0;                  ///< The size of the plot in y
+    std::string m_scriptfilename;              ///< The name of the file where the plot commands are saved
+    std::string m_datafilename;                ///< The multi data set file where data given to plot (e.g., vectors) are saved
+    std::string m_data;                        ///< The current plot data as a string
+    std::size_t m_numdatasets = 0;             ///< The current number of data sets in the data file
+    FontSpecs m_font;                          ///< The font name and size in the plot
+    BorderSpecs m_border;                      ///< The border style of the plot
+    GridSpecs m_grid;                          ///< The vector of grid specs for the major and minor grid lines in the plot (for xtics, ytics, mxtics, etc.).
+    FillStyleSpecs m_style_fill;               ///< The specs for the fill style of the plot elements in the plot that can be painted.
+    std::string m_samples;                     ///< The number of sample points for functions
+    LegendSpecs m_legend;                      ///< The legend specs of the plot
+    std::vector<DrawSpecs> m_drawspecs;        ///< The plot specs for each call to gnuplot plot function
+    std::vector<std::string> m_customcmds;     ///< The strings containing gnuplot custom commands
+    bool m_usecustomdrawcmds = false;          ///< Toggle the use of custom draw commands (disabled by default)
+    std::vector<std::string> m_customdrawcmds; ///< The strings containing custom draw commands
 };
 
 // Initialize the counter of plot objects
@@ -229,6 +239,16 @@ inline auto PlotBase::samples(std::size_t value) -> void
 inline auto PlotBase::gnuplot(const std::string &command) -> void
 {
     m_customcmds.push_back(command);
+}
+
+inline auto PlotBase::useCustomDrawCmds(bool enable) -> void
+{
+    m_usecustomdrawcmds = enable;
+}
+
+inline auto PlotBase::drawCustom(const std::string& cmd) -> void
+{
+    m_customdrawcmds.push_back(cmd);
 }
 
 inline auto PlotBase::show() const -> void
@@ -337,6 +357,7 @@ inline auto PlotBase::clear() -> void
 {
     m_drawspecs.clear();
     m_customcmds.clear();
+    m_customdrawcmds.clear();
 }
 
 } // namespace sciplot

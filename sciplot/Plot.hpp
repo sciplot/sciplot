@@ -901,9 +901,27 @@ inline auto Plot::repr() const -> std::string
     script << "plot \\\n"; // use `\` to have a plot command in each individual line!
 
     // Write plot commands and style per plot
-    const auto n = m_drawspecs.size();
+    std::size_t n;
+
+    // Use either normal or custom plot commands
+    if (m_usecustomdrawcmds)
+        n = m_customdrawcmds.size();
+    else
+        n = m_drawspecs.size();
+
     for(std::size_t i = 0; i < n; ++i)
-        script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
+    {
+        script << "    ";
+
+        if (m_usecustomdrawcmds)
+            script << m_customdrawcmds[i];
+        else
+            script << m_drawspecs[i];
+
+        script << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
+
+    }
+
 
     // Add an empty line at the end
     script << std::endl;
