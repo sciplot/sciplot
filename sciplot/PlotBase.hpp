@@ -205,15 +205,12 @@ inline auto PlotBase::draw(const std::string& what, const std::string& use, cons
     // Save the draw arguments for this x,y data
     m_drawspecs.emplace_back(what, use, with);
 
-    // Set the default line style specification for this drawing (desired behavior is 1, 2, 3 (incrementing as new lines are plotted))
-    m_drawspecs.back().lineStyle(m_drawspecs.size());
-
     // Return the just created drawing object in case the user wants to customize it
     return m_drawspecs.back();
 }
 
 //======================================================================
-// MISCElLANEOUS METHODS
+// MISCELLANEOUS METHODS
 //======================================================================
 
 inline auto PlotBase::legend() -> LegendSpecs&
