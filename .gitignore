@@ -55,3 +55,6 @@ __pycache__
 
 # Mkdocs
 docs/site/*
+
+# Generated output
+*.pdf

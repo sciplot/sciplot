@@ -35,9 +35,10 @@
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
 #include <sciplot/PlotBase.hpp>
+#include <sciplot/StringOrDouble.hpp>
+#include <sciplot/Utils.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
 #include <sciplot/specs/BorderSpecs.hpp>
-#include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/DrawSpecs.hpp>
 #include <sciplot/specs/FillStyleSpecs.hpp>
 #include <sciplot/specs/FontSpecsOf.hpp>
@@ -47,17 +48,15 @@
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/TicsSpecs.hpp>
 #include <sciplot/specs/TicsSpecsMajor.hpp>
-#include <sciplot/specs/TicsSpecsMajor.hpp>
 #include <sciplot/specs/TicsSpecsMinor.hpp>
-#include <sciplot/StringOrDouble.hpp>
-#include <sciplot/Utils.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to create a plot containing graphical elements.
 class Plot : public PlotBase
 {
-public:
+  public:
     /// Construct a default Plot object
     Plot();
 
@@ -193,6 +192,14 @@ public:
     /// Draw a curve with points with given @p x and @p y vectors, breaking this curve whenever NaN is found in @p x or @p y.
     template <typename X, typename Y>
     auto drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&;
+
+    /// Draw curves with given @p x and @p y vectors with filled areas above / below axes.
+    template <typename X, typename Y>
+    auto drawCurveFilled(const X& x, const Y& y) -> DrawSpecs&;
+
+    /// Draw curves with given @p x, @p y1 and @p y2 vectors with filled areas above / below / between curves.
+    template <typename X, typename Y1, typename Y2>
+    auto drawCurvesFilled(const X& x, const Y1& y1, const Y2& y2) -> DrawSpecs&;
 
     /// Draw boxes with given @p x and @p y vectors.
     template <typename X, typename Y>
@@ -365,49 +372,32 @@ public:
     /// Convert this plot object into a gnuplot formatted string.
     auto repr() const -> std::string override;
 
-private:
-
-    std::string m_xrange;                  ///< The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
-    std::string m_yrange;                  ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
+  private:
+    std::string m_xrange; ///< The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
+    std::string m_yrange; ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
     HistogramStyleSpecs m_style_histogram; ///< The specs for the histogram style of the plot.
-    TicsSpecs m_tics;                      ///< The specs of the tics of the plot
-    TicsSpecsMajor m_xtics_major_bottom;   ///< The specs for the major xtics at the bottom.
-    TicsSpecsMajor m_xtics_major_top;      ///< The specs for the major xtics at the top.
-    TicsSpecsMinor m_xtics_minor_bottom;   ///< The specs for the minor xtics at the bottom.
-    TicsSpecsMinor m_xtics_minor_top;      ///< The specs for the minor xtics at the top.
-    TicsSpecsMajor m_ytics_major_left;     ///< The specs for the major ytics at the left.
-    TicsSpecsMajor m_ytics_major_right;    ///< The specs for the major ytics at the right.
-    TicsSpecsMinor m_ytics_minor_left;     ///< The specs for the minor ytics at the left.
-    TicsSpecsMinor m_ytics_minor_right;    ///< The specs for the minor ytics at the right.
-    TicsSpecsMajor m_ztics_major;          ///< The specs for the major ztics.
-    TicsSpecsMinor m_ztics_minor;          ///< The specs for the minor ztics.
-    TicsSpecsMajor m_rtics_major;          ///< The specs for the major rtics.
-    TicsSpecsMinor m_rtics_minor;          ///< The specs for the minor rtics.
-    AxisLabelSpecs m_xlabel;               ///< The label of the x-axis
-    AxisLabelSpecs m_ylabel;               ///< The label of the y-axis
-    AxisLabelSpecs m_zlabel;               ///< The label of the z-axis
-    AxisLabelSpecs m_rlabel;               ///< The label of the r-axis
-    std::string m_boxwidth;                ///< The default width of boxes in plots containing boxes without given widths.
+    TicsSpecs m_tics; ///< The specs of the tics of the plot
+    TicsSpecsMajor m_xtics_major_bottom; ///< The specs for the major xtics at the bottom.
+    TicsSpecsMajor m_xtics_major_top; ///< The specs for the major xtics at the top.
+    TicsSpecsMinor m_xtics_minor_bottom; ///< The specs for the minor xtics at the bottom.
+    TicsSpecsMinor m_xtics_minor_top; ///< The specs for the minor xtics at the top.
+    TicsSpecsMajor m_ytics_major_left; ///< The specs for the major ytics at the left.
+    TicsSpecsMajor m_ytics_major_right; ///< The specs for the major ytics at the right.
+    TicsSpecsMinor m_ytics_minor_left; ///< The specs for the minor ytics at the left.
+    TicsSpecsMinor m_ytics_minor_right; ///< The specs for the minor ytics at the right.
+    TicsSpecsMajor m_ztics_major; ///< The specs for the major ztics.
+    TicsSpecsMinor m_ztics_minor; ///< The specs for the minor ztics.
+    TicsSpecsMajor m_rtics_major; ///< The specs for the major rtics.
+    TicsSpecsMinor m_rtics_minor; ///< The specs for the minor rtics.
+    AxisLabelSpecs m_xlabel; ///< The label of the x-axis
+    AxisLabelSpecs m_ylabel; ///< The label of the y-axis
+    AxisLabelSpecs m_zlabel; ///< The label of the z-axis
+    AxisLabelSpecs m_rlabel; ///< The label of the r-axis
+    std::string m_boxwidth; ///< The default width of boxes in plots containing boxes without given widths.
 };
 
 inline Plot::Plot()
-: PlotBase(),
-  m_xtics_major_bottom("x"),
-  m_xtics_major_top("x2"),
-  m_xtics_minor_bottom("x"),
-  m_xtics_minor_top("x2"),
-  m_ytics_major_left("y"),
-  m_ytics_major_right("y2"),
-  m_ytics_minor_left("y"),
-  m_ytics_minor_right("y2"),
-  m_ztics_major("z"),
-  m_ztics_minor("z"),
-  m_rtics_major("r"),
-  m_rtics_minor("r"),
-  m_xlabel("x"),
-  m_ylabel("y"),
-  m_zlabel("z"),
-  m_rlabel("r")
+    : PlotBase(), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r"), m_xlabel("x"), m_ylabel("y"), m_zlabel("z"), m_rlabel("r")
 {
     // Show only major and minor xtics and ytics
     xticsMajorBottom().show();
@@ -483,10 +473,11 @@ inline auto Plot::drawWithVecs(const std::string& with, const X& x, const Vecs&.
     // Otherwise, x contain xtics strings. Set the `using` string
     // so that these are properly used as xtics.
     std::string use;
-    if constexpr(internal::isStringVector<X>) {
+    if constexpr (internal::isStringVector<X>)
+    {
         const auto nvecs = sizeof...(Vecs);
         use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
-        for(auto i = 2; i <= nvecs + 1; ++i)
+        for (auto i = 2; i <= nvecs + 1; ++i)
             use += std::to_string(i) + ":"; // this constructs 0:2:3:4:
         use += "xtic(1)"; // this terminates the string with 0:2:3:4:xtic(1), and thus column 1 is used for the xtics
     }
@@ -508,7 +499,7 @@ inline auto Plot::drawWithVecsContainingNaN(std::string with, const X& x, const 
     std::string use;
     const auto nvecs = sizeof...(Vecs);
     use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
-    for(auto i = 2; i <= nvecs + 1; ++i)
+    for (auto i = 2; i <= nvecs + 1; ++i)
         use += "($" + std::to_string(i) + "):"; // this constructs 0:$(2):$(3):$(4):
     use += "xtic(1)"; // this terminates the string with 0:$(2):$(3):$(4):xtic(1), and thus column 1 is used for the xtics
 
@@ -577,6 +568,18 @@ template <typename X, typename Y>
 inline auto Plot::drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
 {
     return drawWithVecsContainingNaN("linespoints", x, y);
+}
+
+template <typename X, typename Y>
+inline auto Plot::drawCurveFilled(const X& x, const Y& y) -> DrawSpecs&
+{
+    return drawWithVecs("filledcurves", x, y);
+}
+
+template <typename X, typename Y1, typename Y2>
+inline auto Plot::drawCurvesFilled(const X& x, const Y1& y1, const Y2& y2) -> DrawSpecs&
+{
+    return drawWithVecs("filledcurves", x, y1, y2);
 }
 
 template <typename X, typename Y>
@@ -700,7 +703,7 @@ inline auto Plot::drawHistogram(const Y& y) -> DrawSpecs&
 inline auto Plot::drawWithCols(const std::string& fname, const std::string& with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
 {
     std::string use;
-    for(const auto& col : cols)
+    for (const auto& col : cols)
         use += col.value + ":"; // e.g., "1:4:5:7:" (where 1 is x, 4 is y, 5 is ylow and 7 is yhigh for a yerrorlines plot)
     use = internal::trimright(use, ':'); // e.g., "1:4:5:7:" => "1:4:5:7"
     std::string what = "'" + fname + "'"; // e.g., "'myfile.dat'"
@@ -888,7 +891,7 @@ inline auto Plot::repr() const -> std::string
         script << "#==============================================================================" << std::endl;
         script << "# CUSTOM EXPLICIT GNUPLOT COMMANDS" << std::endl;
         script << "#==============================================================================" << std::endl;
-        for(const auto& c : m_customcmds)
+        for (const auto& c : m_customcmds)
         {
             script << c << std::endl;
         }
@@ -902,7 +905,7 @@ inline auto Plot::repr() const -> std::string
 
     // Write plot commands and style per plot
     const auto n = m_drawspecs.size();
-    for(std::size_t i = 0; i < n; ++i)
+    for (std::size_t i = 0; i < n; ++i)
         script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
 
     // Add an empty line at the end
