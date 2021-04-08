@@ -27,15 +27,17 @@
 
 // sciplot includes
 #include <sciplot/ColumnIndex.hpp>
+#include <sciplot/Utils.hpp>
 #include <sciplot/specs/FillSpecsOf.hpp>
+#include <sciplot/specs/FilledCurvesSpecsOf.hpp>
 #include <sciplot/specs/LineSpecsOf.hpp>
 #include <sciplot/specs/PointSpecsOf.hpp>
-#include <sciplot/Utils.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class where options for the plotted element can be specified.
-class DrawSpecs : public LineSpecsOf<DrawSpecs>, public PointSpecsOf<DrawSpecs>, public FillSpecsOf<DrawSpecs>
+class DrawSpecs : public LineSpecsOf<DrawSpecs>, public PointSpecsOf<DrawSpecs>, public FillSpecsOf<DrawSpecs>, public FilledCurvesSpecsOf<DrawSpecs>
 {
   public:
     /// Construct a DrawSpecs instance.
@@ -89,7 +91,7 @@ class DrawSpecs : public LineSpecsOf<DrawSpecs>, public PointSpecsOf<DrawSpecs>,
 };
 
 inline DrawSpecs::DrawSpecs(std::string what, std::string use, std::string with)
-: m_what(what), m_using(use), m_with(with)
+    : m_what(what), m_using(use), m_with(with)
 {
     lineWidth(internal::DEFAULT_LINEWIDTH);
 }
@@ -139,14 +141,15 @@ inline auto DrawSpecs::ytics(ColumnIndex icol) -> DrawSpecs&
 inline auto DrawSpecs::repr() const -> std::string
 {
     std::string use = m_using;
-    if(m_xtic.size()) use += ":" + m_xtic;
-    if(m_ytic.size()) use += ":" + m_ytic;
+    if (m_xtic.size()) use += ":" + m_xtic;
+    if (m_ytic.size()) use += ":" + m_ytic;
 
     std::stringstream ss;
     ss << m_what << " ";
     ss << gnuplot::optionValueStr("using", use);
     ss << m_title << " ";
     ss << gnuplot::optionValueStr("with", m_with);
+    ss << FilledCurvesSpecsOf<DrawSpecs>::repr() << " ";
     ss << LineSpecsOf<DrawSpecs>::repr() << " ";
     ss << PointSpecsOf<DrawSpecs>::repr() << " ";
     ss << FillSpecsOf<DrawSpecs>::repr() << " ";
