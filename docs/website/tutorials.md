@@ -20,6 +20,12 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ![](img/tutorials/example-bessel-functions.svg){: loading=lazy }
 
+## Plotting filled curves
+
+{{ inputcpp('examples/example-filled-curves.cpp', startline=26) }}
+
+![](img/tutorials/example-filled-curves.svg){: loading=lazy }
+
 ## Plotting multiple plots
 
 {{ inputcpp('examples/example-multiplot.cpp', startline=26) }}
