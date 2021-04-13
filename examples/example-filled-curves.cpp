@@ -29,7 +29,7 @@ using namespace sciplot;
 
 int main(int argc, char** argv)
 {
-    // Create a vector with values from 0 to pi divived into 200 uniform intervals for the x-axis
+    // Create a vector with values from 0 to 2*pi divided into 200 uniform intervals for the x-axis
     Vec x = linspace(0.0, 2.0 * PI, 200);
 
     // Create a Plot object
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
 
     fig.title("Filled curves \\& options");
     fig.palette("dark2");
-    fig.size(800, 800);
+    fig.size(749, 749);
 
     // Show the plot in a pop-up window
     fig.show();
