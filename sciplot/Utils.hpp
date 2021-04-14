@@ -41,8 +41,10 @@
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
 
-namespace sciplot {
-namespace internal {
+namespace sciplot
+{
+namespace internal
+{
 
 /// Return a string for a given value of a generic type.
 template <typename T>
@@ -66,23 +68,25 @@ inline auto str() -> std::string
 }
 
 /// Remove from the beginning of the string the given character (by default, space).
-inline auto trimleft(std::string str, unsigned char character=' ') -> std::string
+inline auto trimleft(std::string str, unsigned char character = ' ') -> std::string
 {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(),
-        [&](unsigned char ch) { return ch != character; }));
+                                        [&](unsigned char ch) { return ch != character; }));
     return str;
 }
 
 /// Remove from the end of the string the given character (by default, space).
-inline auto trimright(std::string str, unsigned char character=' ') -> std::string
+inline auto trimright(std::string str, unsigned char character = ' ') -> std::string
 {
     str.erase(std::find_if(str.rbegin(), str.rend(),
-        [&](unsigned char ch) { return ch != character; }).base(), str.end());
+                           [&](unsigned char ch) { return ch != character; })
+                  .base(),
+              str.end());
     return str;
 }
 
 /// Trim the string from both ends
-inline auto trim(std::string str, unsigned char character=' ') -> std::string
+inline auto trim(std::string str, unsigned char character = ' ') -> std::string
 {
     return trimleft(trimright(str, character), character);
 }
@@ -91,7 +95,7 @@ inline auto trim(std::string str, unsigned char character=' ') -> std::string
 inline auto collapseWhitespaces(std::string s) -> std::string
 {
     s.erase(std::unique(std::begin(s), std::end(s),
-        [](unsigned char a, unsigned char b){ return std::isspace(a) && std::isspace(b); }),
+                        [](unsigned char a, unsigned char b) { return std::isspace(a) && std::isspace(b); }),
             std::end(s));
     return s;
 }
@@ -129,8 +133,9 @@ template <typename T>
 auto escapeIfNeeded(const T& val)
 {
     if constexpr (isString<T>)
-        return "\"" + val + "\"";
-    else return std::isfinite(static_cast<double>(val)) ? internal::str(val) : MISSING_INDICATOR; // static_cast to avoid MSVC error C2668: 'fpclassify': ambiguous call to overloaded function
+        return "'" + val + "'";
+    else
+        return std::isfinite(static_cast<double>(val)) ? internal::str(val) : MISSING_INDICATOR; // static_cast to avoid MSVC error C2668: 'fpclassify': ambiguous call to overloaded function
 }
 
 /// Auxiliary function to write many vector arguments into a line of an ostream object
@@ -259,8 +264,9 @@ inline auto showterminalcmd(std::ostream& out, std::string size, std::string fon
     // The GNUTERM variable contains the default terminal, which we're using for the show command.
     // See: http://www.bersch.net/gnuplot-doc/unset.html
     out << "set termoption enhanced" << std::endl;
-    if(font.size()) out << "set termoption " << font << std::endl;
+    if (font.size()) out << "set termoption " << font << std::endl;
     out << "set terminal GNUTERM size " << size << std::endl;
+    out << "set encoding utf8" << std::endl;
     return out;
 }
 
@@ -271,6 +277,7 @@ inline auto saveterminalcmd(std::ostream& out, std::string extension, std::strin
     out << "# TERMINAL" << std::endl;
     out << "#==============================================================================" << std::endl;
     out << "set terminal " << extension << " size " << size << " enhanced rounded " << font << std::endl;
+    out << "set encoding utf8" << std::endl;
     return out;
 }
 
@@ -281,6 +288,7 @@ inline auto outputcmd(std::ostream& out, std::string filename) -> std::ostream&
     out << "# OUTPUT" << std::endl;
     out << "#==============================================================================" << std::endl;
     out << "set output '" << filename << "'" << std::endl;
+    out << "set encoding utf8" << std::endl;
     return out;
 }
 
@@ -295,11 +303,13 @@ inline auto multiplotcmd(std::ostream& out, std::size_t rows, std::size_t column
     {
         out << " layout " << rows << "," << columns;
     }
-    out << " " << "rowsfirst";
-    out << " " << "downwards";
-    if(!title.empty())
+    out << " "
+        << "rowsfirst";
+    out << " "
+        << "downwards";
+    if (!title.empty())
     {
-        out << " title \"" << title << "\"";
+        out << " title '" << title << "'";
     }
     out << std::endl;
     return out;
