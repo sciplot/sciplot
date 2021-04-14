@@ -29,10 +29,11 @@
 #include <vector>
 
 // sciplot includes
-#include <sciplot/specs/TicsSpecsBaseOf.hpp>
 #include <sciplot/Utils.hpp>
+#include <sciplot/specs/TicsSpecsBaseOf.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to specify options for major tics of a specific axis.
 class TicsSpecsMajor : public TicsSpecsBaseOf<TicsSpecsMajor>
@@ -68,9 +69,6 @@ class TicsSpecsMajor : public TicsSpecsBaseOf<TicsSpecsMajor>
     /// Add more tics to be displayed with given tic values and corresponding labels.
     auto add(const std::vector<double>& values, const std::vector<std::string>& labels) -> TicsSpecsMajor&;
 
-    /// Set log scale for the tics.
-    auto logscale(bool value=true) -> TicsSpecsMajor&;
-
     /// Convert this TicsSpecsMajor object into a gnuplot formatted string.
     auto repr() const -> std::string;
 
@@ -92,16 +90,14 @@ class TicsSpecsMajor : public TicsSpecsBaseOf<TicsSpecsMajor>
 
     /// The extra values/labels of the tics to be displayed.
     std::string m_add;
-
-    /// The log scale option for the tics.
-    std::string m_logscale;
 };
 
 inline TicsSpecsMajor::TicsSpecsMajor(std::string axis)
-: TicsSpecsBaseOf<TicsSpecsMajor>(), m_axis(axis)
+    : TicsSpecsBaseOf<TicsSpecsMajor>(), m_axis(axis)
 {
-    if(axis.empty())
-        throw std::runtime_error("You have provided an empty string "
+    if (axis.empty())
+        throw std::runtime_error(
+            "You have provided an empty string "
             "in `axis` argument of constructor TicsSpecsMajor(axis).");
 }
 
@@ -138,8 +134,8 @@ inline auto TicsSpecsMajor::end(double value) -> TicsSpecsMajor&
 
 inline auto TicsSpecsMajor::interval(double start, double increment, double end) -> TicsSpecsMajor&
 {
-    if(increment <= 0.0) throw std::runtime_error("The `increment` argument in method TicsSpecsMajor::interval must be positive.");
-    if(end <= start) throw std::runtime_error("The `end` argument in method TicsSpecsMajor::interval must be greater than `start`.");
+    if (increment <= 0.0) throw std::runtime_error("The `increment` argument in method TicsSpecsMajor::interval must be positive.");
+    if (end <= start) throw std::runtime_error("The `end` argument in method TicsSpecsMajor::interval must be greater than `start`.");
     std::stringstream ss;
     ss << start << ", " << increment << ", " << end;
     m_at = ss.str();
@@ -150,7 +146,7 @@ inline auto TicsSpecsMajor::at(const std::vector<double>& values) -> TicsSpecsMa
 {
     std::stringstream ss;
     ss << "(";
-    for(auto i = 0; i < values.size(); ++i)
+    for (auto i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << values[i];
     ss << ")";
     m_at = ss.str();
@@ -161,7 +157,7 @@ inline auto TicsSpecsMajor::at(const std::vector<double>& values, const std::vec
 {
     std::stringstream ss;
     ss << "(";
-    for(auto i = 0; i < values.size(); ++i)
+    for (auto i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << "'" << labels[i] << "' " << values[i];
     ss << ")";
     m_at = ss.str();
@@ -172,7 +168,7 @@ inline auto TicsSpecsMajor::add(const std::vector<double>& values) -> TicsSpecsM
 {
     std::stringstream ss;
     ss << "add (";
-    for(auto i = 0; i < values.size(); ++i)
+    for (auto i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << values[i];
     ss << ")";
     m_add = ss.str();
@@ -183,16 +179,10 @@ inline auto TicsSpecsMajor::add(const std::vector<double>& values, const std::ve
 {
     std::stringstream ss;
     ss << "add (";
-    for(auto i = 0; i < values.size(); ++i)
+    for (auto i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << "'" << labels[i] << "' " << values[i];
     ss << ")";
     m_add = ss.str();
-    return *this;
-}
-
-inline auto TicsSpecsMajor::logscale(bool value) -> TicsSpecsMajor&
-{
-    m_logscale = value ? "logscale" : "";
     return *this;
 }
 
@@ -200,21 +190,20 @@ inline auto TicsSpecsMajor::repr() const -> std::string
 {
     const auto baserepr = TicsSpecsBaseOf<TicsSpecsMajor>::repr(m_axis);
 
-    if(isHidden())
+    if (isHidden())
         return baserepr;
 
-    if(m_start.size() && m_increment.empty())
+    if (m_start.size() && m_increment.empty())
         throw std::runtime_error("You have called method TicsSpecsMajor::start but not TicsSpecsMajor::increment.");
-    if(m_end.size() && m_increment.empty())
+    if (m_end.size() && m_increment.empty())
         throw std::runtime_error("You have called method TicsSpecsMajor::end but not TicsSpecsMajor::increment.");
-    if(m_end.size() && m_start.empty())
+    if (m_end.size() && m_start.empty())
         throw std::runtime_error("You have called method TicsSpecsMajor::end but not TicsSpecsMajor::start.");
 
     std::stringstream ss;
     ss << baserepr << " ";
     ss << m_at << " ";
     ss << m_add << " ";
-    ss << m_logscale << " ";
     return internal::removeExtraWhitespaces(ss.str());
 }
 

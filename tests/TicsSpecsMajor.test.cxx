@@ -41,98 +41,101 @@ TEST_CASE("TicsSpecsMajor", "[specs]")
     default_xtics.scaleMinorBy(internal::DEFAULT_TICS_SCALE_MINOR_BY);
 
     auto xtics = TicsSpecsMajor("x");
-    CHECK( xtics.repr() == default_xtics.repr() );
+    CHECK(xtics.repr() == default_xtics.repr());
 
     xtics.alongAxis();
-    CHECK( xtics.repr() == "set xtics axis nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics axis nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
 
     xtics.alongBorder();
-    CHECK( xtics.repr() == "set xtics border nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
 
     xtics.mirror();
-    CHECK( xtics.repr() == "set xtics border mirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
 
     xtics.insideGraph();
-    CHECK( xtics.repr() == "set xtics border mirror in scale 0.5,0.25 norotate enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror in scale 0.5,0.25 norotate enhanced textcolor '#404040'");
 
     xtics.outsideGraph();
-    CHECK( xtics.repr() == "set xtics border mirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'");
 
     xtics.rotate();
-    CHECK( xtics.repr() == "set xtics border mirror out scale 0.5,0.25 rotate enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 0.5,0.25 rotate enhanced textcolor '#404040'");
 
     xtics.rotateBy(42);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 0.5,0.25 rotate by 42 enhanced textcolor '#404040'");
 
     xtics.scaleBy(1.2);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 1.2,0.25 rotate by 42 enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 1.2,0.25 rotate by 42 enhanced textcolor '#404040'");
 
     xtics.scaleMajorBy(5.6);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,0.25 rotate by 42 enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,0.25 rotate by 42 enhanced textcolor '#404040'");
 
     xtics.scaleMinorBy(7.9);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040'");
 
     xtics.format("%4.2f");
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f'");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f'");
 
     xtics.increment(1.2345);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 1.2345");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 1.2345");
 
     xtics.start(0.345);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 0.345, 1.2345");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 0.345, 1.2345");
 
     xtics.end(5.652);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 0.345, 1.2345, 5.652");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 0.345, 1.2345, 5.652");
 
     xtics.interval(0.234, 0.899, 3.45);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 0.234, 0.899, 3.45");
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' 0.234, 0.899, 3.45");
 
-    xtics.at({ 0.1, 0.2, 0.3, 0.4 });
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' (0.1, 0.2, 0.3, 0.4)");
+    xtics.at({0.1, 0.2, 0.3, 0.4});
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' (0.1, 0.2, 0.3, 0.4)");
 
-    xtics.at({ 0.1, 0.2, 0.3, 0.4 }, { "A", "", "C", "F" });
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4)");
+    xtics.at({0.1, 0.2, 0.3, 0.4}, {"A", "", "C", "F"});
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4)");
 
-    xtics.add({ 1.1, 1.2, 1.3, 1.4 });
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add (1.1, 1.2, 1.3, 1.4)");
+    xtics.add({1.1, 1.2, 1.3, 1.4});
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add (1.1, 1.2, 1.3, 1.4)");
 
-    xtics.add({ 2.1, 2.2, 2.3, 2.4 }, { "Z", "U", "V", "X" });
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
+    xtics.add({2.1, 2.2, 2.3, 2.4}, {"Z", "U", "V", "X"});
+    CHECK(xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
 
     xtics.logscale();
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4) logscale");
+    CHECK(xtics.repr() == "set logscale x 10\nset xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
+
+    xtics.logscale(2);
+    CHECK(xtics.repr() == "set logscale x 2\nset xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' ('A' 0.1, '' 0.2, 'C' 0.3, 'F' 0.4) add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
 
     xtics.automatic();
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4) logscale");
+    CHECK(xtics.repr() == "set logscale x 2\nset xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' '%4.2f' add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
 
     xtics.fontName("Arial");
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Arial,' '%4.2f' add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4) logscale");
+    CHECK(xtics.repr() == "set logscale x 2\nset xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Arial,' '%4.2f' add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
 
     xtics.fontSize(16);
-    CHECK( xtics.repr() == "set xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Arial,16' '%4.2f' add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4) logscale");
+    CHECK(xtics.repr() == "set logscale x 2\nset xtics border mirror out scale 5.6,7.9 rotate by 42 enhanced textcolor '#404040' font 'Arial,16' '%4.2f' add ('Z' 2.1, 'U' 2.2, 'V' 2.3, 'X' 2.4)");
 
     xtics.automatic();
     xtics.start(1.0);
-    CHECK_THROWS( xtics.repr() ); // method start has been called, but not method increment
+    CHECK_THROWS(xtics.repr()); // method start has been called, but not method increment
 
     xtics.automatic();
     xtics.end(2.0);
-    CHECK_THROWS( xtics.repr() ); // method end has been called, but not methods start and increment
+    CHECK_THROWS(xtics.repr()); // method end has been called, but not methods start and increment
 
     xtics.automatic();
     xtics.start(1.0);
     xtics.end(2.0);
-    CHECK_THROWS( xtics.repr() ); // method end has been called, but not method increment
+    CHECK_THROWS(xtics.repr()); // method end has been called, but not method increment
 
     xtics.automatic();
     xtics.start(1.0);
     xtics.end(2.0);
     xtics.increment(0.1);
-    CHECK_NOTHROW( xtics.repr() ); // methods start, increment and end have been called - OK!
+    CHECK_NOTHROW(xtics.repr()); // methods start, increment and end have been called - OK!
 
-    CHECK_THROWS( TicsSpecsMajor("") ); // constructor TicsSpecsMajor has been called with empty string
+    CHECK_THROWS(TicsSpecsMajor("")); // constructor TicsSpecsMajor has been called with empty string
 
     xtics.hide();
-    CHECK( xtics.repr() == "unset xtics" );
+    CHECK(xtics.repr() == "unset xtics");
 }
