@@ -27,10 +27,11 @@
 
 // sciplot includes
 #include <sciplot/Default.hpp>
-#include <sciplot/specs/TicsSpecsBaseOf.hpp>
 #include <sciplot/Utils.hpp>
+#include <sciplot/specs/TicsSpecsBaseOf.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to specify options for tics.
 class TicsSpecs : public TicsSpecsBaseOf<TicsSpecs>
@@ -54,7 +55,7 @@ class TicsSpecs : public TicsSpecsBaseOf<TicsSpecs>
 };
 
 inline TicsSpecs::TicsSpecs()
-: TicsSpecsBaseOf<TicsSpecs>()
+    : TicsSpecsBaseOf<TicsSpecs>()
 {
     stackFront();
 }
@@ -75,7 +76,7 @@ inline auto TicsSpecs::repr() const -> std::string
 {
     const auto baserepr = TicsSpecsBaseOf<TicsSpecs>::repr();
 
-    if(isHidden())
+    if (isHidden())
         return baserepr;
 
     std::stringstream ss;

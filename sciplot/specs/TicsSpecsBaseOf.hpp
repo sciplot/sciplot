@@ -27,12 +27,13 @@
 
 // sciplot includes
 #include <sciplot/Default.hpp>
+#include <sciplot/Utils.hpp>
 #include <sciplot/specs/OffsetSpecsOf.hpp>
 #include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/specs/TextSpecsOf.hpp>
-#include <sciplot/Utils.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to attach common tic options to a type that also specifies tic options.
 template <typename DerivedSpecs>
@@ -49,7 +50,7 @@ class TicsSpecsBaseOf : public TextSpecsOf<DerivedSpecs>, public OffsetSpecsOf<D
     auto alongBorder() -> DerivedSpecs&;
 
     /// Set the tics to be mirrored on the opposite border if `true`.
-    auto mirror(bool value=true) -> DerivedSpecs&;
+    auto mirror(bool value = true) -> DerivedSpecs&;
 
     /// Set the tics to be displayed inside the graph.
     auto insideGraph() -> DerivedSpecs&;
@@ -58,7 +59,7 @@ class TicsSpecsBaseOf : public TextSpecsOf<DerivedSpecs>, public OffsetSpecsOf<D
     auto outsideGraph() -> DerivedSpecs&;
 
     /// Set the tics to be rotated by 90 degrees if `true`.
-    auto rotate(bool value=true) -> DerivedSpecs&;
+    auto rotate(bool value = true) -> DerivedSpecs&;
 
     /// Set the tics to be rotated by given degrees.
     auto rotateBy(double degrees) -> DerivedSpecs&;
@@ -74,6 +75,9 @@ class TicsSpecsBaseOf : public TextSpecsOf<DerivedSpecs>, public OffsetSpecsOf<D
 
     /// Set the format of the tics using a format expression (`"%.2f"`)
     auto format(std::string fmt) -> DerivedSpecs&;
+
+    /// Set logarithmic scale with base for an axis.
+    auto logscale(int base = 10) -> DerivedSpecs&;
 
     /// Convert this TicsSpecsBaseOf object into a gnuplot formatted string.
     auto repr() const -> std::string;
@@ -102,6 +106,9 @@ class TicsSpecsBaseOf : public TextSpecsOf<DerivedSpecs>, public OffsetSpecsOf<D
 
     /// The scale of the minor tics.
     double m_scaleminor = 1.0;
+
+    /// Logarithmic scaling base settings for the axis.
+    std::string m_logscaleBase;
 };
 
 template <typename DerivedSpecs>
@@ -192,6 +199,13 @@ auto TicsSpecsBaseOf<DerivedSpecs>::format(std::string fmt) -> DerivedSpecs&
 }
 
 template <typename DerivedSpecs>
+auto TicsSpecsBaseOf<DerivedSpecs>::logscale(int base) -> DerivedSpecs&
+{
+    m_logscaleBase = std::to_string(base);
+    return static_cast<DerivedSpecs&>(*this);
+}
+
+template <typename DerivedSpecs>
 auto TicsSpecsBaseOf<DerivedSpecs>::repr() const -> std::string
 {
     return repr("");
@@ -201,11 +215,16 @@ template <typename DerivedSpecs>
 auto TicsSpecsBaseOf<DerivedSpecs>::repr(std::string axis) const -> std::string
 {
     const auto show = ShowSpecsOf<DerivedSpecs>::repr();
-    if(show == "no")
+    if (show == "no")
         return "unset " + axis + "tics";
 
     std::stringstream ss;
-    ss << "set " + axis + "tics" << " ";
+    if (!m_logscaleBase.empty())
+    {
+        ss << "set logscale " + axis + " " + m_logscaleBase + "\n";
+    }
+    ss << "set " + axis + "tics"
+       << " ";
     ss << m_along << " ";
     ss << m_mirror << " ";
     ss << m_inout << " ";

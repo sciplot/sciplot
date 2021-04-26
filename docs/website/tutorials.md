@@ -26,6 +26,12 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ![](img/tutorials/example-filled-curves.svg){: loading=lazy }
 
+## Using logarithmic axes
+
+{{ inputcpp('examples/example-logarithmic-axes.cpp', startline=26) }}
+
+![](img/tutorials/example-logarithmic-axes.svg){: loading=lazy }
+
 ## Plotting multiple plots
 
 {{ inputcpp('examples/example-multiplot.cpp', startline=26) }}
