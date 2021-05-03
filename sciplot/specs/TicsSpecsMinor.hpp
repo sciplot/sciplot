@@ -30,10 +30,11 @@
 
 // sciplot includes
 #include <sciplot/Default.hpp>
-#include <sciplot/specs/ShowSpecsOf.hpp>
 #include <sciplot/Utils.hpp>
+#include <sciplot/specs/ShowSpecsOf.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to specify options for minor tics of a specific axis.
 class TicsSpecsMinor : public ShowSpecsOf<TicsSpecsMinor>
@@ -60,10 +61,11 @@ class TicsSpecsMinor : public ShowSpecsOf<TicsSpecsMinor>
 };
 
 inline TicsSpecsMinor::TicsSpecsMinor(std::string axis)
-: m_axis(axis)
+    : m_axis(axis)
 {
-    if(axis.empty())
-        throw std::runtime_error("You have provided an empty string "
+    if (axis.empty())
+        throw std::runtime_error(
+            "You have provided an empty string "
             "in `axis` argument of constructor TicsSpecsMinor(axis).");
 }
 
@@ -75,18 +77,19 @@ inline auto TicsSpecsMinor::automatic() -> TicsSpecsMinor&
 
 inline auto TicsSpecsMinor::number(int value) -> TicsSpecsMinor&
 {
-    value = std::max(value, 0);
+    value = std::max<decltype(value)>(value, 0);
     m_frequency = internal::str(value + 1);
     return *this;
 }
 
 inline auto TicsSpecsMinor::repr() const -> std::string
 {
-    if(isHidden())
+    if (isHidden())
         return "unset m" + m_axis + "tics";
 
     std::stringstream ss;
-    ss << "set m" << m_axis << "tics" << " ";
+    ss << "set m" << m_axis << "tics"
+       << " ";
     ss << m_frequency;
     return internal::removeExtraWhitespaces(ss.str());
 }

@@ -26,14 +26,15 @@
 #pragma once
 
 // C++ includes
-#include <vector>
 #include <variant>
+#include <vector>
 
 // sciplot includes
 #include <sciplot/Plot.hpp>
 #include <sciplot/Plot3D.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The auxiliary type to represent either a 2D or 3D plot.
 using PlotXD = std::variant<Plot, Plot3D>;
@@ -128,27 +129,24 @@ class Figure
 inline std::size_t Figure::m_counter = 0;
 
 inline Figure::Figure(const std::initializer_list<std::initializer_list<PlotXD>>& plots)
-: m_id(m_counter++),
-  m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
+    : m_id(m_counter++), m_scriptfilename("multishow" + internal::str(m_id) + ".plt")
 {
     m_layoutrows = plots.size();
     m_layoutcols = 1;
-    for(const auto& row : plots)
-        m_layoutcols = std::max(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
+    for (const auto& row : plots)
+        m_layoutcols = std::max<decltype(m_layoutcols)>(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
 
-    for(const auto& row : plots)
+    for (const auto& row : plots)
         m_plots.emplace_back(row.begin(), row.end());
 }
 
 inline Figure::Figure(const std::vector<std::vector<PlotXD>>& plots)
-: m_id(m_counter++),
-  m_scriptfilename("multishow" + internal::str(m_id) + ".plt"),
-  m_plots(plots)
+    : m_id(m_counter++), m_scriptfilename("multishow" + internal::str(m_id) + ".plt"), m_plots(plots)
 {
     m_layoutrows = plots.size();
     m_layoutcols = 1;
-    for(const auto& row : plots)
-        m_layoutcols = std::max(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
+    for (const auto& row : plots)
+        m_layoutcols = std::max<decltype(m_layoutcols)>(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
 }
 
 inline auto Figure::autoclean(bool enable) -> void
@@ -187,11 +185,16 @@ inline auto Figure::title(const std::string& title) -> Figure&
 
 inline auto Figure::saveplotdata() const -> void
 {
-    for(const auto& row : m_plots) {
-        for(const auto& plot : row) {
-            if(auto *plot_p = std::get_if<Plot>(&plot)) {
+    for (const auto& row : m_plots)
+    {
+        for (const auto& plot : row)
+        {
+            if (auto* plot_p = std::get_if<Plot>(&plot))
+            {
                 plot_p->savePlotData();
-            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            }
+            else if (auto* plot_p = std::get_if<Plot3D>(&plot))
+            {
                 plot_p->savePlotData();
             }
         }
@@ -216,16 +219,20 @@ inline auto Figure::show() const -> void
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
 
     // Add the plot commands
-    for(const auto& row : m_plots) {
-        for(const auto& plot : row) {
-            if(auto *plot_p = std::get_if<Plot>(&plot)) {
+    for (const auto& row : m_plots)
+    {
+        for (const auto& plot : row)
+        {
+            if (auto* plot_p = std::get_if<Plot>(&plot))
+            {
                 script << plot_p->repr();
-            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            }
+            else if (auto* plot_p = std::get_if<Plot3D>(&plot))
+            {
                 script << plot_p->repr();
             }
         }
     }
-
 
     // Add an empty line at the end and close the script to avoid crashes with gnuplot
     script << std::endl;
@@ -238,7 +245,7 @@ inline auto Figure::show() const -> void
     gnuplot::runscript(m_scriptfilename, true);
 
     // remove the temporary files if user wants to
-    if(m_autoclean)
+    if (m_autoclean)
     {
         cleanup();
     }
@@ -271,11 +278,16 @@ inline auto Figure::save(const std::string& filename) const -> void
     gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
 
     // Add the plot commands
-    for(const auto& row : m_plots) {
-        for(const auto& plot : row) {
-            if(auto *plot_p = std::get_if<Plot>(&plot)) {
+    for (const auto& row : m_plots)
+    {
+        for (const auto& plot : row)
+        {
+            if (auto* plot_p = std::get_if<Plot>(&plot))
+            {
                 script << plot_p->repr();
-            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            }
+            else if (auto* plot_p = std::get_if<Plot3D>(&plot))
+            {
                 script << plot_p->repr();
             }
         }
@@ -299,7 +311,7 @@ inline auto Figure::save(const std::string& filename) const -> void
     gnuplot::runscript(m_scriptfilename, false);
 
     // remove the temporary files if user wants to
-    if(m_autoclean)
+    if (m_autoclean)
     {
         cleanup();
     }
@@ -308,11 +320,16 @@ inline auto Figure::save(const std::string& filename) const -> void
 inline auto Figure::cleanup() const -> void
 {
     std::remove(m_scriptfilename.c_str());
-    for(const auto& row : m_plots) {
-        for(const auto& plot : row) {
-            if(auto *plot_p = std::get_if<Plot>(&plot)) {
+    for (const auto& row : m_plots)
+    {
+        for (const auto& plot : row)
+        {
+            if (auto* plot_p = std::get_if<Plot>(&plot))
+            {
                 plot_p->cleanup();
-            } else if(auto *plot_p = std::get_if<Plot3D>(&plot)) {
+            }
+            else if (auto* plot_p = std::get_if<Plot3D>(&plot))
+            {
                 plot_p->cleanup();
             }
         }
