@@ -25,6 +25,12 @@
 
 #pragma once
 
+#if defined(PLATFORM_WINDOWS)
+    #define POPEN _popen
+#else
+    #define POPEN popen
+#endif
+
 // C++ includes
 #include <sstream>
 #include <vector>

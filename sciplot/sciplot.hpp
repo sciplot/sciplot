@@ -25,6 +25,12 @@
 
 #pragma once
 
+#if defined(WIN32) || defined(__WIN32__) || defined(_WIN32) || defined(_MSC_VER) || defined(__MINGW32__)
+#define PLATFORM_WINDOWS
+#endif
+
+
+
 // sciplot includes
 #include <sciplot/Constants.hpp>
 #include <sciplot/Default.hpp>
@@ -37,3 +43,5 @@
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/Vec.hpp>
+
+
