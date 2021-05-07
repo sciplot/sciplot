@@ -242,7 +242,7 @@ inline auto PlotBase::show(bool update) -> void
 
     // Initialize the gnuplot_handle
     if(gnuplot_handle==NULL && update){
-        gnuplot_handle = popen("gnuplot -p", "w");
+        gnuplot_handle = POPEN("gnuplot -p", "w");
     }
 
     
