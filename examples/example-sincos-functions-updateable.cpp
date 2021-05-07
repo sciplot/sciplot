@@ -31,10 +31,6 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-// sciplot includes
-#include <sciplot/sciplot.hpp>
-using namespace sciplot;
-
 int main(int argc, char** argv)
 {
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
