@@ -111,7 +111,7 @@ class PlotBase
 
     /// Show the plot in a pop-up window.
     /// @note This method removes temporary files after saving if `PlotBase::autoclean(true)` (default).
-    auto show() const -> void;
+    auto show(bool update=false) -> void;
 
     /// Save the plot in a file, with its extension defining the file format.
     /// The extension of the file name determines the file format.
@@ -156,6 +156,8 @@ class PlotBase
     LegendSpecs m_legend;                  ///< The legend specs of the plot
     std::vector<DrawSpecs> m_drawspecs;    ///< The plot specs for each call to gnuplot plot function
     std::vector<std::string> m_customcmds; ///< The strings containing gnuplot custom commands
+    FILE* gnuplot_handle=NULL;             ///< The gnuplot handle that is used when updating the figure instead of creating a new one
+    bool PlotShown=false;                  ///< The flag will prevent us from using gnuplot commands that create new windows
 };
 
 // Initialize the counter of plot objects
@@ -228,8 +230,16 @@ inline auto PlotBase::gnuplot(const std::string &command) -> void
     m_customcmds.push_back(command);
 }
 
-inline auto PlotBase::show() const -> void
+inline auto PlotBase::show(bool update) -> void
 {
+    std::ostringstream commands;
+
+    // Initialize the gnuplot_handle
+    if(gnuplot_handle==NULL && update){
+        gnuplot_handle = popen("gnuplot -p", "w");
+    }
+
+    
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
 
@@ -242,8 +252,15 @@ inline auto PlotBase::show() const -> void
     std::string size = gnuplot::sizestr(width, height, false);
     gnuplot::showterminalcmd(script, size, m_font);
 
+    if(!PlotShown){
+        gnuplot::palettecmd(commands, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+        gnuplot::showterminalcmd(commands, size, m_font);
+    }
+ 
     // Add the plot commands
-    script << repr();
+    std::string repr_commands=repr();
+    script << repr_commands;
+    commands << repr_commands;
 
     // Add an empty line at the end and close the script to avoid crashes with gnuplot
     script << std::endl;
@@ -252,13 +269,22 @@ inline auto PlotBase::show() const -> void
     // save plot data to a file
     savePlotData();
 
-    // Show the plot
-    gnuplot::runscript(m_scriptfilename, true);
+    if (!update){
+        // Show the plot
+        gnuplot::runscript(m_scriptfilename, true);
+    }else{
+        // Update the plot
+        fputs(commands.str().c_str(), gnuplot_handle);
+    }
 
     // remove the temporary files if user wants to
     if(m_autoclean)
     {
         cleanup();
+    }    
+
+    if (update){
+        PlotShown = true;
     }
 }
 
