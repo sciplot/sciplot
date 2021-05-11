@@ -16,6 +16,30 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 See issue [#70](https://github.com/sciplot/sciplot/issues/70).
 
+## I still have problems when compiling for Windows
+
+Add some defines before you include `windows.h`:
+
+```c++
+#include <sciplot/sciplot.hpp>
+
+#ifndef WIN32_LEAN_AND_MEAN
+    #define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef VC_EXTRALEAN
+    #define VC_EXTRALEAN
+#endif
+#ifndef NOMINMAX
+    #define NOMINMAX
+#endif
+#include <windows.h>
+
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int CmdShow)
+{
+    //...
+}
+```
+
 ## I have problems setting a grid for my plot
 
 This might be a [bug](https://sourceforge.net/p/gnuplot/bugs/2414/) in some versions of gnuplot. See issue [#73](https://github.com/sciplot/sciplot/issues/73).
