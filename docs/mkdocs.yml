@@ -27,6 +27,7 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Tutorials: tutorials.md
+  - Known issues: known_issues.md
   - API: api.md
   - FAQ: faq.md
   - About: about.md
