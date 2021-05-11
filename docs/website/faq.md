@@ -7,6 +7,10 @@ plotting code, using a modern and elegant C++ API provided by {{sciplot}}, is
 converted to a gnuplot script, which is then executed to generate the desired
 figure. Note that gnuplot 4.2+ is needed for multiplots.
 
+## Something is not working for me. Is it a known issue?
+
+Some known issues are documented [here](known_issues.md). Also make sure you check already [closed issues](https://github.com/sciplot/sciplot/issues?q=is%3Aissue+is%3Aclosed) too.
+
 ## How do I report issues?
 
 If you found an issue with {{sciplot}}, please create a new

@@ -12,7 +12,7 @@ Installing {{sciplot}} is easy, since it is a *header-only library*. Follow the 
 
 Download {{sciplot}} by git cloning its [GitHub repository][github]:
 
-~~~
+~~~shell
 git clone https://github.com/sciplot/sciplot --recursive
 ~~~
 
@@ -30,7 +30,7 @@ bothers you, read the next section!
 If you have `cmake` installed in your system, you can then install {{sciplot}}
 (and also build its tests and examples) as follows:
 
-~~~
+~~~shell
 mkdir build && cd build
 cmake ..
 cmake --build . --target install
@@ -44,17 +44,15 @@ cmake --build . --target install
 The previous installation commands will require administrative rights in most
 systems. To install {{sciplot}} locally, use:
 
-~~~
+~~~shell
 cmake .. -DCMAKE_INSTALL_PREFIX=/some/local/dir
 ~~~
-
 
 [github]: https://github.com/sciplot/sciplot
 [zip]: https://github.com/sciplot/sciplot/archive/master.zip
 
 ## Installation failed. What do I do?
 
-Create a [new issue][issues], and let us know what happened and possibly how we
-can improve the installation process of {{sciplot}}.
+Check the [known issues](known_issues.md) and if your problem persists, create a [new issue][issues], and let us know what happened and possibly how we can improve the installation process of {{sciplot}}.
 
 [issues]: https://github.com/sciplot/sciplot/issues/new
