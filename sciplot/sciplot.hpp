@@ -25,6 +25,11 @@
 
 #pragma once
 
+// We check if windows.h. is already included, as this might break compilation. See: https://github.com/sciplot/sciplot/issues/70
+#ifdef _WINDOWS_
+#warning You might run into compiler errors if windows.h is included before sciplot.hpp! See: https://sciplot.github.io/known_issues/
+#endif
+
 // sciplot includes
 #include <sciplot/Constants.hpp>
 #include <sciplot/Default.hpp>
