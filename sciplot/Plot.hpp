@@ -901,8 +901,13 @@ inline auto Plot::repr() const -> std::string
     script << "#==============================================================================" << std::endl;
     script << "# PLOT COMMANDS" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << "plot \\\n"; // use `\` to have a plot command in each individual line!
 
+    if (PlotShown){
+        script << "replot \\\n"; // use `\` to have a plot command in each individual line!
+    }else{
+        script << "plot \\\n"; // use `\` to have a plot command in each individual line!
+    }
+    
     // Write plot commands and style per plot
     const auto n = m_drawspecs.size();
     for (std::size_t i = 0; i < n; ++i)

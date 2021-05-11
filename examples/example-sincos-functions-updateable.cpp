@@ -23,25 +23,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#if defined(WIN32) || defined(__WIN32__) || defined(_WIN32) || defined(_MSC_VER) || defined(__MINGW32__)
-#define PLATFORM_WINDOWS
-#endif
-
-
+// time and thread includes for the delay
+#include <thread>
+#include <chrono>
 
 // sciplot includes
-#include <sciplot/Constants.hpp>
-#include <sciplot/Default.hpp>
-#include <sciplot/Enums.hpp>
-#include <sciplot/Figure.hpp>
-#include <sciplot/Palettes.hpp>
-#include <sciplot/Plot.hpp>
-#include <sciplot/Plot3D.hpp>
-#include <sciplot/PlotBase.hpp>
-#include <sciplot/StringOrDouble.hpp>
-#include <sciplot/Utils.hpp>
-#include <sciplot/Vec.hpp>
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
 
+int main(int argc, char** argv)
+{
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+    Vec x = linspace(0.0, 5.0, 50);
 
+    // Create a Plot object
+    Plot plot;
+
+    // Set autoscaling and hide the legend as we're plotting single points (will clutter the plot window)
+    plot.xrange("*", "*");
+    plot.yrange("*", "*");
+    plot.legend().hide();
+ 
+    // This disables the deletion of the created gnuplot script and data file.
+    plot.autoclean(false);
+
+    // Change its palette
+    plot.palette("dark2");
+
+    // Plot two functions
+    for (auto i: x){
+        plot.drawPoints(Vec({i}), Vec({std::sin(i)})).pointType(0);
+        plot.drawPoints(Vec({i}), Vec({std::cos(i)})).pointType(1);
+        
+        // show plot window and update its contents 
+        plot.show(true);
+
+        // the delay is only to showcase the dynamic updates
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    }
+
+}
