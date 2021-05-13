@@ -117,7 +117,7 @@ auto minsize(const VectorType& v) -> std::size_t
 template <typename VectorType, typename... Args>
 auto minsize(const VectorType& v, const Args&... args) -> std::size_t
 {
-    return std::min(v.size(), minsize(args...));
+    return std::min<decltype(v.size())>(v.size(), minsize(args...));
 }
 
 /// Check if type @p T is `std::string`.

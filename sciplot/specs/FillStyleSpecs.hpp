@@ -27,10 +27,11 @@
 
 // sciplot includes
 #include <sciplot/Default.hpp>
-#include <sciplot/specs/Specs.hpp>
 #include <sciplot/Utils.hpp>
+#include <sciplot/specs/Specs.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 
 /// The class used to attach color or pattern fill options to a type.
 class FillStyleSpecs : virtual public Specs<FillStyleSpecs>
@@ -52,7 +53,7 @@ class FillStyleSpecs : virtual public Specs<FillStyleSpecs>
     auto intensity(double value) -> FillStyleSpecs&;
 
     /// Set the fill of the underlying object to be transparent or not.
-    auto transparent(bool active=true) -> FillStyleSpecs&;
+    auto transparent(bool active = true) -> FillStyleSpecs&;
 
     /// Set the border line color of the underlying object.
     auto borderLineColor(std::string color) -> FillStyleSpecs&;
@@ -61,7 +62,7 @@ class FillStyleSpecs : virtual public Specs<FillStyleSpecs>
     auto borderLineWidth(int value) -> FillStyleSpecs&;
 
     /// Set the border of the underlying object to be shown or not.
-    auto borderShow(bool value=true) -> FillStyleSpecs&;
+    auto borderShow(bool value = true) -> FillStyleSpecs&;
 
     /// Set the border of the underlying object to be hidden.
     auto borderHide() -> FillStyleSpecs&;
@@ -117,7 +118,7 @@ inline auto FillStyleSpecs::pattern(int number) -> FillStyleSpecs&
 
 inline auto FillStyleSpecs::intensity(double value) -> FillStyleSpecs&
 {
-    value = std::min(std::max(0.0, value), 1.0); // value in [0, 1]
+    value = std::min<decltype(value)>(std::max<decltype(value)>(0.0, value), 1.0); // value in [0, 1]
     m_density = internal::str(value);
     m_fillmode = "solid";
     return *this;
@@ -126,7 +127,7 @@ inline auto FillStyleSpecs::intensity(double value) -> FillStyleSpecs&
 inline auto FillStyleSpecs::transparent(bool active) -> FillStyleSpecs&
 {
     m_transparent = active ? "transparent" : "";
-    if(m_fillmode.empty())
+    if (m_fillmode.empty())
         m_fillmode = "solid";
     return *this;
 }
@@ -157,26 +158,27 @@ inline auto FillStyleSpecs::borderHide() -> FillStyleSpecs&
 inline auto FillStyleSpecs::repr() const -> std::string
 {
     std::string fillstyle; // ensure it remains empty if no fill style option has been given!
-    if(m_fillmode == "solid")
+    if (m_fillmode == "solid")
         fillstyle = m_transparent + " solid " + m_density;
-    else if(m_fillmode == "pattern")
+    else if (m_fillmode == "pattern")
         fillstyle = m_transparent + " pattern " + m_pattern_number;
-    else if(m_fillmode == "empty")
+    else if (m_fillmode == "empty")
         fillstyle = "empty";
 
     std::string borderstyle; // ensure it remains empty if no border option has been given!
-    if(m_bordershow != "")
+    if (m_bordershow != "")
     {
-        if(m_bordershow == "yes")
+        if (m_bordershow == "yes")
         {
-            borderstyle  = "border ";
+            borderstyle = "border ";
             borderstyle += gnuplot::optionValueStr("linecolor", m_bordercolor);
             borderstyle += gnuplot::optionValueStr("linewidth", m_borderlinewidth);
         }
-        else borderstyle = "noborder";
+        else
+            borderstyle = "noborder";
     }
 
-    if(fillstyle.empty() && borderstyle.empty())
+    if (fillstyle.empty() && borderstyle.empty())
         return "";
 
     std::string ss = "set style fill " + fillstyle + " " + borderstyle;
