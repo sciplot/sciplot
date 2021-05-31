@@ -26,6 +26,7 @@
 #pragma once
 
 // C++ includes
+#include <memory>
 #include <sstream>
 #include <vector>
 
@@ -57,20 +58,11 @@ namespace sciplot
 class Plot : public PlotBase
 {
   public:
+    /// Shared plot object
+    using SPtr = std::shared_ptr<Plot>;
+
     /// Construct a default Plot object
     Plot();
-
-    /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    auto xlabel(const std::string& label) -> AxisLabelSpecs&;
-
-    /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    auto ylabel(const std::string& label) -> AxisLabelSpecs&;
-
-    /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
-
-    /// Set the y-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
     /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
@@ -373,8 +365,6 @@ class Plot : public PlotBase
     auto repr() const -> std::string override;
 
   private:
-    std::string m_xrange; ///< The x-range of the plot as a gnuplot formatted string (e.g., "set xrange [0:1]")
-    std::string m_yrange; ///< The y-range of the plot as a gnuplot formatted string (e.g., "set yrange [0:1]")
     HistogramStyleSpecs m_style_histogram; ///< The specs for the histogram style of the plot.
     TicsSpecs m_tics; ///< The specs of the tics of the plot
     TicsSpecsMajor m_xtics_major_bottom; ///< The specs for the major xtics at the bottom.
@@ -389,15 +379,11 @@ class Plot : public PlotBase
     TicsSpecsMinor m_ztics_minor; ///< The specs for the minor ztics.
     TicsSpecsMajor m_rtics_major; ///< The specs for the major rtics.
     TicsSpecsMinor m_rtics_minor; ///< The specs for the minor rtics.
-    AxisLabelSpecs m_xlabel; ///< The label of the x-axis
-    AxisLabelSpecs m_ylabel; ///< The label of the y-axis
-    AxisLabelSpecs m_zlabel; ///< The label of the z-axis
-    AxisLabelSpecs m_rlabel; ///< The label of the r-axis
     std::string m_boxwidth; ///< The default width of boxes in plots containing boxes without given widths.
 };
 
 inline Plot::Plot()
-    : PlotBase(), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r"), m_xlabel("x"), m_ylabel("y"), m_zlabel("z"), m_rlabel("r")
+    : PlotBase(), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r")
 {
     // Show only major and minor xtics and ytics
     xticsMajorBottom().show();
@@ -424,28 +410,6 @@ inline Plot::Plot()
 
     // This is needed because of how drawHistogram works. Using `with histograms` don't work as well.
     gnuplot("set style data histogram");
-}
-
-inline auto Plot::xlabel(const std::string& label) -> AxisLabelSpecs&
-{
-    m_xlabel.text(label);
-    return m_xlabel;
-}
-
-inline auto Plot::ylabel(const std::string& label) -> AxisLabelSpecs&
-{
-    m_ylabel.text(label);
-    return m_ylabel;
-}
-
-inline auto Plot::xrange(const StringOrDouble& min, const StringOrDouble& max) -> void
-{
-    m_xrange = "[" + min.value + ":" + max.value + "]";
-}
-
-inline auto Plot::yrange(const StringOrDouble& min, const StringOrDouble& max) -> void
-{
-    m_yrange = "[" + min.value + ":" + max.value + "]";
 }
 
 inline auto Plot::boxWidthAbsolute(double val) -> void
@@ -861,7 +825,6 @@ inline auto Plot::repr() const -> std::string
     script << gnuplot::commandValueStr("set yrange", m_yrange);
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
-    script << m_zlabel << std::endl;
     script << m_rlabel << std::endl;
     script << m_border << std::endl;
     script << m_grid << std::endl;
