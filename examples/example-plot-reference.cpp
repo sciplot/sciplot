@@ -39,10 +39,15 @@ int main(int argc, char** argv)
     Plot plot1 = plot0;
     plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // Use the previous plots as sub-figures in a larger 2x2 figure.
+    // Use the previous plots as sub-figures in a larger 2x1 figure.
     Figure fig = {{plot0, plot1}};
 
+    // change plot1 - this will also change plot0
     plot1.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
+
+    // get reference to plot from figure
+    auto plot2 = fig.get<Plot>(0, 0);
+    plot2.drawCurve(x, std::tan(x)).label("tan(x)");
 
     fig.size(600, 600);
     fig.title("Trigonometric Functions");
