@@ -49,6 +49,11 @@ class Figure
     /// Construct a Figure object with given plots.
     Figure(const std::vector<std::vector<PlotVariant>>& plots);
 
+    /// Get reference to plot from figure
+    /// @note This will throw if the plot at (i,j) is not of PlotType!
+    template <typename PlotType>
+    auto get(std::size_t i, std::size_t j) -> PlotType&;
+
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
     auto autoclean(bool enable = true) -> void;
@@ -147,6 +152,12 @@ inline Figure::Figure(const std::vector<std::vector<PlotVariant>>& plots)
     m_layoutcols = 1;
     for (const auto& row : plots)
         m_layoutcols = std::max<decltype(m_layoutcols)>(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
+}
+
+template <typename PlotType>
+auto Figure::get(std::size_t i, std::size_t j) -> PlotType&
+{
+    return std::get<PlotType>(m_plots.at(j).at(i));
 }
 
 inline auto Figure::autoclean(bool enable) -> void

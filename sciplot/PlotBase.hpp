@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2021 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@
 #include <sciplot/Constants.hpp>
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
+#include <sciplot/IPlot.hpp>
 #include <sciplot/Palettes.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
@@ -52,106 +53,106 @@
 namespace sciplot
 {
 
+namespace internal
+{
+
 /// The class used to create a plot containing graphical elements.
-class PlotBase
+class PlotBase : public IPlot
 {
   public:
     /// Construct a default Plot object
     PlotBase();
 
-    /// Virtual destructor to avoid memory leaks
-    virtual ~PlotBase() = default;
-
     /// Set the palette of colors for the plot.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-    auto palette(const std::string& name) -> void;
+    auto palette(const std::string& name) -> void override;
 
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
-    auto size(std::size_t width, std::size_t height) -> void;
+    auto size(std::size_t width, std::size_t height) -> void override;
 
     /// Set the font name for the plot (e.g., Helvetica, Georgia, Times).
-    auto fontName(const std::string& name) -> void;
+    auto fontName(const std::string& name) -> void override;
 
     /// Set the font size for the plot (e.g., 10, 12, 16).
-    auto fontSize(std::size_t size) -> void;
+    auto fontSize(std::size_t size) -> void override;
 
     /// Set the border of the plot and return a reference to the corresponding specs object.
-    auto border() -> BorderSpecs& { return m_border; }
+    auto border() -> BorderSpecs& override { return m_border; }
 
     /// Set the grid of the plot and return a reference to the corresponding specs object.
-    auto grid() -> GridSpecs& { return m_grid; }
+    auto grid() -> GridSpecs& override { return m_grid; }
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    auto xlabel(const std::string& label) -> AxisLabelSpecs&;
+    auto xlabel(const std::string& label) -> AxisLabelSpecs& override;
 
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    auto ylabel(const std::string& label) -> AxisLabelSpecs&;
+    auto ylabel(const std::string& label) -> AxisLabelSpecs& override;
 
     /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void override;
 
     /// Set the y-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void override;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
     /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
-    auto boxWidthAbsolute(double val) -> void;
+    auto boxWidthAbsolute(double val) -> void override;
 
     /// Set the default width of boxes in plots containing boxes (in relative mode).
     /// In relative mode, a unit width is equivalent to setting the boxes side by side.
-    auto boxWidthRelative(double val) -> void;
+    auto boxWidthRelative(double val) -> void override;
 
     //======================================================================
     // METHODS FOR CUSTOMIZATION OF TICS
     //======================================================================
 
     /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics() -> TicsSpecs& { return m_tics; }
+    auto tics() -> TicsSpecs& override { return m_tics; }
 
     /// Return the specifications of the grid lines along major xtics on the bottom axis.
-    auto xtics() -> TicsSpecsMajor& { return xticsMajorBottom(); }
+    auto xtics() -> TicsSpecsMajor& override { return xticsMajorBottom(); }
 
     /// Return the specifications of the grid lines along major ytics on the left axis.
-    auto ytics() -> TicsSpecsMajor& { return yticsMajorLeft(); }
+    auto ytics() -> TicsSpecsMajor& override { return yticsMajorLeft(); }
 
     /// Return the specifications of the grid lines along major ztics.
-    auto ztics() -> TicsSpecsMajor& { return zticsMajor(); }
+    auto ztics() -> TicsSpecsMajor& override { return zticsMajor(); }
 
     /// Return the specifications of the grid lines along major rtics.
-    auto rtics() -> TicsSpecsMajor& { return rticsMajor(); }
+    auto rtics() -> TicsSpecsMajor& override { return rticsMajor(); }
 
     /// Return the specifications of the grid lines along major xtics on the bottom axis.
-    auto xticsMajorBottom() -> TicsSpecsMajor& { return m_xtics_major_bottom; }
+    auto xticsMajorBottom() -> TicsSpecsMajor& override { return m_xtics_major_bottom; }
 
     /// Return the specifications of the grid lines along major xtics on the top axis.
-    auto xticsMajorTop() -> TicsSpecsMajor& { return m_xtics_major_top; }
+    auto xticsMajorTop() -> TicsSpecsMajor& override { return m_xtics_major_top; }
 
     /// Return the specifications of the grid lines along minor xtics on the bottom axis.
-    auto xticsMinorBottom() -> TicsSpecsMinor& { return m_xtics_minor_bottom; }
+    auto xticsMinorBottom() -> TicsSpecsMinor& override { return m_xtics_minor_bottom; }
 
     /// Return the specifications of the grid lines along minor xtics on the top axis.
-    auto xticsMinorTop() -> TicsSpecsMinor& { return m_xtics_minor_top; }
+    auto xticsMinorTop() -> TicsSpecsMinor& override { return m_xtics_minor_top; }
 
     /// Return the specifications of the grid lines along major ytics on the left axis.
-    auto yticsMajorLeft() -> TicsSpecsMajor& { return m_ytics_major_left; }
+    auto yticsMajorLeft() -> TicsSpecsMajor& override { return m_ytics_major_left; }
 
     /// Return the specifications of the grid lines along major ytics on the right axis.
-    auto yticsMajorRight() -> TicsSpecsMajor& { return m_ytics_major_right; }
+    auto yticsMajorRight() -> TicsSpecsMajor& override { return m_ytics_major_right; }
 
     /// Return the specifications of the grid lines along minor ytics on the left axis.
-    auto yticsMinorLeft() -> TicsSpecsMinor& { return m_ytics_minor_left; }
+    auto yticsMinorLeft() -> TicsSpecsMinor& override { return m_ytics_minor_left; }
 
     /// Return the specifications of the grid lines along minor ytics on the right axis.
-    auto yticsMinorRight() -> TicsSpecsMinor& { return m_ytics_minor_right; }
+    auto yticsMinorRight() -> TicsSpecsMinor& override { return m_ytics_minor_right; }
 
     /// Return the specifications of the grid lines along major ztics.
-    auto zticsMajor() -> TicsSpecsMajor& { return m_ztics_major; }
+    auto zticsMajor() -> TicsSpecsMajor& override { return m_ztics_major; }
 
     /// Return the specifications of the grid lines along minor ztics.
-    auto zticsMinor() -> TicsSpecsMinor& { return m_ztics_minor; }
+    auto zticsMinor() -> TicsSpecsMinor& override { return m_ztics_minor; }
 
     /// Return the specifications of the grid lines along minor rtics.
-    auto rticsMajor() -> TicsSpecsMajor& { return m_rtics_major; }
+    auto rticsMajor() -> TicsSpecsMajor& override { return m_rtics_major; }
 
     /// Return the specifications of the grid lines along minor rtics.
     auto rticsMinor() -> TicsSpecsMinor& { return m_rtics_minor; }
@@ -161,58 +162,55 @@ class PlotBase
     //======================================================================
 
     /// Return an object that permits fill style to be customized.
-    auto styleFill() -> FillStyleSpecs& { return m_style_fill; }
+    auto styleFill() -> FillStyleSpecs& override { return m_style_fill; }
 
     /// Return an object that permits histogram style to be customized.
-    auto styleHistogram() -> HistogramStyleSpecs& { return m_style_histogram; }
+    auto styleHistogram() -> HistogramStyleSpecs& override { return m_style_histogram; }
 
     //======================================================================
     // METHODS FOR DRAWING PLOT ELEMENTS
     //======================================================================
 
     /// Draw plot object with given `what`, `using` and `with` expressions (e.g., `plot.draw("sin(x)*cos(x)", "", "linespoints")`,  (e.g., `plot.draw("file.dat", "1:2", "points")`)).
-    auto draw(const std::string& what, const std::string& use, const std::string& with) -> DrawSpecs&;
+    auto draw(const std::string& what, const std::string& use, const std::string& with) -> DrawSpecs& override;
 
     //======================================================================
     // MISCElLANEOUS METHODS
     //======================================================================
 
     /// Set the legend of the plot and return a reference to the corresponding specs object.
-    auto legend() -> LegendSpecs&;
+    auto legend() -> LegendSpecs& override;
 
     /// Set the number of sample points for analytical plots.
-    auto samples(std::size_t value) -> void;
+    auto samples(std::size_t value) -> void override;
 
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
-    auto gnuplot(const std::string& command) -> void;
+    auto gnuplot(const std::string& command) -> void override;
 
     /// Show the plot in a pop-up window.
     /// @note This method removes temporary files after saving if `PlotBase::autoclean(true)` (default).
-    auto show() const -> void;
+    auto show() const -> void override;
 
     /// Save the plot in a file, with its extension defining the file format.
     /// The extension of the file name determines the file format.
     /// The supported formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
     /// Thus, to save a plot in `pdf` format, choose a file as in `plot.pdf`.
     /// @note This method removes temporary files after saving if `PlotBase::autoclean(true)` (default).
-    auto save(const std::string& filename) const -> void;
+    auto save(const std::string& filename) const -> void override;
 
     /// Write the current plot data to the data file.
-    auto savePlotData() const -> void;
+    auto savePlotData() const -> void override;
 
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
-    auto autoclean(bool enable = true) -> void;
+    auto autoclean(bool enable = true) -> void override;
 
     /// Delete all files used to store plot data or scripts.
-    auto cleanup() const -> void;
+    auto cleanup() const -> void override;
 
     /// Clear all draw and gnuplot commands.
     /// @note This method leaves all other plot properties untouched.
-    auto clear() -> void;
-
-    /// Convert this plot object into a gnuplot formatted string.
-    virtual auto repr() const -> std::string = 0;
+    auto clear() -> void override;
 
   protected:
     static std::size_t m_counter; ///< Counter of how many plot / singleplot objects have been instanciated in the application
@@ -482,5 +480,7 @@ inline auto PlotBase::clear() -> void
     m_drawspecs.clear();
     m_customcmds.clear();
 }
+
+} // namespace internal
 
 } // namespace sciplot

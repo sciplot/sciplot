@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2021 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 #pragma once
 
 // C++ includes
+#include <memory>
 #include <sstream>
 #include <vector>
 
@@ -33,8 +34,9 @@
 #include <sciplot/Constants.hpp>
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
+#include <sciplot/IPlotImplForward.hpp>
 #include <sciplot/Palettes.hpp>
-#include <sciplot/PlotBase.hpp>
+#include <sciplot/PlotImpl.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
@@ -54,12 +56,9 @@ namespace sciplot
 {
 
 /// The class used to create a plot containing graphical elements.
-class Plot : public PlotBase
+class Plot : public internal::IPlotImplForward<internal::PlotImpl>
 {
   public:
-    /// Construct a default Plot object
-    Plot();
-
     //======================================================================
     // METHODS FOR DRAWING PLOT ELEMENTS
     //======================================================================
@@ -284,17 +283,12 @@ class Plot : public PlotBase
     auto drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&;
 
     //======================================================================
-    // MISCElLANEOUS METHODS
+    // MISCELLANEOUS METHODS
     //======================================================================
 
     /// Convert this plot object into a gnuplot formatted string.
     auto repr() const -> std::string override;
 };
-
-inline Plot::Plot()
-    : PlotBase()
-{
-}
 
 //======================================================================
 // METHODS FOR DRAWING PLOT ELEMENTS
@@ -303,235 +297,199 @@ inline Plot::Plot()
 template <typename X, typename... Vecs>
 inline auto Plot::drawWithVecs(const std::string& with, const X& x, const Vecs&... vecs) -> DrawSpecs&
 {
-    // Write the given vectors x and y as a new data set to the stream
-    std::ostringstream datastream;
-    gnuplot::writedataset(datastream, m_numdatasets, x, vecs...);
-
-    // Set the using string to "" if X is not vector of strings.
-    // Otherwise, x contain xtics strings. Set the `using` string
-    // so that these are properly used as xtics.
-    std::string use;
-    if constexpr (internal::isStringVector<X>)
-    {
-        const auto nvecs = sizeof...(Vecs);
-        use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
-        for (auto i = 2; i <= nvecs + 1; ++i)
-            use += std::to_string(i) + ":"; // this constructs 0:2:3:4:
-        use += "xtic(1)"; // this terminates the string with 0:2:3:4:xtic(1), and thus column 1 is used for the xtics
-    }
-
-    // Append new data set to existing data
-    m_data += datastream.str();
-
-    // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets and set the line style specification (desired behavior is 1, 2, 3 (incrementing as new lines are plotted)).
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(m_drawspecs.size());
+    return m_impl->drawWithVecs(with, x, vecs...);
 }
 
 template <typename X, typename... Vecs>
 inline auto Plot::drawWithVecsContainingNaN(std::string with, const X& x, const Vecs&... vecs) -> DrawSpecs&
 {
-    // Write the given vectors x and y as a new data set to the stream
-    std::ostringstream datastream;
-    gnuplot::writedataset(datastream, m_numdatasets, x, vecs...);
-
-    std::string use;
-    const auto nvecs = sizeof...(Vecs);
-    use = "0:"; // here, column 0 means the pseudo column with numbers 0, 1, 2, 3...
-    for (auto i = 2; i <= nvecs + 1; ++i)
-        use += "($" + std::to_string(i) + "):"; // this constructs 0:$(2):$(3):$(4):
-    use += "xtic(1)"; // this terminates the string with 0:$(2):$(3):$(4):xtic(1), and thus column 1 is used for the xtics
-
-    // Append new data set to existing data
-    m_data += datastream.str();
-
-    // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets and set the line style specification (desired behavior is 1, 2, 3 (incrementing as new lines are plotted)).
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(m_drawspecs.size());
+    return m_impl->drawWithVecsContainingNaN(with, x, vecs...);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawCurve(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("lines", x, y);
+    return m_impl->drawWithVecs("lines", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("linespoints", x, y);
+    return m_impl->drawWithVecs("linespoints", x, y);
 }
 
 template <typename X, typename Y, typename XD>
 inline auto Plot::drawCurveWithErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
 {
-    return drawWithVecs("xerrorlines", x, y, xdelta);
+    return m_impl->drawWithVecs("xerrorlines", x, y, xdelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH>
 inline auto Plot::drawCurveWithErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
 {
-    return drawWithVecs("xerrorlines", x, y, xlow, xhigh);
+    return m_impl->drawWithVecs("xerrorlines", x, y, xlow, xhigh);
 }
 
 template <typename X, typename Y, typename YD>
 inline auto Plot::drawCurveWithErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
 {
-    return drawWithVecs("yerrorlines", x, y, ydelta);
+    return m_impl->drawWithVecs("yerrorlines", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
 inline auto Plot::drawCurveWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
-    return drawWithVecs("yerrorlines", x, y, ylow, yhigh);
+    return m_impl->drawWithVecs("yerrorlines", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD, typename YD>
 inline auto Plot::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
 {
-    return drawWithVecs("xyerrorlines", x, y, xdelta, ydelta);
+    return m_impl->drawWithVecs("xyerrorlines", x, y, xdelta, ydelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
 inline auto Plot::drawCurveWithErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
-    return drawWithVecs("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
+    return m_impl->drawWithVecs("xyerrorlines", x, y, xlow, xhigh, ylow, yhigh);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawBrokenCurve(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecsContainingNaN("lines", x, y);
+    return m_impl->drawWithVecsContainingNaN("lines", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawBrokenCurveWithPoints(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecsContainingNaN("linespoints", x, y);
+    return m_impl->drawWithVecsContainingNaN("linespoints", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawCurveFilled(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("filledcurves", x, y);
+    return m_impl->drawWithVecs("filledcurves", x, y);
 }
 
 template <typename X, typename Y1, typename Y2>
 inline auto Plot::drawCurvesFilled(const X& x, const Y1& y1, const Y2& y2) -> DrawSpecs&
 {
-    return drawWithVecs("filledcurves", x, y1, y2);
+    return m_impl->drawWithVecs("filledcurves", x, y1, y2);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawBoxes(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("boxes", x, y);
+    return m_impl->drawWithVecs("boxes", x, y);
 }
 
 template <typename X, typename Y, typename XW>
 inline auto Plot::drawBoxes(const X& x, const Y& y, const XW& xwidth) -> DrawSpecs&
 {
-    return drawWithVecs("boxes", x, y, xwidth);
+    return m_impl->drawWithVecs("boxes", x, y, xwidth);
 }
 
 template <typename X, typename Y, typename YD>
 inline auto Plot::drawBoxesWithErrorBarsY(const X& x, const Y& y, const Y& ydelta) -> DrawSpecs&
 {
-    return drawWithVecs("boxerrorbars", x, y, ydelta);
+    return m_impl->drawWithVecs("boxerrorbars", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
 inline auto Plot::drawBoxesWithErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
-    return drawWithVecs("boxerrorbars", x, y, ylow, yhigh);
+    return m_impl->drawWithVecs("boxerrorbars", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD>
 inline auto Plot::drawErrorBarsX(const X& x, const Y& y, const XD& xdelta) -> DrawSpecs&
 {
-    return drawWithVecs("xerrorbars", x, y, xdelta);
+    return m_impl->drawWithVecs("xerrorbars", x, y, xdelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH>
 inline auto Plot::drawErrorBarsX(const X& x, const Y& y, const XL& xlow, const XH& xhigh) -> DrawSpecs&
 {
-    return drawWithVecs("xerrorbars", x, y, xlow, xhigh);
+    return m_impl->drawWithVecs("xerrorbars", x, y, xlow, xhigh);
 }
 
 template <typename X, typename Y, typename YD>
 inline auto Plot::drawErrorBarsY(const X& x, const Y& y, const YD& ydelta) -> DrawSpecs&
 {
-    return drawWithVecs("yerrorbars", x, y, ydelta);
+    return m_impl->drawWithVecs("yerrorbars", x, y, ydelta);
 }
 
 template <typename X, typename Y, typename YL, typename YH>
 inline auto Plot::drawErrorBarsY(const X& x, const Y& y, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
-    return drawWithVecs("yerrorbars", x, y, ylow, yhigh);
+    return m_impl->drawWithVecs("yerrorbars", x, y, ylow, yhigh);
 }
 
 template <typename X, typename Y, typename XD, typename YD>
 inline auto Plot::drawErrorBarsXY(const X& x, const Y& y, const XD& xdelta, const YD& ydelta) -> DrawSpecs&
 {
-    return drawWithVecs("xyerrorbars", x, y, xdelta, ydelta);
+    return m_impl->drawWithVecs("xyerrorbars", x, y, xdelta, ydelta);
 }
 
 template <typename X, typename Y, typename XL, typename XH, typename YL, typename YH>
 inline auto Plot::drawErrorBarsXY(const X& x, const Y& y, const XL& xlow, const XH& xhigh, const YL& ylow, const YH& yhigh) -> DrawSpecs&
 {
-    return drawWithVecs("xyerrorbars", x, y, xlow, xhigh, ylow, yhigh);
+    return m_impl->drawWithVecs("xyerrorbars", x, y, xlow, xhigh, ylow, yhigh);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawSteps(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecsStepsChangeFirstX(x, y);
+    return drawStepsChangeFirstX(x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawStepsChangeFirstX(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("steps", x, y);
+    return m_impl->drawWithVecs("steps", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawStepsChangeFirstY(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("fsteps", x, y);
+    return m_impl->drawWithVecs("fsteps", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawStepsHistogram(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("histeps", x, y);
+    return m_impl->drawWithVecs("histeps", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawStepsFilled(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("fillsteps", x, y);
+    return m_impl->drawWithVecs("fillsteps", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawDots(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("dots", x, y);
+    return m_impl->drawWithVecs("dots", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawPoints(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("points", x, y);
+    return m_impl->drawWithVecs("points", x, y);
 }
 
 template <typename X, typename Y>
 inline auto Plot::drawImpulses(const X& x, const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("impulses", x, y);
+    return m_impl->drawWithVecs("impulses", x, y);
 }
 
 template <typename Y>
 inline auto Plot::drawHistogram(const Y& y) -> DrawSpecs&
 {
-    return drawWithVecs("", y); // empty string because we rely on `set style data histograms` since relying `with histograms` is not working very well (e.g., empty key/lenged appearing in columnstacked mode).
+    return m_impl->drawWithVecs("", y); // empty string because we rely on `set style data histograms` since relying `with histograms` is not working very well (e.g., empty key/lenged appearing in columnstacked mode).
 }
 
 //======================================================================
@@ -540,214 +498,151 @@ inline auto Plot::drawHistogram(const Y& y) -> DrawSpecs&
 
 inline auto Plot::drawWithCols(const std::string& fname, const std::string& with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
 {
-    std::string use;
-    for (const auto& col : cols)
-        use += col.value + ":"; // e.g., "1:4:5:7:" (where 1 is x, 4 is y, 5 is ylow and 7 is yhigh for a yerrorlines plot)
-    use = internal::trimright(use, ':'); // e.g., "1:4:5:7:" => "1:4:5:7"
-    std::string what = "'" + fname + "'"; // e.g., "'myfile.dat'"
-    return draw(what, use, with).lineStyle(m_drawspecs.size()); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
+    return m_impl->drawWithCols(fname, with, cols);
 }
 
 inline auto Plot::drawCurve(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "lines", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "lines", {xcol, ycol});
 }
 
 inline auto Plot::drawCurveWithPoints(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "linespoints", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "linespoints", {xcol, ycol});
 }
 
 inline auto Plot::drawCurveWithErrorBarsX(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xerrorlines", {xcol, ycol, xdeltacol});
+    return m_impl->drawWithCols(fname, "xerrorlines", {xcol, ycol, xdeltacol});
 }
 
 inline auto Plot::drawCurveWithErrorBarsX(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xerrorlines", {xcol, ycol, xlowcol, xhighcol});
+    return m_impl->drawWithCols(fname, "xerrorlines", {xcol, ycol, xlowcol, xhighcol});
 }
 
 inline auto Plot::drawCurveWithErrorBarsY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "yerrorlines", {xcol, ycol, ydeltacol});
+    return m_impl->drawWithCols(fname, "yerrorlines", {xcol, ycol, ydeltacol});
 }
 
 inline auto Plot::drawCurveWithErrorBarsY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "yerrorlines", {xcol, ycol, ylowcol, yhighcol});
+    return m_impl->drawWithCols(fname, "yerrorlines", {xcol, ycol, ylowcol, yhighcol});
 }
 
 inline auto Plot::drawCurveWithErrorBarsXY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xyerrorlines", {xcol, ycol, xdeltacol, ydeltacol});
+    return m_impl->drawWithCols(fname, "xyerrorlines", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
 inline auto Plot::drawCurveWithErrorBarsXY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xyerrorlines", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
+    return m_impl->drawWithCols(fname, "xyerrorlines", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
 inline auto Plot::drawBoxes(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "boxes", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "boxes", {xcol, ycol});
 }
 
 inline auto Plot::drawBoxes(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xwidthcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "boxes", {xcol, ycol, xwidthcol});
+    return m_impl->drawWithCols(fname, "boxes", {xcol, ycol, xwidthcol});
 }
 
 inline auto Plot::drawBoxesWithErrorBarsY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "boxerrorbars", {xcol, ycol, ydeltacol});
+    return m_impl->drawWithCols(fname, "boxerrorbars", {xcol, ycol, ydeltacol});
 }
 
 inline auto Plot::drawBoxesWithErrorBarsY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "boxerrorbars", {xcol, ycol, ylowcol, yhighcol});
+    return m_impl->drawWithCols(fname, "boxerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
 inline auto Plot::drawErrorBarsX(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xerrorbars", {xcol, ycol, xdeltacol});
+    return m_impl->drawWithCols(fname, "xerrorbars", {xcol, ycol, xdeltacol});
 }
 
 inline auto Plot::drawErrorBarsX(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xerrorbars", {xcol, ycol, xlowcol, xhighcol});
+    return m_impl->drawWithCols(fname, "xerrorbars", {xcol, ycol, xlowcol, xhighcol});
 }
 
 inline auto Plot::drawErrorBarsY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "yerrorbars", {xcol, ycol, ydeltacol});
+    return m_impl->drawWithCols(fname, "yerrorbars", {xcol, ycol, ydeltacol});
 }
 
 inline auto Plot::drawErrorBarsY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "yerrorbars", {xcol, ycol, ylowcol, yhighcol});
+    return m_impl->drawWithCols(fname, "yerrorbars", {xcol, ycol, ylowcol, yhighcol});
 }
 
 inline auto Plot::drawErrorBarsXY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xdeltacol, ColumnIndex ydeltacol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xyerrorbars", {xcol, ycol, xdeltacol, ydeltacol});
+    return m_impl->drawWithCols(fname, "xyerrorbars", {xcol, ycol, xdeltacol, ydeltacol});
 }
 
 inline auto Plot::drawErrorBarsXY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol, ColumnIndex xlowcol, ColumnIndex xhighcol, ColumnIndex ylowcol, ColumnIndex yhighcol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "xyerrorbars", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
+    return m_impl->drawWithCols(fname, "xyerrorbars", {xcol, ycol, xlowcol, xhighcol, ylowcol, yhighcol});
 }
 
 inline auto Plot::drawSteps(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "steps", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "steps", {xcol, ycol});
 }
 
 inline auto Plot::drawStepsChangeFirstX(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "steps", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "steps", {xcol, ycol});
 }
 
 inline auto Plot::drawStepsChangeFirstY(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "fsteps", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "fsteps", {xcol, ycol});
 }
 
 inline auto Plot::drawStepsHistogram(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "histeps", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "histeps", {xcol, ycol});
 }
 
 inline auto Plot::drawStepsFilled(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "fillsteps", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "fillsteps", {xcol, ycol});
 }
 
 inline auto Plot::drawDots(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "dots", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "dots", {xcol, ycol});
 }
 
 inline auto Plot::drawPoints(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "points", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "points", {xcol, ycol});
 }
 
 inline auto Plot::drawImpulses(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "impulses", {xcol, ycol});
+    return m_impl->drawWithCols(fname, "impulses", {xcol, ycol});
 }
 
 inline auto Plot::drawHistogram(std::string fname, ColumnIndex ycol) -> DrawSpecs&
 {
-    return drawWithCols(fname, "", {ycol});
+    return m_impl->drawWithCols(fname, "", {ycol});
 }
 
 //======================================================================
-// MISCElLANEOUS METHODS
+// MISCELLANEOUS METHODS
 //======================================================================
 
 inline auto Plot::repr() const -> std::string
 {
-    std::stringstream script;
-
-    // Add plot setup commands
-    script << "#==============================================================================" << std::endl;
-    script << "# SETUP COMMANDS" << std::endl;
-    script << "#==============================================================================" << std::endl;
-    script << gnuplot::commandValueStr("set xrange", m_xrange);
-    script << gnuplot::commandValueStr("set yrange", m_yrange);
-    script << m_xlabel << std::endl;
-    script << m_ylabel << std::endl;
-    script << m_rlabel << std::endl;
-    script << m_border << std::endl;
-    script << m_grid << std::endl;
-    script << m_style_fill << std::endl;
-    script << m_style_histogram << std::endl;
-    script << m_tics << std::endl;
-    script << m_xtics_major_bottom << std::endl;
-    script << m_xtics_major_top << std::endl;
-    script << m_xtics_minor_bottom << std::endl;
-    script << m_xtics_minor_top << std::endl;
-    script << m_ytics_major_left << std::endl;
-    script << m_ytics_major_right << std::endl;
-    script << m_ytics_minor_left << std::endl;
-    script << m_ytics_minor_right << std::endl;
-    script << m_ztics_major << std::endl;
-    script << m_ztics_minor << std::endl;
-    script << m_rtics_major << std::endl;
-    script << m_rtics_minor << std::endl;
-    script << m_legend << std::endl;
-    script << gnuplot::commandValueStr("set boxwidth", m_boxwidth);
-    script << gnuplot::commandValueStr("set samples", m_samples);
-    script << gnuplot::commandValueStr("set datafile missing", MISSING_INDICATOR);
-
-    // Add custom gnuplot commands
-    if (!m_customcmds.empty())
-    {
-        script << "#==============================================================================" << std::endl;
-        script << "# CUSTOM EXPLICIT GNUPLOT COMMANDS" << std::endl;
-        script << "#==============================================================================" << std::endl;
-        for (const auto& c : m_customcmds)
-        {
-            script << c << std::endl;
-        }
-    }
-
-    // Add the actual plot commands for all drawXYZ() calls
-    script << "#==============================================================================" << std::endl;
-    script << "# PLOT COMMANDS" << std::endl;
-    script << "#==============================================================================" << std::endl;
-    script << "plot \\\n"; // use `\` to have a plot command in each individual line!
-
-    // Write plot commands and style per plot
-    const auto n = m_drawspecs.size();
-    for (std::size_t i = 0; i < n; ++i)
-        script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
-
-    // Add an empty line at the end
-    script << std::endl;
-    return script.str();
+    return m_impl->repr();
 }
 
 } // namespace sciplot

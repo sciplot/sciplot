@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2021 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,25 +23,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-// We check if windows.h. is already included, as this might break compilation. See: https://sciplot.github.io/known_issues/
-#ifdef _WINDOWS_
-#ifdef _MSC_VER
-#pragma message(__FILE__ "(): warning: You might run into compiler errors if windows.h is included before sciplot.hpp! See: https://sciplot.github.io/known_issues/")
-#else
-#warning You might run into compiler errors if windows.h is included before sciplot.hpp! See: https://sciplot.github.io/known_issues/
-#endif // _MSC_VER
-#endif // _WINDOWS_
-
 // sciplot includes
-#include <sciplot/Constants.hpp>
-#include <sciplot/Default.hpp>
-#include <sciplot/Enums.hpp>
-#include <sciplot/Figure.hpp>
-#include <sciplot/Palettes.hpp>
-#include <sciplot/Plot.hpp>
-#include <sciplot/Plot3D.hpp>
-#include <sciplot/StringOrDouble.hpp>
-#include <sciplot/Utils.hpp>
-#include <sciplot/Vec.hpp>
+#include <sciplot/sciplot.hpp>
+using namespace sciplot;
+
+int main(int argc, char** argv)
+{
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+    Vec x = linspace(0.0, 5.0, 200);
+
+    // Create 4 different plots
+    Plot plot0;
+    plot0.drawCurve(x, std::sin(x)).label("sin(x)");
+
+    Plot plot1 = plot0;
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)");
+
+    // Use the previous plots as sub-figures in a larger 2x2 figure.
+    Figure fig = {{plot0, plot1}};
+
+    plot1.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
+
+    fig.size(600, 600);
+    fig.title("Trigonometric Functions");
+    fig.palette("dark2");
+    fig.show();
+
+    // Save the figure to a PDF file
+    fig.save("example-multiplot.pdf");
+}
