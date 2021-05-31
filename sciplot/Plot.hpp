@@ -64,14 +64,6 @@ class Plot : public PlotBase
     /// Construct a default Plot object
     Plot();
 
-    /// Set the default width of boxes in plots containing boxes (in absolute mode).
-    /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
-    auto boxWidthAbsolute(double val) -> void;
-
-    /// Set the default width of boxes in plots containing boxes (in relative mode).
-    /// In relative mode, a unit width is equivalent to setting the boxes side by side.
-    auto boxWidthRelative(double val) -> void;
-
     //======================================================================
     // METHODS FOR CUSTOMIZATION OF STYLES
     //======================================================================
@@ -379,7 +371,6 @@ class Plot : public PlotBase
     TicsSpecsMinor m_ztics_minor; ///< The specs for the minor ztics.
     TicsSpecsMajor m_rtics_major; ///< The specs for the major rtics.
     TicsSpecsMinor m_rtics_minor; ///< The specs for the minor rtics.
-    std::string m_boxwidth; ///< The default width of boxes in plots containing boxes without given widths.
 };
 
 inline Plot::Plot()
@@ -410,16 +401,6 @@ inline Plot::Plot()
 
     // This is needed because of how drawHistogram works. Using `with histograms` don't work as well.
     gnuplot("set style data histogram");
-}
-
-inline auto Plot::boxWidthAbsolute(double val) -> void
-{
-    m_boxwidth = internal::str(val) + " absolute";
-}
-
-inline auto Plot::boxWidthRelative(double val) -> void
-{
-    m_boxwidth = internal::str(val) + " relative";
 }
 
 //======================================================================

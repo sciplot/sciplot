@@ -70,14 +70,6 @@ class Plot3D : public PlotBase
     /// Set the z-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
     auto zrange(StringOrDouble min, StringOrDouble max) -> void;
 
-    /// Set the default width of boxes in plots containing boxes (in absolute mode).
-    /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
-    auto boxWidthAbsolute(double val) -> void;
-
-    /// Set the default width of boxes in plots containing boxes (in relative mode).
-    /// In relative mode, a unit width is equivalent to setting the boxes side by side.
-    auto boxWidthRelative(double val) -> void;
-
     //======================================================================
     // METHODS FOR CUSTOMIZATION OF STYLES
     //======================================================================
@@ -221,7 +213,6 @@ class Plot3D : public PlotBase
     TicsSpecsMajor m_rtics_major; ///< The specs for the major rtics.
     TicsSpecsMinor m_rtics_minor; ///< The specs for the minor rtics.
     AxisLabelSpecs m_zlabel; ///< The label of the z-axis
-    std::string m_boxwidth; ///< The default width of boxes in plots containing boxes without given widths.
 };
 
 inline Plot3D::Plot3D()
@@ -263,16 +254,6 @@ inline auto Plot3D::zlabel(const std::string& label) -> AxisLabelSpecs&
 inline auto Plot3D::zrange(StringOrDouble min, StringOrDouble max) -> void
 {
     m_zrange = "[" + min.value + ":" + max.value + "]";
-}
-
-inline auto Plot3D::boxWidthAbsolute(double val) -> void
-{
-    m_boxwidth = internal::str(val) + " absolute";
-}
-
-inline auto Plot3D::boxWidthRelative(double val) -> void
-{
-    m_boxwidth = internal::str(val) + " relative";
 }
 
 //======================================================================

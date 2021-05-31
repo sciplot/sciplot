@@ -86,16 +86,24 @@ class PlotBase
     auto grid() -> GridSpecs& { return m_grid; }
 
     /// Set the label of the x-axis and return a reference to the corresponding specs object.
-    virtual auto xlabel(const std::string& label) -> AxisLabelSpecs&;
+    auto xlabel(const std::string& label) -> AxisLabelSpecs&;
 
     /// Set the label of the y-axis and return a reference to the corresponding specs object.
-    virtual auto ylabel(const std::string& label) -> AxisLabelSpecs&;
+    auto ylabel(const std::string& label) -> AxisLabelSpecs&;
 
     /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    virtual auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
 
     /// Set the y-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    virtual auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+
+    /// Set the default width of boxes in plots containing boxes (in absolute mode).
+    /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
+    auto boxWidthAbsolute(double val) -> void;
+
+    /// Set the default width of boxes in plots containing boxes (in relative mode).
+    /// In relative mode, a unit width is equivalent to setting the boxes side by side.
+    auto boxWidthRelative(double val) -> void;
 
     //======================================================================
     // METHODS FOR CUSTOMIZATION OF STYLES
@@ -171,6 +179,7 @@ class PlotBase
     AxisLabelSpecs m_xlabel; ///< The label of the x-axis
     AxisLabelSpecs m_ylabel; ///< The label of the y-axis
     AxisLabelSpecs m_rlabel; ///< The label of the r-axis
+    std::string m_boxwidth; ///< The default width of boxes in plots containing boxes without given widths.
     FillStyleSpecs m_style_fill; ///< The specs for the fill style of the plot elements in the plot that can be painted.
     std::string m_samples; ///< The number of sample points for functions
     LegendSpecs m_legend; ///< The legend specs of the plot
@@ -234,6 +243,16 @@ inline auto PlotBase::xrange(const StringOrDouble& min, const StringOrDouble& ma
 inline auto PlotBase::yrange(const StringOrDouble& min, const StringOrDouble& max) -> void
 {
     m_yrange = "[" + min.value + ":" + max.value + "]";
+}
+
+inline auto PlotBase::boxWidthAbsolute(double val) -> void
+{
+    m_boxwidth = internal::str(val) + " absolute";
+}
+
+inline auto PlotBase::boxWidthRelative(double val) -> void
+{
+    m_boxwidth = internal::str(val) + " relative";
 }
 
 //======================================================================
