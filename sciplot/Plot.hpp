@@ -58,9 +58,6 @@ namespace sciplot
 class Plot : public PlotBase
 {
   public:
-    /// Shared plot object
-    using SPtr = std::shared_ptr<Plot>;
-
     /// Construct a default Plot object
     Plot();
 
