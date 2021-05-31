@@ -65,68 +65,6 @@ class Plot : public PlotBase
     Plot();
 
     //======================================================================
-    // METHODS FOR CUSTOMIZATION OF STYLES
-    //======================================================================
-
-    /// Return an object that permits histogram style to be customized.
-    auto styleHistogram() -> HistogramStyleSpecs& { return m_style_histogram; }
-
-    //======================================================================
-    // METHODS FOR CUSTOMIZATION OF TICS
-    //======================================================================
-
-    /// Set the tics of the plot and return a reference to the corresponding specs object.
-    auto tics() -> TicsSpecs& { return m_tics; }
-
-    /// Return the specifications of the grid lines along major xtics on the bottom axis.
-    auto xtics() -> TicsSpecsMajor& { return xticsMajorBottom(); }
-
-    /// Return the specifications of the grid lines along major ytics on the left axis.
-    auto ytics() -> TicsSpecsMajor& { return yticsMajorLeft(); }
-
-    /// Return the specifications of the grid lines along major ztics.
-    auto ztics() -> TicsSpecsMajor& { return zticsMajor(); }
-
-    /// Return the specifications of the grid lines along major rtics.
-    auto rtics() -> TicsSpecsMajor& { return rticsMajor(); }
-
-    /// Return the specifications of the grid lines along major xtics on the bottom axis.
-    auto xticsMajorBottom() -> TicsSpecsMajor& { return m_xtics_major_bottom; }
-
-    /// Return the specifications of the grid lines along major xtics on the top axis.
-    auto xticsMajorTop() -> TicsSpecsMajor& { return m_xtics_major_top; }
-
-    /// Return the specifications of the grid lines along minor xtics on the bottom axis.
-    auto xticsMinorBottom() -> TicsSpecsMinor& { return m_xtics_minor_bottom; }
-
-    /// Return the specifications of the grid lines along minor xtics on the top axis.
-    auto xticsMinorTop() -> TicsSpecsMinor& { return m_xtics_minor_top; }
-
-    /// Return the specifications of the grid lines along major ytics on the left axis.
-    auto yticsMajorLeft() -> TicsSpecsMajor& { return m_ytics_major_left; }
-
-    /// Return the specifications of the grid lines along major ytics on the right axis.
-    auto yticsMajorRight() -> TicsSpecsMajor& { return m_ytics_major_right; }
-
-    /// Return the specifications of the grid lines along minor ytics on the left axis.
-    auto yticsMinorLeft() -> TicsSpecsMinor& { return m_ytics_minor_left; }
-
-    /// Return the specifications of the grid lines along minor ytics on the right axis.
-    auto yticsMinorRight() -> TicsSpecsMinor& { return m_ytics_minor_right; }
-
-    /// Return the specifications of the grid lines along major ztics.
-    auto zticsMajor() -> TicsSpecsMajor& { return m_ztics_major; }
-
-    /// Return the specifications of the grid lines along minor ztics.
-    auto zticsMinor() -> TicsSpecsMinor& { return m_ztics_minor; }
-
-    /// Return the specifications of the grid lines along minor rtics.
-    auto rticsMajor() -> TicsSpecsMajor& { return m_rtics_major; }
-
-    /// Return the specifications of the grid lines along minor rtics.
-    auto rticsMinor() -> TicsSpecsMinor& { return m_rtics_minor; }
-
-    //======================================================================
     // METHODS FOR DRAWING PLOT ELEMENTS
     //======================================================================
     /// Draw plot object with given style and given vectors (e.g., `plot.draw("lines", x, y)`).
@@ -355,52 +293,11 @@ class Plot : public PlotBase
 
     /// Convert this plot object into a gnuplot formatted string.
     auto repr() const -> std::string override;
-
-  private:
-    HistogramStyleSpecs m_style_histogram; ///< The specs for the histogram style of the plot.
-    TicsSpecs m_tics; ///< The specs of the tics of the plot
-    TicsSpecsMajor m_xtics_major_bottom; ///< The specs for the major xtics at the bottom.
-    TicsSpecsMajor m_xtics_major_top; ///< The specs for the major xtics at the top.
-    TicsSpecsMinor m_xtics_minor_bottom; ///< The specs for the minor xtics at the bottom.
-    TicsSpecsMinor m_xtics_minor_top; ///< The specs for the minor xtics at the top.
-    TicsSpecsMajor m_ytics_major_left; ///< The specs for the major ytics at the left.
-    TicsSpecsMajor m_ytics_major_right; ///< The specs for the major ytics at the right.
-    TicsSpecsMinor m_ytics_minor_left; ///< The specs for the minor ytics at the left.
-    TicsSpecsMinor m_ytics_minor_right; ///< The specs for the minor ytics at the right.
-    TicsSpecsMajor m_ztics_major; ///< The specs for the major ztics.
-    TicsSpecsMinor m_ztics_minor; ///< The specs for the minor ztics.
-    TicsSpecsMajor m_rtics_major; ///< The specs for the major rtics.
-    TicsSpecsMinor m_rtics_minor; ///< The specs for the minor rtics.
 };
 
 inline Plot::Plot()
-    : PlotBase(), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r")
+    : PlotBase()
 {
-    // Show only major and minor xtics and ytics
-    xticsMajorBottom().show();
-    xticsMinorBottom().show();
-    yticsMajorLeft().show();
-    yticsMinorLeft().show();
-
-    // Hide all other tics
-    xticsMajorTop().hide();
-    xticsMinorTop().hide();
-    yticsMajorRight().hide();
-    yticsMinorRight().hide();
-    zticsMajor().hide();
-    zticsMinor().hide();
-    rticsMajor().hide();
-    rticsMinor().hide();
-
-    // Default options for fill style
-    styleFill().solid();
-    styleFill().borderHide();
-
-    // Set all other default options
-    boxWidthRelative(internal::DEFAULT_FIGURE_BOXWIDTH_RELATIVE);
-
-    // This is needed because of how drawHistogram works. Using `with histograms` don't work as well.
-    gnuplot("set style data histogram");
 }
 
 //======================================================================
