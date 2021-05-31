@@ -26,7 +26,6 @@
 #pragma once
 
 // C++ includes
-#include <memory>
 #include <sstream>
 #include <vector>
 
