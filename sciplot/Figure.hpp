@@ -30,14 +30,14 @@
 #include <vector>
 
 // sciplot includes
-#include <sciplot/Plot.hpp>
+#include <sciplot/Plot2D.hpp>
 #include <sciplot/Plot3D.hpp>
 
 namespace sciplot
 {
 
 /// The auxiliary type to represent either a 2D or 3D plot.
-using PlotVariant = std::variant<Plot, Plot3D>;
+using PlotVariant = std::variant<Plot2D, Plot3D>;
 
 /// The class used to create multiple plots in one canvas.
 class Figure
@@ -48,6 +48,11 @@ class Figure
 
     /// Construct a Figure object with given plots.
     Figure(const std::vector<std::vector<PlotVariant>>& plots);
+
+    /// Get reference to plot object in figure
+    /// @note Will throw if plot does not exist or T is of wrong type
+    template <typename T>
+    T& get(int i, int j);
 
     /// Toggle automatic cleaning of temporary files (enabled by default). Pass false if you want to keep your script / data files.
     /// Call cleanup() to remove those files manually.
@@ -149,6 +154,33 @@ inline Figure::Figure(const std::vector<std::vector<PlotVariant>>& plots)
         m_layoutcols = std::max<decltype(m_layoutcols)>(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
 }
 
+template <>
+inline Plot2D& Figure::get(int i, int j)
+{
+    return std::get<Plot2D>(m_plots.at(j).at(i));
+}
+
+template <>
+inline Plot3D& Figure::get(int i, int j)
+{
+    return std::get<Plot3D>(m_plots.at(j).at(i));
+}
+
+template <>
+inline Plot& Figure::get(int i, int j)
+{
+    auto& plot = m_plots.at(j).at(i);
+    if (std::holds_alternative<Plot2D>(plot))
+    {
+        return std::get<Plot2D>(plot);
+    }
+    else if (std::holds_alternative<Plot3D>(plot))
+    {
+        return std::get<Plot3D>(plot);
+    }
+    throw std::runtime_error("Unknown plot type / Empty variant");
+}
+
 inline auto Figure::autoclean(bool enable) -> void
 {
     m_autoclean = enable;
@@ -189,7 +221,7 @@ inline auto Figure::saveplotdata() const -> void
     {
         for (const auto& plot : row)
         {
-            if (auto* plot_p = std::get_if<Plot>(&plot))
+            if (auto* plot_p = std::get_if<Plot2D>(&plot))
             {
                 plot_p->savePlotData();
             }
@@ -223,7 +255,7 @@ inline auto Figure::show() const -> void
     {
         for (const auto& plot : row)
         {
-            if (auto* plot_p = std::get_if<Plot>(&plot))
+            if (auto* plot_p = std::get_if<Plot2D>(&plot))
             {
                 script << plot_p->repr();
             }
@@ -282,7 +314,7 @@ inline auto Figure::save(const std::string& filename) const -> void
     {
         for (const auto& plot : row)
         {
-            if (auto* plot_p = std::get_if<Plot>(&plot))
+            if (auto* plot_p = std::get_if<Plot2D>(&plot))
             {
                 script << plot_p->repr();
             }
@@ -324,7 +356,7 @@ inline auto Figure::cleanup() const -> void
     {
         for (const auto& plot : row)
         {
-            if (auto* plot_p = std::get_if<Plot>(&plot))
+            if (auto* plot_p = std::get_if<Plot2D>(&plot))
             {
                 plot_p->cleanup();
             }

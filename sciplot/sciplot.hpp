@@ -41,8 +41,8 @@
 #include <sciplot/Figure.hpp>
 #include <sciplot/Palettes.hpp>
 #include <sciplot/Plot.hpp>
+#include <sciplot/Plot2D.hpp>
 #include <sciplot/Plot3D.hpp>
-#include <sciplot/PlotBase.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/Vec.hpp>

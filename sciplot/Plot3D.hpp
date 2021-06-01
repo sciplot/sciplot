@@ -34,7 +34,7 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
-#include <sciplot/PlotBase.hpp>
+#include <sciplot/Plot.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
@@ -54,7 +54,7 @@ namespace sciplot
 {
 
 /// The class used to create a plot containing graphical elements.
-class Plot3D : public PlotBase
+class Plot3D : public Plot
 {
   public:
     /// Construct a default Plot object
@@ -136,7 +136,7 @@ class Plot3D : public PlotBase
 };
 
 inline Plot3D::Plot3D()
-    : PlotBase(), m_zlabel("z")
+    : Plot(), m_zlabel("z")
 {
 }
 

@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     Vec y = {3.2, 7.3, NaN, 2.8, 8.9, NaN, 5.0, 1.8};
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // This disables the deletion of the created gnuplot script and data file.
     plot.autoclean(false);

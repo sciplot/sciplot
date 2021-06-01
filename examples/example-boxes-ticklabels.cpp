@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     Vec experiences = {0.8, 0.4, 0.7, 0.9};
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set the legend to the top left corner of the plot
     plot.legend().atTopLeft();

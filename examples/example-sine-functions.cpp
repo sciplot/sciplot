@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, PI, 200);
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set the x and y labels
     plot.xlabel("x");

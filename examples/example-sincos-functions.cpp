@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, 5.0, 200);
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // This disables the deletion of the created gnuplot script and data file.
     plot.autoclean(false);

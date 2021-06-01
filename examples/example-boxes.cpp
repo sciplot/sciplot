@@ -36,7 +36,7 @@ int main(int argc, char** argv)
     std::vector<float> y = {-4, 2, 5, -3};
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set the legend
     plot.legend().hide();

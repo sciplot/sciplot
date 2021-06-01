@@ -33,22 +33,22 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, 5.0, 200);
 
     // Create 4 different plots
-    Plot plot0;
+    Plot2D plot0;
     plot0.drawCurve(x, std::sin(x)).label("sin(x)");
     plot0.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    Plot plot1;
+    Plot2D plot1;
     plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    Plot plot2;
+    Plot2D plot2;
     plot2.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    Plot plot3;
+    Plot2D plot3;
     plot3.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
 
     // Use the previous plots as sub-figures in a larger 2x2 figure.
-    Figure fig = {{ plot0, plot1 },
-                  { plot2, plot3 }};
+    Figure fig = {{plot0, plot1},
+                  {plot2, plot3}};
 
     fig.title("Trigonometric Functions");
     fig.palette("dark2");

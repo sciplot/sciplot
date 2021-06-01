@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
     Vec x = linspace(0.0, PI, 200);
 
-    Plot plot;
+    Plot2D plot;
 
     plot.xlabel("x");
     plot.ylabel("y");

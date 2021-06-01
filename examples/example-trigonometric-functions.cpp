@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, 5.0, 100);
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set color palette
     plot.palette("set2");

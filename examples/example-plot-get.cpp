@@ -29,36 +29,43 @@ using namespace sciplot;
 
 int main(int argc, char** argv)
 {
-    // Create a vector with values from 0 to 10 divided into 100 uniform intervals for the x-axis
-    Vec x = linspace(1, 12, 100);
+    // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
+    Vec x = linspace(0.0, 5.0, 200);
 
-    // Create a Plot object
-    Plot2D plot;
+    // Create some plots and draw curves
+    Plot2D plot0;
+    plot0.drawCurve(x, std::sin(x)).label("sin(x)");
+    Plot2D plot1;
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // Set the x and y labels
-    plot.xlabel("x");
-    plot.ylabel("y");
+    // Use the previous plots as sub-figures in a larger figure. Note that
+    // plot0 and plot1 will be deep-copied into fig
+    Figure fig = {{plot0, plot1}};
 
-    // Set the x and y ranges
-    plot.xrange(1, 12);
-    plot.yrange(2, 4096);
+    // This will NOT change the plot in fig, only plot0
+    plot0.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    // Set the legend to be on the bottom along the horizontal
-    plot.legend()
-        .atOutsideBottom()
-        .displayHorizontal()
-        .displayExpandWidthBy(2);
+    // Get a reference to the copy of plot0 in fig
+    auto& plot2dref = fig.get<Plot2D>(0, 0);
+    // This will modify the plot in fig, but NOT plot0
+    plot2dref.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
 
-    plot.ytics().logscale(2);
+    // Get a reference to the copy of plot1 in fig. This gets the base class
+    // of Plot2D and Plot3D and supports methods common to those two classes
+    auto& plotref = fig.get<Plot>(1, 0);
+    // This will modify the plot in fig, but NOT plot1
+    plotref.grid().show();
 
-    // Plot 2^x
-    plot.drawCurve(x, std::pow(2.0, x))
-        .label("2^x");
+    // Set figure title and palette
+    fig.title("Getting plots from figures");
+    fig.palette("dark2");
 
-    // Show the plot in a pop-up window
-    plot.size(749, 749);
-    plot.show();
+    // Set output canvas size to 750x750 pixels
+    fig.size(750, 750);
 
-    // Save the plot to a PDF file
-    plot.save("example-logarithmic-axes.pdf");
+    // Show the figure on screen
+    fig.show();
+
+    // Save the figure to a svg file
+    fig.save("example-plot-get.svg");
 }

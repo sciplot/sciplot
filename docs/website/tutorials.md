@@ -74,6 +74,12 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ![](img/tutorials/example-multiplot-mixed.svg){: loading=lazy }
 
+## Changing plots in a figure
+
+{{ inputcpp('examples/example-plot-get.cpp', startline=26) }}
+
+![](img/tutorials/example-plot-get.svg){: loading=lazy }
+
 ## Integration with CMake-based projects
 
 Integrating {{sciplot}} in a CMake-based project is very simple as shown next.
