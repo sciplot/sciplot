@@ -49,7 +49,11 @@ class Figure
     /// Construct a Figure object with given plots.
     Figure(const std::vector<std::vector<PlotVariant>>& plots);
 
-    /// Get reference to plot object in figure
+    /// Get reference to generic plot object in figure
+    /// @note Will throw if plot does not exist
+    Plot& get(int i, int j);
+
+    /// Get reference to specific plot object (2D / 3D) in figure
     /// @note Will throw if plot does not exist or T is of wrong type
     template <typename T>
     T& get(int i, int j);
@@ -154,19 +158,6 @@ inline Figure::Figure(const std::vector<std::vector<PlotVariant>>& plots)
         m_layoutcols = std::max<decltype(m_layoutcols)>(m_layoutcols, row.size()); // m_layoutcols = max number of columns among all rows
 }
 
-template <>
-inline Plot2D& Figure::get(int i, int j)
-{
-    return std::get<Plot2D>(m_plots.at(j).at(i));
-}
-
-template <>
-inline Plot3D& Figure::get(int i, int j)
-{
-    return std::get<Plot3D>(m_plots.at(j).at(i));
-}
-
-template <>
 inline Plot& Figure::get(int i, int j)
 {
     auto& plot = m_plots.at(j).at(i);
@@ -179,6 +170,18 @@ inline Plot& Figure::get(int i, int j)
         return std::get<Plot3D>(plot);
     }
     throw std::runtime_error("Unknown plot type / Empty variant");
+}
+
+template <>
+inline Plot2D& Figure::get(int i, int j)
+{
+    return std::get<Plot2D>(m_plots.at(j).at(i));
+}
+
+template <>
+inline Plot3D& Figure::get(int i, int j)
+{
+    return std::get<Plot3D>(m_plots.at(j).at(i));
 }
 
 inline auto Figure::autoclean(bool enable) -> void

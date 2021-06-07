@@ -45,16 +45,17 @@ int main(int argc, char** argv)
     // This will NOT change the plot in fig, only plot0
     plot0.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    // Get a reference to the copy of plot0 in fig
+    // Get a reference to the copy of plot1 in fig. This gets the generic base
+    // class Plot supports methods common to Plot2D and Plot3D
+    auto& plotref = fig.get(1, 0);
+    // This will modify the plot in fig, but NOT plot1
+    plotref.grid().show();
+
+    // Get a reference to the copy of plot0 in fig. This gets the Plot2D
+    // version to provide 2D-specific drawing functions
     auto& plot2dref = fig.get<Plot2D>(0, 0);
     // This will modify the plot in fig, but NOT plot0
     plot2dref.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
-
-    // Get a reference to the copy of plot1 in fig. This gets the base class
-    // of Plot2D and Plot3D and supports methods common to those two classes
-    auto& plotref = fig.get<Plot>(1, 0);
-    // This will modify the plot in fig, but NOT plot1
-    plotref.grid().show();
 
     // Set figure title and palette
     fig.title("Getting plots from figures");
