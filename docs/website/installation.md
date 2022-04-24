@@ -25,6 +25,27 @@ to somewhere in your project directory and directly use {{sciplot}}.
 This quick and dirty solution should suffice in most cases. If this solution
 bothers you, read the next section!
 
+## Installation using FetchContent
+
+The [`FetchContent`](
+https://cmake.org/cmake/help/latest/module/FetchContent.html) CMake module can
+also be used to fetch Sciplot properly:
+
+```cmake
+include(FetchContent) # If not included already
+
+FetchContent_Declare(sciplot_content
+  GIT_REPOSITORY https://github.com/sciplot/sciplot.git
+  GIT_TAG master)
+
+FetchContent_GetProperties(sciplot_content)
+if(NOT sciplot_content_POPULATED)
+  FetchContent_Populate(sciplot_content)
+endif()
+
+include_directories(${sciplot_content_SOURCE_DIR})
+```
+
 ## Installation using CMake
 
 If you have `cmake` installed in your system, you can then install {{sciplot}}

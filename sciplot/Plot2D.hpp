@@ -324,7 +324,7 @@ inline auto Plot2D::drawWithVecs(const std::string& with, const X& x, const Vecs
     m_data += datastream.str();
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets and set the line style specification (desired behavior is 1, 2, 3 (incrementing as new lines are plotted)).
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(m_drawspecs.size());
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(static_cast<int>(m_drawspecs.size()));
 }
 
 template <typename X, typename... Vecs>
@@ -345,7 +345,7 @@ inline auto Plot2D::drawWithVecsContainingNaN(std::string with, const X& x, cons
     m_data += datastream.str();
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets and set the line style specification (desired behavior is 1, 2, 3 (incrementing as new lines are plotted)).
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(m_drawspecs.size());
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(static_cast<int>(m_drawspecs.size()));
 }
 
 template <typename X, typename Y>
@@ -545,7 +545,7 @@ inline auto Plot2D::drawWithCols(const std::string& fname, const std::string& wi
         use += col.value + ":"; // e.g., "1:4:5:7:" (where 1 is x, 4 is y, 5 is ylow and 7 is yhigh for a yerrorlines plot)
     use = internal::trimright(use, ':'); // e.g., "1:4:5:7:" => "1:4:5:7"
     std::string what = "'" + fname + "'"; // e.g., "'myfile.dat'"
-    return draw(what, use, with).lineStyle(m_drawspecs.size()); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
+    return draw(what, use, with).lineStyle(static_cast<int>(m_drawspecs.size())); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
 }
 
 inline auto Plot2D::drawCurve(const std::string& fname, ColumnIndex xcol, ColumnIndex ycol) -> DrawSpecs&

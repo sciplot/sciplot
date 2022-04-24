@@ -127,8 +127,8 @@ inline auto HistogramStyleSpecs::errorBarsWithLineWidth(double value) -> Histogr
 
 inline auto HistogramStyleSpecs::repr() const -> std::string
 {
-    const auto supports_gap = (m_type == "clustered" || m_type == "errorbars");
-    const auto supports_linewidth = (m_type == "errorbars");
+    [[maybe_unused]] const auto supports_gap = (m_type == "clustered" || m_type == "errorbars");
+    [[maybe_unused]] const auto supports_linewidth = (m_type == "errorbars");
 
     std::stringstream ss;
     ss << "set style histogram" << " ";
