@@ -22,7 +22,7 @@ jobs:
           auto-update-conda: true
 
       - name: Install Ubuntu Dependencies
-        run: sudo apt-get install gnuplot
+        run: sudo apt-get update && sudo apt-get install gnuplot
       - name: Conda Environment
         shell: bash -l {0}
         run: |
