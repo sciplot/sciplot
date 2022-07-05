@@ -57,9 +57,14 @@ int main(int argc, char** argv)
     // Adjust the relative width of the boxes
     plot.boxWidthRelative(0.75);
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
     // Show the plot in a pop-up window
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-boxes.pdf");
+    canvas.save("example-boxes.pdf");
 }

@@ -71,9 +71,14 @@ int main(int argc, char** argv)
     plot.drawCurve(x, J5).label("J_5");
     plot.drawCurve(x, J6).label("J_6");
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
     // Show the plot in a pop-up window
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-bessel-functions.pdf");
+    canvas.save("example-bessel-functions.pdf");
 }

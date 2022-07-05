@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2022 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -276,9 +276,14 @@ inline auto Plot3D::repr() const -> std::string
     script << "#==============================================================================" << std::endl;
     script << "# SETUP COMMANDS" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << gnuplot::commandValueStr("set xrange", m_xrange);
-    script << gnuplot::commandValueStr("set yrange", m_yrange);
-    script << gnuplot::commandValueStr("set zrange", m_zrange);
+    // Add palette info if a palette was set
+    if (!m_palette.empty())
+    {
+        gnuplot::palettecmd(script, m_palette);
+    }
+    script << gnuplot::cmdValueStr("set xrange", m_xrange);
+    script << gnuplot::cmdValueStr("set yrange", m_yrange);
+    script << gnuplot::cmdValueStr("set zrange", m_zrange);
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
     script << m_zlabel << std::endl;
@@ -301,9 +306,13 @@ inline auto Plot3D::repr() const -> std::string
     script << m_rtics_major << std::endl;
     script << m_rtics_minor << std::endl;
     script << m_legend << std::endl;
-    script << gnuplot::commandValueStr("set boxwidth", m_boxwidth);
-    script << gnuplot::commandValueStr("set samples", m_samples);
-
+    script << gnuplot::cmdValueStr("set boxwidth", m_boxwidth);
+    script << gnuplot::cmdValueStr("set samples", m_samples);
+    // unset palette info if a palette was set
+    if (!m_palette.empty())
+    {
+        gnuplot::unsetpalettecmd(script);
+    }
     // Add custom gnuplot commands
     if (!m_customcmds.empty())
     {
@@ -315,18 +324,17 @@ inline auto Plot3D::repr() const -> std::string
             script << c << std::endl;
         }
     }
-
     // Add the actual plot commands for all drawXYZ() calls
     script << "#==============================================================================" << std::endl;
     script << "# PLOT COMMANDS" << std::endl;
     script << "#==============================================================================" << std::endl;
     script << "splot \\\n"; // use `\` to have a plot command in each individual line!
-
     // Write plot commands and style per plot
     const auto n = m_drawspecs.size();
     for (std::size_t i = 0; i < n; ++i)
+    {
         script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
-
+    }
     // Add an empty line at the end
     script << std::endl;
     return script.str();

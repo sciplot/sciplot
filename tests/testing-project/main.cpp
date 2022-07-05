@@ -17,5 +17,7 @@ int main(int argc, char** argv)
 
     plot.drawCurve(x, std::sin(x)).label("sin(x)");
 
-    plot.save("my-sine-plot.pdf");
+    Figure fig = {{plot}};
+    Canvas canvas = {{fig}};
+    canvas.save("my-sine-plot.pdf");
 }

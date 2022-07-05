@@ -71,7 +71,8 @@ inline auto str() -> std::string
 inline auto trimleft(std::string str, unsigned char character = ' ') -> std::string
 {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(),
-                                        [&](unsigned char ch) { return ch != character; }));
+                                        [&](unsigned char ch)
+                                        { return ch != character; }));
     return str;
 }
 
@@ -79,7 +80,8 @@ inline auto trimleft(std::string str, unsigned char character = ' ') -> std::str
 inline auto trimright(std::string str, unsigned char character = ' ') -> std::string
 {
     str.erase(std::find_if(str.rbegin(), str.rend(),
-                           [&](unsigned char ch) { return ch != character; })
+                           [&](unsigned char ch)
+                           { return ch != character; })
                   .base(),
               str.end());
     return str;
@@ -95,7 +97,8 @@ inline auto trim(std::string str, unsigned char character = ' ') -> std::string
 inline auto collapseWhitespaces(std::string s) -> std::string
 {
     s.erase(std::unique(std::begin(s), std::end(s),
-                        [](unsigned char a, unsigned char b) { return std::isspace(a) && std::isspace(b); }),
+                        [](unsigned char a, unsigned char b)
+                        { return std::isspace(a) && std::isspace(b); }),
             std::end(s));
     return s;
 }
@@ -190,15 +193,28 @@ inline auto optionValueStr(std::string option, std::string value) -> std::string
     return value.size() ? (option + " " + value + " ") : "";
 }
 
-/// Return the formatted string for a `command value` pair (e.g., "set xlabel 'Time'")
+/// Return the formatted string for a `command value` pair (e.g. "cmd value" or "set ab de")
 /// Note that if value is empty, then the command is not needed and an empty string is returned.
-inline auto commandValueStr(std::string cmd, std::string value) -> std::string
+inline auto cmdValueStr(std::string cmd, std::string value) -> std::string
 {
     return value.size() ? (cmd + " " + value + "\n") : "";
 }
 
+/// Return the formatted, escaped string for a `command value` pair (e.g. "cmd 'value'", or "set ab 'de'")
+/// Note that if value is empty, then the command is not needed and an empty string is returned.
+inline auto cmdValueEscapedStr(std::string cmd, std::string value) -> std::string
+{
+    return value.size() ? (cmd + " '" + value + "'\n") : "";
+}
+
+/// Return the formatted string for a size pair (x,y).
+inline auto figureSizeStr(double sx, double sy) -> std::string
+{
+    return internal::str(sx) + "," + internal::str(sy);
+}
+
 /// Return the formatted string for a size pair (x,y) in either as pixels or as inches (asinches == true).
-inline auto sizestr(std::size_t width, std::size_t height, bool asinches) -> std::string
+inline auto canvasSizeStr(std::size_t width, std::size_t height, bool asinches) -> std::string
 {
     return asinches ? (internal::str(width * POINT_TO_INCHES) + "in," + internal::str(height * POINT_TO_INCHES) + "in") : (internal::str(width) + "," + internal::str(height));
 }
@@ -230,17 +246,14 @@ auto writedataset(std::ostream& out, std::size_t index, const Args&... args) -> 
     out << "#==============================================================================" << std::endl;
     out << "# DATASET #" << index << std::endl;
     out << "#==============================================================================" << std::endl;
-
-    // White the vector arguments to the ostream object
+    // Write the vector arguments to the ostream object
     internal::write(out, args...);
-
     // Ensure two blank lines are added here so that gnuplot understands a new data set has been added
     out << "\n\n";
-
     return out;
 }
 
-/// Auxiliary function to write palette data for a selected palette ot start of plot script
+/// Auxiliary function to write palette data for a selected palette to start of plot script
 inline auto palettecmd(std::ostream& out, std::string palette) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
@@ -252,8 +265,15 @@ inline auto palettecmd(std::ostream& out, std::string palette) -> std::ostream&
     return out;
 }
 
+/// Auxiliary function to unset palette in plot script
+inline auto unsetpalettecmd(std::ostream& out) -> std::ostream&
+{
+    out << "do for [i=1:20] { unset style line i }" << std::endl;
+    return out;
+}
+
 /// Auxiliary function to write terminal commands for showing a plot from a script file
-inline auto showterminalcmd(std::ostream& out, std::string size, std::string font) -> std::ostream&
+inline auto showterminalcmd(std::ostream& out, std::string size, std::string font, std::string title) -> std::ostream&
 {
     out << "#==============================================================================" << std::endl;
     out << "# TERMINAL" << std::endl;
@@ -265,7 +285,7 @@ inline auto showterminalcmd(std::ostream& out, std::string size, std::string fon
     // See: http://www.bersch.net/gnuplot-doc/unset.html
     out << "set termoption enhanced" << std::endl;
     if (font.size()) out << "set termoption " << font << std::endl;
-    out << "set terminal GNUTERM size " << size << std::endl;
+    out << "set terminal GNUTERM size " << size << (!title.empty() ? " title '" + title + "' " : "") << std::endl;
     out << "set encoding utf8" << std::endl;
     return out;
 }
@@ -331,7 +351,9 @@ inline auto cleanpath(std::string path) -> std::string
 {
     const std::string invalidchars = ":*?!\"<>|";
     std::string result = path;
-    result.erase(std::remove_if(result.begin(), result.end(), [&invalidchars](char c) { return (std::find(invalidchars.cbegin(), invalidchars.cend(), c) != invalidchars.cend()); }), result.end());
+    result.erase(std::remove_if(result.begin(), result.end(), [&invalidchars](char c)
+                                { return (std::find(invalidchars.cbegin(), invalidchars.cend(), c) != invalidchars.cend()); }),
+                 result.end());
     return result;
 }
 

@@ -88,11 +88,17 @@ int main(int argc, char** argv)
     Figure fig = {{plot0, plot1},
                   {plot2, plot3}};
 
-    fig.size(600, 600);
     fig.title("Mixing 2D and 3D plots");
     fig.palette("dark2");
-    fig.show();
+
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+    // Set canvas output size
+    canvas.size(600, 600);
+
+    // Show the plot in a pop-up window
+    canvas.show();
 
     // Save the figure to a PDF file
-    fig.save("example-multiplot-mixed.pdf");
+    canvas.save("example-multiplot-mixed.pdf");
 }

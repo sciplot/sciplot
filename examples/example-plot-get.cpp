@@ -61,12 +61,14 @@ int main(int argc, char** argv)
     fig.title("Getting plots from figures");
     fig.palette("dark2");
 
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
     // Set output canvas size to 750x750 pixels
-    fig.size(750, 750);
+    canvas.size(750, 750);
 
-    // Show the figure on screen
-    fig.show();
+    // Show the plot in a pop-up window
+    canvas.show();
 
     // Save the figure to a svg file
-    fig.save("example-plot-get.svg");
+    canvas.save("example-plot-get.svg");
 }

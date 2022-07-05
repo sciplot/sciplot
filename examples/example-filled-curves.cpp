@@ -64,11 +64,15 @@ int main(int argc, char** argv)
 
     fig.title("Filled curves \\& options");
     fig.palette("dark2");
-    fig.size(749, 749);
+
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+    // Set canvas output size
+    canvas.size(749, 749);
 
     // Show the plot in a pop-up window
-    fig.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    fig.save("example-filled-curves.pdf");
+    canvas.save("example-filled-curves.pdf");
 }

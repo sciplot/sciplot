@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2022 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -64,16 +64,16 @@ class Plot
 
     /// Set the palette of colors for the plot.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-    auto palette(const std::string& name) -> void;
+    auto palette(const std::string& name) -> Plot&;
 
     /// Set the size of the plot (in unit of points, with 1 inch = 72 points).
-    auto size(std::size_t width, std::size_t height) -> void;
+    auto size(std::size_t width, std::size_t height) -> Plot&;
 
     /// Set the font name for the plot (e.g., Helvetica, Georgia, Times).
-    auto fontName(const std::string& name) -> void;
+    auto fontName(const std::string& name) -> Plot&;
 
     /// Set the font size for the plot (e.g., 10, 12, 16).
-    auto fontSize(std::size_t size) -> void;
+    auto fontSize(std::size_t size) -> Plot&;
 
     /// Set the border of the plot and return a reference to the corresponding specs object.
     auto border() -> BorderSpecs& { return m_border; }
@@ -88,18 +88,18 @@ class Plot
     auto ylabel(const std::string& label) -> AxisLabelSpecs&;
 
     /// Set the x-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+    auto xrange(const StringOrDouble& min, const StringOrDouble& max) -> Plot&;
 
     /// Set the y-range of the plot (also possible with empty values or autoscale options (e.g. "", "*")).
-    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> void;
+    auto yrange(const StringOrDouble& min, const StringOrDouble& max) -> Plot&;
 
     /// Set the default width of boxes in plots containing boxes (in absolute mode).
     /// In absolute mode, a unit width is equivalent to one unit of length along the *x* axis.
-    auto boxWidthAbsolute(double val) -> void;
+    auto boxWidthAbsolute(double val) -> Plot&;
 
     /// Set the default width of boxes in plots containing boxes (in relative mode).
     /// In relative mode, a unit width is equivalent to setting the boxes side by side.
-    auto boxWidthRelative(double val) -> void;
+    auto boxWidthRelative(double val) -> Plot&;
 
     //======================================================================
     // METHODS FOR CUSTOMIZATION OF TICS
@@ -186,17 +186,6 @@ class Plot
     /// Use this method to provide gnuplot commands to be executed before the plotting calls.
     auto gnuplot(const std::string& command) -> void;
 
-    /// Show the plot in a pop-up window.
-    /// @note This method removes temporary files after saving if `Plot::autoclean(true)` (default).
-    auto show() const -> void;
-
-    /// Save the plot in a file, with its extension defining the file format.
-    /// The extension of the file name determines the file format.
-    /// The supported formats are: `pdf`, `eps`, `svg`, `png`, and `jpeg`.
-    /// Thus, to save a plot in `pdf` format, choose a file as in `plot.pdf`.
-    /// @note This method removes temporary files after saving if `Plot::autoclean(true)` (default).
-    auto save(const std::string& filename) const -> void;
-
     /// Write the current plot data to the data file.
     auto savePlotData() const -> void;
 
@@ -221,7 +210,6 @@ class Plot
     std::string m_palette; ///< The name of the gnuplot palette to be used
     std::size_t m_width = 0; ///< The size of the plot in x
     std::size_t m_height = 0; ///< The size of the plot in y
-    std::string m_scriptfilename; ///< The name of the file where the plot commands are saved
     std::string m_datafilename; ///< The multi data set file where data given to plot (e.g., vectors) are saved
     std::string m_data; ///< The current plot data as a string
     std::size_t m_numdatasets = 0; ///< The current number of data sets in the data file
@@ -259,14 +247,13 @@ class Plot
 inline std::size_t Plot::m_counter = 0;
 
 inline Plot::Plot()
-    : m_id(m_counter++), m_scriptfilename("show" + internal::str(m_id) + ".plt"), m_datafilename("plot" + internal::str(m_id) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_rlabel("r"), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r")
+    : m_id(m_counter++), m_datafilename("plot" + internal::str(m_id) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_rlabel("r"), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r")
 {
     // Show only major and minor xtics and ytics
     xticsMajorBottom().show();
     xticsMinorBottom().show();
     yticsMajorLeft().show();
     yticsMinorLeft().show();
-
     // Hide all other tics
     xticsMajorTop().hide();
     xticsMinorTop().hide();
@@ -276,39 +263,40 @@ inline Plot::Plot()
     zticsMinor().hide();
     rticsMajor().hide();
     rticsMinor().hide();
-
     // Default options for fill style
     styleFill().solid();
     styleFill().borderHide();
-
     // Set all other default options
     boxWidthRelative(internal::DEFAULT_FIGURE_BOXWIDTH_RELATIVE);
-
     // This is needed because of how drawHistogram works. Using `with histograms` don't work as well.
     gnuplot("set style data histogram");
 }
 
-inline auto Plot::palette(const std::string& name) -> void
+inline auto Plot::palette(const std::string& name) -> Plot&
 {
     m_palette = name;
+    return *this;
 }
 
-inline auto Plot::size(std::size_t width, std::size_t height) -> void
+inline auto Plot::size(std::size_t width, std::size_t height) -> Plot&
 {
     m_width = width;
     m_height = height;
+    return *this;
 }
 
-inline auto Plot::fontName(const std::string& name) -> void
+inline auto Plot::fontName(const std::string& name) -> Plot&
 {
     m_font.fontName(name);
     m_legend.fontName(name);
+    return *this;
 }
 
-inline auto Plot::fontSize(std::size_t size) -> void
+inline auto Plot::fontSize(std::size_t size) -> Plot&
 {
     m_font.fontSize(size);
     m_legend.fontSize(size);
+    return *this;
 }
 
 inline auto Plot::xlabel(const std::string& label) -> AxisLabelSpecs&
@@ -323,24 +311,28 @@ inline auto Plot::ylabel(const std::string& label) -> AxisLabelSpecs&
     return m_ylabel;
 }
 
-inline auto Plot::xrange(const StringOrDouble& min, const StringOrDouble& max) -> void
+inline auto Plot::xrange(const StringOrDouble& min, const StringOrDouble& max) -> Plot&
 {
     m_xrange = "[" + min.value + ":" + max.value + "]";
+    return *this;
 }
 
-inline auto Plot::yrange(const StringOrDouble& min, const StringOrDouble& max) -> void
+inline auto Plot::yrange(const StringOrDouble& min, const StringOrDouble& max) -> Plot&
 {
     m_yrange = "[" + min.value + ":" + max.value + "]";
+    return *this;
 }
 
-inline auto Plot::boxWidthAbsolute(double val) -> void
+inline auto Plot::boxWidthAbsolute(double val) -> Plot&
 {
     m_boxwidth = internal::str(val) + " absolute";
+    return *this;
 }
 
-inline auto Plot::boxWidthRelative(double val) -> void
+inline auto Plot::boxWidthRelative(double val) -> Plot&
 {
     m_boxwidth = internal::str(val) + " relative";
+    return *this;
 }
 
 //======================================================================
@@ -351,7 +343,6 @@ inline auto Plot::draw(const std::string& what, const std::string& use, const st
 {
     // Save the draw arguments for this x,y data
     m_drawspecs.emplace_back(what, use, with);
-
     // Return the just created drawing object in case the user wants to customize it
     return m_drawspecs.back();
 }
@@ -375,87 +366,6 @@ inline auto Plot::gnuplot(const std::string& command) -> void
     m_customcmds.push_back(command);
 }
 
-inline auto Plot::show() const -> void
-{
-    // Open script file and truncate it
-    std::ofstream script(m_scriptfilename);
-
-    // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
-
-    // Add terminal info
-    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
-    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
-    std::string size = gnuplot::sizestr(width, height, false);
-    gnuplot::showterminalcmd(script, size, m_font);
-
-    // Add the plot commands
-    script << repr();
-
-    // Add an empty line at the end and close the script to avoid crashes with gnuplot
-    script << std::endl;
-    script.close();
-
-    // save plot data to a file
-    savePlotData();
-
-    // Show the plot
-    gnuplot::runscript(m_scriptfilename, true);
-
-    // remove the temporary files if user wants to
-    if (m_autoclean)
-    {
-        cleanup();
-    }
-}
-
-inline auto Plot::save(const std::string& filename) const -> void
-{
-    // Clean the file name to prevent errors
-    auto cleanedfilename = gnuplot::cleanpath(filename);
-
-    // Get extension from file name
-    auto extension = cleanedfilename.substr(cleanedfilename.rfind('.') + 1);
-
-    // Open script file
-    std::ofstream script(m_scriptfilename);
-
-    // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
-
-    // Add terminal info
-    auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
-    auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
-    std::string size = gnuplot::sizestr(width, height, extension == "pdf");
-    gnuplot::saveterminalcmd(script, extension, size, m_font);
-
-    // Add output command
-    gnuplot::outputcmd(script, cleanedfilename);
-
-    // Add the plot commands
-    script << repr();
-
-    // Unset the output
-    script << std::endl;
-    script << "set output";
-
-    // Add an empty line at the end and close the script to avoid crashes with gnuplot
-    script << std::endl;
-    script.close();
-
-    // save plot data to a file
-    savePlotData();
-
-    // Save the plot as a file
-    gnuplot::runscript(m_scriptfilename, false);
-
-    // remove the temporary files if user wants to
-    if (m_autoclean)
-    {
-        cleanup();
-    }
-}
-
 inline auto Plot::savePlotData() const -> void
 {
     // Open data file, truncate it and write all current plot data to it
@@ -473,7 +383,6 @@ inline auto Plot::autoclean(bool enable) -> void
 
 inline auto Plot::cleanup() const -> void
 {
-    std::remove(m_scriptfilename.c_str());
     std::remove(m_datafilename.c_str());
 }
 

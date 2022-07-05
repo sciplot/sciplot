@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2022 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,36 +27,41 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-// sciplot includes
-#include <sciplot/sciplot.hpp>
-using namespace sciplot;
-
 int main(int argc, char** argv)
 {
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     Vec x = linspace(0.0, 5.0, 200);
 
-    // Create a Plot object
-    Plot2D plot;
+    // Create 2 different plots
+    Plot2D plot0;
+    plot0.drawCurve(x, std::sin(x)).label("sin(x)");
+    plot0.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // This disables the deletion of the created gnuplot script and data file.
-    plot.autoclean(false);
+    Plot2D plot1;
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // Change its palette
-    plot.palette("dark2");
+    // Use the plots in a 2x1 figure
+    Figure fig1 = {{plot0, plot1}};
+    fig1.title("1st figure");
+    fig1.layout().origin(0.0, 0.5);
+    fig1.layout().size(0.5, 0.5);
 
-    // Plot two functions
-    plot.drawCurve(x, std::sin(x)).label("sin(x)");
-    plot.drawCurve(x, std::cos(x)).label("cos(x)");
+    // Use the plots in a 2x1 figure
+    Figure fig2 = {{plot0, plot1}};
+    fig2.title("2nd figure");
+    // no margin left and right, default margins top and bottom
+    fig2.layout().marginsAbsolute(0, 0, -1, -1);
 
-    // Create figure to hold plot
-    Figure fig = {{plot}};
-    // Create canvas to hold figure
-    Canvas canvas = {{fig}};
+    // Create canvas to hold figures
+    Canvas canvas = {{fig1, fig2}};
+    // Set canvas title. this only works for windows atm
+    canvas.title("Canvas title");
 
     // Show the plot in a pop-up window
+    // Note that this will only show the last figure
     canvas.show();
 
-    // Save the plot to a PDF file
-    canvas.save("example-sincos-functions.pdf");
+    // Save the figure to a PDF file
+    // Note that the figures will go to successive pages
+    canvas.save("example-figures-layout.pdf");
 }

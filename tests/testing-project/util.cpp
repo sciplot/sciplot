@@ -14,5 +14,7 @@ void plot()
 
     plot.drawCurve(x, y).label("A");
 
-    plot.show();
+    Figure fig = {{plot}};
+    Canvas canvas = {{fig}};
+    canvas.show();
 }

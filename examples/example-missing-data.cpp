@@ -42,6 +42,14 @@ int main(int argc, char** argv)
     // Plot the data
     plot.drawBrokenCurveWithPoints(x, y).label("broken lines");
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
+    // Show the plot in a pop-up window
+    canvas.show();
+
     // Save the plot to a PDF file
-    plot.save("example-missing-data.pdf");
+    canvas.save("example-missing-data.pdf");
 }

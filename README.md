@@ -25,30 +25,38 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, 5.0, 100);
 
     // Create a Plot object
-    Plot2D plot;
-
+    Plot2D plot1;
     // Set color palette
-    plot.palette("set2");
-
+    plot1.palette("set2");
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
-    plot.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
-
+    plot1.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    plot.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
 
-    // Show the plot in a pop-up window
-    plot.show();
+    // Create a second Plot object
+    Plot2D plot2;
+    // Draw a tangent graph putting x on the x-axis and tan(x) on the y-axis
+    plot2.drawCurve(x, std::tan(x)).label("tan(x)").lineWidth(4);
 
-    // Save the plot to a PDF file
-    plot.save("plot.pdf");
+    // Put both plots in a "figure" horizontally next to each other
+    Figure figure = {{plot1, plot2}};
+
+    // Create a canvas / drawing area to hold figure and plots
+    Canvas canvas = {{figure}};
+
+    // Show the canvas in a pop-up window
+    canvas.show();
+
+    // Save the plot to a SVG file
+    canvas.save("example-readme.svg");
 }
 ```
 
-After compiling and executing this C++ application, the following plot (`plot.pdf`) is produced:
+After compiling and executing this C++ application, the following plot (`readme.svg`) is produced:
 
 
 <p align="center">
-    <img src="docs/website/img/home/demo-plot-palette-set2.svg" width=60%;" title="sincos">
+    <img src="docs/website/img/home/example-readme.svg" width=60%;" title="example output">
 </p>
 
 Do you want to change the colors?

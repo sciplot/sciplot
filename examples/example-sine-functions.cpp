@@ -57,9 +57,14 @@ int main(int argc, char** argv)
     plot.drawCurve(x, std::sin(5.0 * x)).label("sin(5x)");
     plot.drawCurve(x, std::sin(6.0 * x)).label("sin(6x)");
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
     // Show the plot in a pop-up window
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-sine-functions.pdf");
+    canvas.save("example-sine-functions.pdf");
 }

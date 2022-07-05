@@ -44,9 +44,14 @@ int main(int argc, char** argv)
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
     plot.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
     // Show the plot in a pop-up window
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-trigonometric-functions.pdf");
+    canvas.save("example-trigonometric-functions.pdf");
 }

@@ -53,6 +53,14 @@ int main(int argc, char** argv)
     fig.title("Trigonometric Functions");
     fig.palette("dark2");
 
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+    // Set canvas output size
+    canvas.size(600, 600);
+
+    // Show the plot in a pop-up window
+    canvas.show();
+
     // Save the figure to a PDF file
-    fig.save("example-multiplot.pdf");
+    canvas.save("example-multiplot.pdf");
 }
