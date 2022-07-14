@@ -87,7 +87,7 @@ class Figure
     template <typename T>
     T& get(int i, int j);
 
-    /// Set the palette of colors for the plot.
+    /// Set the palette of colors for all plots in the figure.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
     auto palette(const std::string& name) -> Figure&;
 
@@ -119,9 +119,6 @@ class Figure
     /// Plot id derived from m_counter upon construction
     /// Must be the first member due to constructor initialization order!
     std::size_t m_id = 0;
-
-    /// The name of the gnuplot palette to be used
-    std::string m_palette;
 
     /// The layout of the figure inside the canvas
     LayoutSpecs m_layout;
@@ -190,7 +187,20 @@ inline Plot3D& Figure::get(int i, int j)
 
 inline auto Figure::palette(const std::string& name) -> Figure&
 {
-    m_palette = name;
+    for (auto& row : m_plots)
+    {
+        for (auto& plot : row)
+        {
+            if (std::holds_alternative<Plot2D>(plot))
+            {
+                std::get<Plot2D>(plot).palette(name);
+            }
+            else if (std::holds_alternative<Plot3D>(plot))
+            {
+                std::get<Plot3D>(plot).palette(name);
+            }
+        }
+    }
     return *this;
 }
 
@@ -213,11 +223,6 @@ inline auto Figure::repr() const -> std::string
     {
         gnuplot::multiplotcmd(script, m_layoutrows, m_layoutcols, m_title);
     }
-    // Add palette info if a palette was set
-    if (!m_palette.empty())
-    {
-        gnuplot::palettecmd(script, m_palette);
-    }
     script << m_layout << std::endl;
     for (const auto& row : m_plots)
     {
@@ -225,11 +230,6 @@ inline auto Figure::repr() const -> std::string
         {
             script << std::visit(ReprPlotVisitor, plot);
         }
-    }
-    // unset palette info if a palette was set
-    if (!m_palette.empty())
-    {
-        gnuplot::unsetpalettecmd(script);
     }
     // Close multiplot
     if (m_layoutrows > 1 || m_layoutcols > 1)

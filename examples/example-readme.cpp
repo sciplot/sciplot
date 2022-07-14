@@ -34,12 +34,12 @@ int main(int argc, char** argv)
 
     // Create a Plot object
     Plot2D plot1;
-    // Set color palette
-    // plot1.palette("set2");
+    // Set color palette for first Plot
+    plot1.palette("paired");
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
     plot1.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    plot1.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(2);
 
     // Create a second Plot object
     Plot2D plot2;
@@ -48,13 +48,11 @@ int main(int argc, char** argv)
 
     // Put both plots in a "figure" horizontally next to each other
     Figure figure = {{plot1, plot2}};
-    // Set color palette
-    figure.palette("chromajs");
-
-    // TODO HOW TO SET PALETTES _IN FIGURES ? UNSET LINESTYLE ? ? ?
 
     // Create a canvas / drawing area to hold figure and plots
     Canvas canvas = {{figure}};
+    // Set color palette for all Plots that do not have a palette set (plot2) / the default palette
+    canvas.defaultPalette("set1");
 
     // Show the canvas in a pop-up window
     canvas.show();

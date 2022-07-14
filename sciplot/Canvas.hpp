@@ -53,9 +53,9 @@ class Canvas
     /// Call cleanup() to remove those files manually.
     auto autoclean(bool enable = true) -> void;
 
-    /// Set the palette of colors for all plots on the canvas.
+    /// Set the default palette of colors for all plots that DO NOT have a palette set.
     /// @param name Any palette name displayed in https://github.com/Gnuplotting/gnuplot-palettes, such as "viridis", "parula", "jet".
-    auto palette(const std::string& name) -> Canvas&;
+    auto defaultPalette(const std::string& name) -> Canvas&;
 
     /// Set the output size of the canvas (in unit of points, with 1 inch = 72 points).
     auto size(std::size_t width, std::size_t height) -> Canvas&;
@@ -98,8 +98,8 @@ class Canvas
     /// Toggle automatic cleaning of temporary files (enabled by default)
     bool m_autoclean = true;
 
-    /// The name of the gnuplot palette to be used
-    std::string m_palette;
+    /// The name of the default gnuplot palette to be used
+    std::string m_defaultPalette;
 
     /// The font name and size used in the plots
     FontSpecs m_font;
@@ -160,9 +160,9 @@ inline auto Canvas::autoclean(bool enable) -> void
     m_autoclean = enable;
 }
 
-inline auto Canvas::palette(const std::string& name) -> Canvas&
+inline auto Canvas::defaultPalette(const std::string& name) -> Canvas&
 {
-    m_palette = name;
+    m_defaultPalette = name;
     return *this;
 }
 
@@ -207,7 +207,7 @@ inline auto Canvas::show() const -> void
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
     // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+    gnuplot::palettecmd(script, m_defaultPalette.empty() ? internal::DEFAULT_PALETTE : m_defaultPalette);
     // Add terminal info
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
@@ -245,7 +245,7 @@ inline auto Canvas::save(const std::string& filename) const -> void
     // Open script file
     std::ofstream script(m_scriptfilename);
     // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_palette.empty() ? internal::DEFAULT_PALETTE : m_palette);
+    gnuplot::palettecmd(script, m_defaultPalette.empty() ? internal::DEFAULT_PALETTE : m_defaultPalette);
     // Add terminal info including output size
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
