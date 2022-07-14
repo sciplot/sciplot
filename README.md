@@ -11,7 +11,7 @@
 
 **So, you have an amazing C++ application for which you need plotting capabilities.** You have searched around and discovered that the available options for C++ plotting libraries is rather limited compared to other programming languages, such as Python, for example, which has [matplotlib].
 
-The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. **sciplot** is a header-only library that needs a C++17-capable compiler, but has no external dependencies for compiling. The only external runtime dependencies are [gnuplot-palettes] for providing color palettes and a [gnuplot](http://www.gnuplot.info/) executable.
+The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. **sciplot** is a header-only library that needs a C++17-capable compiler, but has no external dependencies for compiling. The only external runtime dependencies are [gnuplot-palettes] for providing color palettes and a [gnuplot] executable.
 
 Here is an example of **sciplot** in action:
 
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 }
 ```
 
-After compiling and executing this C++ application, the following plot (`readme.svg`) is produced:
+After compiling and executing this C++ application, the following plot (`example-readme.svg`) is produced:
 
 
 <p align="center">
@@ -74,3 +74,4 @@ All available color palettes and their names can be found [here][gnuplot-palette
 
 [gnuplot-palettes]: https://github.com/sciplot/gnuplot-palettes
 [AnnaSchneider]: https://github.com/aschn
+[gnuplot]: http://gnuplot.info/

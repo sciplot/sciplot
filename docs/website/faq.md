@@ -5,7 +5,7 @@
 All plotting capabilities of {{sciplot}} are powered by [gnuplot].  Your
 plotting code, using a modern and elegant C++ API provided by {{sciplot}}, is
 converted to a gnuplot script, which is then executed to generate the desired
-figure. Note that gnuplot 4.2+ is needed for multiplots.
+figure. Note that gnuplot 4.2+ is needed for multiplots, but a version higher than 5.4.1 is recommended.
 
 ## Something is not working for me. Is it a known issue?
 

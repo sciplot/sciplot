@@ -40,7 +40,7 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ## Ploting trigonometric functions
 
-{{ inputcpp('examples/example-trigonometric-functions.cpp', startline=26) }}
+{{ inputcpp('examples/example-sincos-functions.cpp', startline=26) }}
 
 ![](img/tutorials/example-sincos-functions.svg){: loading=lazy }
 
