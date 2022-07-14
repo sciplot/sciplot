@@ -180,7 +180,6 @@ inline auto Plot3D::drawWithVecs(const std::string& with, const X& x, const Vecs
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets and set the line style specification (desired behavior is 1, 2, 3 (incrementing as new lines are plotted)).
     return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(static_cast<int>(m_drawspecs.size()));
-    ;
 }
 
 template <typename X, typename Y, typename Z>
