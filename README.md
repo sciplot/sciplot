@@ -3,9 +3,7 @@
     <img src="art/sciplot-logo.svg" width=100%;" title="sciplot">
 </p>
 
-<p align="center">
-    <img src="docs/website/img/warning.svg" width=100%;" title="warning">
-</p>
+# **! WARNING !** sciplot has been redesigned and there were breaking API changes between v0.2 and v0.3. See the [tutorials](https://sciplot.github.io/tutorials/) and the [API documentation](https://sciplot.github.io/api/) for the new version.
 
 # Overview
 

@@ -1,6 +1,8 @@
 # ![sciplot](img/logo.svg){: loading=lazy; width=100% }
 
-# ![sciplot](img/warning.svg){: loading=lazy; width=100% }
+<!-- # Warning -->
+
+# **! WARNING !** sciplot has been redesigned and there were breaking API changes between v0.2 and v0.3. See the [tutorials](https://sciplot.github.io/tutorials/) and the [API documentation](https://sciplot.github.io/api/) for the new version.
 
 <!-- # Overview -->
 
