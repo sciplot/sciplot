@@ -4,7 +4,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(CCache)
 
-project(sciplot VERSION 0.2.0
+project(sciplot VERSION 0.3.1
     DESCRIPTION "A modern C++ scientific plotting library powered by gnuplot"
     HOMEPAGE_URL "https://sciplot.github.io"
     LANGUAGES CXX)
