@@ -45,7 +45,6 @@ int main(int argc, char** argv)
 
     // Show the canvas in a pop-up window
     canvas.show();
-    canvas.autoclean(false);
 
     // Save the plot to a SVG file
     canvas.save("example-readme.svg");
