@@ -41,8 +41,8 @@ install(EXPORT sciplot-export
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-        ${CMAKE_SOURCE_DIR}/cmake/PackageConfigTemplates/sciplotConfig.cmake.in
-        ${CMAKE_BINARY_DIR}/sciplotConfig.cmake
+        ${PROJECT_SOURCE_DIR}/cmake/PackageConfigTemplates/sciplotConfig.cmake.in
+        ${PROJECT_BINARY_DIR}/sciplotConfig.cmake
         INSTALL_DESTINATION
         ${CMAKE_INSTALL_DATAROOTDIR}/${CMAKE_PROJECT_NAME}/
 )
@@ -57,8 +57,8 @@ write_basic_package_version_file(
 # install generated files
 
 install(FILES
-        ${CMAKE_BINARY_DIR}/sciplotConfig.cmake
-        ${CMAKE_BINARY_DIR}/sciplotConfigVersion.cmake
+        ${PROJECT_BINARY_DIR}/sciplotConfig.cmake
+        ${PROJECT_BINARY_DIR}/sciplotConfigVersion.cmake
         DESTINATION
         ${CMAKE_INSTALL_DATAROOTDIR}/${CMAKE_PROJECT_NAME}/
         )
