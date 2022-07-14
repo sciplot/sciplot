@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     Vec x = linspace(1, 12, 100);
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set the x and y labels
     plot.xlabel("x");
@@ -55,10 +55,16 @@ int main(int argc, char** argv)
     plot.drawCurve(x, std::pow(2.0, x))
         .label("2^x");
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+    // Set canvas output size
+    canvas.size(749, 749);
+
     // Show the plot in a pop-up window
-    plot.size(749, 749);
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-logarithmic-axes.pdf");
+    canvas.save("example-logarithmic-axes.pdf");
 }

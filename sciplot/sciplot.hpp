@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2022 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,14 +35,15 @@
 #endif // _WINDOWS_
 
 // sciplot includes
+#include <sciplot/Canvas.hpp>
 #include <sciplot/Constants.hpp>
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Figure.hpp>
 #include <sciplot/Palettes.hpp>
 #include <sciplot/Plot.hpp>
+#include <sciplot/Plot2D.hpp>
 #include <sciplot/Plot3D.hpp>
-#include <sciplot/PlotBase.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/Vec.hpp>

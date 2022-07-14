@@ -39,7 +39,7 @@ int main(int argc, char** argv)
     Vec experiences = {0.8, 0.4, 0.7, 0.9};
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set the legend to the top left corner of the plot
     plot.legend().atTopLeft();
@@ -61,9 +61,14 @@ int main(int argc, char** argv)
 
     plot.autoclean(false);
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
     // Show the plot in a pop-up window
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-boxes-ticklabels.pdf");
+    canvas.save("example-boxes-ticklabels.pdf");
 }

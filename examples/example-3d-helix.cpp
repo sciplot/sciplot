@@ -33,13 +33,14 @@ int main(int argc, char** argv)
     Vec z = linspace(0.0, 100.0, 2000);
 
     // Construct x and y for each z so that a helix curve is defined
-    std::vector<double> x,y;
+    std::vector<double> x, y;
     double c = 2;
     double r = 1;
 
-    for(auto val : z) {
-        x.push_back(r*cos(val/c));
-        y.push_back(r*sin(val/c));
+    for (auto val : z)
+    {
+        x.push_back(r * cos(val / c));
+        y.push_back(r * sin(val / c));
     }
 
     // Create a Plot3D object
@@ -65,9 +66,14 @@ int main(int argc, char** argv)
     // Draw the helix curve
     plot.drawCurve(x, y, z).label("helix").lineColor("orange");
 
+    // Create figure to hold plot
+    Figure fig = {{plot}};
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+
     // Show the plot in a pop-up window
-    plot.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    plot.save("example-3d-helix.pdf");
+    canvas.save("example-3d-helix.pdf");
 }

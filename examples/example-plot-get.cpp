@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2021 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,36 +27,48 @@
 #include <sciplot/sciplot.hpp>
 using namespace sciplot;
 
-// sciplot includes
-#include <sciplot/sciplot.hpp>
-using namespace sciplot;
-
 int main(int argc, char** argv)
 {
     // Create a vector with values from 0 to 5 divived into 200 uniform intervals for the x-axis
     Vec x = linspace(0.0, 5.0, 200);
 
-    // Create a Plot object
-    Plot2D plot;
+    // Create some plots and draw curves
+    Plot2D plot0;
+    plot0.drawCurve(x, std::sin(x)).label("sin(x)");
+    Plot2D plot1;
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    // This disables the deletion of the created gnuplot script and data file.
-    plot.autoclean(false);
+    // Use the previous plots as sub-figures in a larger figure. Note that
+    // plot0 and plot1 will be deep-copied into fig
+    Figure fig = {{plot0, plot1}};
 
-    // Change its palette
-    plot.palette("dark2");
+    // This will NOT change the plot in fig, only plot0
+    plot0.drawCurve(x, std::tan(x)).label("tan(x)");
 
-    // Plot two functions
-    plot.drawCurve(x, std::sin(x)).label("sin(x)");
-    plot.drawCurve(x, std::cos(x)).label("cos(x)");
+    // Get a reference to the copy of plot1 in fig. This gets the generic base
+    // class Plot supports methods common to Plot2D and Plot3D
+    auto& plotref = fig.get(1, 0);
+    // This will modify the plot in fig, but NOT plot1
+    plotref.grid().show();
 
-    // Create figure to hold plot
-    Figure fig = {{plot}};
+    // Get a reference to the copy of plot0 in fig. This gets the Plot2D
+    // version to provide 2D-specific drawing functions
+    auto& plot2dref = fig.get<Plot2D>(0, 0);
+    // This will modify the plot in fig, but NOT plot0
+    plot2dref.drawCurve(x, std::sqrt(x)).label("sqrt(x)");
+
+    // Set figure title and palette
+    fig.title("Getting plots from figures");
+    fig.palette("dark2");
+
     // Create canvas to hold figure
     Canvas canvas = {{fig}};
+    // Set output canvas size to 750x750 pixels
+    canvas.size(750, 750);
 
     // Show the plot in a pop-up window
     canvas.show();
 
-    // Save the plot to a PDF file
-    canvas.save("example-sincos-functions.pdf");
+    // Save the figure to a svg file
+    canvas.save("example-plot-get.svg");
 }

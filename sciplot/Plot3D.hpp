@@ -3,7 +3,7 @@
 //
 // Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 //
-// Copyright (c) 2018-2021 Allan Leal
+// Copyright (c) 2018-2022 Allan Leal, Bim Overbohm
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@
 #include <sciplot/Default.hpp>
 #include <sciplot/Enums.hpp>
 #include <sciplot/Palettes.hpp>
-#include <sciplot/PlotBase.hpp>
+#include <sciplot/Plot.hpp>
 #include <sciplot/StringOrDouble.hpp>
 #include <sciplot/Utils.hpp>
 #include <sciplot/specs/AxisLabelSpecs.hpp>
@@ -54,7 +54,7 @@ namespace sciplot
 {
 
 /// The class used to create a plot containing graphical elements.
-class Plot3D : public PlotBase
+class Plot3D : public Plot
 {
   public:
     /// Construct a default Plot object
@@ -136,7 +136,7 @@ class Plot3D : public PlotBase
 };
 
 inline Plot3D::Plot3D()
-    : PlotBase(), m_zlabel("z")
+    : Plot(), m_zlabel("z")
 {
 }
 
@@ -179,8 +179,7 @@ inline auto Plot3D::drawWithVecs(const std::string& with, const X& x, const Vecs
     m_data += datastream.str();
 
     // Draw the data saved using a data set with index `m_numdatasets`. Increase number of data sets and set the line style specification (desired behavior is 1, 2, 3 (incrementing as new lines are plotted)).
-    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(static_cast<int> (m_drawspecs.size()));
-    ;
+    return draw("'" + m_datafilename + "' index " + internal::str(m_numdatasets++), use, with).lineStyle(static_cast<int>(m_drawspecs.size()));
 }
 
 template <typename X, typename Y, typename Z>
@@ -227,12 +226,11 @@ inline auto Plot3D::drawHistogram(const Y& y) -> DrawSpecs&
 inline auto Plot3D::drawWithCols(const std::string& fname, const std::string& with, const std::vector<ColumnIndex>& cols) -> DrawSpecs&
 {
     std::string use;
-    for (auto col : cols)
+    for (const auto& col : cols)
         use += col.value + ":"; // e.g., "1:4:5:7:" (where 1 is x, 4 is y, 5 is ylow and 7 is yhigh for a yerrorlines plot)
     use = internal::trimright(use, ':'); // e.g., "1:4:5:7:" => "1:4:5:7"
     std::string what = "'" + fname + "'"; // e.g., "'myfile.dat'"
-    return draw(what, use, with).lineStyle(static_cast<int> (m_drawspecs.size()));
-    ; // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
+    return draw(what, use, with).lineStyle(static_cast<int>(m_drawspecs.size())); // e.g., draw(what="'myfile.dat'", use="1:2", with="lines");
 }
 
 inline auto Plot3D::drawCurve(const std::string& fname, const ColumnIndex& xcol, const ColumnIndex& ycol) -> DrawSpecs&
@@ -277,9 +275,14 @@ inline auto Plot3D::repr() const -> std::string
     script << "#==============================================================================" << std::endl;
     script << "# SETUP COMMANDS" << std::endl;
     script << "#==============================================================================" << std::endl;
-    script << gnuplot::commandValueStr("set xrange", m_xrange);
-    script << gnuplot::commandValueStr("set yrange", m_yrange);
-    script << gnuplot::commandValueStr("set zrange", m_zrange);
+    // Add palette info if a palette was set
+    if (!m_palette.empty())
+    {
+        gnuplot::palettecmd(script, m_palette);
+    }
+    script << gnuplot::cmdValueStr("set xrange", m_xrange);
+    script << gnuplot::cmdValueStr("set yrange", m_yrange);
+    script << gnuplot::cmdValueStr("set zrange", m_zrange);
     script << m_xlabel << std::endl;
     script << m_ylabel << std::endl;
     script << m_zlabel << std::endl;
@@ -302,9 +305,13 @@ inline auto Plot3D::repr() const -> std::string
     script << m_rtics_major << std::endl;
     script << m_rtics_minor << std::endl;
     script << m_legend << std::endl;
-    script << gnuplot::commandValueStr("set boxwidth", m_boxwidth);
-    script << gnuplot::commandValueStr("set samples", m_samples);
-
+    script << gnuplot::cmdValueStr("set boxwidth", m_boxwidth);
+    script << gnuplot::cmdValueStr("set samples", m_samples);
+    // unset palette info if a palette was set
+    if (!m_palette.empty())
+    {
+        gnuplot::unsetpalettecmd(script);
+    }
     // Add custom gnuplot commands
     if (!m_customcmds.empty())
     {
@@ -316,18 +323,17 @@ inline auto Plot3D::repr() const -> std::string
             script << c << std::endl;
         }
     }
-
     // Add the actual plot commands for all drawXYZ() calls
     script << "#==============================================================================" << std::endl;
     script << "# PLOT COMMANDS" << std::endl;
     script << "#==============================================================================" << std::endl;
     script << "splot \\\n"; // use `\` to have a plot command in each individual line!
-
     // Write plot commands and style per plot
     const auto n = m_drawspecs.size();
     for (std::size_t i = 0; i < n; ++i)
+    {
         script << "    " << m_drawspecs[i] << (i < n - 1 ? ", \\\n" : ""); // consider indentation with 4 spaces!
-
+    }
     // Add an empty line at the end
     script << std::endl;
     return script.str();

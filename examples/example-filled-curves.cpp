@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, 2.0 * PI, 200);
 
     // Create a Plot object
-    Plot plot;
+    Plot2D plot;
 
     // Set the x and y labels
     plot.xlabel("x");
@@ -49,9 +49,9 @@ int main(int argc, char** argv)
         .displayHorizontal()
         .displayExpandWidthBy(2);
 
-    Plot plot0;
-    Plot plot1;
-    Plot plot2;
+    Plot2D plot0;
+    Plot2D plot1;
+    Plot2D plot2;
 
     // Plot sine functions
     plot0.drawCurveFilled(x, std::sin(1.0 * x)).label("sin(x) default");
@@ -64,11 +64,15 @@ int main(int argc, char** argv)
 
     fig.title("Filled curves \\& options");
     fig.palette("dark2");
-    fig.size(749, 749);
+
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+    // Set canvas output size
+    canvas.size(749, 749);
 
     // Show the plot in a pop-up window
-    fig.show();
+    canvas.show();
 
     // Save the plot to a PDF file
-    fig.save("example-filled-curves.pdf");
+    canvas.save("example-filled-curves.pdf");
 }

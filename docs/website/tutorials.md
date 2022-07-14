@@ -40,7 +40,7 @@ pre-computed and stored in `std::vector` objects (see below).
 
 ## Ploting trigonometric functions
 
-{{ inputcpp('examples/example-trigonometric-functions.cpp', startline=26) }}
+{{ inputcpp('examples/example-sincos-functions.cpp', startline=26) }}
 
 ![](img/tutorials/example-sincos-functions.svg){: loading=lazy }
 
@@ -73,6 +73,12 @@ pre-computed and stored in `std::vector` objects (see below).
 {{ inputcpp('examples/example-multiplot-mixed.cpp', startline=26) }}
 
 ![](img/tutorials/example-multiplot-mixed.svg){: loading=lazy }
+
+## Changing plots in a figure
+
+{{ inputcpp('examples/example-plot-get.cpp', startline=26) }}
+
+![](img/tutorials/example-plot-get.svg){: loading=lazy }
 
 ## Integration with CMake-based projects
 

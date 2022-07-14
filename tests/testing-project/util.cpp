@@ -6,7 +6,7 @@ void plot()
     const Vec x = linspace(0.0, 5.0, 8);
     const Vec y = linspace(2.0, 6.0, 8);
 
-    Plot plot;
+    Plot2D plot;
 
     plot.palette("dark2");
 
@@ -14,5 +14,7 @@ void plot()
 
     plot.drawCurve(x, y).label("A");
 
-    plot.show();
+    Figure fig = {{plot}};
+    Canvas canvas = {{fig}};
+    canvas.show();
 }

@@ -37,9 +37,10 @@ auto createHelixPlot()
     double c = 2;
     double r = 1;
 
-    for(auto val : z) {
-        x.push_back(r*cos(val/c));
-        y.push_back(r*sin(val/c));
+    for (auto val : z)
+    {
+        x.push_back(r * cos(val / c));
+        y.push_back(r * sin(val / c));
     }
 
     // Create the 3D plot for the helix
@@ -71,28 +72,33 @@ int main(int argc, char** argv)
     Vec x = linspace(0.0, 5.0, 200);
 
     // Create 4 different plots
-    Plot plot0;
+    Plot2D plot0;
     plot0.drawCurve(x, std::sin(x)).label("sin(x)");
     plot0.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    Plot plot1;
+    Plot2D plot1;
     plot1.drawCurve(x, std::cos(x)).label("cos(x)");
 
-    Plot plot2;
+    Plot2D plot2;
     plot2.drawCurve(x, std::tan(x)).label("tan(x)");
 
     Plot3D plot3 = createHelixPlot();
 
     // Use the previous plots as sub-figures in a larger 2x2 figure.
-    Figure fig = {{ plot0, plot1 },
-                  { plot2, plot3 }};
-
-    fig.size(600, 600);
+    Figure fig = {{plot0, plot1},
+                  {plot2, plot3}};
 
     fig.title("Mixing 2D and 3D plots");
     fig.palette("dark2");
-    fig.show();
+
+    // Create canvas to hold figure
+    Canvas canvas = {{fig}};
+    // Set canvas output size
+    canvas.size(600, 600);
+
+    // Show the plot in a pop-up window
+    canvas.show();
 
     // Save the figure to a PDF file
-    fig.save("example-multiplot-mixed.pdf");
+    canvas.save("example-multiplot-mixed.pdf");
 }
