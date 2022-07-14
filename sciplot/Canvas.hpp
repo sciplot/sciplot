@@ -207,7 +207,7 @@ inline auto Canvas::show() const -> void
     // Open script file and truncate it
     std::ofstream script(m_scriptfilename);
     // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_defaultPalette.empty() ? internal::DEFAULT_PALETTE : m_defaultPalette);
+    gnuplot::palettecmd(script, m_defaultPalette.empty() ? internal::SCIPLOT_DEFAULT_PALETTE : m_defaultPalette);
     // Add terminal info
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;
@@ -245,7 +245,7 @@ inline auto Canvas::save(const std::string& filename) const -> void
     // Open script file
     std::ofstream script(m_scriptfilename);
     // Add palette info. Use default palette if the user hasn't set one
-    gnuplot::palettecmd(script, m_defaultPalette.empty() ? internal::DEFAULT_PALETTE : m_defaultPalette);
+    gnuplot::palettecmd(script, m_defaultPalette.empty() ? internal::SCIPLOT_DEFAULT_PALETTE : m_defaultPalette);
     // Add terminal info including output size
     auto width = m_width == 0 ? internal::DEFAULT_FIGURE_WIDTH : m_width;
     auto height = m_height == 0 ? internal::DEFAULT_FIGURE_HEIGHT : m_height;

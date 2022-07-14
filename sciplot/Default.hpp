@@ -32,15 +32,16 @@
 #include <sciplot/Constants.hpp>
 #include <sciplot/Enums.hpp>
 
-namespace sciplot {
+namespace sciplot
+{
 namespace internal
 {
 
 const auto DEFAULT_FIGURE_HEIGHT = 200; // this is equivalent to 6 inches if 1 in = 72 points
-const auto DEFAULT_FIGURE_WIDTH = static_cast<size_t> (std::round (DEFAULT_FIGURE_HEIGHT * GOLDEN_RATIO));
+const auto DEFAULT_FIGURE_WIDTH = static_cast<size_t>(std::round(DEFAULT_FIGURE_HEIGHT * GOLDEN_RATIO));
 const auto DEFAULT_FIGURE_BOXWIDTH_RELATIVE = 0.9;
 
-const auto DEFAULT_PALETTE = "dark2";
+const auto SCIPLOT_DEFAULT_PALETTE = "dark2";
 
 const auto DEFAULT_TEXTCOLOR = "#404040";
 
