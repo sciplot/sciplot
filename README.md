@@ -11,7 +11,7 @@
 
 **So, you have an amazing C++ application for which you need plotting capabilities.** You have searched around and discovered that the available options for C++ plotting libraries is rather limited compared to other programming languages, such as Python, for example, which has [matplotlib].
 
-The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. **sciplot** is a header-only library that needs a C++17-capable compiler, but has no external dependencies for compiling. The only external runtime dependencies are [gnuplot-palettes] for providing color palettes and a [gnuplot] executable.
+The goal of the **sciplot project** is to enable you, C++ programmer, to **conveniently plot beautiful graphs** as easy as in other high-level programming languages. **sciplot** is a header-only library that needs a C++17-capable compiler, but has no external dependencies for compiling. The only external runtime dependencies are [gnuplot-palettes] for providing color palettes and a [gnuplot](http://www.gnuplot.info/) executable.
 
 Here is an example of **sciplot** in action:
 
@@ -26,12 +26,12 @@ int main(int argc, char** argv)
 
     // Create a Plot object
     Plot2D plot1;
-    // Set color palette
-    plot1.palette("set2");
+    // Set color palette for first Plot
+    plot1.palette("paired");
     // Draw a sine graph putting x on the x-axis and sin(x) on the y-axis
     plot1.drawCurve(x, std::sin(x)).label("sin(x)").lineWidth(4);
     // Draw a cosine graph putting x on the x-axis and cos(x) on the y-axis
-    plot1.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(4);
+    plot1.drawCurve(x, std::cos(x)).label("cos(x)").lineWidth(2);
 
     // Create a second Plot object
     Plot2D plot2;
@@ -43,9 +43,12 @@ int main(int argc, char** argv)
 
     // Create a canvas / drawing area to hold figure and plots
     Canvas canvas = {{figure}};
+    // Set color palette for all Plots that do not have a palette set (plot2) / the default palette
+    canvas.defaultPalette("set1");
 
     // Show the canvas in a pop-up window
     canvas.show();
+    canvas.autoclean(false);
 
     // Save the plot to a SVG file
     canvas.save("example-readme.svg");
