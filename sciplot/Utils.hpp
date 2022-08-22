@@ -136,7 +136,7 @@ template <typename T>
 auto escapeIfNeeded(const T& val)
 {
     if constexpr (isString<T>)
-        return "'" + val + "'";
+        return "\"" + val + "\""; // Due bug #102 we escape data using double quotes
     else
         return std::isfinite(static_cast<double>(val)) ? internal::str(val) : MISSING_INDICATOR; // static_cast to avoid MSVC error C2668: 'fpclassify': ambiguous call to overloaded function
 }

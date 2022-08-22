@@ -30,7 +30,7 @@ using namespace sciplot;
 int main(int argc, char** argv)
 {
     // Create a vector with the xtic labels for the boxes
-    Strings names = {"John", "Peter", "Thomas", "Marta"};
+    Strings names = {"1. John", "2 - Peter", "3: Thomas", "4 Marta"};
 
     // Create a vector with the y values for the boxes
     Vec ages = {44, 27, 35, 20};
