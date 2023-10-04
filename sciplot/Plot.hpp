@@ -247,7 +247,7 @@ class Plot
 inline std::size_t Plot::m_counter = 0;
 
 inline Plot::Plot()
-    : m_id(m_counter++), m_datafilename("plot" + internal::str(m_id) + ".dat"), m_xlabel("x"), m_ylabel("y"), m_rlabel("r"), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r")
+    : m_id(m_counter++), m_datafilename("plot" + internal::str(m_id) + ".dat"), m_xtics_major_bottom("x"), m_xtics_major_top("x2"), m_xtics_minor_bottom("x"), m_xtics_minor_top("x2"), m_ytics_major_left("y"), m_ytics_major_right("y2"), m_ytics_minor_left("y"), m_ytics_minor_right("y2"), m_ztics_major("z"), m_ztics_minor("z"), m_rtics_major("r"), m_rtics_minor("r"), m_xlabel("x"), m_ylabel("y"), m_rlabel("r")
 {
     // Show only major and minor xtics and ytics
     xticsMajorBottom().show();

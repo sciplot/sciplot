@@ -146,7 +146,7 @@ inline auto TicsSpecsMajor::at(const std::vector<double>& values) -> TicsSpecsMa
 {
     std::stringstream ss;
     ss << "(";
-    for (auto i = 0; i < values.size(); ++i)
+    for (decltype(values.size()) i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << values[i];
     ss << ")";
     m_at = ss.str();
@@ -157,7 +157,7 @@ inline auto TicsSpecsMajor::at(const std::vector<double>& values, const std::vec
 {
     std::stringstream ss;
     ss << "(";
-    for (auto i = 0; i < values.size(); ++i)
+    for (decltype(values.size()) i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << "'" << labels[i] << "' " << values[i];
     ss << ")";
     m_at = ss.str();
@@ -168,7 +168,7 @@ inline auto TicsSpecsMajor::add(const std::vector<double>& values) -> TicsSpecsM
 {
     std::stringstream ss;
     ss << "add (";
-    for (auto i = 0; i < values.size(); ++i)
+    for (decltype(values.size()) i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << values[i];
     ss << ")";
     m_add = ss.str();
@@ -179,7 +179,7 @@ inline auto TicsSpecsMajor::add(const std::vector<double>& values, const std::ve
 {
     std::stringstream ss;
     ss << "add (";
-    for (auto i = 0; i < values.size(); ++i)
+    for (decltype(values.size()) i = 0; i < values.size(); ++i)
         ss << (i == 0 ? "" : ", ") << "'" << labels[i] << "' " << values[i];
     ss << ")";
     m_add = ss.str();
